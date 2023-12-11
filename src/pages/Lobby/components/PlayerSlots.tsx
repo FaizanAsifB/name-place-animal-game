@@ -1,0 +1,132 @@
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined'
+import Checkbox from '@mui/material/Checkbox'
+import { useMutation } from '@tanstack/react-query'
+import { DocumentData, FirestoreErrorCode } from 'firebase/firestore'
+import { ChangeEvent, useCallback, useContext, useEffect } from 'react'
+import { TfiCrown } from 'react-icons/tfi'
+import { useParams } from 'react-router-dom'
+import img from '../../../assets/imgs/koala.svg'
+import emptyImg from '../../../assets/imgs/lion.svg'
+import { AuthContext } from '../../../context/AuthContext'
+
+import { PlayerData } from '../../../lib/types'
+import { inLobby } from '../utils/utils'
+import {
+  createUserCategories,
+  updatePlayers,
+} from '../../GameCreation/utils/http'
+
+type PlayerSlotsProps = {
+  data: DocumentData | undefined
+  error:
+    | {
+        code: FirestoreErrorCode
+        message: string
+      }
+    | undefined
+}
+
+const PlayerSlots = ({ data, error }: PlayerSlotsProps) => {
+  // const { data, isPending, isError, error } = useFetchPlayers()
+  const params = useParams()
+  // const { data, error } = useOnSnapShot({
+  //   docRef: 'lobbyPlayers',
+  //   roomId: params.roomId!,
+  // })
+  const currentUser = useContext(AuthContext)
+
+  const {
+    mutate,
+    isPending,
+    isError,
+    error: updatingError,
+  } = useMutation({
+    mutationFn: updatePlayers,
+  })
+
+  // const handleUpdate = useCallback(
+  //   function handleUpdate(updatedData: PlayerData[]) {
+  //     if (params.roomId !== undefined)
+  //       mutate({ roomId: params.roomId, updatedData })
+  //   },
+  //   [mutate, params.roomId]
+  // )
+
+  function handleReady(e: ChangeEvent<HTMLInputElement>, i: number) {
+    const updatedData = data?.slots.with(i, {
+      ...data.slots[i],
+      isReady: e.target.checked,
+    })
+    mutate({ roomId: params.roomId!, updatedData })
+  }
+
+  useEffect(() => {
+    if (params.roomId == undefined || !currentUser || !data) return
+
+    const currIndex = data?.slots.findIndex(
+      (slot: PlayerData) => slot.uid === currentUser?.uid
+    )
+
+    if (currIndex >= 0) return
+
+    if (currIndex === -1) {
+      const i: number = data.slots.findIndex(
+        (slot: PlayerData) => slot.uid === ''
+      )
+      const updatedData: PlayerData[] = data.slots.with(i, {
+        ...data.slots[i],
+        displayName: currentUser.displayName,
+        uid: currentUser.uid,
+      })
+      mutate({ roomId: params.roomId, updatedData })
+      createUserCategories(params.roomId, currentUser.uid)
+
+      // handleUpdate(updatedData)
+    }
+  }, [data, params.roomId, mutate, currentUser])
+
+  // if (isPending) {
+  //   return <span>Loading...</span>
+  // }
+
+  // if (isError) {
+  //   return <span>Error: {error.message}</span>
+  // }
+
+  return (
+    <>
+      <h3 className="text-center">
+        Players in Lobby {inLobby(data)}/{data?.slots.length}
+      </h3>
+      <ul className="p-2 space-y-4 bg-amber-700/50">
+        {data?.slots.map((slot: PlayerData) => {
+          const { uid, displayName, isReady, isHost, slotNr } = slot
+          return (
+            <li
+              key={slot.slotNr}
+              className="flex items-center justify-start gap-2 px-4 py-1 border-2 rounded-3xl bg-amber-600"
+            >
+              <img src={uid ? img : emptyImg} alt="" className="w-10" />
+              <span className="text-xl">
+                {uid ? displayName : 'Empty Slot'}
+              </span>
+              {isHost && <TfiCrown w="24" h="24" />}
+              {uid && (
+                <Checkbox
+                  checked={isReady}
+                  onChange={e => handleReady(e, slotNr)}
+                  disabled={!(uid === currentUser?.uid)}
+                  sx={{ ml: 'auto' }}
+                  icon={<ClearOutlinedIcon color="error" />}
+                  checkedIcon={<CheckOutlinedIcon color="success" />}
+                />
+              )}
+            </li>
+          )
+        })}
+      </ul>
+    </>
+  )
+}
+export default PlayerSlots
