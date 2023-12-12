@@ -17,7 +17,7 @@ type LobbySettings = {
   settings: Settings
 }
 
-export const uploadAddedCategories = async (
+export const uploadCategories = async (
   categories: Categories,
   lobbyId: string
 ) => {

@@ -1,6 +1,6 @@
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
 import { Control, Controller } from 'react-hook-form'
-import { SettingsInput } from './SettingsForm'
+import { SettingsInput } from './lib/types'
 
 const CategoriesList = ({ control }: { control: Control<SettingsInput> }) => {
   return (

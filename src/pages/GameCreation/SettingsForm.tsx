@@ -8,22 +8,17 @@ import {
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Timestamp, serverTimestamp } from 'firebase/firestore'
+import { serverTimestamp } from 'firebase/firestore'
 import { useContext } from 'react'
 import { GrGamepad } from 'react-icons/gr'
 import { useNavigate } from 'react-router-dom'
 import ErrorText from '../../components/forms/ErrorText.tsx'
 import Button from '../../components/ui/Button'
 import { AuthContext } from '../../context/AuthContext'
-import {
-  Categories,
-  CustomCategories,
-  DefaultCategories,
-  PlayerData,
-} from '../../lib/types.ts'
+import { Categories, DefaultCategories, PlayerData } from '../../lib/types.ts'
 import CategoriesList from './CategoriesForm.tsx'
 import { SettingsInput, settingsInputSchema } from './lib/types.tsx'
-import { uploadAddedCategories, uploadSettings } from './utils/http.ts'
+import { uploadCategories, uploadSettings } from './utils/http.ts'
 import { makePlayerSlots } from './utils/util.ts'
 
 export type Settings = {
@@ -96,11 +91,23 @@ const SettingsForm = () => {
       },
     }
 
+    // const customCategories: CustomCategoryData = new Map()
+
+    // customCategories.set(userId, {
+    //   category1: { title: customCategory1, addedAt: serverTimestamp() },
+    //   category2: { title: customCategory2, addedAt: serverTimestamp() },
+    // })
+
+    // const categories: Categories = {
+    //   default: defaultCategories,
+    //   custom: customCategories,
+    // }
+
     const slots: PlayerData[] = makePlayerSlots(currentUser, 8)
 
     const lobbyId = await uploadSettings({ slots, settings }, currentUser)
 
-    await uploadAddedCategories(categories, lobbyId)
+    await uploadCategories(categories, lobbyId)
 
     return navigate(`/lobby/${lobbyId}`)
   }

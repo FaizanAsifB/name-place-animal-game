@@ -73,13 +73,23 @@ export type Categories = {
   }
 }
 
-export type AddedCategories = {
-  category1: {
-    title: string
-    addedAt: FieldValue
-  }
-  category2: {
-    title: string
-    addedAt: FieldValue
-  }
-}
+// export type AddedCategories = {
+//   category1: {
+//     title: string
+//     addedAt: FieldValue
+//   }
+//   category2: {
+//     title: string
+//     addedAt: FieldValue
+//   }
+// }
+
+export type AddedCategories = Record<
+  string,
+  { title: string; addedAt: FieldValue }
+>
+// export type CustomCategoryData = Map<string, CustomCategory>
+// export type Categories = {
+//   default: DefaultCategories
+//   custom: CustomCategoryData
+// }

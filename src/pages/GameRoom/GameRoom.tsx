@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Countdown from 'react-countdown'
-import { alphabets } from './components/util/utils'
-import { fetchLobbyData } from '../../utils/fetchData'
 import { LoaderFunction, useLoaderData } from 'react-router-dom'
+import { AddedCategories } from '../../lib/types'
+import { fetchLobbyData } from '../../utils/fetchData'
+import { alphabets } from './components/util/utils'
 // import AlphabetsScroll from './components/AlphabetsScroll'
 
 const GameRoom = () => {
@@ -10,6 +11,18 @@ const GameRoom = () => {
 
   const { categoriesData, playersData } = useLoaderData()
   console.log(categoriesData, playersData)
+
+  const categories = Object.entries<AddedCategories>(
+    categoriesData.custom
+  ).flatMap(user => {
+    const arr: string[] = []
+    if (user[1].category1.title) arr.push(user[1].category1.title)
+
+    if (user[1].category2.title) arr.push(user[1].category2.title)
+    return arr
+  })
+
+  console.log(categories)
 
   useEffect(() => {
     setActiveAlphabet(gameInit())

@@ -3,7 +3,7 @@ import { GiCancel } from 'react-icons/gi'
 import { useNavigate, useParams } from 'react-router-dom'
 import Button from '../../components/ui/Button'
 
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { useOnSnapShot } from '../../hooks/useOnSnapShot'
 import { updateGameState } from '../GameCreation/utils/http'
@@ -17,6 +17,8 @@ const Lobby = () => {
   const params = useParams()
   const currentUser = useContext(AuthContext)
 
+  const [gameState, setGameState] = useState(null)
+
   const { data, error } = useOnSnapShot({
     docRef: 'lobbyPlayers',
     roomId: params.roomId!,
@@ -27,10 +29,15 @@ const Lobby = () => {
   const ready = readyPlayers(data)
   const totalPlayers = inLobby(data)
 
-  if (data?.gameState === 'game' && !isHost) navigate(`/game/${data!.lobbyId}`)
+  useEffect(() => {
+    if (data) setGameState(data.gameState)
+    if (gameState === 'game' && !isHost) navigate(`/game/${data!.lobbyId}`)
+  }, [data, gameState, isHost, navigate])
 
-  function handlePlay() {
-    updateGameState('game', params.roomId!)
+  console.log(gameState)
+
+  async function handlePlay() {
+    await updateGameState('game', params.roomId!)
     navigate(`/game/${data!.lobbyId}`)
   }
 
