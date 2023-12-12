@@ -34,8 +34,6 @@ const Lobby = () => {
     if (gameState === 'game' && !isHost) navigate(`/game/${data!.lobbyId}`)
   }, [data, gameState, isHost, navigate])
 
-  console.log(gameState)
-
   async function handlePlay() {
     await updateGameState('game', params.roomId!)
     navigate(`/game/${data!.lobbyId}`)

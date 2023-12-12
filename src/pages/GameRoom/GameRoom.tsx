@@ -1,31 +1,19 @@
-import { useEffect, useRef, useState } from 'react'
-import Countdown from 'react-countdown'
-import { LoaderFunction, useLoaderData } from 'react-router-dom'
-import { AddedCategories } from '../../lib/types'
+import { useEffect, useState } from 'react'
+import { LoaderFunction } from 'react-router-dom'
+
 import { fetchLobbyData } from '../../utils/fetchData'
+import CategoryInputs from './components/CategoryInputs'
+import Clock from './components/Clock'
 import { alphabets } from './components/util/utils'
-// import AlphabetsScroll from './components/AlphabetsScroll'
 
 const GameRoom = () => {
   const [activeAlphabet, setActiveAlphabet] = useState<string | null>(null)
 
-  const { categoriesData, playersData } = useLoaderData()
-  console.log(categoriesData, playersData)
-
-  const categories = Object.entries<AddedCategories>(
-    categoriesData.custom
-  ).flatMap(user => {
-    const arr: string[] = []
-    if (user[1].category1.title) arr.push(user[1].category1.title)
-
-    if (user[1].category2.title) arr.push(user[1].category2.title)
-    return arr
-  })
-
-  console.log(categories)
+  const [timerActive, setTimerActive] = useState(false)
 
   useEffect(() => {
     setActiveAlphabet(gameInit())
+    setTimerActive(true)
   }, [])
 
   function gameInit(): string {
@@ -34,6 +22,7 @@ const GameRoom = () => {
     const i = Math.floor(Math.random() * 26)
     const activeAlphabet = alphabets[i]
     //start timer?
+
     return activeAlphabet
   }
 
@@ -41,9 +30,12 @@ const GameRoom = () => {
     <div>
       GameRoom
       <div className="flex justify-end gap-4">
-        <Countdown date={Date.now() + 10000} />
+        <Clock activated={timerActive} />
+
+        {/* <Countdown date={Date.now() + 100000} /> */}
         <div>{activeAlphabet}</div>
       </div>
+      <CategoryInputs />
     </div>
   )
 }
