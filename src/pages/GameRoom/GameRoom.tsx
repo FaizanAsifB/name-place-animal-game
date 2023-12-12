@@ -12,19 +12,19 @@ const GameRoom = () => {
   const [timerActive, setTimerActive] = useState(false)
 
   useEffect(() => {
-    setActiveAlphabet(gameInit())
+    // setActiveAlphabet(gameInit())
     setTimerActive(true)
   }, [])
 
-  function gameInit(): string {
-    //Start alphabets scroll
-    // Choose alphabet
-    const i = Math.floor(Math.random() * 26)
-    const activeAlphabet = alphabets[i]
-    //start timer?
+  // function gameInit(): string {
+  //   //Start alphabets scroll
+  //   // Choose alphabet
+  //   const i = Math.floor(Math.random() * 26)
+  //   const activeAlphabet = alphabets[i]
+  //   //start timer?
 
-    return activeAlphabet
-  }
+  //   return activeAlphabet
+  // }
 
   return (
     <div>
@@ -42,10 +42,10 @@ const GameRoom = () => {
 export default GameRoom
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const playersData = await fetchLobbyData(params.roomId!, 'lobbyPlayers')
-  const categoriesData = await fetchLobbyData(params.roomId!, 'categories')
+  const gameData = await fetchLobbyData(params.roomId!, 'gameRooms')
+  const settings = await fetchLobbyData(params.roomId!, 'lobbies')
 
-  return { playersData, categoriesData }
+  return { gameData, settings }
 
   // return queryClient.fetchQuery({
   //   queryKey: ['events', params.id],

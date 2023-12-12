@@ -9,7 +9,7 @@ import {
 } from 'firebase/firestore'
 
 import { db } from '../../../backend/firebase'
-import { Categories, PlayerData } from '../../../lib/types'
+import { Categories, GameData, PlayerData } from '../../../lib/types'
 import { Settings } from '../SettingsForm'
 
 type LobbySettings = {
@@ -117,5 +117,14 @@ export const updateGameState = async (gameState: string, roomId: string) => {
     })
   } catch (error) {
     throw Error('Error creating')
+  }
+}
+
+export const createGameData = async (lobbyId: string, data: GameData) => {
+  try {
+    const res = await setDoc(doc(db, 'gameRooms', lobbyId), data)
+    return res
+  } catch (error) {
+    throw new Error('There was an error creating game')
   }
 }

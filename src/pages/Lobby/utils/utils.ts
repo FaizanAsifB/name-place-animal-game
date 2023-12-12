@@ -13,18 +13,6 @@ type AddedCategories = {
   }
 }
 
-// export const checkHost = (
-//   data: DocumentData | undefined,
-//   currentUser: string | undefined
-// ): boolean | undefined => {
-//   console.log(data, currentUser)
-//   if (!data || !currentUser) return false
-//   console.log('checkHost ran')
-
-//   return data?.slots.filter((slot: PlayerData) => slot.uid === currentUser)[0]
-//     .isHost
-// }
-
 export const inLobby = (data: DocumentData | undefined): number => {
   return data?.slots.reduce((acc: number, item: PlayerData) => {
     if (!item.uid) return acc
@@ -63,4 +51,68 @@ export const getCategoryCount = (data: DocumentData | undefined) => {
   if (data?.category1.title) count += 1
   if (data?.category2?.title) count += 1
   return count
+}
+
+export const categoriesArr = (
+  categoriesData: DocumentData | undefined
+): string[] | undefined => {
+  if (!categoriesData) return
+  const data = Object.entries<AddedCategories>(categoriesData.custom).flatMap(
+    user => {
+      const arr: string[] = []
+      if (user[1].category1.title) arr.push(user[1].category1.title)
+
+      if (user[1].category2.title) arr.push(user[1].category2.title)
+      return arr
+    }
+  )
+  return data
+}
+
+export const alphabets: string[] = new Array(26)
+  .fill(1)
+  .map((_, i) => String.fromCharCode(65 + i))
+
+function getRandomIndex(max: number): number {
+  return Math.floor(Math.random() * max)
+}
+
+export const getRoundsData = (customCategories: string[], rounds: number) => {
+  let remainingAlphabets = alphabets
+  let remainingCategories = customCategories
+
+  const roundsData = new Array(rounds).fill('').map((_, i) => {
+    const activeAlphabet = getRandomItem(remainingAlphabets)
+    const addedCategory = getRandomItem(remainingCategories)
+
+    remainingAlphabets = remainingAlphabets.filter(
+      item => item !== activeAlphabet
+    )
+    remainingCategories = remainingCategories.filter(
+      item => item !== addedCategory
+    )
+    if (i === 0) {
+      const extraCategory = getRandomItem(remainingCategories)
+      remainingCategories = remainingCategories.filter(
+        item => item !== extraCategory
+      )
+      return {
+        alphabet: activeAlphabet,
+        categories: [addedCategory, extraCategory],
+      }
+    }
+    // !Change empty category logic
+    return {
+      alphabet: activeAlphabet,
+      categories: remainingCategories.length === 0 ? [''] : [addedCategory],
+    }
+  })
+  return roundsData
+}
+
+const getRandomItem = <T>(data: T[]): T => {
+  const i = getRandomIndex(data.length)
+  const randomItem = data[i]
+
+  return randomItem
 }

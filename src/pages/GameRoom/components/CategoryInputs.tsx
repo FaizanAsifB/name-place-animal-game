@@ -1,26 +1,38 @@
 import { useEffect, useMemo, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useLoaderData } from 'react-router-dom'
-import { AddedCategories } from '../../../lib/types'
+import { AddedCategories, GameData } from '../../../lib/types'
+import { Settings } from '../../GameCreation/SettingsForm'
 
 const CategoryInputs = () => {
   const [numInputs, setNumInputs] = useState<Record<string, number> | null>(
     null
   )
-  const { categoriesData, playersData } = useLoaderData()
+  const { gameData, settings } = useLoaderData() as {
+    gameData: GameData
+    settings: Settings
+  }
 
-  const categories: string[] = useMemo(() => {
-    const data = categoriesData.default.concat(
-      Object.entries<AddedCategories>(categoriesData.custom).flatMap(user => {
-        const arr: string[] = []
-        if (user[1].category1.title) arr.push(user[1].category1.title)
+  // const categories: string[] = useMemo(() => {
+  //   const data = categoriesData.default.concat(
+  //     Object.entries<AddedCategories>(categoriesData.custom).flatMap(user => {
+  //       const arr: string[] = []
+  //       if (user[1].category1.title) arr.push(user[1].category1.title)
 
-        if (user[1].category2.title) arr.push(user[1].category2.title)
-        return arr
-      })
+  //       if (user[1].category2.title) arr.push(user[1].category2.title)
+  //       return arr
+  //     })
+  //   )
+  //   return data
+  // }, [categoriesData])
+
+  const categories = useMemo(() => {
+    return gameData.categories.default.concat(
+      gameData.rounds[gameData.currentRound - 1].categories
     )
-    return data
-  }, [categoriesData])
+  }, [gameData])
+
+  console.log(categories)
 
   useEffect(() => {
     if (!categories) return

@@ -94,9 +94,7 @@ const AddCategory = ({ closeModal, categoriesData }: AddCategoryProps) => {
       title: category2,
     })
 
-    console.log(errors)
-
-    // closeModal()
+    closeModal()
 
     // if (!category1 && !category2)
     //   setError('root', {

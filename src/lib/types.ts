@@ -6,6 +6,7 @@ export const CollectionEnum = z.enum([
   'lobbyPlayers',
   'users',
   'categories',
+  'gameRooms',
 ])
 export type CollectionEnum = z.infer<typeof CollectionEnum>
 
@@ -93,3 +94,16 @@ export type AddedCategories = Record<
 //   default: DefaultCategories
 //   custom: CustomCategoryData
 // }
+
+export type GameData = {
+  categories: {
+    default: string[]
+    custom: string[] | undefined
+  }
+  currentRound: number
+  gameState: string
+  rounds: {
+    alphabet: string
+    categories: string[]
+  }[]
+}
