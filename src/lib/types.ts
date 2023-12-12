@@ -1,7 +1,12 @@
 import { FieldValue, FirestoreErrorCode } from 'firebase/firestore'
 import { z } from 'zod'
 
-export const CollectionEnum = z.enum(['lobbies', 'lobbyPlayers', 'users'])
+export const CollectionEnum = z.enum([
+  'lobbies',
+  'lobbyPlayers',
+  'users',
+  'categories',
+])
 export type CollectionEnum = z.infer<typeof CollectionEnum>
 
 export const guestSchema = z.string().trim().min(3).max(20)

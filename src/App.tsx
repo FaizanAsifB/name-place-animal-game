@@ -3,12 +3,12 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AuthContextProvider } from './context/AuthContext.tsx'
 import './index.css'
 import RootLayout from './layout/RootLayout.tsx'
+import Error from './pages/Error.tsx'
 import GameCreation from './pages/GameCreation/index.tsx'
+import GameRoom, { loader as gameLoader } from './pages/GameRoom/index.tsx'
 import Home from './pages/Home/index.tsx'
 import Lobby from './pages/Lobby/index.tsx'
 import { queryClient } from './utils/fetchData.ts'
-import GameRoom from './pages/GameRoom/index.tsx'
-import Error from './pages/Error.tsx'
 
 const router = createBrowserRouter([
   {
@@ -31,6 +31,7 @@ const router = createBrowserRouter([
       {
         path: 'game/:roomId',
         element: <GameRoom />,
+        loader: gameLoader,
       },
     ],
   },
