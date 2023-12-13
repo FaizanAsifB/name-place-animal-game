@@ -10,7 +10,7 @@ export const settingsInputSchema = z
     thing: z.boolean(),
     occupations: z.boolean(),
     technology: z.boolean(),
-    endMode: z.string(),
+    endMode: z.enum(['FASTEST-FINGER', 'ROUND-TIMER']),
     customCategory1: z.string(),
     customCategory2: z.string(),
   })

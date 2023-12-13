@@ -1,38 +1,40 @@
-import { useEffect, useState } from 'react'
-import { LoaderFunction } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { LoaderFunction, useLoaderData } from 'react-router-dom'
 
+import { GameData, GameSettings, GameState } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
+
 import CategoryInputs from './components/CategoryInputs'
 import Clock from './components/Clock'
-import { alphabets } from './components/util/utils'
 
 const GameRoom = () => {
   const [activeAlphabet, setActiveAlphabet] = useState<string | null>(null)
+  const [gameState, setGameState] = useState<GameState>('INIT')
 
-  const [timerActive, setTimerActive] = useState(false)
+  const { settings, gameData } = useLoaderData() as {
+    settings: GameSettings
+    gameData: GameData
+  }
 
   useEffect(() => {
-    // setActiveAlphabet(gameInit())
-    setTimerActive(true)
-  }, [])
+    setActiveAlphabet(gameData.rounds[gameData.currentRound - 1].alphabet)
+  }, [gameData.currentRound, gameData.rounds])
 
-  // function gameInit(): string {
-  //   //Start alphabets scroll
-  //   // Choose alphabet
-  //   const i = Math.floor(Math.random() * 26)
-  //   const activeAlphabet = alphabets[i]
-  //   //start timer?
+  // function start() {
+  //   setGameState('STARTED')
+  // }
+  // function stop() {
+  //   setGameState('ROUND-ENDED')
+  // }
 
-  //   return activeAlphabet
+  // function reset() {
+  //   setGameState('END-TIMER')
   // }
 
   return (
     <div>
-      GameRoom
       <div className="flex justify-end gap-4">
-        <Clock activated={timerActive} />
-
-        {/* <Countdown date={Date.now() + 100000} /> */}
+        <Clock gameState={gameState} roundTime={settings.settings.roundTime} />
         <div>{activeAlphabet}</div>
       </div>
       <CategoryInputs />

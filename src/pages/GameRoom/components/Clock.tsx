@@ -1,34 +1,47 @@
 import { useEffect, useRef, useState } from 'react'
+import { GameState } from '../../../lib/types'
 
-const Clock = ({ activated }: { activated: boolean }) => {
-  const [timeRemaining, setTimeRemaining] = useState(5000)
-  const minutes = Math.floor(timeRemaining / (1000 * 60))
-  const seconds = (timeRemaining / 1000) % 60
+type ClockProps = {
+  gameState: GameState
+  roundTime: number
+}
 
-  const timer = useRef<NodeJS.Timeout | null>(null)
-  const isActive = activated
+const Clock = ({ gameState, roundTime }: ClockProps) => {
+  const [timeRemaining, setTimeRemaining] = useState(roundTime)
+  const minutes = Math.floor(timeRemaining / 60)
+  const seconds = timeRemaining % 60
 
-  if (timeRemaining <= 0) clearInterval(timer.current as NodeJS.Timeout)
+  const timer = useRef<string | number | NodeJS.Timeout | undefined>(0)
 
-  function handleStart() {
+  if (timeRemaining <= 0) clearInterval(timer.current)
+
+  function startTimer() {
     timer.current = setInterval(() => {
-      setTimeRemaining(prev => prev - 1000)
+      setTimeRemaining(prev => prev - 1)
     }, 1000)
   }
 
-  console.log(timeRemaining)
+  function stopTimer() {
+    clearInterval(timer.current)
+    timer.current = 0
+  }
+
   useEffect(() => {
-    if (!isActive) return
-    if (isActive) handleStart()
-    return clearInterval(timer.current as NodeJS.Timeout)
-  }, [isActive])
+    if (gameState === 'INIT') return
+    if (gameState === 'STARTED') startTimer()
+    if (gameState === 'END-TIMER') {
+      setTimeRemaining(15)
+      startTimer()
+    }
+    if (gameState === 'ROUND-ENDED') stopTimer()
+    return () => stopTimer()
+  }, [gameState])
+
   return (
-    <>
-      <div>{timeRemaining}</div>
-      <div>
-        min:{minutes} sec:{seconds}
-      </div>
-    </>
+    <div>
+      min:{minutes.toString().padStart(2, '0')} sec:
+      {seconds.toString().padStart(2, '0')}
+    </div>
   )
 }
 export default Clock

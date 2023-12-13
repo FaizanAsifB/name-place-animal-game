@@ -15,17 +15,16 @@ import { useNavigate } from 'react-router-dom'
 import ErrorText from '../../components/forms/ErrorText.tsx'
 import Button from '../../components/ui/Button'
 import { AuthContext } from '../../context/AuthContext'
-import { Categories, DefaultCategories, PlayerData } from '../../lib/types.ts'
+import {
+  Categories,
+  DefaultCategories,
+  PlayerData,
+  RoundSettings,
+} from '../../lib/types.ts'
 import CategoriesList from './CategoriesForm.tsx'
 import { SettingsInput, settingsInputSchema } from './lib/types.tsx'
 import { uploadCategories, uploadSettings } from './utils/http.ts'
 import { makePlayerSlots } from './utils/util.ts'
-
-export type Settings = {
-  roundTime: number
-  rounds: number
-  endMode: string
-}
 
 const SettingsForm = () => {
   const currentUser = useContext(AuthContext)
@@ -47,7 +46,7 @@ const SettingsForm = () => {
       thing: true,
       occupations: false,
       technology: false,
-      endMode: '',
+      endMode: 'ROUND-TIMER',
       customCategory1: '',
       customCategory2: '',
     },
@@ -75,7 +74,7 @@ const SettingsForm = () => {
       }
     }, [] as string[])
 
-    const settings: Settings = {
+    const settings: RoundSettings = {
       roundTime,
       rounds,
       endMode,
@@ -90,18 +89,6 @@ const SettingsForm = () => {
         },
       },
     }
-
-    // const customCategories: CustomCategoryData = new Map()
-
-    // customCategories.set(userId, {
-    //   category1: { title: customCategory1, addedAt: serverTimestamp() },
-    //   category2: { title: customCategory2, addedAt: serverTimestamp() },
-    // })
-
-    // const categories: Categories = {
-    //   default: defaultCategories,
-    //   custom: customCategories,
-    // }
 
     const slots: PlayerData[] = makePlayerSlots(currentUser, 8)
 
@@ -176,8 +163,8 @@ const SettingsForm = () => {
                   variant="filled"
                   label="round timer"
                 >
-                  <MenuItem value="round timer">Round Timer</MenuItem>
-                  <MenuItem value="fastest finger">Fastest Finger</MenuItem>
+                  <MenuItem value="ROUND-TIMER">Round Timer</MenuItem>
+                  <MenuItem value="FASTEST-FINGER">Fastest Finger</MenuItem>
                 </Select>
               )}
             />

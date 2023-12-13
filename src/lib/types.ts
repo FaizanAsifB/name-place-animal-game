@@ -74,26 +74,20 @@ export type Categories = {
   }
 }
 
-// export type AddedCategories = {
-//   category1: {
-//     title: string
-//     addedAt: FieldValue
-//   }
-//   category2: {
-//     title: string
-//     addedAt: FieldValue
-//   }
-// }
-
 export type AddedCategories = Record<
   string,
   { title: string; addedAt: FieldValue }
 >
-// export type CustomCategoryData = Map<string, CustomCategory>
-// export type Categories = {
-//   default: DefaultCategories
-//   custom: CustomCategoryData
-// }
+
+export type GameState =
+  | 'LOBBY'
+  | 'INIT'
+  | 'STARTED'
+  | 'END-TIMER'
+  | 'ROUND-ENDED'
+  | 'SCORING'
+  | 'RESULT'
+  | 'GAME-COMPLETED'
 
 export type GameData = {
   categories: {
@@ -101,9 +95,23 @@ export type GameData = {
     custom: string[] | undefined
   }
   currentRound: number
-  gameState: string
+  gameState: GameState
   rounds: {
     alphabet: string
     categories: string[]
   }[]
+}
+
+export type RoundSettings = {
+  roundTime: number
+  rounds: number
+  endMode: 'FASTEST-FINGER' | 'ROUND-TIMER'
+}
+
+export type GameSettings = {
+  joinCode: string
+  hostId: string
+  settings: RoundSettings
+  roomNr: string
+  lobbyId: string
 }

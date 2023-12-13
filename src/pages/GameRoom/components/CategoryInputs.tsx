@@ -1,38 +1,23 @@
 import { useEffect, useMemo, useState } from 'react'
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useLoaderData } from 'react-router-dom'
-import { AddedCategories, GameData } from '../../../lib/types'
-import { Settings } from '../../GameCreation/SettingsForm'
+import { GameData, GameSettings } from '../../../lib/types'
 
 const CategoryInputs = () => {
   const [numInputs, setNumInputs] = useState<Record<string, number> | null>(
     null
   )
+
   const { gameData, settings } = useLoaderData() as {
     gameData: GameData
-    settings: Settings
+    settings: GameSettings
   }
-
-  // const categories: string[] = useMemo(() => {
-  //   const data = categoriesData.default.concat(
-  //     Object.entries<AddedCategories>(categoriesData.custom).flatMap(user => {
-  //       const arr: string[] = []
-  //       if (user[1].category1.title) arr.push(user[1].category1.title)
-
-  //       if (user[1].category2.title) arr.push(user[1].category2.title)
-  //       return arr
-  //     })
-  //   )
-  //   return data
-  // }, [categoriesData])
 
   const categories = useMemo(() => {
     return gameData.categories.default.concat(
       gameData.rounds[gameData.currentRound - 1].categories
     )
   }, [gameData])
-
-  console.log(categories)
 
   useEffect(() => {
     if (!categories) return
@@ -65,7 +50,8 @@ const CategoryInputs = () => {
   } = useForm()
 
   const onSubmit = async data => {
-    console.log(data)
+    if (settings.settings.endMode === 'FASTEST-FINGER') console.log(data)
+    //update game state to end-timer
     // const { category1, category2 } = data
   }
   return (
@@ -80,9 +66,8 @@ const CategoryInputs = () => {
                 {...register(`${category}.${i}`)}
                 key={`category-${i}`}
                 type="text"
-                // name={category}
                 id={category}
-                onKeyDown={e => handleEnter(e)}
+                onKeyDown={handleEnter}
               />
             )
           }

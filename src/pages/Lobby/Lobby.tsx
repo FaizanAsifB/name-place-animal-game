@@ -13,21 +13,18 @@ import PlayerSlots from './components/PlayerSlots'
 import SettingsList from './components/SettingsList'
 import {
   categoriesArr,
-  getAllCategories,
-  getAlphabet,
-  getCategories,
   getRoundsData,
   inLobby,
   readyPlayers,
 } from './utils/utils'
-import { GameData } from '../../lib/types'
+import { GameData, GameState } from '../../lib/types'
 
 const Lobby = () => {
   const navigate = useNavigate()
   const params = useParams()
   const currentUser = useContext(AuthContext)
 
-  const [gameState, setGameState] = useState(null)
+  const [gameState, setGameState] = useState<GameState>('LOBBY')
 
   const { data, error } = useOnSnapShot({
     docRef: 'lobbyPlayers',
@@ -41,7 +38,7 @@ const Lobby = () => {
 
   useEffect(() => {
     if (data) setGameState(data.gameState)
-    if (gameState === 'game' && !isHost) navigate(`/game/${data!.lobbyId}`)
+    if (gameState === 'INIT' && !isHost) navigate(`/game/${data!.lobbyId}`)
   }, [data, gameState, isHost, navigate])
 
   async function handlePlay() {
@@ -53,7 +50,7 @@ const Lobby = () => {
         default: categoriesData?.default,
         custom: customCategories,
       },
-      gameState: 'game',
+      gameState: 'INIT',
       currentRound: 1,
       rounds: getRoundsData(customCategories!, rounds?.settings.rounds),
     }

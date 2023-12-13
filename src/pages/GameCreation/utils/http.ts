@@ -9,12 +9,18 @@ import {
 } from 'firebase/firestore'
 
 import { db } from '../../../backend/firebase'
-import { Categories, GameData, PlayerData } from '../../../lib/types'
-import { Settings } from '../SettingsForm'
+import {
+  Categories,
+  GameData,
+  GameState,
+  PlayerData,
+  RoundSettings,
+} from '../../../lib/types'
+import {} from '../SettingsForm'
 
 type LobbySettings = {
   slots: PlayerData[]
-  settings: Settings
+  settings: RoundSettings
 }
 
 export const uploadCategories = async (
@@ -50,7 +56,7 @@ export const uploadSettings = async (
     try {
       await setDoc(doc(db, 'lobbyPlayers', lobbyRef.id), {
         lobbyId: lobbyRef.id,
-        gameState: 'lobby',
+        gameState: 'LOBBY',
         hostId: currentUser!.uid,
         slots,
       })
@@ -109,7 +115,7 @@ export const submitCategoryInput = async (
   }
 }
 
-export const updateGameState = async (gameState: string, roomId: string) => {
+export const updateGameState = async (gameState: GameState, roomId: string) => {
   const ref = doc(db, 'lobbyPlayers', roomId)
   try {
     await updateDoc(ref, {
