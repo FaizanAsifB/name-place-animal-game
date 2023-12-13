@@ -115,3 +115,13 @@ export type GameSettings = {
   roomNr: string
   lobbyId: string
 }
+
+export type LobbySettings = {
+  slots: PlayerData[]
+  settings: RoundSettings
+}
+
+export type Answers = Record<string, string[]>
+export type AnswersData = {
+  [key: string]: Answers
+}

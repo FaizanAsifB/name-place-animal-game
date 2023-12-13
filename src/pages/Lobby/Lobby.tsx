@@ -34,7 +34,8 @@ const Lobby = () => {
   const isHost = data?.hostId === currentUser?.uid
 
   const ready = readyPlayers(data)
-  const totalPlayers = inLobby(data)
+  // const totalPlayers = inLobby(data)
+  const totalPlayers = data?.totalPlayers
 
   useEffect(() => {
     if (data) setGameState(data.gameState)
@@ -57,7 +58,7 @@ const Lobby = () => {
     console.log(gameData)
     await createGameData(params.roomId!, gameData)
 
-    await updateGameState('game', params.roomId!)
+    await updateGameState('INIT', params.roomId!)
     navigate(`/game/${data!.lobbyId}`)
   }
 

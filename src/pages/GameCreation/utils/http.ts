@@ -1,8 +1,10 @@
 import firebase from 'firebase/compat/app'
 import {
+  arrayUnion,
   collection,
   doc,
   getCountFromServer,
+  increment,
   serverTimestamp,
   setDoc,
   updateDoc,
@@ -10,18 +12,14 @@ import {
 
 import { db } from '../../../backend/firebase'
 import {
+  AnswersData,
   Categories,
   GameData,
   GameState,
+  LobbySettings,
   PlayerData,
-  RoundSettings,
 } from '../../../lib/types'
 import {} from '../SettingsForm'
-
-type LobbySettings = {
-  slots: PlayerData[]
-  settings: RoundSettings
-}
 
 export const uploadCategories = async (
   categories: Categories,
@@ -58,6 +56,7 @@ export const uploadSettings = async (
         lobbyId: lobbyRef.id,
         gameState: 'LOBBY',
         hostId: currentUser!.uid,
+        totalPlayers: 1,
         slots,
       })
       return lobbyRef.id
@@ -77,9 +76,21 @@ export const updatePlayers = async ({
   updatedData: PlayerData[]
 }) => {
   try {
-    await updateDoc(doc(db, 'lobbyPlayers', roomId), { slots: updatedData })
+    await updateDoc(doc(db, 'lobbyPlayers', roomId), {
+      slots: updatedData,
+    })
   } catch (error) {
     throw Error('Error adding player to lobby')
+  }
+}
+
+export const addPlayerCount = async (roomId: string) => {
+  try {
+    await updateDoc(doc(db, 'lobbyPlayers', roomId), {
+      totalPlayers: increment(1),
+    })
+  } catch (error) {
+    throw Error('Error updating')
   }
 }
 
@@ -119,7 +130,7 @@ export const updateGameState = async (gameState: GameState, roomId: string) => {
   const ref = doc(db, 'lobbyPlayers', roomId)
   try {
     await updateDoc(ref, {
-      gameState: gameState,
+      gameState,
     })
   } catch (error) {
     throw Error('Error creating')
@@ -132,5 +143,16 @@ export const createGameData = async (lobbyId: string, data: GameData) => {
     return res
   } catch (error) {
     throw new Error('There was an error creating game')
+  }
+}
+
+export const submitAnswers = async (answers: AnswersData, roomId: string) => {
+  const ref = doc(db, 'lobbyPlayers', roomId)
+  try {
+    await updateDoc(ref, {
+      answers: arrayUnion(answers),
+    })
+  } catch (error) {
+    throw Error('Error creating')
   }
 }

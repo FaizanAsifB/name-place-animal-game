@@ -13,6 +13,7 @@ import { AuthContext } from '../../../context/AuthContext'
 import { PlayerData } from '../../../lib/types'
 import { inLobby } from '../utils/utils'
 import {
+  addPlayerCount,
   createUserCategories,
   updatePlayers,
 } from '../../GameCreation/utils/http'
@@ -28,12 +29,7 @@ type PlayerSlotsProps = {
 }
 
 const PlayerSlots = ({ data, error }: PlayerSlotsProps) => {
-  // const { data, isPending, isError, error } = useFetchPlayers()
   const params = useParams()
-  // const { data, error } = useOnSnapShot({
-  //   docRef: 'lobbyPlayers',
-  //   roomId: params.roomId!,
-  // })
   const currentUser = useContext(AuthContext)
 
   const {
@@ -44,14 +40,6 @@ const PlayerSlots = ({ data, error }: PlayerSlotsProps) => {
   } = useMutation({
     mutationFn: updatePlayers,
   })
-
-  // const handleUpdate = useCallback(
-  //   function handleUpdate(updatedData: PlayerData[]) {
-  //     if (params.roomId !== undefined)
-  //       mutate({ roomId: params.roomId, updatedData })
-  //   },
-  //   [mutate, params.roomId]
-  // )
 
   function handleReady(e: ChangeEvent<HTMLInputElement>, i: number) {
     const updatedData = data?.slots.with(i, {
@@ -80,6 +68,7 @@ const PlayerSlots = ({ data, error }: PlayerSlotsProps) => {
         uid: currentUser.uid,
       })
       mutate({ roomId: params.roomId, updatedData })
+      addPlayerCount(params.roomId)
       createUserCategories(params.roomId, currentUser.uid)
 
       // handleUpdate(updatedData)
