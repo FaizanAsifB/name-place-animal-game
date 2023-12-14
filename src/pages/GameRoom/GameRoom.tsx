@@ -1,31 +1,32 @@
-import { useEffect, useState } from 'react'
-import { LoaderFunction, useLoaderData, useParams } from 'react-router-dom'
+import { LoaderFunction, useLoaderData } from 'react-router-dom'
 
-import { GameData, GameSettings, GameState } from '../../lib/types'
+import { GameData, GameSettings } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 
-import { useOnSnapShot } from '../../hooks/useOnSnapShot'
-import { updateGameState } from '../GameCreation/utils/http'
 import CategoryInputs from './components/CategoryInputs'
 import Clock from './components/Clock'
 
 const GameRoom = () => {
-  const [activeAlphabet, setActiveAlphabet] = useState<string | null>(null)
+  // const [activeAlphabet, setActiveAlphabet] = useState<string | null>(null)
 
   const { settings, gameData } = useLoaderData() as {
     settings: GameSettings
     gameData: GameData
   }
 
-  useEffect(() => {
-    setActiveAlphabet(gameData.rounds[gameData.currentRound - 1].alphabet)
-  }, [gameData.currentRound, gameData.rounds])
+  // useEffect(() => {
+  //   setActiveAlphabet(gameData?.rounds[gameData?.currentRound - 1].alphabet)
+  // }, [gameData?.currentRound, gameData?.rounds])
 
   return (
     <div>
       <div className="flex justify-end gap-4">
-        <Clock roundTime={settings.settings.roundTime} />
-        <div>{activeAlphabet}</div>
+        <Clock roundTime={settings?.settings.roundTime} />
+        <div>
+          {gameData
+            ? gameData?.rounds[gameData?.currentRound - 1].alphabet
+            : 'loading.....'}
+        </div>
       </div>
       <CategoryInputs />
     </div>

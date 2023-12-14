@@ -89,13 +89,12 @@ export type GameState =
   | 'RESULT'
   | 'GAME-COMPLETED'
 
-export type GameData = {
+export type CreateGameData = {
   categories: {
     default: string[]
     custom: string[] | undefined
   }
   currentRound: number
-  gameState: GameState
   rounds: {
     alphabet: string
     categories: string[]
@@ -125,3 +124,20 @@ export type Answers = Record<string, string[]>
 export type AnswersData = {
   [key: string]: Answers
 }
+
+export type PlayersData = {
+  answers: AnswersData
+  gameState: GameState
+  hostId: string
+  lobbyId: string
+  slots: PlayerData[]
+  totalPlayers: number
+}
+
+export type GameData =
+  | ({
+      gameState: GameState
+      totalPlayers: number
+      answers: Record<string, AnswersData[]>
+    } & CreateGameData)
+  | undefined

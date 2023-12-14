@@ -1,11 +1,12 @@
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useLoaderData, useParams } from 'react-router-dom'
+import { useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '../../../context/AuthContext'
 import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
 import {
   Answers,
   AnswersData,
+  FireStoreError,
   GameData,
   GameSettings,
 } from '../../../lib/types'
@@ -15,37 +16,35 @@ const CategoryInputs = () => {
   const [numInputs, setNumInputs] = useState<Record<string, number> | null>(
     null
   )
+
   const currentUser = useContext(AuthContext)
   const params = useParams()
+  const navigate = useNavigate()
 
-  const { gameData, settings } = useLoaderData() as {
-    gameData: GameData
+  const { settings } = useLoaderData() as {
     settings: GameSettings
   }
 
-  const { data: lobbyData } = useOnSnapShot({
-    docRef: 'lobbyPlayers',
+  const { data: gameData } = useOnSnapShot({
+    docRef: 'gameRooms',
     roomId: params.roomId!,
-  })
+  }) as { data: GameData | undefined; error: FireStoreError }
 
-  const donePlayers = lobbyData?.answers.length
-  if (donePlayers === lobbyData?.totalPlayers) {
-    updateGameState('ROUND-ENDED', params.roomId!)
-  }
-  console.log(donePlayers)
-
-  const categories = useMemo(() => {
-    return gameData.categories.default.concat(
-      gameData.rounds[gameData.currentRound - 1].categories
+  const roundCategories = useMemo(() => {
+    return gameData?.categories.default.concat(
+      gameData?.rounds[gameData.currentRound - 1].categories
     )
   }, [gameData])
 
+  //! need to optimize useEffect
+
   useEffect(() => {
-    if (!categories) return
+    if (!roundCategories) return
     const inputs: Record<string, number> = {}
-    categories.forEach((category: string) => (inputs[category] = 1))
+    roundCategories.forEach((category: string) => (inputs[category] = 1))
     setNumInputs(inputs)
-  }, [categories])
+    gameData?.gameState === 'ROUND-ENDED' && navigate('scoring')
+  }, [roundCategories, gameData?.gameState, navigate])
 
   function addInput(category: string) {
     if (setNumInputs)
@@ -70,19 +69,40 @@ const CategoryInputs = () => {
     // formState: { errors, isSubmitting, isDirty },
   } = useForm()
 
+  //!check donePlayers logic
+
+  const donePlayers = () => {
+    if (!gameData?.answers) return 0
+    return gameData?.answers[`round${gameData?.currentRound}`].length
+  }
+
+  if (donePlayers() === gameData?.totalPlayers) {
+    updateGameState('ROUND-ENDED', params.roomId!)
+  }
   const onSubmit = async (data: Answers) => {
-    if (settings.settings.endMode === 'FASTEST-FINGER')
-      return updateGameState('END-TIMER', params.roomId!)
     const answers: AnswersData = { [currentUser!.uid]: data }
-    await submitAnswers(answers, params.roomId!)
-    console.log(answers)
+    if (settings.settings.endMode === 'FASTEST-FINGER')
+      await updateGameState('END-TIMER', params.roomId!)
+
+    await submitAnswers(answers, params.roomId!, gameData!.currentRound)
 
     // const { category1, category2 } = data
   }
+
+  if (
+    gameData &&
+    gameData.gameState === 'ROUND-ENDED' &&
+    (!gameData?.answers ||
+      !gameData?.answers[`round${gameData?.currentRound}`].find(
+        answer => Object.keys(answer)[0] === currentUser?.uid
+      ))
+  )
+    handleSubmit(onSubmit)()
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <ul>
-        {categories.map(category => {
+        {roundCategories?.map(category => {
           const inputs = numInputs ? numInputs[category] : 1
           const inputsArr = []
           for (let i = 0; i < inputs; i++) {

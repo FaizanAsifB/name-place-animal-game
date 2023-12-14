@@ -1,4 +1,1 @@
-const Scoring = () => {
-  return <div>Scoring</div>
-}
-export default Scoring
+export { default, loader } from './Scoring.tsx'

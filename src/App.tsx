@@ -8,6 +8,7 @@ import GameCreation from './pages/GameCreation/index.tsx'
 import GameRoom, { loader as gameLoader } from './pages/GameRoom/index.tsx'
 import Home from './pages/Home/index.tsx'
 import Lobby from './pages/Lobby/index.tsx'
+import Scoring, { loader as scoringLoader } from './pages/Scoring/index.tsx'
 import { queryClient } from './utils/fetchData.ts'
 
 const router = createBrowserRouter([
@@ -30,8 +31,18 @@ const router = createBrowserRouter([
       },
       {
         path: 'game/:roomId',
-        element: <GameRoom />,
-        loader: gameLoader,
+        children: [
+          {
+            index: true,
+            element: <GameRoom />,
+            loader: gameLoader,
+          },
+          {
+            path: 'scoring',
+            element: <Scoring />,
+            loader: scoringLoader,
+          },
+        ],
       },
     ],
   },

@@ -14,7 +14,7 @@ import { db } from '../../../backend/firebase'
 import {
   AnswersData,
   Categories,
-  GameData,
+  CreateGameData,
   GameState,
   LobbySettings,
   PlayerData,
@@ -52,11 +52,20 @@ export const uploadSettings = async (
     })
 
     try {
+      await setDoc(doc(db, 'gameRooms', lobbyRef.id), {
+        gameState: 'LOBBY',
+        totalPlayers: 1,
+      })
+    } catch (error) {
+      throw new Error('There was an error creating game')
+    }
+
+    try {
       await setDoc(doc(db, 'lobbyPlayers', lobbyRef.id), {
         lobbyId: lobbyRef.id,
         gameState: 'LOBBY',
-        hostId: currentUser!.uid,
         totalPlayers: 1,
+        hostId: currentUser!.uid,
         slots,
       })
       return lobbyRef.id
@@ -85,6 +94,13 @@ export const updatePlayers = async ({
 }
 
 export const addPlayerCount = async (roomId: string) => {
+  try {
+    await updateDoc(doc(db, 'gameRooms', roomId), {
+      totalPlayers: increment(1),
+    })
+  } catch (error) {
+    throw Error('Error updating')
+  }
   try {
     await updateDoc(doc(db, 'lobbyPlayers', roomId), {
       totalPlayers: increment(1),
@@ -127,7 +143,7 @@ export const submitCategoryInput = async (
 }
 
 export const updateGameState = async (gameState: GameState, roomId: string) => {
-  const ref = doc(db, 'lobbyPlayers', roomId)
+  const ref = doc(db, 'gameRooms', roomId)
   try {
     await updateDoc(ref, {
       gameState,
@@ -135,22 +151,33 @@ export const updateGameState = async (gameState: GameState, roomId: string) => {
   } catch (error) {
     throw Error('Error creating')
   }
+  try {
+    await updateDoc(doc(db, 'lobbyPlayers', roomId), {
+      gameState,
+    })
+  } catch (error) {
+    throw Error('Error creating')
+  }
 }
 
-export const createGameData = async (lobbyId: string, data: GameData) => {
+export const createGameData = async (lobbyId: string, data: CreateGameData) => {
   try {
-    const res = await setDoc(doc(db, 'gameRooms', lobbyId), data)
+    const res = await updateDoc(doc(db, 'gameRooms', lobbyId), data)
     return res
   } catch (error) {
     throw new Error('There was an error creating game')
   }
 }
 
-export const submitAnswers = async (answers: AnswersData, roomId: string) => {
-  const ref = doc(db, 'lobbyPlayers', roomId)
+export const submitAnswers = async (
+  answers: AnswersData,
+  roomId: string,
+  currentRound: number
+) => {
+  const ref = doc(db, 'gameRooms', roomId)
   try {
     await updateDoc(ref, {
-      answers: arrayUnion(answers),
+      [`answers.round${currentRound}`]: arrayUnion(answers),
     })
   } catch (error) {
     throw Error('Error creating')

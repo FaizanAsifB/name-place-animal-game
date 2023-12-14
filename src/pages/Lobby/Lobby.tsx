@@ -6,18 +6,13 @@ import Button from '../../components/ui/Button'
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { useOnSnapShot } from '../../hooks/useOnSnapShot'
+import { CreateGameData, GameState } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 import { createGameData, updateGameState } from '../GameCreation/utils/http'
 import CategoriesList from './components/CategoriesList'
 import PlayerSlots from './components/PlayerSlots'
 import SettingsList from './components/SettingsList'
-import {
-  categoriesArr,
-  getRoundsData,
-  inLobby,
-  readyPlayers,
-} from './utils/utils'
-import { GameData, GameState } from '../../lib/types'
+import { categoriesArr, getRoundsData, readyPlayers } from './utils/utils'
 
 const Lobby = () => {
   const navigate = useNavigate()
@@ -46,20 +41,19 @@ const Lobby = () => {
     const categoriesData = await fetchLobbyData(params.roomId!, 'categories')
     const rounds = await fetchLobbyData(params.roomId!, 'lobbies')
     const customCategories = categoriesArr(categoriesData)
-    const gameData: GameData = {
+    const gameData: CreateGameData = {
       categories: {
         default: categoriesData?.default,
         custom: customCategories,
       },
-      gameState: 'INIT',
+
       currentRound: 1,
       rounds: getRoundsData(customCategories!, rounds?.settings.rounds),
     }
-    console.log(gameData)
     await createGameData(params.roomId!, gameData)
 
     await updateGameState('INIT', params.roomId!)
-    navigate(`/game/${data!.lobbyId}`)
+    navigate(`/game/${params.roomId!}`)
   }
 
   return (
