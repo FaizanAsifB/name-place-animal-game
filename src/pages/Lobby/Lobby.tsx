@@ -19,6 +19,7 @@ const Lobby = () => {
   const params = useParams()
   const currentUser = useContext(AuthContext)
 
+  //!check wether state is needed
   const [gameState, setGameState] = useState<GameState>('LOBBY')
 
   const { data, error } = useOnSnapShot({

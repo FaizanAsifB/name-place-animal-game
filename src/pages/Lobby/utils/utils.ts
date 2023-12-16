@@ -98,13 +98,16 @@ export const getRoundsData = (customCategories: string[], rounds: number) => {
       )
       return {
         alphabet: activeAlphabet,
-        categories: [addedCategory, extraCategory],
+        categories: extraCategory
+          ? [addedCategory, extraCategory]
+          : [addedCategory],
       }
     }
     // !Change empty category logic
     return {
       alphabet: activeAlphabet,
-      categories: remainingCategories.length === 0 ? [''] : [addedCategory],
+      // categories: remainingCategories.length === 0 ? [''] : [addedCategory],
+      categories: [addedCategory ?? ''],
     }
   })
   return roundsData

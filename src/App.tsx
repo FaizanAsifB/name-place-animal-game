@@ -10,6 +10,8 @@ import Home from './pages/Home/index.tsx'
 import Lobby from './pages/Lobby/index.tsx'
 import Scoring, { loader as scoringLoader } from './pages/Scoring/index.tsx'
 import { queryClient } from './utils/fetchData.ts'
+import Results from './pages/Results/index.tsx'
+import Game from './layout/Game.tsx'
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'game/:roomId',
+        element: <Game />,
         children: [
           {
             index: true,
@@ -41,6 +44,10 @@ const router = createBrowserRouter([
             path: 'scoring',
             element: <Scoring />,
             loader: scoringLoader,
+          },
+          {
+            path: 'result',
+            element: <Results />,
           },
         ],
       },

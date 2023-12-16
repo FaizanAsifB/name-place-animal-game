@@ -1,51 +1,31 @@
-import { useContext, useEffect, useMemo } from 'react'
-import { LoaderFunction, useLoaderData } from 'react-router-dom'
-import { AuthContext } from '../../context/AuthContext'
+import { useEffect } from 'react'
+import { LoaderFunction, useNavigate, useParams } from 'react-router-dom'
+
+import { useOnSnapShot } from '../../hooks/useOnSnapShot'
 import { GameData } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 
+import { updateGameState } from '../GameCreation/utils/http'
+import CategoryAnswers from './components/CategoryAnswers'
+
 const Scoring = () => {
-  const { gameData } = useLoaderData() as { gameData: GameData }
-  const currentUser = useContext(AuthContext)
+  const params = useParams()
+  const { data } = useOnSnapShot({
+    docRef: 'gameRooms',
+    roomId: params.roomId!,
+  }) as { data: GameData }
 
-  const scoringData = useMemo(() => {
-    if (!gameData) return
-    const answers = gameData.answers[`round${gameData.currentRound}`]
-    const currentUserIndex = answers.findIndex(
-      item => Object.keys(item)[0] === currentUser?.uid
-    )
+  const navigate = useNavigate()
 
-    const indexToCorrect = answers.length - currentUserIndex - 1
-    const userToCorrect = Object.entries(answers[indexToCorrect])[0]
-    const userIdToCorrect = userToCorrect[0]
-    const answersToCorrect = userToCorrect[1]
-    return { userId: userIdToCorrect, answersToCorrect }
-  }, [currentUser?.uid, gameData])
-  console.log(scoringData)
+  useEffect(() => {
+    async function navigateToResult() {
+      await updateGameState('RESULT', params.roomId!)
+      navigate('../result')
+    }
+    if (data && data.scoresSubmitted === data.totalPlayers) navigateToResult()
+  }, [data, navigate, params.roomId])
 
-  useEffect(() => {}, [currentUser?.uid, gameData, scoringData])
-
-  return (
-    <div>
-      Scoring
-      <ul>
-        {!scoringData && 'Loading....'}
-        {scoringData &&
-          Object.entries(scoringData.answersToCorrect).map(category => (
-            <li key={category[0]}>
-              <h2>{category[0]}</h2>
-              <ul>
-                {category[1].map((answer, index) => (
-                  <li key={category[0] + category[1] + index}>
-                    answer={answer}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-      </ul>
-    </div>
-  )
+  return <CategoryAnswers />
 }
 export default Scoring
 

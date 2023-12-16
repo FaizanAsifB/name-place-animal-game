@@ -139,5 +139,22 @@ export type GameData =
       gameState: GameState
       totalPlayers: number
       answers: Record<string, AnswersData[]>
+      scores: ScoresData
+      scoresSubmitted: number
     } & CreateGameData)
   | undefined
+
+export type ScoresData = {
+  [x: string]: ScoreData
+}
+
+export type ScoreData = {
+  scoresCategory: (Record<string, number> | null)[]
+  scoresRounds: number[]
+  totalScore: number
+}
+
+export type UpdateScoreData = {
+  scoresCategory: Record<string, number> | null
+  roundScore: number
+}

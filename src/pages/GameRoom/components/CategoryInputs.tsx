@@ -9,8 +9,13 @@ import {
   FireStoreError,
   GameData,
   GameSettings,
+  ScoreData,
 } from '../../../lib/types'
-import { submitAnswers, updateGameState } from '../../GameCreation/utils/http'
+import {
+  createScoresData,
+  submitAnswers,
+  updateGameState,
+} from '../../GameCreation/utils/http'
 
 const CategoryInputs = () => {
   const [numInputs, setNumInputs] = useState<Record<string, number> | null>(
@@ -36,25 +41,33 @@ const CategoryInputs = () => {
     )
   }, [gameData])
 
-  //! need to optimize useEffect
-
-  useEffect(() => {
+  function calcInputs() {
     if (!roundCategories) return
     const inputs: Record<string, number> = {}
     roundCategories.forEach((category: string) => (inputs[category] = 1))
     setNumInputs(inputs)
-    gameData?.gameState === 'ROUND-ENDED' && navigate('scoring')
-  }, [roundCategories, gameData?.gameState, navigate])
+  }
 
+  if (!numInputs) calcInputs()
+
+  //! need to optimize useEffect
+
+  useEffect(() => {
+    gameData?.gameState === 'ROUND-ENDED' && navigate('scoring')
+  }, [roundCategories, gameData?.gameState, navigate, numInputs])
+
+  console.log(numInputs)
   function addInput(category: string) {
-    if (setNumInputs)
+    if (numInputs)
       setNumInputs(prev => ({ ...prev, [category]: prev![category] + 1 }))
   }
 
   function handleEnter(e: React.KeyboardEvent<HTMLInputElement>) {
     e.nativeEvent.stopImmediatePropagation()
-    if (e.code === 'NumpadEnter' || e.code === 'Enter')
+    if (e.code === 'NumpadEnter' || e.code === 'Enter') {
+      e.preventDefault()
       addInput(e.currentTarget.id)
+    }
   }
 
   const {
@@ -84,7 +97,14 @@ const CategoryInputs = () => {
     if (settings.settings.endMode === 'FASTEST-FINGER')
       await updateGameState('END-TIMER', params.roomId!)
 
+    const scoreData: ScoreData = {
+      scoresCategory: [],
+      scoresRounds: [],
+      totalScore: 0,
+    }
+
     await submitAnswers(answers, params.roomId!, gameData!.currentRound)
+    await createScoresData(params.roomId!, currentUser!.uid, scoreData)
 
     // const { category1, category2 } = data
   }

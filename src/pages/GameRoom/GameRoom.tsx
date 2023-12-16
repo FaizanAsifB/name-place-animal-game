@@ -14,10 +14,6 @@ const GameRoom = () => {
     gameData: GameData
   }
 
-  // useEffect(() => {
-  //   setActiveAlphabet(gameData?.rounds[gameData?.currentRound - 1].alphabet)
-  // }, [gameData?.currentRound, gameData?.rounds])
-
   return (
     <div>
       <div className="flex justify-end gap-4">
