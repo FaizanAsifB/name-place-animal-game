@@ -2,16 +2,16 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AuthContextProvider } from './context/AuthContext.tsx'
 import './index.css'
+import Game from './layout/Game.tsx'
 import RootLayout from './layout/RootLayout.tsx'
 import Error from './pages/Error.tsx'
 import GameCreation from './pages/GameCreation/index.tsx'
 import GameRoom, { loader as gameLoader } from './pages/GameRoom/index.tsx'
 import Home from './pages/Home/index.tsx'
 import Lobby from './pages/Lobby/index.tsx'
+import Results, { loader as resultLoader } from './pages/Results/index.tsx'
 import Scoring, { loader as scoringLoader } from './pages/Scoring/index.tsx'
 import { queryClient } from './utils/fetchData.ts'
-import Results from './pages/Results/index.tsx'
-import Game from './layout/Game.tsx'
 
 const router = createBrowserRouter([
   {
@@ -48,6 +48,7 @@ const router = createBrowserRouter([
           {
             path: 'result',
             element: <Results />,
+            loader: resultLoader,
           },
         ],
       },

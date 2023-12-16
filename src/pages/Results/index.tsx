@@ -1,4 +1,1 @@
-const Results = () => {
-  return <div>Results</div>
-}
-export default Results
+export { default, loader } from './Results.tsx'

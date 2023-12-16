@@ -150,7 +150,7 @@ export type ScoresData = {
 
 export type ScoreData = {
   scoresCategory: (Record<string, number> | null)[]
-  scoresRounds: number[]
+  scoreRounds: number[]
   totalScore: number
 }
 
