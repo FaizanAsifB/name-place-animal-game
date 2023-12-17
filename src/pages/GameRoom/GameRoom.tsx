@@ -1,8 +1,15 @@
-import { LoaderFunction, useLoaderData } from 'react-router-dom'
+import {
+  LoaderFunction,
+  useLoaderData,
+  useNavigate,
+  useParams,
+} from 'react-router-dom'
 
-import { GameData, GameSettings } from '../../lib/types'
+import { FireStoreError, GameData, GameSettings } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 
+import { useEffect } from 'react'
+import { useOnSnapShot } from '../../hooks/useOnSnapShot'
 import CategoryInputs from './components/CategoryInputs'
 import Clock from './components/Clock'
 
@@ -13,6 +20,17 @@ const GameRoom = () => {
     settings: GameSettings
     gameData: GameData
   }
+  const params = useParams()
+  const navigate = useNavigate()
+
+  const { data } = useOnSnapShot({
+    docRef: 'gameRooms',
+    roomId: params.roomId!,
+  }) as { data: GameData | undefined; error: FireStoreError }
+
+  useEffect(() => {
+    data?.gameState === 'ROUND-ENDED' && navigate('scoring')
+  }, [data?.gameState, navigate])
 
   return (
     <div>

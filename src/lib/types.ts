@@ -93,6 +93,7 @@ export type CreateGameData = {
   categories: {
     default: string[]
     custom: string[] | undefined
+    active: string[]
   }
   currentRound: number
   rounds: {
@@ -140,7 +141,7 @@ export type GameData =
       totalPlayers: number
       answers: Record<string, AnswersData[]>
       scores: ScoresData
-      scoresSubmitted: number
+      scoresSubmitted: Record<string, number>
     } & CreateGameData)
   | undefined
 
@@ -157,4 +158,6 @@ export type ScoreData = {
 export type UpdateScoreData = {
   scoresCategory: Record<string, number> | null
   roundScore: number
+  scoreRounds: number[]
+  currentRound: number | undefined
 }

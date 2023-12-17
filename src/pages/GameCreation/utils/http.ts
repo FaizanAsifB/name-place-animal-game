@@ -209,12 +209,13 @@ export const updateScoresData = async (
   try {
     const res = await updateDoc(doc(db, 'gameRooms', lobbyId), {
       [`scores.${uid}.scoresCategory`]: arrayUnion(data.scoresCategory),
-      [`scores.${uid}.scoreRounds`]: arrayUnion(data.roundScore),
+      // [`scores.${uid}.scoreRounds`]: arrayUnion(data.roundScore),
+      [`scores.${uid}.scoreRounds`]: data.scoreRounds,
       [`scores.${uid}.totalScore`]: increment(data.roundScore),
     })
     try {
       await updateDoc(doc(db, 'gameRooms', lobbyId), {
-        scoresSubmitted: increment(1),
+        [`scoresSubmitted.round${data.currentRound}`]: increment(1),
       })
     } catch (error) {
       throw new Error('There was an error updating')
@@ -229,6 +230,19 @@ export const updateCurrentRound = async (roomId: string) => {
   try {
     await updateDoc(doc(db, 'gameRooms', roomId), {
       currentRound: increment(1),
+    })
+  } catch (error) {
+    throw Error('Error updating')
+  }
+}
+
+export const updateActiveCategories = async (
+  roomId: string,
+  categories: string[]
+) => {
+  try {
+    await updateDoc(doc(db, 'gameRooms', roomId), {
+      'categories.active': arrayUnion(...categories),
     })
   } catch (error) {
     throw Error('Error updating')

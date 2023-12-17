@@ -14,6 +14,7 @@ import {
 import {
   createScoresData,
   submitAnswers,
+  updateActiveCategories,
   updateGameState,
 } from '../../GameCreation/utils/http'
 
@@ -35,28 +36,63 @@ const CategoryInputs = () => {
     roomId: params.roomId!,
   }) as { data: GameData | undefined; error: FireStoreError }
 
-  const roundCategories = useMemo(() => {
-    return gameData?.categories.default.concat(
-      gameData?.rounds[gameData.currentRound - 1].categories
-    )
-  }, [gameData])
+  // const roundCategories = useMemo(async () => {
+  //   if (!params.roomId || !gameData) return
+  //   await updateActiveCategories(
+  //     params.roomId,
+  //     gameData?.rounds[gameData.currentRound - 1].categories
+  //   )
+  //   const activeCategories = gameData?.categories.active.concat(
+  //     gameData?.rounds[gameData.currentRound - 1].categories
+  //   )
 
-  function calcInputs() {
-    if (!roundCategories) return
+  //   return gameData?.categories.default.concat(
+  //     gameData?.rounds[gameData.currentRound - 1].categories
+  //   )
+  // }, [gameData])
+
+  // function calcInputs() {
+  //   if (!roundCategories) return
+  //   const inputs: Record<string, number> = {}
+  //   roundCategories.forEach((category: string) => (inputs[category] = 1))
+  //   setNumInputs(inputs)
+  // }
+  const calcInputs = useMemo(() => {
+    if (!gameData?.categories.active) return
     const inputs: Record<string, number> = {}
-    roundCategories.forEach((category: string) => (inputs[category] = 1))
-    setNumInputs(inputs)
-  }
+    gameData?.categories.active.forEach(
+      (category: string) => (inputs[category] = 1)
+    )
 
-  if (!numInputs) calcInputs()
+    setNumInputs(inputs)
+    return inputs
+  }, [gameData]) as Record<string, number> | null
+
+  // if (!numInputs) calcInputs()
 
   //! need to optimize useEffect
 
   useEffect(() => {
-    gameData?.gameState === 'ROUND-ENDED' && navigate('scoring')
-  }, [roundCategories, gameData?.gameState, navigate, numInputs])
+    //add to active category
+    if (!params.roomId || !gameData) return
+    //Only checks for first category... needs to change if more are added
+    if (gameData?.rounds[gameData.currentRound - 1].categories[0])
+      (async () => {
+        await updateActiveCategories(
+          params.roomId!,
+          gameData?.rounds[gameData.currentRound - 1].categories
+        )
+      })()
+    //navigate to next stage
+  }, [
+    gameData?.gameState,
+    navigate,
+    numInputs,
+    gameData,
+    params.roomId,
+    calcInputs,
+  ])
 
-  console.log(numInputs)
   function addInput(category: string) {
     if (numInputs)
       setNumInputs(prev => ({ ...prev, [category]: prev![category] + 1 }))
@@ -108,7 +144,8 @@ const CategoryInputs = () => {
     }
 
     await submitAnswers(answers, params.roomId!, gameData!.currentRound)
-    await createScoresData(params.roomId!, currentUser!.uid, scoreData)
+    gameData?.currentRound === 1 &&
+      (await createScoresData(params.roomId!, currentUser!.uid, scoreData))
 
     // const { category1, category2 } = data
   }
@@ -126,7 +163,7 @@ const CategoryInputs = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <ul>
-        {roundCategories?.map(category => {
+        {gameData?.categories.active.map(category => {
           const inputs = numInputs ? numInputs[category] : 1
           const inputsArr = []
           for (let i = 0; i < inputs; i++) {

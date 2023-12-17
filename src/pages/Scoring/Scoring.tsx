@@ -22,7 +22,11 @@ const Scoring = () => {
       await updateGameState('RESULT', params.roomId!)
       navigate('../result')
     }
-    if (data && data.scoresSubmitted === data.totalPlayers) navigateToResult()
+    if (
+      data &&
+      data.scoresSubmitted?.[`round${data.currentRound}`] === data.totalPlayers
+    )
+      navigateToResult()
   }, [data, navigate, params.roomId])
 
   return <CategoryAnswers />

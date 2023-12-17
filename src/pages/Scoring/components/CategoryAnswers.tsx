@@ -35,7 +35,7 @@ const CategoryAnswers = () => {
 
     const indexToCorrect =
       currentUserIndex === answers.length - 1 ? 0 : currentUserIndex + 1
-    // answers.length - currentUserIndex - 1
+
     const userToCorrect = Object.entries(answers[indexToCorrect])[0]
 
     const otherUsers = answers
@@ -49,7 +49,7 @@ const CategoryAnswers = () => {
     return { userId: userIdToCorrect, answersToCorrect, otherUsers }
   }, [currentUser?.uid, gameData])
 
-  function handleScore(
+  function handleScores(
     event: React.MouseEvent<HTMLElement>,
     newScore: string | null
   ) {
@@ -62,9 +62,16 @@ const CategoryAnswers = () => {
 
   async function handleScoring() {
     const roundScore = getSum(Object.values(scores!))
+    console.log(roundScore)
     const scoreData: UpdateScoreData = {
       scoresCategory: scores,
       roundScore,
+      scoreRounds:
+        gameData?.currentRound === 1
+          ? [roundScore]
+          : [...gameData!.scores[scoringData!.userId].scoreRounds, roundScore],
+
+      currentRound: gameData?.currentRound,
     }
 
     await updateScoresData(params.roomId!, scoringData!.userId, scoreData)
@@ -80,9 +87,12 @@ const CategoryAnswers = () => {
               <div className="inline-flex flex-col">
                 <p>{scoringData.userId.slice(-5)}</p>
                 <ul className="flex gap-4 border-2 border-b-black">
-                  {category[1].map((answer, index) => (
-                    <li key={category[0] + category[1] + index}>{answer}</li>
-                  ))}
+                  {category[1].map((answer, index) => {
+                    if (!answer) return
+                    return (
+                      <li key={category[0] + category[1] + index}>{answer}</li>
+                    )
+                  })}
                 </ul>
                 <div className="inline-flex flex-col border-2 border-red-700">
                   {scoringData.otherUsers.map((user, i) => (
@@ -95,6 +105,7 @@ const CategoryAnswers = () => {
                             return acc.concat(item[1])
                           }, [] as string[])
                           .map((item, i) => {
+                            if (!item) return
                             return (
                               <li className="flex" key={item + i}>
                                 {item}
@@ -110,7 +121,7 @@ const CategoryAnswers = () => {
               <ToggleButtonGroup
                 value={scores?.[category[0]] ?? 0}
                 exclusive
-                onChange={handleScore}
+                onChange={handleScores}
                 aria-label="category scoring"
               >
                 <ToggleButton value={0} aria-label="zero" id={category[0]}>

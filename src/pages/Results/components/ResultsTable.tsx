@@ -31,7 +31,7 @@ const ResultsTable = () => {
             ))}
             {gameData?.rounds.map((_, i) => {
               if (i + 1 <= gameData.currentRound) return
-              return <td key={i}>-</td>
+              return <td key={i}>{'-'}</td>
             })}
             <td>{item[1].totalScore}</td>
           </tr>
