@@ -85,7 +85,11 @@ const CategoryInputs = () => {
   //!check donePlayers logic
 
   const donePlayers = () => {
-    if (!gameData?.answers) return 0
+    if (
+      !gameData?.answers ||
+      !gameData?.answers[`round${gameData?.currentRound}`]
+    )
+      return 0
     return gameData?.answers[`round${gameData?.currentRound}`].length
   }
 
@@ -99,7 +103,7 @@ const CategoryInputs = () => {
 
     const scoreData: ScoreData = {
       scoresCategory: [],
-      scoresRounds: [],
+      scoreRounds: [],
       totalScore: 0,
     }
 

@@ -33,7 +33,9 @@ const CategoryAnswers = () => {
       item => Object.keys(item)[0] === currentUser?.uid
     )
 
-    const indexToCorrect = answers.length - currentUserIndex - 1
+    const indexToCorrect =
+      currentUserIndex === answers.length - 1 ? 0 : currentUserIndex + 1
+    // answers.length - currentUserIndex - 1
     const userToCorrect = Object.entries(answers[indexToCorrect])[0]
 
     const otherUsers = answers

@@ -5,7 +5,7 @@ import { FireStoreError } from '../lib/types'
 
 type SnapShot = {
   docRef: string
-  roomId: string
+  roomId: string | undefined
 }
 
 export const useOnSnapShot = ({ docRef, roomId }: SnapShot) => {
@@ -13,6 +13,7 @@ export const useOnSnapShot = ({ docRef, roomId }: SnapShot) => {
   const [error, setError] = useState<FireStoreError>()
 
   useEffect(() => {
+    if (!roomId) return
     const unsub = onSnapshot(
       doc(db, docRef, roomId),
 

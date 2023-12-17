@@ -224,3 +224,13 @@ export const updateScoresData = async (
     throw new Error('There was an error creating game')
   }
 }
+
+export const updateCurrentRound = async (roomId: string) => {
+  try {
+    await updateDoc(doc(db, 'gameRooms', roomId), {
+      currentRound: increment(1),
+    })
+  } catch (error) {
+    throw Error('Error updating')
+  }
+}
