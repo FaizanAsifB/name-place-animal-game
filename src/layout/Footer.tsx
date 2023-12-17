@@ -1,8 +1,8 @@
 import { signOut } from 'firebase/auth'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { auth } from '../backend/firebase'
 import Button from '../components/ui/Button'
+import { auth } from '../config/config'
 import { AuthContext } from '../context/AuthContext'
 
 const Footer = () => {

@@ -1,6 +1,6 @@
 import { signInAnonymously, updateProfile } from 'firebase/auth'
-import { auth, db } from '../backend/firebase'
 import { doc, setDoc } from 'firebase/firestore'
+import { auth, db } from '../config/config'
 import { GuestSchema } from '../lib/types'
 
 export const guestSignIn = async function (displayName: GuestSchema) {

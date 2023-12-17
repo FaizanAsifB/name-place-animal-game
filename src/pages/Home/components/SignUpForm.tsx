@@ -2,9 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { useForm } from 'react-hook-form'
-import { auth, db } from '../../../backend/firebase'
 import Button from '../../../components/ui/Button'
 import FormInput from '../../../components/ui/FormInput'
+import { auth, db } from '../../../config/config'
 import { SignUpSchema, signUpSchema } from '../../../lib/types'
 
 type SignUpFormProps = {

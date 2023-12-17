@@ -2,6 +2,7 @@ import { forwardRef, useContext } from 'react'
 import characterImg from '../../../assets/imgs/koala.svg'
 import ErrorText from '../../../components/forms/ErrorText'
 import { AuthContext } from '../../../context/AuthContext'
+import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
 
 type TabPanelProps = {
   showGuest: boolean
@@ -13,6 +14,7 @@ const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
   ref
 ) {
   const currentUser = useContext(AuthContext)
+  const { data } = useOnSnapShot({ docRef: 'users', roomId: currentUser?.uid })
 
   return (
     <div className="p-8 bg-slate-700/20" role="tabpanel">
@@ -26,7 +28,9 @@ const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
           <div className="grid gap-2 place-items-center md:gap-4">
             <h2 className="text-center max-w-[20ch]">
               {currentUser
-                ? `Welcome back ${currentUser?.displayName}! `
+                ? data
+                  ? `Welcome back ${data.displayName}! `
+                  : '...loading'
                 : `Choose a character and
               ${showGuest ? ' nickname' : ' Log in with email'}`}
             </h2>
@@ -34,7 +38,7 @@ const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
               <>
                 <p>Enter code to join!</p>
                 <ErrorText>{errorMessage}</ErrorText>
-                <input ref={ref} className="" type="text" placeholder="G2F3X" />
+                <input ref={ref} type="text" placeholder="G2F3X" />
               </>
             )}
             {showGuest && !currentUser ? (

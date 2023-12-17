@@ -9,7 +9,7 @@ import { AuthContext } from '../../context/AuthContext'
 import AuthModal from './components/AuthModal'
 
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { db } from '../../backend/firebase'
+import { db } from '../../config/config'
 import { GameCodeSchema, GuestSchema, guestSchema } from '../../lib/types'
 import { guestSignIn } from '../../utils/auth'
 import TabPanel from './components/TabPanel'
@@ -41,8 +41,6 @@ const Auth = () => {
         const querySnapshot = await getDocs(q)
         let lobbyId
         querySnapshot.forEach(doc => {
-          console.log(doc.id)
-
           lobbyId = doc.id
         })
         if (!lobbyId) return setErrorMessage('Enter a valid gameCode')

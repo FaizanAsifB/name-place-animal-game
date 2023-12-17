@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query'
 import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../backend/firebase'
+import { db } from '../config/config'
 import { CollectionEnum } from '../lib/types'
 
 export const queryClient = new QueryClient()

@@ -25,7 +25,11 @@ const SettingsList = () => {
         </li>
         <li>
           <h5>End Mode</h5>
-          <p>{data?.settings.endMode}</p>
+          <p>
+            {data?.settings.endMode === 'ROUND-TIMER'
+              ? 'Round Timer'
+              : 'Fastest Finger'}
+          </p>
         </li>
         <li></li>
       </ul>

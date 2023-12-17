@@ -1,10 +1,10 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useForm } from 'react-hook-form'
-import { auth } from '../../../backend/firebase'
 import Button from '../../../components/ui/Button'
 import FormInput from '../../../components/ui/FormInput'
+import { auth } from '../../../config/config'
 import { LoginSchema, loginSchema } from '../../../lib/types'
-import { zodResolver } from '@hookform/resolvers/zod'
 
 type LoginFormProps = {
   onClose: () => void

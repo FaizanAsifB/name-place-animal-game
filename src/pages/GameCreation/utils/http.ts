@@ -10,7 +10,7 @@ import {
   updateDoc,
 } from 'firebase/firestore'
 
-import { db } from '../../../backend/firebase'
+import { db } from '../../../config/config'
 import {
   AnswersData,
   Categories,
