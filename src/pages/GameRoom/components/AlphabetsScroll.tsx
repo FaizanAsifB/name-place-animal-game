@@ -13,9 +13,9 @@ const AlphabetsScroll = () => {
       autoPlaySpeed={45}
       transitionMs={45}
     >
-      {alphabets.map(alphabet => {
+      {/* {alphabets.map(alphabet => {
         return <div key={alphabet}>{alphabet}</div>
-      })}
+      })} */}
     </Carousel>
   )
 }

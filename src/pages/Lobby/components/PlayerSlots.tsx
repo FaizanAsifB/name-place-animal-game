@@ -3,11 +3,11 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined'
 import Checkbox from '@mui/material/Checkbox'
 import { useMutation } from '@tanstack/react-query'
 import { DocumentData, FirestoreErrorCode } from 'firebase/firestore'
-import { ChangeEvent, useCallback, useContext, useEffect } from 'react'
+import { ChangeEvent, useContext, useEffect } from 'react'
 import { TfiCrown } from 'react-icons/tfi'
 import { useParams } from 'react-router-dom'
-import img from '../../../assets/imgs/koala.svg'
-import emptyImg from '../../../assets/imgs/lion.svg'
+import img from '../../../../public/images/koala.svg'
+import emptyImg from '../../../../public/images/lion.svg'
 import { AuthContext } from '../../../context/AuthContext'
 
 import { PlayerData } from '../../../lib/types'
@@ -28,15 +28,15 @@ type PlayerSlotsProps = {
     | undefined
 }
 
-const PlayerSlots = ({ data, error }: PlayerSlotsProps) => {
+const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
   const params = useParams()
   const currentUser = useContext(AuthContext)
 
   const {
     mutate,
-    isPending,
-    isError,
-    error: updatingError,
+    /*  isPending,
+    isError, */
+    // error: updatingError,
   } = useMutation({
     mutationFn: updatePlayers,
   })

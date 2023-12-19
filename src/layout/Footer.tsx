@@ -1,6 +1,5 @@
 import { signOut } from 'firebase/auth'
 import { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Button from '../components/ui/Button'
 import { auth } from '../config/config'
 import { AuthContext } from '../context/AuthContext'

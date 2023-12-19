@@ -28,7 +28,7 @@ const AddCategory = ({ closeModal, categoriesData }: AddCategoryProps) => {
     clearErrors,
     setError,
     getValues,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors /* isSubmitting, isDirty */ },
   } = useForm({
     defaultValues: {
       category1: '',

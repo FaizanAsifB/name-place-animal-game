@@ -8,6 +8,7 @@ import GameCreation from './pages/GameCreation/index.tsx'
 import GameRoom, { loader as gameLoader } from './pages/GameRoom/index.tsx'
 import Home from './pages/Home/index.tsx'
 import Lobby from './pages/Lobby/index.tsx'
+import ProtectedRoute from './pages/ProtectedRoute.tsx'
 import { loader as redirectLoader } from './pages/Redirect.tsx'
 import Results, { loader as resultLoader } from './pages/Results/index.tsx'
 import RootLayout from './pages/RootLayout.tsx'
@@ -24,17 +25,30 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
+
       {
         path: 'game-creation',
-        element: <GameCreation />,
+        element: (
+          <ProtectedRoute>
+            <GameCreation />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'lobby/:roomId',
-        element: <Lobby />,
+        element: (
+          <ProtectedRoute>
+            <Lobby />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'game/:roomId',
-        element: <Game />,
+        element: (
+          <ProtectedRoute>
+            <Game />
+          </ProtectedRoute>
+        ),
         children: [
           {
             index: true,
