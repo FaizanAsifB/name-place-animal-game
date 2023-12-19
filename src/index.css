@@ -40,7 +40,7 @@ import '@fontsource/roboto/700.css'; */
   }
 
   .settings li {
-    @apply grid gap-2 md:grid-cols-2;
+    @apply grid md:grid-cols-2;
   }
 
   .modal {

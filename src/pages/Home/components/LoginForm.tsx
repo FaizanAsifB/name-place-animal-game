@@ -14,6 +14,7 @@ const LoginForm = ({ onClose }: LoginFormProps) => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
@@ -26,7 +27,15 @@ const LoginForm = ({ onClose }: LoginFormProps) => {
       await signInWithEmailAndPassword(auth, email, password)
       onClose()
     } catch (error) {
-      throw new Error('There was an error signing in')
+      setError(
+        'password',
+        {
+          type: 'custom',
+          message: 'Invalid login credentials, please try again',
+        },
+        { shouldFocus: true }
+      )
+      // throw new Error('There was an error signing in')
     }
   }
 

@@ -8,19 +8,22 @@ import { AuthContext } from '../../context/AuthContext'
 
 import AuthModal from './components/AuthModal'
 
-import { collection, getDocs, query, where } from 'firebase/firestore'
-import { db } from '../../config/config'
+import { useAtom } from 'jotai'
 import { GameCodeSchema, GuestSchema, guestSchema } from '../../lib/types'
 import { guestSignIn } from '../../utils/auth'
+import { queryData } from '../../utils/fetchData'
+import { avatarAtom } from '../../utils/utils'
 import TabPanel from './components/TabPanel'
 
 const Auth = () => {
   const [showGuest, setShowGuest] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
+  // const [dpIndex, setDpIndex] = useState(0)
 
   const currentUser = useContext(AuthContext)
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
+  const [dpIndex] = useAtom(avatarAtom)
 
   function handleTabClick(e: React.MouseEvent<HTMLButtonElement>) {
     if (e.currentTarget.ariaSelected == 'true') return
@@ -33,28 +36,21 @@ const Auth = () => {
       return setErrorMessage('Please enter a valid nickname')
 
     if (guestSchema.safeParse(gameCode).success) {
-      const q = query(
-        collection(db, 'lobbies'),
-        where('joinCode', '==', gameCode)
-      )
-      try {
-        const querySnapshot = await getDocs(q)
-        let lobbyId
-        querySnapshot.forEach(doc => {
-          lobbyId = doc.id
-        })
-        if (!lobbyId) return setErrorMessage('Enter a valid gameCode')
-        return navigate(`/lobby/${lobbyId}`)
-      } catch (error) {
-        console.log(error)
-      }
+      //!Fix types
+      const data = await queryData('lobbies', {
+        property: 'joinCode',
+        sign: '==',
+        value: gameCode,
+      })
+
+      data
+        ? navigate(`/lobby/${data.lobbyId}`)
+        : setErrorMessage('Enter a valid gameCode')
     }
   }
 
   async function handleCreateGame() {
     if (currentUser) return navigate('/game-creation')
-
-    errorMessage && setErrorMessage('')
 
     const displayName: GuestSchema = inputRef.current!.value
 
@@ -62,8 +58,16 @@ const Auth = () => {
       return setErrorMessage('Please enter a valid nickname')
 
     if (guestSchema.safeParse(displayName).success) {
+      const data = await queryData('users', {
+        property: 'displayName',
+        sign: '==',
+        value: displayName,
+      })
+
+      if (data) return setErrorMessage('User already exists!')
+
       try {
-        guestSignIn(displayName)
+        await guestSignIn(displayName, dpIndex)
         return navigate('game-creation')
       } catch (error) {
         throw new Error('There was an error creating a guest user')

@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -35,6 +36,7 @@ const SettingsForm = () => {
     control,
     handleSubmit,
     register,
+    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<SettingsInput>({
     defaultValues: {
@@ -43,7 +45,7 @@ const SettingsForm = () => {
       name: true,
       place: true,
       animal: true,
-      thing: true,
+      thing: false,
       occupations: false,
       technology: false,
       endMode: 'ROUND-TIMER',
@@ -63,6 +65,8 @@ const SettingsForm = () => {
       customCategory2,
       ...categoryOptions
     } = data
+
+    console.log(data)
 
     const defaultCategories: DefaultCategories = Object.entries(
       categoryOptions
@@ -136,13 +140,13 @@ const SettingsForm = () => {
               <Slider
                 {...field}
                 aria-label="rounds"
-                defaultValue={6}
+                defaultValue={5}
                 // getAriaValueText={valuetext}
                 valueLabelDisplay="auto"
                 step={1}
                 marks
                 min={4}
-                max={20}
+                max={10}
               />
             )}
           />
@@ -173,25 +177,36 @@ const SettingsForm = () => {
         <li>
           <h5>Custom Categories</h5>
           <div className="grid grid-cols-2 gap-2">
-            <ErrorText>{errors.customCategory1?.message}</ErrorText>
-            <input
-              {...register('customCategory1')}
-              type="text"
-              name="customCategory1"
-              placeholder="Add custom category"
-            />
-            <ErrorText>{errors.customCategory2?.message}</ErrorText>
-            <input
-              {...register('customCategory2')}
-              type="text"
-              name="customCategory2"
-              placeholder="Add custom category"
-            />
+            <div className="relative">
+              <ErrorText>{errors.customCategory1?.message}</ErrorText>
+              <input
+                {...register('customCategory1')}
+                type="text"
+                name="customCategory1"
+                placeholder="Add custom category"
+                onBlur={() => clearErrors()}
+              />
+            </div>
+            <div className="relative">
+              <ErrorText>{errors.customCategory2?.message}</ErrorText>
+
+              <input
+                {...register('customCategory2')}
+                type="text"
+                name="customCategory2"
+                placeholder="Add custom category"
+                onBlur={() => clearErrors()}
+              />
+            </div>
           </div>
         </li>
       </ul>
-      <Button type="submit" icon={<GrGamepad />}>
-        {isSubmitting ? 'submitting.....' : 'Create Game'}
+      <Button
+        type="submit"
+        disabled={isSubmitting}
+        icon={isSubmitting ? <CircularProgress /> : <GrGamepad />}
+      >
+        Create Game
       </Button>
     </form>
   )

@@ -1,4 +1,8 @@
-import { FieldValue, FirestoreErrorCode } from 'firebase/firestore'
+import {
+  FieldValue,
+  FirestoreErrorCode,
+  WhereFilterOp,
+} from 'firebase/firestore'
 import { z } from 'zod'
 
 export const CollectionEnum = z.enum([
@@ -160,4 +164,10 @@ export type UpdateScoreData = {
   roundScore: number
   scoreRounds: number[]
   currentRound: number | undefined
+}
+
+export type Q = {
+  property: string
+  sign: WhereFilterOp
+  value: string
 }

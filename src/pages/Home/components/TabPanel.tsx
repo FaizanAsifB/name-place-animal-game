@@ -3,7 +3,9 @@ import { forwardRef, useContext, useState } from 'react'
 import ErrorText from '../../../components/forms/ErrorText'
 import { AuthContext } from '../../../context/AuthContext'
 import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
-import { displayImages } from '../../../utils/utils'
+import { avatarAtom, displayImages } from '../../../utils/utils'
+import CircularProgress from '@mui/material/CircularProgress'
+import { useAtom } from 'jotai'
 
 type TabPanelProps = {
   showGuest: boolean
@@ -14,7 +16,7 @@ const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
   { showGuest, errorMessage },
   ref
 ) {
-  const [dpIndex, setDpIndex] = useState(0)
+  const [dpIndex, setDpIndex] = useAtom(avatarAtom)
   const currentUser = useContext(AuthContext)
   const { data } = useOnSnapShot({ docRef: 'users', roomId: currentUser?.uid })
 
@@ -42,12 +44,16 @@ const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
           </div>
           <div className="grid gap-2 place-items-center md:gap-4">
             <h2 className="text-center max-w-[20ch]">
-              {currentUser
-                ? data
-                  ? `Welcome back ${data.displayName}! `
-                  : '...loading'
-                : `Choose a character and
-              ${showGuest ? ' nickname' : ' Log in with email'}`}
+              {currentUser ? (
+                data ? (
+                  `Welcome back ${data.displayName}! `
+                ) : (
+                  <CircularProgress />
+                )
+              ) : (
+                `Choose a character and
+              ${showGuest ? ' nickname' : ' Log in with email'}`
+              )}
             </h2>
             {currentUser && (
               <>

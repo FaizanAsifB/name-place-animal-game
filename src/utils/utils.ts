@@ -1,3 +1,5 @@
+import { atom } from 'jotai'
+
 export const displayImages = [
   { path: '/images/koala.svg', title: 'koala' },
   { path: '/images/birdie.svg', title: 'birdie' },
@@ -7,3 +9,5 @@ export const displayImages = [
   { path: '/images/lion.svg', title: 'lion' },
   { path: '/images/monkey.svg', title: 'monkey' },
 ]
+
+export const avatarAtom = atom(0)

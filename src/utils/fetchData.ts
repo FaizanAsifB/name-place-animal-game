@@ -1,7 +1,14 @@
 import { QueryClient } from '@tanstack/react-query'
-import { doc, getDoc } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore'
 import { db } from '../config/config'
-import { CollectionEnum } from '../lib/types'
+import { CollectionEnum, Q } from '../lib/types'
 
 export const queryClient = new QueryClient()
 
@@ -16,3 +23,21 @@ export const fetchLobbyData = async (roomId: string, col: CollectionEnum) => {
 //   const docSnap = await getDoc(docRef)
 //   return docSnap.data()
 // }
+
+export const queryData = async (
+  document: string,
+  { property, sign, value }: Q
+) => {
+  const q = query(collection(db, document), where(property, sign, value))
+  try {
+    const querySnapshot = await getDocs(q)
+
+    let data
+    querySnapshot.forEach(doc => {
+      data = doc.data()
+    })
+    return data
+  } catch (error) {
+    throw new Error('error fetching data')
+  }
+}

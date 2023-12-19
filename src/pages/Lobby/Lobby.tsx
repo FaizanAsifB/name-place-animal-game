@@ -52,7 +52,6 @@ const Lobby = () => {
       currentRound: 1,
       rounds: getRoundsData(customCategories!, rounds?.settings.rounds),
     }
-    console.log(gameData)
     await createGameData(params.roomId!, gameData)
 
     await updateGameState('INIT', params.roomId!)

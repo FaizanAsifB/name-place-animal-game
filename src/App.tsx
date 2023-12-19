@@ -29,25 +29,25 @@ const router = createBrowserRouter([
       {
         path: 'game-creation',
         element: (
-          <ProtectedRoute>
-            <GameCreation />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <GameCreation />
+          // </ProtectedRoute>
         ),
       },
       {
         path: 'lobby/:roomId',
         element: (
-          <ProtectedRoute>
-            <Lobby />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <Lobby />
+          // </ProtectedRoute>
         ),
       },
       {
         path: 'game/:roomId',
         element: (
-          <ProtectedRoute>
-            <Game />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <Game />
+          // </ProtectedRoute>
         ),
         children: [
           {
