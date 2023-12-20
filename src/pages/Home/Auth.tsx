@@ -35,15 +35,15 @@ const Auth = () => {
       return setErrorMessage('Please enter a valid nickname')
 
     if (guestSchema.safeParse(gameCode).success) {
-      //!Fix types
-      const data = await queryData('lobbies', {
+      const res = await queryData('lobbies', {
         property: 'joinCode',
-        sign: '==',
+        operator: '==',
         value: gameCode,
       })
-
-      data
-        ? navigate(`/lobby/${data.lobbyId}`)
+      // if (res) return setErrorMessage('User already exists!')
+      console.log(res?.lobbyId)
+      res
+        ? navigate(`/lobby/${res?.lobbyId}`)
         : setErrorMessage('Enter a valid gameCode')
     }
   }

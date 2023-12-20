@@ -1,13 +1,14 @@
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
 import { useState } from 'react'
 import { Control, Controller } from 'react-hook-form'
-import { DefaultCategoriesList } from './lib/types'
+// import { DefaultCategoriesList, SettingsInput } from './lib/types'
 
-const CategoriesList = ({
-  control,
-}: {
-  control: Control<DefaultCategoriesList>
-}) => {
+//!FIX CONTROL TYPE
+type CategoriesListProps = {
+  control: Control<any>
+}
+
+const CategoriesList = ({ control }: CategoriesListProps) => {
   const [isChecked, setIsChecked] = useState<Record<string, boolean>>({
     name: true,
     place: true,

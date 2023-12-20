@@ -1,4 +1,6 @@
 import { z } from 'zod'
+export const defaultCategoriesSchema = z.record(z.boolean())
+export type DefaultCategoriesList = z.infer<typeof defaultCategoriesSchema>
 
 export const settingsInputSchema = z
   .object({
@@ -10,6 +12,7 @@ export const settingsInputSchema = z
     thing: z.boolean(),
     occupations: z.boolean(),
     technology: z.boolean(),
+    // categories: defaultCategoriesSchema,
     endMode: z.enum(['FASTEST-FINGER', 'ROUND-TIMER']),
     customCategory1: z
       .string()
@@ -29,6 +32,3 @@ export const settingsInputSchema = z
   )
 
 export type SettingsInput = z.infer<typeof settingsInputSchema>
-
-export const defaultCategoriesSchema = z.record(z.boolean())
-export type DefaultCategoriesList = z.infer<typeof defaultCategoriesSchema>

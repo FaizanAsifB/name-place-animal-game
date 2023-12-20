@@ -6,11 +6,10 @@ import { DocumentData, FirestoreErrorCode } from 'firebase/firestore'
 import { ChangeEvent, useCallback, useContext, useEffect } from 'react'
 import { TfiCrown } from 'react-icons/tfi'
 import { useParams } from 'react-router-dom'
-import emptyAvatar from '../../../../public/images/emptyAvatar.svg'
 import { AuthContext } from '../../../context/AuthContext'
 
 import { PlayerData } from '../../../lib/types'
-import { queryData } from '../../../utils/fetchData'
+// import { queryData } from '../../../utils/fetchData'
 import {
   addPlayerCount,
   createUserCategories,
@@ -116,7 +115,7 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
               className="flex items-center justify-start gap-2 px-4 py-1 border-2 rounded-3xl bg-amber-600"
             >
               <img
-                src={uid ? slot.photoUrl : emptyAvatar}
+                src={uid ? slot.photoUrl : '/images/empty.svg'}
                 alt=""
                 className="w-10"
               />

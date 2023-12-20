@@ -58,8 +58,10 @@ const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
             {currentUser && (
               <>
                 <p>Enter code to join!</p>
-                <ErrorText>{errorMessage}</ErrorText>
-                <input ref={ref} type="text" placeholder="G2F3X" />
+                <div className="relative">
+                  <ErrorText>{errorMessage}</ErrorText>
+                  <input ref={ref} type="text" placeholder="G2F3X" />
+                </div>
               </>
             )}
             {showGuest && !currentUser ? (

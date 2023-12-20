@@ -22,7 +22,7 @@ import {
   PlayerData,
   RoundSettings,
 } from '../../lib/types.ts'
-import CategoriesList from './CategoriesForm.tsx'
+import CategoriesList from './CategoriesList.tsx'
 import { SettingsInput, settingsInputSchema } from './lib/types.tsx'
 import { uploadCategories, uploadSettings } from './utils/http.ts'
 import { makePlayerSlots } from './utils/util.ts'
@@ -42,12 +42,12 @@ const SettingsForm = () => {
     defaultValues: {
       roundTime: 60,
       rounds: 6,
-      name: true,
-      place: true,
-      animal: true,
-      thing: false,
-      occupations: false,
-      technology: false,
+      // name: true,
+      // place: true,
+      // animal: true,
+      // thing: false,
+      // occupations: false,
+      // technology: false,
       endMode: 'ROUND-TIMER',
       customCategory1: '',
       customCategory2: '',
@@ -65,8 +65,6 @@ const SettingsForm = () => {
       customCategory2,
       ...categoryOptions
     } = data
-
-    console.log(data)
 
     const defaultCategories: DefaultCategories = Object.entries(
       categoryOptions
