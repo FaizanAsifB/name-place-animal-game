@@ -7,7 +7,7 @@ type FormInputProps = {
   type?: string
   placeholder?: string
   register: UseFormRegisterReturn
-  error?: string
+  error?: string | undefined
   value?: string
 }
 
@@ -21,18 +21,23 @@ const FormInput = ({
   value,
 }: FormInputProps) => {
   return (
-    <li className="flex flex-col gap-1">
-      <label htmlFor={name}>{label}</label>
-      <input
-        {...register}
-        type={type}
-        id={name}
-        name={name}
-        value={value}
-        placeholder={placeholder}
-      />
-      <ErrorText>{error}</ErrorText>
-    </li>
+    <>
+      <li className="flex flex-col gap-1">
+        <label htmlFor={name}>{label}</label>
+        <div className="relative">
+          <input
+            {...register}
+            type={type}
+            id={name}
+            name={name}
+            value={value}
+            placeholder={placeholder}
+            className="w-full"
+          />
+          <ErrorText>{error}</ErrorText>
+        </div>
+      </li>
+    </>
   )
 }
 

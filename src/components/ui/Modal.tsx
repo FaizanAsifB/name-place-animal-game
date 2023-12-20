@@ -18,8 +18,20 @@ function Modal({ children, isOpen, className = '', onClose }: ModalProps) {
     return () => modal.close()
   }, [isOpen])
 
+  // function handleBlur(e: React.MouseEvent<HTMLDialogElement, MouseEvent>) {
+  //   console.log(e.target)
+  //   console.log(e.currentTarget)
+  //   if (e.target) return
+  //   dialog.current!.close()
+  // }
+
   return createPortal(
-    <dialog ref={dialog} className={`modal ${className}`} onClose={onClose}>
+    <dialog
+      ref={dialog}
+      className={`modal ${className}`}
+      onClose={onClose}
+      // onClick={handleBlur}
+    >
       {children}
     </dialog>,
     document.getElementById('modal') as HTMLDivElement

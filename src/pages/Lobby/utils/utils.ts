@@ -29,15 +29,18 @@ export const readyPlayers = (data: DocumentData | undefined): number => {
 
 export const getAllCategories = (data: DocumentData | undefined) => {
   if (!data) return
-  const categories: Array<{ title: string; date: Timestamp }> = []
+  const categories: Array<{ addedBy: string; title: string; date: Timestamp }> =
+    []
   Object.entries<AddedCategories>(data.custom).map(user => {
     if (user[1].category1.title)
       categories.push({
+        addedBy: user[0],
         title: user[1].category1.title,
         date: user[1].category1.addedAt,
       })
     if (user[1].category2.title)
       categories.push({
+        addedBy: user[0],
         title: user[1].category2.title,
         date: user[1].category2.addedAt,
       })

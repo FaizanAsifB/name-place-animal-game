@@ -42,13 +42,14 @@ const CategoriesList = () => {
         <AddCategory
           closeModal={closeModal}
           categoriesData={data?.custom[currentUser!.uid]}
+          allCategories={addedCategories}
         />
       </Modal>
       <div className="bg-amber-700/50">
         <header className="flex justify-between">
           <h2>Available Categories</h2>
           <button onClick={handleOpenModal}>
-            Add Categories {categoryCount}/2
+            + Add Categories {categoryCount}/2
           </button>
         </header>
         <ul className="grid grid-cols-4 ">

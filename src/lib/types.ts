@@ -52,15 +52,20 @@ export type PlayerData = {
 
 export const customCategoriesSchema = z
   .object({
-    category1: z.string().max(20),
-    category2: z.string().max(20),
+    category1: z.string().max(20).min(1, { message: 'Category 1 is required' }),
+    category2: z.string().max(20).min(1, { message: 'Category 2 is required' }),
   })
-  .refine(data => data.category1 !== data.category2, {
-    message: 'Please enter a different category',
-    path: ['category2'],
-  })
+  .refine(
+    data =>
+      data.category1 !== data.category2 || data.category2 !== data.category1,
+    {
+      message: 'Please enter a different category',
+      path: ['category2'],
+    }
+  )
 
-export type CustomCategoriesSchema = z.infer<typeof customCategoriesSchema>
+// export type CustomCategoriesType = z.infer<typeof customCategoriesSchema>
+export type CustomCategoriesType = Record<string, string>
 
 export type FireStoreError =
   | {

@@ -3,20 +3,19 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined'
 import Checkbox from '@mui/material/Checkbox'
 import { useMutation } from '@tanstack/react-query'
 import { DocumentData, FirestoreErrorCode } from 'firebase/firestore'
-import { ChangeEvent, useContext, useEffect } from 'react'
+import { ChangeEvent, useCallback, useContext, useEffect } from 'react'
 import { TfiCrown } from 'react-icons/tfi'
 import { useParams } from 'react-router-dom'
-import img from '../../../../public/images/koala.svg'
-import emptyImg from '../../../../public/images/lion.svg'
+import emptyAvatar from '../../../../public/images/emptyAvatar.svg'
 import { AuthContext } from '../../../context/AuthContext'
 
 import { PlayerData } from '../../../lib/types'
-import { inLobby } from '../utils/utils'
 import {
   addPlayerCount,
   createUserCategories,
   updatePlayers,
 } from '../../GameCreation/utils/http'
+import { inLobby } from '../utils/utils'
 
 type PlayerSlotsProps = {
   data: DocumentData | undefined
@@ -49,8 +48,8 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
     mutate({ roomId: params.roomId!, updatedData })
   }
 
-  useEffect(() => {
-    if (params.roomId == undefined || !currentUser || !data) return
+  const addToLobby = useCallback(() => {
+    if (!params.roomId || !currentUser || !data) return
 
     const currIndex = data?.slots.findIndex(
       (slot: PlayerData) => slot.uid === currentUser?.uid
@@ -70,10 +69,12 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
       mutate({ roomId: params.roomId, updatedData })
       addPlayerCount(params.roomId)
       createUserCategories(params.roomId, currentUser.uid)
-
-      // handleUpdate(updatedData)
     }
-  }, [data, params.roomId, mutate, currentUser])
+  }, [currentUser, data, mutate, params.roomId])
+
+  useEffect(() => {
+    addToLobby()
+  }, [addToLobby])
 
   // if (isPending) {
   //   return <span>Loading...</span>
@@ -82,6 +83,8 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
   // if (isError) {
   //   return <span>Error: {error.message}</span>
   // }
+
+  console.log(currentUser)
 
   return (
     <>
@@ -96,7 +99,15 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
               key={slot.slotNr}
               className="flex items-center justify-start gap-2 px-4 py-1 border-2 rounded-3xl bg-amber-600"
             >
-              <img src={uid ? img : emptyImg} alt="" className="w-10" />
+              <img
+                src={
+                  uid && currentUser?.photoURL
+                    ? currentUser?.photoURL
+                    : emptyAvatar
+                }
+                alt=""
+                className="w-10"
+              />
               <span className="text-xl">
                 {uid ? displayName : 'Empty Slot'}
               </span>

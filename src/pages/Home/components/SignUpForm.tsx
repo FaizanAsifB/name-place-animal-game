@@ -6,12 +6,16 @@ import Button from '../../../components/ui/Button'
 import FormInput from '../../../components/ui/FormInput'
 import { auth, db } from '../../../config/config'
 import { SignUpSchema, signUpSchema } from '../../../lib/types'
+import { useAtom } from 'jotai'
+import { avatarAtom, displayImages } from '../../../utils/utils'
 
 type SignUpFormProps = {
   onClose: () => void
 }
 
 const SignUpForm = ({ onClose }: SignUpFormProps) => {
+  const [avatarIndex] = useAtom(avatarAtom)
+
   const {
     register,
     handleSubmit,
@@ -28,12 +32,14 @@ const SignUpForm = ({ onClose }: SignUpFormProps) => {
       try {
         await updateProfile(res.user, {
           displayName,
+          photoURL: displayImages[avatarIndex].path,
         })
 
         await setDoc(doc(db, 'users', res.user.uid), {
           uid: res.user.uid,
           displayName,
           email,
+          photoURL: res.user.photoURL,
           isAnonymous: res.user.isAnonymous,
         })
         onClose()

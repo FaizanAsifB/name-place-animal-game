@@ -18,12 +18,11 @@ import TabPanel from './components/TabPanel'
 const Auth = () => {
   const [showGuest, setShowGuest] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
-  // const [dpIndex, setDpIndex] = useState(0)
 
   const currentUser = useContext(AuthContext)
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
-  const [dpIndex] = useAtom(avatarAtom)
+  const [avatarIndex] = useAtom(avatarAtom)
 
   function handleTabClick(e: React.MouseEvent<HTMLButtonElement>) {
     if (e.currentTarget.ariaSelected == 'true') return
@@ -67,7 +66,7 @@ const Auth = () => {
       if (data) return setErrorMessage('User already exists!')
 
       try {
-        await guestSignIn(displayName, dpIndex)
+        await guestSignIn(displayName, avatarIndex)
         return navigate('game-creation')
       } catch (error) {
         throw new Error('There was an error creating a guest user')
