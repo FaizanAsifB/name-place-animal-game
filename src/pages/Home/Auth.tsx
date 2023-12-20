@@ -57,13 +57,13 @@ const Auth = () => {
       return setErrorMessage('Please enter a valid nickname')
 
     if (guestSchema.safeParse(displayName).success) {
-      const data = await queryData('users', {
+      const res = await queryData('users', {
         property: 'displayName',
-        sign: '==',
+        operator: '==',
         value: displayName,
       })
-
-      if (data) return setErrorMessage('User already exists!')
+      console.log(res)
+      if (res) return setErrorMessage('User already exists!')
 
       try {
         await guestSignIn(displayName, avatarIndex)

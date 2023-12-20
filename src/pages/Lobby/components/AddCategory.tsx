@@ -73,8 +73,6 @@ const AddCategory = ({
     closeModal()
   }
 
-  console.log(allCategories)
-
   function filterCategories(category: string, categoryNr: string) {
     const exists =
       allCategories?.filter(

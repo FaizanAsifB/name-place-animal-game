@@ -10,9 +10,10 @@ export const makePlayerSlots = (
   slots[0] = {
     slotNr: 0,
     displayName: currentUser?.displayName,
-    uid: currentUser!.uid,
+    uid: currentUser?.uid,
     isReady: false,
     isHost: true,
+    photoUrl: currentUser?.photoURL,
   }
 
   return slots
@@ -23,6 +24,7 @@ export const makePlayerSlots = (
         uid: '',
         isReady: false,
         isHost: false,
+        photoUrl: '',
       },
       1
     )

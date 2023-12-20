@@ -26,9 +26,9 @@ export const fetchLobbyData = async (roomId: string, col: CollectionEnum) => {
 
 export const queryData = async (
   document: string,
-  { property, sign, value }: Q
+  { property, operator, value }: Q
 ) => {
-  const q = query(collection(db, document), where(property, sign, value))
+  const q = query(collection(db, document), where(property, operator, value))
   try {
     const querySnapshot = await getDocs(q)
 
@@ -41,3 +41,5 @@ export const queryData = async (
     throw new Error('error fetching data')
   }
 }
+
+export const getPhotoURL = () => {}

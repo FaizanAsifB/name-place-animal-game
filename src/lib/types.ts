@@ -48,6 +48,7 @@ export type PlayerData = {
   displayName: string
   slotNr: number
   isHost: boolean
+  photoUrl: string
 }
 
 export const customCategoriesSchema = z
@@ -173,6 +174,6 @@ export type UpdateScoreData = {
 
 export type Q = {
   property: string
-  sign: WhereFilterOp
+  operator: WhereFilterOp
   value: string
 }

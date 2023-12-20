@@ -10,6 +10,7 @@ import emptyAvatar from '../../../../public/images/emptyAvatar.svg'
 import { AuthContext } from '../../../context/AuthContext'
 
 import { PlayerData } from '../../../lib/types'
+import { queryData } from '../../../utils/fetchData'
 import {
   addPlayerCount,
   createUserCategories,
@@ -65,6 +66,7 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
         ...data.slots[i],
         displayName: currentUser.displayName,
         uid: currentUser.uid,
+        photoUrl: currentUser.photoURL,
       })
       mutate({ roomId: params.roomId, updatedData })
       addPlayerCount(params.roomId)
@@ -83,8 +85,22 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
   // if (isError) {
   //   return <span>Error: {error.message}</span>
   // }
+  // const photoUrl = async () => {
+  //   if (!currentUser) return
 
-  console.log(currentUser)
+  //   try {
+  //     const res = await queryData('users', {
+  //       property: 'uid',
+  //       operator: '==',
+  //       value: currentUser?.uid,
+  //     })
+  //     return res?.photoURL
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
+
+  // console.log(photoUrl())
 
   return (
     <>
@@ -100,11 +116,7 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
               className="flex items-center justify-start gap-2 px-4 py-1 border-2 rounded-3xl bg-amber-600"
             >
               <img
-                src={
-                  uid && currentUser?.photoURL
-                    ? currentUser?.photoURL
-                    : emptyAvatar
-                }
+                src={uid ? slot.photoUrl : emptyAvatar}
                 alt=""
                 className="w-10"
               />

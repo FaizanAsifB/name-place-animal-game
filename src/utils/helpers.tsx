@@ -3,5 +3,3 @@ export const getSum = (values: number[]): number => {
     return acc + score
   }, 0)
 }
-
-export const getPhototURL = () => {}
