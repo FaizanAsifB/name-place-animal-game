@@ -42,12 +42,12 @@ const SettingsForm = () => {
     defaultValues: {
       roundTime: 60,
       rounds: 6,
-      // name: true,
-      // place: true,
-      // animal: true,
-      // thing: false,
-      // occupations: false,
-      // technology: false,
+      name: true,
+      place: true,
+      animal: true,
+      thing: false,
+      occupations: false,
+      technology: false,
       endMode: 'ROUND-TIMER',
       customCategory1: '',
       customCategory2: '',
@@ -176,7 +176,9 @@ const SettingsForm = () => {
           <h5>Custom Categories</h5>
           <div className="grid grid-cols-2 gap-2">
             <div className="relative">
-              <ErrorText>{errors.customCategory1?.message}</ErrorText>
+              <ErrorText align={'left'}>
+                {errors.customCategory1?.message}
+              </ErrorText>
               <input
                 {...register('customCategory1')}
                 type="text"
@@ -186,7 +188,9 @@ const SettingsForm = () => {
               />
             </div>
             <div className="relative">
-              <ErrorText>{errors.customCategory2?.message}</ErrorText>
+              <ErrorText align={'left'}>
+                {errors.customCategory2?.message}
+              </ErrorText>
 
               <input
                 {...register('customCategory2')}

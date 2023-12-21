@@ -106,11 +106,11 @@ export const getRoundsData = (customCategories: string[], rounds: number) => {
           : [addedCategory],
       }
     }
-    // !Change empty category logic
+
     return {
       alphabet: activeAlphabet,
-      // categories: remainingCategories.length === 0 ? [''] : [addedCategory],
       categories: [addedCategory ?? ''],
+      activeCategories: [] as string[],
     }
   })
   return roundsData

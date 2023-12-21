@@ -8,7 +8,7 @@ import { AuthContext } from '../../context/AuthContext'
 import { useOnSnapShot } from '../../hooks/useOnSnapShot'
 import { CreateGameData, GameState } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
-import { createGameData, updateGameState } from '../GameCreation/utils/http'
+import { createRoundsData, updateGameState } from '../GameCreation/utils/http'
 import CategoriesList from './components/CategoriesList'
 import PlayerSlots from './components/PlayerSlots'
 import SettingsList from './components/SettingsList'
@@ -27,6 +27,7 @@ const Lobby = () => {
     roomId: params.roomId!,
   })
 
+  //!Can remove this once game state logic is updated
   const isHost = data?.hostId === currentUser?.uid
 
   const ready = readyPlayers(data)
@@ -40,19 +41,37 @@ const Lobby = () => {
 
   async function handlePlay() {
     const categoriesData = await fetchLobbyData(params.roomId!, 'categories')
-    const rounds = await fetchLobbyData(params.roomId!, 'lobbies')
+    const settingsData = await fetchLobbyData(params.roomId!, 'lobbies')
     const customCategories = categoriesArr(categoriesData)
-    const gameData: CreateGameData = {
-      categories: {
-        default: categoriesData?.default,
-        custom: customCategories,
-        active: categoriesData?.default,
-      },
+    const roundSelections = getRoundsData(
+      customCategories!,
+      settingsData?.settings.rounds
+    )
+    roundSelections.forEach((round, i) => {
+      round.activeCategories =
+        i === 0
+          ? [...categoriesData!.default, ...round.categories]
+          : !round.categories.toString()
+          ? roundSelections[i - 1].activeCategories
+          : [...roundSelections[i - 1].activeCategories!, ...round.categories]
+    })
+    console.log(roundSelections)
 
+    const roundData: CreateGameData = {
       currentRound: 1,
-      rounds: getRoundsData(customCategories!, rounds?.settings.rounds),
+      rounds: roundSelections,
     }
-    await createGameData(params.roomId!, gameData)
+    // const gameData: CreateGameData = {
+    //   categories: {
+    //     default: categoriesData?.default,
+    //     custom: customCategories,
+    //     active: categoriesData?.default,
+    //   },
+
+    //   currentRound: 1,
+    //   rounds: getRoundsData(customCategories!, settingsData?.settings.rounds),
+    // }
+    await createRoundsData(params.roomId!, roundData)
 
     await updateGameState('INIT', params.roomId!)
     //!Remove navigate? Same logic as other routes?

@@ -62,8 +62,7 @@ const Auth = () => {
         operator: '==',
         value: displayName,
       })
-      console.log(res)
-      if (res) return setErrorMessage('User already exists!')
+      res && setErrorMessage('User already exists!')
 
       try {
         await guestSignIn(displayName, avatarIndex)

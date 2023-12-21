@@ -19,9 +19,9 @@ import {
 } from '../../GameCreation/utils/http'
 
 const CategoryInputs = () => {
-  const [numInputs, setNumInputs] = useState<Record<string, number> | null>(
-    null
-  )
+  // const [numInputs, setNumInputs] = useState<Record<string, number> | null>(
+  //   null
+  // )
 
   const currentUser = useContext(AuthContext)
   const params = useParams()
@@ -57,16 +57,18 @@ const CategoryInputs = () => {
   //   roundCategories.forEach((category: string) => (inputs[category] = 1))
   //   setNumInputs(inputs)
   // }
-  const calcInputs = useMemo(() => {
-    if (!gameData?.categories.active) return
-    const inputs: Record<string, number> = {}
-    gameData?.categories.active.forEach(
-      (category: string) => (inputs[category] = 1)
-    )
 
-    setNumInputs(inputs)
-    return inputs
-  }, [gameData]) as Record<string, number> | null
+  //!CalcInputs
+  // const calcInputs = useMemo(() => {
+  //   if (!gameData?.categories.active) return
+  //   const inputs: Record<string, number> = {}
+  //   gameData?.categories.active.forEach(
+  //     (category: string) => (inputs[category] = 1)
+  //   )
+
+  //   setNumInputs(inputs)
+  //   return inputs
+  // }, [gameData]) as Record<string, number> | null
 
   // if (!numInputs) calcInputs()
 
@@ -84,14 +86,7 @@ const CategoryInputs = () => {
         )
       })()
     //navigate to next stage
-  }, [
-    gameData?.gameState,
-    navigate,
-    numInputs,
-    gameData,
-    params.roomId,
-    calcInputs,
-  ])
+  }, [gameData, params.roomId])
 
   function addInput(category: string) {
     if (numInputs)
@@ -143,9 +138,11 @@ const CategoryInputs = () => {
       totalScore: 0,
     }
 
-    await submitAnswers(answers, params.roomId!, gameData!.currentRound)
-    gameData?.currentRound === 1 &&
-      (await createScoresData(params.roomId!, currentUser!.uid, scoreData))
+    console.log(answers)
+
+    // await submitAnswers(answers, params.roomId!, gameData!.currentRound)
+    // gameData?.currentRound === 1 &&
+    //   (await createScoresData(params.roomId!, currentUser!.uid, scoreData))
 
     // const { category1, category2 } = data
   }

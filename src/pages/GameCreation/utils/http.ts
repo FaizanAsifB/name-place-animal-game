@@ -162,10 +162,12 @@ export const updateGameState = async (gameState: GameState, roomId: string) => {
   }
 }
 
-export const createGameData = async (lobbyId: string, data: CreateGameData) => {
+export const createRoundsData = async (
+  lobbyId: string,
+  data: CreateGameData
+) => {
   try {
-    const res = await updateDoc(doc(db, 'gameRooms', lobbyId), data)
-    return res
+    await setDoc(doc(db, 'rounds', lobbyId), data)
   } catch (error) {
     throw new Error('There was an error creating game')
   }

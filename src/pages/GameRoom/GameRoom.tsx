@@ -5,21 +5,28 @@ import {
   useParams,
 } from 'react-router-dom'
 
-import { FireStoreError, GameData, GameSettings } from '../../lib/types'
+import {
+  CreateGameData,
+  FireStoreError,
+  GameData,
+  GameSettings,
+} from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 
 import { useEffect } from 'react'
 import { useOnSnapShot } from '../../hooks/useOnSnapShot'
 import CategoryInputs from './components/CategoryInputs'
 import Clock from './components/Clock'
+import FieldArrayTest from './components/FieldArrayTest'
 
 const GameRoom = () => {
   // const [activeAlphabet, setActiveAlphabet] = useState<string | null>(null)
 
-  const { settings, gameData } = useLoaderData() as {
+  const { settings, roundsData } = useLoaderData() as {
     settings: GameSettings
-    gameData: GameData
+    roundsData: CreateGameData
   }
+
   const params = useParams()
   const navigate = useNavigate()
 
@@ -37,22 +44,22 @@ const GameRoom = () => {
       <div className="flex justify-end gap-4">
         <Clock roundTime={settings?.settings.roundTime} />
         <div>
-          {gameData
-            ? gameData?.rounds[gameData?.currentRound - 1].alphabet
+          {roundsData
+            ? roundsData?.rounds[roundsData?.currentRound - 1].alphabet
             : 'loading.....'}
         </div>
       </div>
-      <CategoryInputs />
+      <FieldArrayTest />
     </div>
   )
 }
 export default GameRoom
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const gameData = await fetchLobbyData(params.roomId!, 'gameRooms')
+  const roundsData = await fetchLobbyData(params.roomId!, 'rounds')
   const settings = await fetchLobbyData(params.roomId!, 'lobbies')
 
-  return { gameData, settings }
+  return { roundsData, settings }
 
   // return queryClient.fetchQuery({
   //   queryKey: ['events', params.id],

@@ -12,14 +12,13 @@ export const settingsInputSchema = z
     thing: z.boolean(),
     occupations: z.boolean(),
     technology: z.boolean(),
-    // categories: defaultCategoriesSchema,
     endMode: z.enum(['FASTEST-FINGER', 'ROUND-TIMER']),
     customCategory1: z
       .string()
       .min(1, { message: 'You must submit two categories' }),
-    customCategory2: z.string({
-      required_error: 'Custom Category 2 is required',
-    }),
+    customCategory2: z
+      .string()
+      .min(1, { message: 'You must submit two categories' }),
   })
   .refine(
     data =>

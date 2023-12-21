@@ -4,6 +4,7 @@ import {
   WhereFilterOp,
 } from 'firebase/firestore'
 import { z } from 'zod'
+import { getRoundsData } from '../pages/Lobby/utils/utils'
 
 export const CollectionEnum = z.enum([
   'lobbies',
@@ -11,6 +12,7 @@ export const CollectionEnum = z.enum([
   'users',
   'categories',
   'gameRooms',
+  'rounds',
 ])
 export type CollectionEnum = z.infer<typeof CollectionEnum>
 
@@ -100,17 +102,21 @@ export type GameState =
   | 'GAME-COMPLETED'
 
 export type CreateGameData = {
-  categories: {
-    default: string[]
-    custom: string[] | undefined
-    active: string[]
-  }
   currentRound: number
-  rounds: {
-    alphabet: string
-    categories: string[]
-  }[]
+  rounds: RoundsData
 }
+
+export type RoundsData = ReturnType<typeof getRoundsData>
+// categories: {
+//   default: string[]
+//   custom: string[] | undefined
+//   active: string[]
+// }
+// currentRound: number
+// rounds: {
+//   alphabet: string
+//   categories: string[]
+// }[]
 
 export type RoundSettings = {
   roundTime: number

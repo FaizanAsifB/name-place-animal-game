@@ -35,7 +35,7 @@ export const queryData = async (
     // querySnapshot.forEach(doc => {
     //   data = doc.data()
     // })
-    return querySnapshot.docs[0].data()
+    return querySnapshot?.docs[0]?.data()
   } catch (error) {
     throw new Error('error fetching data')
   }

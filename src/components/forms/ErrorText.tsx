@@ -1,6 +1,13 @@
-const ErrorText = ({ children }: { children?: React.ReactNode }) => {
+type ErrorTextProps = {
+  children?: React.ReactNode
+  align: string
+}
+
+const ErrorText = ({ children, align }: ErrorTextProps) => {
   return (
-    <p className="absolute right-0 mb-1 text-xs text-orange-700 bottom-full">
+    <p
+      className={`absolute mb-1 text-xs text-orange-700 bottom-full ${align}-0`}
+    >
       {children}
     </p>
   )

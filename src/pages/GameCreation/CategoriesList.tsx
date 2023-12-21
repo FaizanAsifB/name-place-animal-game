@@ -31,7 +31,6 @@ const CategoriesList = ({ control }: CategoriesListProps) => {
   const error = checkedCategories.filter(c => c).length === 4
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(e.target)
     setIsChecked({
       ...isChecked,
       [e.target.name]: e.target.checked,

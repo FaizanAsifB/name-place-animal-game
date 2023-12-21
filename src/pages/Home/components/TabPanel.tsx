@@ -1,11 +1,11 @@
 import CachedIcon from '@mui/icons-material/Cached'
+import CircularProgress from '@mui/material/CircularProgress'
+import { useAtom } from 'jotai'
 import { forwardRef, useContext } from 'react'
 import ErrorText from '../../../components/forms/ErrorText'
 import { AuthContext } from '../../../context/AuthContext'
 import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
 import { avatarAtom, displayImages } from '../../../utils/utils'
-import CircularProgress from '@mui/material/CircularProgress'
-import { useAtom } from 'jotai'
 
 type TabPanelProps = {
   showGuest: boolean
@@ -59,14 +59,14 @@ const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
               <>
                 <p>Enter code to join!</p>
                 <div className="relative">
-                  <ErrorText>{errorMessage}</ErrorText>
+                  <ErrorText align={'right'}>{errorMessage}</ErrorText>
                   <input ref={ref} type="text" placeholder="G2F3X" />
                 </div>
               </>
             )}
             {showGuest && !currentUser ? (
               <>
-                <ErrorText>{errorMessage}</ErrorText>
+                <ErrorText align={'right'}>{errorMessage}</ErrorText>
                 <input
                   ref={ref}
                   className=""
