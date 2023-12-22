@@ -55,22 +55,12 @@ const Lobby = () => {
           ? roundSelections[i - 1].activeCategories
           : [...roundSelections[i - 1].activeCategories!, ...round.categories]
     })
-    console.log(roundSelections)
 
     const roundData: CreateGameData = {
       currentRound: 1,
       rounds: roundSelections,
     }
-    // const gameData: CreateGameData = {
-    //   categories: {
-    //     default: categoriesData?.default,
-    //     custom: customCategories,
-    //     active: categoriesData?.default,
-    //   },
 
-    //   currentRound: 1,
-    //   rounds: getRoundsData(customCategories!, settingsData?.settings.rounds),
-    // }
     await createRoundsData(params.roomId!, roundData)
 
     await updateGameState('INIT', params.roomId!)

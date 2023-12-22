@@ -137,9 +137,12 @@ export type LobbySettings = {
   settings: RoundSettings
 }
 
-export type Answers = Record<string, string[]>
+export type AnswerInputs = Record<string, { answer: string }[]>
+
+export type Answer = Record<string, string[]>
+// export type Answers = Record<string, Answer>
 export type AnswersData = {
-  [key: string]: Answers
+  [key: string]: Answer
 }
 
 export type PlayersData = {

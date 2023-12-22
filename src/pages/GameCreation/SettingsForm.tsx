@@ -149,6 +149,7 @@ const SettingsForm = () => {
             )}
           />
         </li>
+        {/* list of categories to display */}
         <CategoriesList control={control} />
         <li>
           <h5>Round End Mode</h5>

@@ -1,9 +1,16 @@
 import { Fragment, useContext, useEffect } from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
+import {
+  Controller,
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+} from 'react-hook-form'
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '../../../context/AuthContext'
 import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
 import {
+  Answer,
+  AnswerInputs,
   Answers,
   AnswersData,
   FireStoreError,
@@ -12,11 +19,12 @@ import {
   ScoreData,
 } from '../../../lib/types'
 import {
+  createScoresData,
+  submitAnswers,
   updateActiveCategories,
   updateGameState,
 } from '../../GameCreation/utils/http'
-
-type AnswerInputs = Record<string, { answer: string }[]>
+import CategoryAnswers from './CategoryAnswers'
 
 const FieldArrayTest = () => {
   const currentUser = useContext(AuthContext)
@@ -28,27 +36,13 @@ const FieldArrayTest = () => {
     settings: GameSettings
   }
 
-  const activeCategories =
+  const activeCategories: string[] =
     roundsData.rounds[roundsData.currentRound - 1].activeCategories
-
-  console.log(activeCategories)
 
   const { data: gameData } = useOnSnapShot({
     docRef: 'gameRooms',
     roomId: params.roomId!,
   }) as { data: GameData | undefined; error: FireStoreError }
-
-  function addInput() {
-    append({ answer: '' })
-  }
-
-  function handleEnter(e: React.KeyboardEvent<HTMLInputElement>) {
-    e.nativeEvent.stopImmediatePropagation()
-    if (e.code === 'NumpadEnter' || e.code === 'Enter') {
-      e.preventDefault()
-      append({ answer: '' })
-    }
-  }
 
   //!check donePlayers logic
   const donePlayers = () => {
@@ -64,52 +58,76 @@ const FieldArrayTest = () => {
     updateGameState('ROUND-ENDED', params.roomId!)
   }
 
-  const { handleSubmit, register, control } = useForm<AnswerInputs>({
-    defaultValues: {
-      name: [
-        {
-          answer: '',
-        },
-      ],
-      place: [
-        {
-          answer: '',
-        },
-      ],
-    },
+  const defaultValues = {} as AnswerInputs
+
+  activeCategories.forEach(c => {
+    defaultValues[c] = [{ answer: '' }]
   })
 
-  const { fields, append } = useFieldArray({
-    name: 'name',
+  const {
+    handleSubmit,
+    register,
     control,
-  })
-  const { fields: placeFields, append: appendPlace } = useFieldArray({
-    name: 'place',
-    control,
+    setError,
+    watch,
+    getValues,
+    clearErrors,
+    formState: { errors },
+  } = useForm<AnswerInputs>({
+    defaultValues,
+    // name: [
+    //   {
+    //     answer: '',
+    //   },
+    // ],
+    // place: [
+    //   {
+    //     answer: '',
+    //   },
+    // ],
   })
 
-  const onSubmit = async (data: Answers) => {
-    const answers: AnswersData = { [currentUser!.uid]: data }
-    if (settings.settings.endMode === 'FASTEST-FINGER')
+  // const { fields, append } = useFieldArray({
+  //   name: 'name',
+  //   control,
+  // })
+  // const { fields: placeFields, append: appendPlace } = useFieldArray({
+  //   name: 'place',
+  //   control,
+  // })
+
+  const onSubmit = async (data: AnswerInputs) => {
+    const formattedData = {} as Answer
+    for (const category in data) {
+      formattedData[category] = data[category].map(v => v.answer)
+    }
+    const answers = { [currentUser!.uid]: formattedData }
+    console.log(answers)
+    if (
+      settings.settings.endMode === 'FASTEST-FINGER' &&
+      gameData?.gameState !== 'END-TIMER'
+    )
       await updateGameState('END-TIMER', params.roomId!)
 
+    //!Todo create this while starting the game
     const scoreData: ScoreData = {
       scoresCategory: [],
       scoreRounds: [],
       totalScore: 0,
     }
 
-    console.log(answers)
+    // console.log(answers)
 
-    // await submitAnswers(answers, params.roomId!, gameData!.currentRound)
-    // gameData?.currentRound === 1 &&
-    //   (await createScoresData(params.roomId!, currentUser!.uid, scoreData))
+    await submitAnswers(answers, params.roomId!, gameData!.currentRound)
+    gameData?.currentRound === 1 &&
+      (await createScoresData(params.roomId!, currentUser!.uid, scoreData))
     // const { category1, category2 } = data
   }
 
   if (
     gameData &&
     gameData.gameState === 'ROUND-ENDED' &&
+    //!change to !isSubmitted
     (!gameData?.answers ||
       !gameData?.answers[`round${gameData?.currentRound}`].find(
         answer => Object.keys(answer)[0] === currentUser?.uid
@@ -120,40 +138,25 @@ const FieldArrayTest = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <ul>
-        <li>
-          <label htmlFor="field">Name</label>
-          {fields.map((field, index) => {
-            return (
-              <input
-                key={field.id}
-                type="text"
-                {...register(`name.${index}.answer` as const)}
-                onKeyDown={handleEnter}
-              />
-            )
-          })}
-          <button type="button" onClick={addInput}>
-            +
-          </button>
-        </li>
-        <li>
-          <label htmlFor="placeFields">Place</label>
-          {placeFields.map((placeField, index) => {
-            return (
-              <input
-                key={placeField.id}
-                type="text"
-                {...register(`place.${index}.answer` as const)}
-                onKeyDown={handleEnter}
-              />
-            )
-          })}
-          <button type="button" onClick={() => appendPlace({ answer: '' })}>
-            +
-          </button>
-        </li>
+        {activeCategories.map(category => (
+          // <Fragment>
+          <CategoryAnswers
+            key={category}
+            category={category}
+            register={register}
+            control={control}
+            watch={watch}
+            getValues={getValues}
+            setError={setError}
+            clearErrors={clearErrors}
+            errors={errors}
+          />
+          // </Fragment>
+        ))}
       </ul>
-      <button type="submit">Done</button>
+      <button type="submit" onClick={() => clearErrors()}>
+        Done
+      </button>
     </form>
   )
 }

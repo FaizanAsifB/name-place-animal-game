@@ -178,7 +178,7 @@ export const submitAnswers = async (
   roomId: string,
   currentRound: number
 ) => {
-  const ref = doc(db, 'gameRooms', roomId)
+  const ref = doc(db, 'rounds', roomId)
   try {
     await updateDoc(ref, {
       [`answers.round${currentRound}`]: arrayUnion(answers),
@@ -194,7 +194,7 @@ export const createScoresData = async (
   data: ScoreData
 ) => {
   try {
-    const res = await updateDoc(doc(db, 'gameRooms', lobbyId), {
+    const res = await updateDoc(doc(db, 'rounds', lobbyId), {
       [`scores.${uid}`]: data,
     })
     return res
