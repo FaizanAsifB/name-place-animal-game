@@ -62,7 +62,6 @@ const CategoryAnswers = () => {
 
   async function handleScoring() {
     const roundScore = getSum(Object.values(scores!))
-    console.log(roundScore)
     const scoreData: UpdateScoreData = {
       scoresCategory: scores,
       roundScore,

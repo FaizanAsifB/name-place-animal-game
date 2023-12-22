@@ -19,8 +19,7 @@ function Modal({ children, isOpen, className = '', onClose }: ModalProps) {
   }, [isOpen])
 
   // function handleBlur(e: React.MouseEvent<HTMLDialogElement, MouseEvent>) {
-  //   console.log(e.target)
-  //   console.log(e.currentTarget)
+  //
   //   if (e.target) return
   //   dialog.current!.close()
   // }

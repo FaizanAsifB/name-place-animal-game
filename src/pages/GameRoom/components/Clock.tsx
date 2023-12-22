@@ -23,7 +23,6 @@ const Clock = ({ roundTime }: ClockProps) => {
   const gameState: GameState = gameData?.gameState || 'INIT'
   if (timeRemaining === 0 && gameState !== 'ROUND-ENDED')
     updateGameState('ROUND-ENDED', params.roomId!)
-  // console.log(gameData?.gameState)
 
   useEffect(() => {
     switch (gameState) {

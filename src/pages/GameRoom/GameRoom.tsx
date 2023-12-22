@@ -15,13 +15,10 @@ import { fetchLobbyData } from '../../utils/fetchData'
 
 import { useEffect } from 'react'
 import { useOnSnapShot } from '../../hooks/useOnSnapShot'
-import CategoryInputs from './components/CategoryInputs'
 import Clock from './components/Clock'
-import FieldArrayTest from './components/FieldArrayTest'
+import Answers from './components/Answers'
 
 const GameRoom = () => {
-  // const [activeAlphabet, setActiveAlphabet] = useState<string | null>(null)
-
   const { settings, roundsData } = useLoaderData() as {
     settings: GameSettings
     roundsData: CreateGameData
@@ -49,7 +46,7 @@ const GameRoom = () => {
             : 'loading.....'}
         </div>
       </div>
-      <FieldArrayTest />
+      <Answers />
     </div>
   )
 }

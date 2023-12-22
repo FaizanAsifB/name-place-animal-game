@@ -9,7 +9,7 @@ import {
   useFieldArray,
 } from 'react-hook-form'
 import ErrorText from '../../../components/forms/ErrorText'
-import { AnswerInputs } from './FieldArrayTest'
+import { AnswerInputs } from '../../../lib/types'
 
 type CategoryAnswers = {
   category: string
@@ -71,7 +71,9 @@ const CategoryAnswers = ({
               onKeyDown={e => handleEnter(e)}
             />
             {i === fields.length - 1 && (
-              <ErrorText align={'right'}>{errors[category]?.message}</ErrorText>
+              <ErrorText align={'right'}>
+                {errors?.[category]?.message?.toString()}
+              </ErrorText>
             )}
           </div>
         )

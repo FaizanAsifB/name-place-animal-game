@@ -89,7 +89,6 @@ const AddCategory = ({
 
   const onSubmit: SubmitHandler<CustomCategoriesType> = async data => {
     const { category1, category2 } = data
-    // console.log(filterCategories(category1))
 
     filterCategories(category1, '1')
     filterCategories(category2, '2')

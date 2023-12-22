@@ -99,8 +99,6 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
   //   }
   // }
 
-  // console.log(photoUrl())
-
   return (
     <>
       <h3 className="text-center">

@@ -4,6 +4,7 @@ import {
   collection,
   doc,
   getCountFromServer,
+  getDoc,
   increment,
   serverTimestamp,
   setDoc,
@@ -18,10 +19,10 @@ import {
   GameState,
   LobbySettings,
   PlayerData,
-  ScoreData,
   UpdateScoreData,
 } from '../../../lib/types'
 import {} from '../SettingsForm'
+import { fetchLobbyData } from '../../../utils/fetchData'
 
 export const uploadCategories = async (
   categories: Categories,
@@ -183,6 +184,14 @@ export const submitAnswers = async (
     await updateDoc(ref, {
       [`answers.round${currentRound}`]: arrayUnion(answers),
     })
+
+    try {
+      const res = await fetchLobbyData(roomId, 'rounds')
+      const answers: number = res?.answers[`round${currentRound}`].length
+      return answers
+    } catch (error) {
+      throw Error('Error creating')
+    }
   } catch (error) {
     throw Error('Error creating')
   }
@@ -190,12 +199,16 @@ export const submitAnswers = async (
 
 export const createScoresData = async (
   lobbyId: string,
-  uid: string,
-  data: ScoreData
+  uid: string
+  // data: ScoreData
 ) => {
   try {
     const res = await updateDoc(doc(db, 'rounds', lobbyId), {
-      [`scores.${uid}`]: data,
+      [`scores.${uid}`]: {
+        scoresCategory: [],
+        scoreRounds: [],
+        totalScore: 0,
+      },
     })
     return res
   } catch (error) {

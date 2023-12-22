@@ -8,7 +8,11 @@ import { AuthContext } from '../../context/AuthContext'
 import { useOnSnapShot } from '../../hooks/useOnSnapShot'
 import { CreateGameData, GameState } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
-import { createRoundsData, updateGameState } from '../GameCreation/utils/http'
+import {
+  createRoundsData,
+  createScoresData,
+  updateGameState,
+} from '../GameCreation/utils/http'
 import CategoriesList from './components/CategoriesList'
 import PlayerSlots from './components/PlayerSlots'
 import SettingsList from './components/SettingsList'
@@ -62,6 +66,10 @@ const Lobby = () => {
     }
 
     await createRoundsData(params.roomId!, roundData)
+
+    data?.slots.map(async slot => {
+      if (slot.displayName) await createScoresData(params.roomId!, slot.uid)
+    })
 
     await updateGameState('INIT', params.roomId!)
     //!Remove navigate? Same logic as other routes?

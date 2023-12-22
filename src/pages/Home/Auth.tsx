@@ -41,7 +41,6 @@ const Auth = () => {
         value: gameCode,
       })
       // if (res) return setErrorMessage('User already exists!')
-      console.log(res?.lobbyId)
       res
         ? navigate(`/lobby/${res?.lobbyId}`)
         : setErrorMessage('Enter a valid gameCode')

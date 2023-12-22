@@ -50,7 +50,6 @@ const SignUpForm = ({ onClose }: SignUpFormProps) => {
       throw new Error('There was an error signing up')
     }
   }
-  console.log(errors)
 
   return (
     <>

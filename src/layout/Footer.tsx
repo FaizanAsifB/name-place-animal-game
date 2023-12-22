@@ -10,7 +10,6 @@ const Footer = () => {
 
   async function signOutUser() {
     signOut(auth)
-    console.log(currentUser)
   }
 
   return (

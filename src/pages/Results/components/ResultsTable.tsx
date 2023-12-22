@@ -7,8 +7,6 @@ const ResultsTable = () => {
     (a, b) => b[1].totalScore - a[1].totalScore
   )
 
-  console.log(scoresData)
-
   return (
     <table>
       <thead>

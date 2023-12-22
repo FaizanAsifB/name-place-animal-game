@@ -31,7 +31,6 @@ export const queryData = async (
   const q = query(collection(db, document), where(property, operator, value))
   try {
     const querySnapshot = await getDocs(q)
-    // console.log(querySnapshot.docs[0].data())
     // querySnapshot.forEach(doc => {
     //   data = doc.data()
     // })
