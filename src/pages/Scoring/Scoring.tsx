@@ -2,11 +2,11 @@ import { useEffect } from 'react'
 import { LoaderFunction, useNavigate, useParams } from 'react-router-dom'
 
 import { useOnSnapShot } from '../../hooks/useOnSnapShot'
-import { GameData } from '../../lib/types'
+import { GameData, PlayerData } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 
 import { updateGameState } from '../GameCreation/utils/http'
-import CategoryAnswers from './components/CategoryAnswers'
+import CategoryScores from './components/CategoryScores'
 
 const Scoring = () => {
   const params = useParams()
@@ -29,14 +29,19 @@ const Scoring = () => {
       navigateToResult()
   }, [data, navigate, params.roomId])
 
-  return <CategoryAnswers />
+  return <CategoryScores />
 }
 export default Scoring
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const gameData = await fetchLobbyData(params.roomId!, 'gameRooms')
+  const roundData = await fetchLobbyData(params.roomId!, 'rounds')
+  const lobbyData = await fetchLobbyData(params.roomId!, 'lobbyPlayers')
 
-  return { gameData }
+  const userInfo: PlayerData[] = lobbyData?.slots.filter(
+    (slot: PlayerData) => slot.uid
+  )
+
+  return { roundData, userInfo }
 
   // return queryClient.fetchQuery({
   //   queryKey: ['events', params.id],

@@ -1,7 +1,10 @@
+import { useNavigate } from 'react-router-dom'
 import { FireStoreError, GameData } from '../lib/types'
 import { useOnSnapShot } from './useOnSnapShot'
 
-const useNextPhase = () => {
+const useNextPhase = roomId => {
+  const navigate = useNavigate()
+
   const { data } = useOnSnapShot({
     docRef: 'gameRooms',
     roomId,

@@ -42,7 +42,7 @@ const GameRoom = () => {
         <Clock roundTime={settings?.settings.roundTime} />
         <div>
           {roundsData
-            ? roundsData?.rounds[roundsData?.currentRound - 1].alphabet
+            ? roundsData?.roundsConfig[roundsData?.currentRound - 1].alphabet
             : 'loading.....'}
         </div>
       </div>

@@ -6,7 +6,12 @@ import Button from '../../components/ui/Button'
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { useOnSnapShot } from '../../hooks/useOnSnapShot'
-import { CreateGameData, GameState } from '../../lib/types'
+import {
+  CreateGameData,
+  FireStoreError,
+  GameState,
+  PlayersData,
+} from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 import {
   createRoundsData,
@@ -16,7 +21,7 @@ import {
 import CategoriesList from './components/CategoriesList'
 import PlayerSlots from './components/PlayerSlots'
 import SettingsList from './components/SettingsList'
-import { categoriesArr, getRoundsData, readyPlayers } from './utils/utils'
+import { categoriesArr, getRoundsConfig, readyPlayers } from './utils/utils'
 
 const Lobby = () => {
   const navigate = useNavigate()
@@ -29,7 +34,7 @@ const Lobby = () => {
   const { data, error } = useOnSnapShot({
     docRef: 'lobbyPlayers',
     roomId: params.roomId!,
-  })
+  }) as { data: PlayersData; error: FireStoreError }
 
   //!Can remove this once game state logic is updated
   const isHost = data?.hostId === currentUser?.uid
@@ -47,7 +52,7 @@ const Lobby = () => {
     const categoriesData = await fetchLobbyData(params.roomId!, 'categories')
     const settingsData = await fetchLobbyData(params.roomId!, 'lobbies')
     const customCategories = categoriesArr(categoriesData)
-    const roundSelections = getRoundsData(
+    const roundSelections = getRoundsConfig(
       customCategories!,
       settingsData?.settings.rounds
     )
@@ -62,7 +67,7 @@ const Lobby = () => {
 
     const roundData: CreateGameData = {
       currentRound: 1,
-      rounds: roundSelections,
+      roundsConfig: roundSelections,
     }
 
     await createRoundsData(params.roomId!, roundData)

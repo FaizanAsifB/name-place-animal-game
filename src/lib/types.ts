@@ -4,7 +4,7 @@ import {
   WhereFilterOp,
 } from 'firebase/firestore'
 import { z } from 'zod'
-import { getRoundsData } from '../pages/Lobby/utils/utils'
+import { getRoundsConfig } from '../pages/Lobby/utils/utils'
 
 export const CollectionEnum = z.enum([
   'lobbies',
@@ -103,10 +103,11 @@ export type GameState =
 
 export type CreateGameData = {
   currentRound: number
-  rounds: RoundsData
+  roundsConfig: RoundsConfig
 }
 
-export type RoundsData = ReturnType<typeof getRoundsData>
+export type RoundsConfig = ReturnType<typeof getRoundsConfig>
+
 // categories: {
 //   default: string[]
 //   custom: string[] | undefined
@@ -139,14 +140,18 @@ export type LobbySettings = {
 
 export type AnswerInputs = Record<string, { answer: string }[]>
 
-export type Answer = Record<string, string[]>
-// export type Answers = Record<string, Answer>
+export type Answers = Record<string, string[]>
+
+export type UserAnswers = {
+  [key: string]: Answers
+}
+
 export type AnswersData = {
-  [key: string]: Answer
+  [key: string]: UserAnswers[]
 }
 
 export type PlayersData = {
-  answers: AnswersData
+  // answers: AnswersData
   gameState: GameState
   hostId: string
   lobbyId: string
@@ -164,9 +169,7 @@ export type GameData =
     } & CreateGameData)
   | undefined
 
-export type ScoresData = {
-  [x: string]: ScoreData
-}
+export type ScoresData = Record<string, ScoreData>
 
 export type ScoreData = {
   scoresCategory: (Record<string, number> | null)[]
@@ -186,3 +189,8 @@ export type Q = {
   operator: WhereFilterOp
   value: string
 }
+
+export type RoundsData = {
+  answers: AnswersData
+  scores: ScoresData
+} & CreateGameData

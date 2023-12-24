@@ -80,11 +80,11 @@ function getRandomIndex(max: number): number {
   return Math.floor(Math.random() * max)
 }
 
-export const getRoundsData = (customCategories: string[], rounds: number) => {
+export const getRoundsConfig = (customCategories: string[], rounds: number) => {
   let remainingAlphabets = alphabets
   let remainingCategories = customCategories
 
-  const roundsData = new Array(rounds).fill('').map((_, i) => {
+  const roundsConfig = new Array(rounds).fill('').map((_, i) => {
     const activeAlphabet = getRandomItem(remainingAlphabets)
     const addedCategory = getRandomItem(remainingCategories)
 
@@ -113,7 +113,7 @@ export const getRoundsData = (customCategories: string[], rounds: number) => {
       activeCategories: [] as string[],
     }
   })
-  return roundsData
+  return roundsConfig
 }
 
 const getRandomItem = <T>(data: T[]): T => {

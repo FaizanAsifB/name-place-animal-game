@@ -27,8 +27,9 @@ const Answers = () => {
   }
 
   const activeCategories = useMemo(() => {
-    return roundsData?.rounds[roundsData.currentRound - 1].activeCategories
-  }, [roundsData.currentRound, roundsData?.rounds])
+    return roundsData?.roundsConfig[roundsData.currentRound - 1]
+      .activeCategories
+  }, [roundsData.currentRound, roundsData?.roundsConfig])
 
   const { data: gameData } = useOnSnapShot({
     docRef: 'gameRooms',
