@@ -7,5 +7,6 @@ export const getSum = (values: number[]): number => {
 }
 
 export const getUserInfo = (slots: PlayerData[], uid: string) => {
-  return slots.find(slot => slot.uid === uid)
+  const userInfo = slots.find(slot => slot.uid === uid)
+  return { displayName: userInfo?.displayName, photoUrl: userInfo?.photoUrl }
 }

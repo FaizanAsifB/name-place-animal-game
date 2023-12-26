@@ -2,25 +2,20 @@ import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import { Fragment, useContext, useEffect, useMemo, useState } from 'react'
 import { useLoaderData, useParams } from 'react-router-dom'
+import UserInfo from '../../../components/ui/UserInfo'
 import { AuthContext } from '../../../context/AuthContext'
-import {
-  PlayerData,
-  PlayersData,
-  RoundsData,
-  UpdateScoreData,
-} from '../../../lib/types'
-import { getSum, getUserInfo } from '../../../utils/helpers'
+import { RoundsData, UpdateScoreData } from '../../../lib/types'
+import { getSum } from '../../../utils/helpers'
 import { updateScoresData } from '../../GameCreation/utils/http'
 import { getScoringData } from '../utils/helpers'
-import AnswerToCorrect from './AnswerToCorrect'
-import UserInfo from '../../../components/ui/UserInfo'
+import AnswersList from './AnswersList'
 
 const CategoryScores = () => {
   const [scores, setScores] = useState<Record<string, number> | null>(null)
 
-  const { roundData, userInfo } = useLoaderData() as {
+  const { roundData } = useLoaderData() as {
     roundData: RoundsData
-    userInfo: PlayerData[]
+    // userInfo: PlayerData[]
   }
   const currentUser = useContext(AuthContext)
   const params = useParams()
@@ -44,6 +39,7 @@ const CategoryScores = () => {
     return getScoringData(roundData, currentRound, currentUser?.uid)
   }, [currentUser?.uid, roundData, currentRound])
 
+  //state for radio buttons
   function handleScores(
     event: React.MouseEvent<HTMLElement>,
     newScore: string | null
@@ -86,36 +82,25 @@ const CategoryScores = () => {
           // Answers to correct
           Object.entries(scoringData.answersToCorrect).map(category => {
             //[Category,Answer]
-            console.log(scoringData.otherUsers)
+
             return (
               <div className="border-2 border-lime-700" key={category[0]}>
                 <h2 className="text-center">{category[0]}</h2>
                 <div className="inline-flex flex-col">
                   <UserInfo
                     userId={scoringData.userIdToCorrect}
-                    users={userInfo}
+                    // users={userInfo}
                   />
-                  <AnswerToCorrect answers={category[1]} />
+                  <AnswersList answers={category[1]} />
                   <div className="inline-flex flex-col border-2 border-red-700">
-                    {scoringData.otherUsers.map((user, i) => (
+                    {scoringData.otherUsers.map(user => (
                       //[UserId,Answers]
-                      <Fragment key={user[0] + i}>
-                        <UserInfo userId={user[0]} users={userInfo} />
-                        <ul className="flex gap-4">
-                          {Object.entries(user[1])
-                            .filter(item => item[0] === category[0])
-                            .reduce((acc, item) => {
-                              return acc.concat(item[1])
-                            }, [] as string[])
-                            .map((item, i) => {
-                              if (!item) return
-                              return (
-                                <li className="flex" key={item + i}>
-                                  {item}
-                                </li>
-                              )
-                            })}
-                        </ul>
+                      <Fragment key={user[0] + category[0]}>
+                        <UserInfo
+                          userId={user[0]}
+                          // users={userInfo}
+                        />
+                        <AnswersList answers={user[1][category[0]]} />
                       </Fragment>
                     ))}
                   </div>

@@ -4,7 +4,6 @@ import {
   collection,
   doc,
   getCountFromServer,
-  getDoc,
   increment,
   serverTimestamp,
   setDoc,
@@ -58,6 +57,7 @@ export const uploadSettings = async (
       await setDoc(doc(db, 'gameRooms', lobbyRef.id), {
         gameState: 'LOBBY',
         totalPlayers: 1,
+        currentRound: 1,
       })
     } catch (error) {
       throw new Error('There was an error creating game')
@@ -222,7 +222,7 @@ export const updateScoresData = async (
   data: UpdateScoreData
 ) => {
   try {
-    const res = await updateDoc(doc(db, 'gameRooms', lobbyId), {
+    const res = await updateDoc(doc(db, 'rounds', lobbyId), {
       [`scores.${uid}.scoresCategory`]: arrayUnion(data.scoresCategory),
       // [`scores.${uid}.scoreRounds`]: arrayUnion(data.roundScore),
       [`scores.${uid}.scoreRounds`]: data.scoreRounds,

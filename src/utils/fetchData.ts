@@ -18,11 +18,12 @@ export const fetchLobbyData = async (roomId: string, col: CollectionEnum) => {
   return docSnap.data()
 }
 
-// export const fetchPlayers = async (roomId: string) => {
-//   const docRef = doc(db, 'lobbyPlayers', roomId)
-//   const docSnap = await getDoc(docRef)
-//   return docSnap.data()
-// }
+export const fetchPlayers = async (roomId: string | undefined) => {
+  if (!roomId) return
+  const docRef = doc(db, 'lobbyPlayers', roomId)
+  const docSnap = await getDoc(docRef)
+  return docSnap.data()
+}
 
 export const queryData = async (
   document: string,

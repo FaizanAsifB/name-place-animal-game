@@ -27,7 +27,6 @@ const Results = () => {
   }, [data, navigate, params.roomId])
   return (
     <div>
-      <h1>Results</h1>
       <ResultsTable />
 
       <button type="button" onClick={handleNextRound}>
@@ -39,9 +38,9 @@ const Results = () => {
 export default Results
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const gameData = await fetchLobbyData(params.roomId!, 'gameRooms')
+  const roundsData = await fetchLobbyData(params.roomId!, 'rounds')
 
-  return { gameData }
+  return { roundsData }
 
   // return queryClient.fetchQuery({
   //   queryKey: ['events', params.id],

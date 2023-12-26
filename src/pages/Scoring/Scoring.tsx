@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { LoaderFunction, useNavigate, useParams } from 'react-router-dom'
 
 import { useOnSnapShot } from '../../hooks/useOnSnapShot'
-import { GameData, PlayerData } from '../../lib/types'
+import { GameData } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 
 import { updateGameState } from '../GameCreation/utils/http'
@@ -35,13 +35,13 @@ export default Scoring
 
 export const loader: LoaderFunction = async ({ params }) => {
   const roundData = await fetchLobbyData(params.roomId!, 'rounds')
-  const lobbyData = await fetchLobbyData(params.roomId!, 'lobbyPlayers')
+  // const lobbyData = await fetchLobbyData(params.roomId!, 'lobbyPlayers')
 
-  const userInfo: PlayerData[] = lobbyData?.slots.filter(
-    (slot: PlayerData) => slot.uid
-  )
+  // const userInfo: PlayerData[] = lobbyData?.slots.filter(
+  //   (slot: PlayerData) => slot.uid
+  // )
 
-  return { roundData, userInfo }
+  return { roundData /* , userInfo */ }
 
   // return queryClient.fetchQuery({
   //   queryKey: ['events', params.id],
