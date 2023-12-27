@@ -6,19 +6,17 @@ type UserInfoProps = {
 }
 
 const UserInfo = ({ userId }: UserInfoProps) => {
-  const { userInfo, isError, error, isPending } = useFetchPlayers()
+  const { userInfo, isError, error, isPending } = useFetchPlayers(userId)
 
   let content
 
   if (isError) content = error?.message
   else if (isPending) content = <CircularProgress />
   else {
-    const { displayName, photoUrl } = getUserInfo(userInfo, userId)
-
     content = (
       <>
-        <img src={photoUrl} alt="" className="w-8 h-8" />
-        <span>{displayName}</span>
+        <img src={userInfo.photoUrl} alt="" className="w-8 h-8" />
+        <span>{userInfo.displayName}</span>
       </>
     )
   }

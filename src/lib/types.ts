@@ -5,6 +5,7 @@ import {
 } from 'firebase/firestore'
 import { z } from 'zod'
 import { getRoundsConfig } from '../pages/Lobby/utils/utils'
+import { queryData } from '../utils/fetchData'
 
 export const CollectionEnum = z.enum([
   'lobbies',
@@ -16,9 +17,44 @@ export const CollectionEnum = z.enum([
 ])
 export type CollectionEnum = z.infer<typeof CollectionEnum>
 
-export const guestSchema = z.string().trim().min(3).max(20)
+export const guestSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .min(3)
+  .max(20)
+  .refine(
+    async val => {
+      console.log(val)
+      const res = await queryData('users', {
+        property: 'displayName',
+        operator: '==',
+        value: val,
+      })
+      return !res
+    },
+    { message: 'This nickname is already in use' }
+  )
 
 export type GuestSchema = z.infer<typeof guestSchema>
+
+export const gameCodeSchema = z
+  .string()
+  .trim()
+  .length(6)
+  .refine(
+    async val => {
+      console.log(val)
+      const res = await queryData('lobbies', {
+        property: 'joinCode',
+        operator: '==',
+        value: val,
+      })
+      return !!res
+    },
+    { message: 'Enter a valid gameCode' }
+  )
+export type GameCodeSchema = z.infer<typeof gameCodeSchema>
 
 export const loginSchema = z.object({
   email: z.string().trim().min(6).max(30),
@@ -40,9 +76,6 @@ export const signUpSchema = loginSchema
   })
 
 export type SignUpSchema = z.infer<typeof signUpSchema>
-
-export const gameCodeSchema = z.string().trim().length(6)
-export type GameCodeSchema = z.infer<typeof gameCodeSchema>
 
 export type PlayerData = {
   isReady: boolean

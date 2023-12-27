@@ -52,30 +52,22 @@ const Auth = () => {
 
     const displayName: GuestSchema = inputRef.current!.value
 
-    if (!guestSchema.safeParse(displayName).success)
-      return setErrorMessage('Please enter a valid nickname')
+    try {
+      const res = await guestSchema.safeParseAsync(displayName)
 
-    if (guestSchema.safeParse(displayName).success) {
-      const res = await queryData('users', {
-        property: 'displayName',
-        operator: '==',
-        value: displayName,
-      })
-      res && setErrorMessage('User already exists!')
+      if (!res.success) return setErrorMessage(res.error.errors[0].message)
 
-      try {
-        await guestSignIn(displayName, avatarIndex)
-        return navigate('game-creation')
-      } catch (error) {
-        throw new Error('There was an error creating a guest user')
-      }
+      await guestSignIn(displayName, avatarIndex)
+      return navigate('game-creation')
+    } catch (error) {
+      throw new Error('There was an error creating a guest user')
     }
   }
 
   return (
     <>
       <div className="col-span-5 lg:col-span-3">
-        <ul role="tablist" className="grid grid-cols-2 gap-2">
+        <menu role="tablist" className="grid grid-cols-2 gap-2">
           <Tab
             isActive={showGuest}
             onClick={handleTabClick}
@@ -92,7 +84,7 @@ const Auth = () => {
           >
             Authenticate
           </Tab>
-        </ul>
+        </menu>
         <TabPanel
           ref={inputRef}
           errorMessage={errorMessage}
