@@ -9,6 +9,7 @@ import {
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms'
 import { serverTimestamp } from 'firebase/firestore'
 import { useContext } from 'react'
 import { GrGamepad } from 'react-icons/gr'
@@ -29,8 +30,6 @@ import { makePlayerSlots } from './utils/util.ts'
 
 const SettingsForm = () => {
   const currentUser = useContext(AuthContext)
-  let userId: string
-  if (currentUser) userId = currentUser?.uid
 
   const {
     control,
@@ -85,7 +84,7 @@ const SettingsForm = () => {
     const categories: Categories = {
       default: defaultCategories,
       custom: {
-        [userId]: {
+        [currentUser!.uid]: {
           category1: { title: customCategory1, addedAt: serverTimestamp() },
           category2: { title: customCategory2, addedAt: serverTimestamp() },
         },
@@ -108,7 +107,13 @@ const SettingsForm = () => {
     >
       <ul className="mx-4 space-y-8 settings">
         <li>
-          <h5>Time per rounded</h5>
+          <div className="flex items-center gap-2">
+            <AccessAlarmsIcon fontSize="large" />
+            <div>
+              <h5>Time</h5>
+              <p className="text-lg">Maximum time available for each round</p>
+            </div>
+          </div>
           <Controller
             name="roundTime"
             control={control}

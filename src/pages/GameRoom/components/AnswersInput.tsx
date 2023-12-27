@@ -1,11 +1,12 @@
 import { useContext, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import { useLoaderData, useNavigate, useParams } from 'react-router-dom'
+import { useLoaderData, useParams } from 'react-router-dom'
 import { AuthContext } from '../../../context/AuthContext'
 import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
 import {
-  Answer,
   AnswerInputs,
+  Answers,
+  AnswersData,
   CreateGameData,
   FireStoreError,
   GameData,
@@ -14,7 +15,7 @@ import {
 import { submitAnswers, updateGameState } from '../../GameCreation/utils/http'
 import CategoryAnswers from './CategoryAnswers'
 
-const Answers = () => {
+const AnswersInput = () => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
   const { roundsData } = useLoaderData() as {
@@ -117,4 +118,4 @@ const Answers = () => {
     </form>
   )
 }
-export default Answers
+export default AnswersInput

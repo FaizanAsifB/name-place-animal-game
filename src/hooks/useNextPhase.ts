@@ -1,18 +1,28 @@
-import { useNavigate } from 'react-router-dom'
-import { FireStoreError, GameData } from '../lib/types'
+import { useNavigate, useParams } from 'react-router-dom'
+import { FireStoreError, PlayersData } from '../lib/types'
 import { useOnSnapShot } from './useOnSnapShot'
+import { useEffect } from 'react'
 
-const useNextPhase = roomId => {
+const useNextPhase = () => {
+  // roomId: string
   const navigate = useNavigate()
+  const params = useParams()
 
-  const { data } = useOnSnapShot({
-    docRef: 'gameRooms',
-    roomId,
-  }) as { data: GameData | undefined; error: FireStoreError }
+  const { data, error } = useOnSnapShot({
+    docRef: 'lobbyPlayers',
+    roomId: params.roomId,
+  }) as { data: PlayersData | undefined; error: FireStoreError }
 
   useEffect(() => {
-    data?.gameState === 'ROUND-ENDED' && navigate('scoring')
-  }, [data?.gameState, navigate])
+    if (!data?.gameState) return
+    switch (data?.gameState) {
+      case 'INIT':
+        navigate(`/game/${params.roomId!}`)
+        break
+    }
+    // data?.gameState === 'ROUND-ENDED' && navigate('scoring')
+  }, [data?.gameState, navigate, params.roomId])
+  return { params, data, fireStoreError: error }
 }
 
 export default useNextPhase

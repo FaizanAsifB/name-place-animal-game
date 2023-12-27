@@ -3,9 +3,10 @@ type TabProps = {
   isActive: boolean
   label: string
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
+  currentUser: boolean
 }
 
-const Tab = ({ isActive, onClick, label }: TabProps) => {
+const Tab = ({ isActive, onClick, label, currentUser }: TabProps) => {
   let activeStyling =
     'rounded-t-lg bg-slate-700/20 font-bold text-xl md:text-2xl lg:text-3xl'
   isActive ? activeStyling : (activeStyling += ' mb-2')
@@ -20,6 +21,7 @@ const Tab = ({ isActive, onClick, label }: TabProps) => {
         id={`${label}-tab`}
         aria-controls={label}
         aria-selected={isActive}
+        disabled={currentUser}
       >
         {label}
       </button>

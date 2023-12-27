@@ -1,12 +1,17 @@
+import { useState } from 'react'
+import { CgNotes } from 'react-icons/cg'
 import { MdOutlineMailOutline } from 'react-icons/md'
 import Button from '../../../components/ui/Button'
 import Modal from '../../../components/ui/Modal'
 import LoginForm from './LoginForm'
 import SignUpForm from './SignUpForm'
-import { CgNotes } from 'react-icons/cg'
-import { useState } from 'react'
 
-const AuthModal = () => {
+type AuthenticationProps = {
+  showGuest: boolean
+  guestOnClick: () => void
+}
+
+const Authentication = ({ showGuest, guestOnClick }: AuthenticationProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
 
@@ -29,22 +34,30 @@ const AuthModal = () => {
           <LoginForm onClose={closeModal} />
         )}
       </Modal>
-      <Button
-        name="login"
-        onClick={(e: React.MouseEvent<HTMLButtonElement>) => openModal(e)}
-        icon={<MdOutlineMailOutline />}
-      >
-        Sign In
-      </Button>
+      {showGuest ? (
+        <Button name="guest" onClick={guestOnClick}>
+          Login as Guest
+        </Button>
+      ) : (
+        <>
+          <Button
+            name="login"
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => openModal(e)}
+            icon={<MdOutlineMailOutline />}
+          >
+            Sign In
+          </Button>
 
-      <Button
-        name="register"
-        onClick={(e: React.MouseEvent<HTMLButtonElement>) => openModal(e)}
-        icon={<CgNotes />}
-      >
-        Sign Up
-      </Button>
+          <Button
+            name="register"
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => openModal(e)}
+            icon={<CgNotes />}
+          >
+            Sign Up
+          </Button>
+        </>
+      )}
     </>
   )
 }
-export default AuthModal
+export default Authentication

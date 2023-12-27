@@ -1,23 +1,22 @@
-import CircularProgress from '@mui/material/CircularProgress'
-import { useAtom } from 'jotai'
 import { forwardRef, useContext } from 'react'
 import ErrorText from '../../../components/forms/ErrorText'
+
 import { AuthContext } from '../../../context/AuthContext'
-import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
-import { avatarAtom, displayImages } from '../../../utils/utils'
+
 import AvatarSelection from './AvatarSelection'
 
 type TabPanelProps = {
   showGuest: boolean
   errorMessage: string
+  setErrorMessage: (value: string) => void
 }
 
 const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
-  { showGuest, errorMessage },
+  { showGuest, errorMessage, setErrorMessage },
   ref
 ) {
   const currentUser = useContext(AuthContext)
-  const { data } = useOnSnapShot({ docRef: 'users', roomId: currentUser?.uid })
+  // const { data } = useOnSnapShot({ docRef: 'users', roomId: currentUser?.uid })
 
   return (
     <div className="p-8 bg-slate-700/20" role="tabpanel">
@@ -32,30 +31,29 @@ const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
                     showGuest ? ' nickname' : ' Log in with email'
                   }`}
             </h2>
-            {currentUser && (
-              <>
-                <p>Enter code to join!</p>
-                <div className="relative">
-                  <ErrorText align={'right'}>{errorMessage}</ErrorText>
-                  <input ref={ref} type="text" placeholder="G2F3X" />
-                </div>
-              </>
-            )}
-            {showGuest && !currentUser ? (
-              <div className="relative">
-                <ErrorText align={'right'}>{errorMessage}</ErrorText>
+
+            {currentUser && <p>Enter code to join!</p>}
+            <div className="relative">
+              <ErrorText align={'right'}>{errorMessage}</ErrorText>
+              {currentUser ? (
                 <input
+                  name="joinRoom"
+                  onChangeCapture={() => setErrorMessage('')}
+                  ref={ref}
+                  type="text"
+                  placeholder="G2F3X"
+                />
+              ) : showGuest ? (
+                <input
+                  name="createGuest"
+                  onChangeCapture={() => setErrorMessage('')}
                   ref={ref}
                   className=""
                   type="text"
                   placeholder="RandomNick2002"
                 />
-              </div>
-            ) : (
-              <>
-                <p className="md:hidden">Some Text</p>
-              </>
-            )}
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

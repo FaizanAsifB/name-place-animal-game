@@ -25,7 +25,6 @@ export const guestSchema = z
   .max(20)
   .refine(
     async val => {
-      console.log(val)
       const res = await queryData('users', {
         property: 'displayName',
         operator: '==',
@@ -44,17 +43,27 @@ export const gameCodeSchema = z
   .length(6)
   .refine(
     async val => {
-      console.log(val)
       const res = await queryData('lobbies', {
         property: 'joinCode',
         operator: '==',
         value: val,
       })
-      return !!res
+      return res
     },
     { message: 'Enter a valid gameCode' }
   )
 export type GameCodeSchema = z.infer<typeof gameCodeSchema>
+
+export const AuthPanelSchema = z.union([guestSchema, gameCodeSchema])
+
+// export type AuthPanelType = z.infer<typeof AuthPanelSchema>
+export type AuthPanelType =
+  | {
+      gameCode: GameCodeSchema
+    }
+  | {
+      createGuest: GuestSchema
+    }
 
 export const loginSchema = z.object({
   email: z.string().trim().min(6).max(30),

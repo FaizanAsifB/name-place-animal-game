@@ -1,17 +1,8 @@
 import { CiPlay1 } from 'react-icons/ci'
 import { GiCancel } from 'react-icons/gi'
-import { useNavigate, useParams } from 'react-router-dom'
 import Button from '../../components/ui/Button'
-
-import { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../../context/AuthContext'
-import { useOnSnapShot } from '../../hooks/useOnSnapShot'
-import {
-  CreateGameData,
-  FireStoreError,
-  GameState,
-  PlayersData,
-} from '../../lib/types'
+import useNextPhase from '../../hooks/useNextPhase'
+import { CreateGameData } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 import {
   createRoundsData,
@@ -24,29 +15,10 @@ import SettingsList from './components/SettingsList'
 import { categoriesArr, getRoundsConfig, readyPlayers } from './utils/utils'
 
 const Lobby = () => {
-  const navigate = useNavigate()
-  const params = useParams()
-  const currentUser = useContext(AuthContext)
-
-  //!check wether state is needed
-  const [gameState, setGameState] = useState<GameState>('LOBBY')
-
-  const { data, error } = useOnSnapShot({
-    docRef: 'lobbyPlayers',
-    roomId: params.roomId!,
-  }) as { data: PlayersData; error: FireStoreError }
-
-  //!Can remove this once game state logic is updated
-  const isHost = data?.hostId === currentUser?.uid
+  const { params, data, fireStoreError } = useNextPhase()
 
   const ready = readyPlayers(data)
-  // const totalPlayers = inLobby(data)
   const totalPlayers = data?.totalPlayers
-
-  useEffect(() => {
-    if (data) setGameState(data.gameState)
-    if (gameState === 'INIT' && !isHost) navigate(`/game/${data!.lobbyId}`)
-  }, [data, gameState, isHost, navigate])
 
   async function handlePlay() {
     const categoriesData = await fetchLobbyData(params.roomId!, 'categories')
@@ -77,8 +49,6 @@ const Lobby = () => {
     })
 
     await updateGameState('INIT', params.roomId!)
-    //!Remove navigate? Same logic as other routes?
-    navigate(`/game/${params.roomId!}`)
   }
 
   return (
@@ -86,13 +56,13 @@ const Lobby = () => {
       <div className="p-4 space-y-4 bg-amber-800/30">
         <h1>Lobby</h1>
 
-        <PlayerSlots data={data} error={error} />
+        <PlayerSlots data={data} error={fireStoreError} />
         <CategoriesList />
         <SettingsList />
         <div className="flex justify-around">
           <Button icon={<GiCancel />}>Cancel</Button>
           <Button
-            disabled={ready !== totalPlayers || !isHost}
+            disabled={ready !== totalPlayers || !data?.hostId}
             icon={<CiPlay1 />}
             onClick={handlePlay}
           >

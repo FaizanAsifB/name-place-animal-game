@@ -5,14 +5,17 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../../components/ui/Button'
 import Tab from '../../components/ui/Tab'
 import { AuthContext } from '../../context/AuthContext'
-
-import AuthModal from './components/AuthModal'
-
 import { useAtom } from 'jotai'
-import { GameCodeSchema, GuestSchema, guestSchema } from '../../lib/types'
+import {
+  GameCodeSchema,
+  GuestSchema,
+  gameCodeSchema,
+  guestSchema,
+} from '../../lib/types'
 import { guestSignIn } from '../../utils/auth'
 import { queryData } from '../../utils/fetchData'
 import { avatarAtom } from '../../utils/utils'
+import Authentication from './components/Authentication'
 import TabPanel from './components/TabPanel'
 
 const Auth = () => {
@@ -24,46 +27,55 @@ const Auth = () => {
   const navigate = useNavigate()
   const [avatarIndex] = useAtom(avatarAtom)
 
+  if (currentUser?.email && showGuest) setShowGuest(false)
+
   function handleTabClick(e: React.MouseEvent<HTMLButtonElement>) {
     if (e.currentTarget.ariaSelected == 'true') return
     setShowGuest(!showGuest)
   }
+
   async function handleJoinGame() {
     const gameCode: GameCodeSchema = inputRef.current!.value
 
-    if (!guestSchema.safeParse(gameCode).success)
-      return setErrorMessage('Please enter a valid nickname')
+    try {
+      const validate = await gameCodeSchema.safeParseAsync(gameCode)
 
-    if (guestSchema.safeParse(gameCode).success) {
+      if (!validate.success)
+        return setErrorMessage(validate.error.errors[0].message)
+
       const res = await queryData('lobbies', {
         property: 'joinCode',
         operator: '==',
-        value: gameCode,
+        value: validate.data,
       })
-      // if (res) return setErrorMessage('User already exists!')
-      res
-        ? navigate(`/lobby/${res?.lobbyId}`)
-        : setErrorMessage('Enter a valid gameCode')
-    }
-  }
 
-  async function handleCreateGame() {
-    if (currentUser) return navigate('/game-creation')
-
-    const displayName: GuestSchema = inputRef.current!.value
-
-    try {
-      const res = await guestSchema.safeParseAsync(displayName)
-
-      if (!res.success) return setErrorMessage(res.error.errors[0].message)
-
-      await guestSignIn(displayName, avatarIndex)
-      return navigate('game-creation')
+      console.log(res?.lobbyId)
+      navigate(`/lobby/${res?.lobbyId}`)
     } catch (error) {
       throw new Error('There was an error creating a guest user')
     }
   }
 
+  function handleCreateGame() {
+    if (currentUser) return navigate('game-creation')
+  }
+
+  async function handleGuestLogin() {
+    const displayName: GuestSchema = inputRef.current!.value
+
+    try {
+      const validate = await guestSchema.safeParseAsync(displayName)
+
+      if (!validate.success) {
+        inputRef.current?.focus()
+        return setErrorMessage(validate.error.errors[0].message)
+      }
+
+      await guestSignIn(displayName, avatarIndex)
+    } catch (error) {
+      throw new Error('There was an error creating guest user')
+    }
+  }
   return (
     <>
       <div className="col-span-5 lg:col-span-3">
@@ -73,6 +85,7 @@ const Auth = () => {
             onClick={handleTabClick}
             label="guest"
             aria-labelledby="guest-tab"
+            currentUser={!!currentUser}
           >
             Guest
           </Tab>
@@ -81,6 +94,7 @@ const Auth = () => {
             onClick={handleTabClick}
             label="authentication"
             aria-labelledby="authentication-tab"
+            currentUser={!!currentUser}
           >
             Authenticate
           </Tab>
@@ -88,11 +102,12 @@ const Auth = () => {
         <TabPanel
           ref={inputRef}
           errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage}
           showGuest={showGuest}
         />
       </div>
       <div className="flex flex-col justify-center row-start-2 gap-4 md:flex-row-reverse md:gap-8 col-span-full lg:col-span-3 place-items-center md:bg-slate-700/20 md:pb-8 md:mb-8 md:pr-4">
-        {showGuest || currentUser ? (
+        {currentUser ? (
           <>
             <Button
               onClick={handleCreateGame}
@@ -105,7 +120,10 @@ const Auth = () => {
             </Button>
           </>
         ) : (
-          <AuthModal />
+          <Authentication
+            guestOnClick={handleGuestLogin}
+            showGuest={showGuest}
+          />
         )}
       </div>
     </>
