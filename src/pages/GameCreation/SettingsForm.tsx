@@ -11,6 +11,8 @@ import {
   MenuItem,
   Select,
   Slider,
+  ToggleButton,
+  ToggleButtonGroup,
 } from '@mui/material'
 import { serverTimestamp } from 'firebase/firestore'
 import { useContext } from 'react'
@@ -105,11 +107,8 @@ const SettingsForm = () => {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="grid gap-24 place-items-center"
-    >
-      <ul className="mx-4 space-y-8 settings">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <ul className="px-6 mb-8 space-y-4">
         <Setting
           icon={<AccessAlarmsIcon fontSize="large" />}
           title={'Time'}
@@ -120,6 +119,7 @@ const SettingsForm = () => {
             control={control}
             render={({ field }) => (
               <Slider
+                className="text-red-400"
                 {...field}
                 aria-label="time per round"
                 defaultValue={60}
@@ -138,7 +138,7 @@ const SettingsForm = () => {
         <Setting
           icon={<NumbersIcon fontSize="large" />}
           title={'Total Rounds'}
-          description={'Choose a number of rounds'}
+          description={'Choose number of rounds to play'}
         >
           <Controller
             name="rounds"
@@ -167,11 +167,11 @@ const SettingsForm = () => {
         >
           <CategoriesList control={control} />
         </Setting>
-        <Setting
+        {/*    <Setting
           icon={<SportsScoreIcon fontSize="large" />}
           title={'Round End Mode'}
           description={
-            'Fastest finger mode: First player to submit will trigger a 15 second countdown'
+            'In fastest finger timer is set to 15 seconds when the first player submits'
           }
         >
           <FormControl fullWidth>
@@ -193,6 +193,40 @@ const SettingsForm = () => {
               )}
             />
           </FormControl>
+        </Setting> */}
+
+        {/* End mode */}
+
+        <Setting
+          icon={<SportsScoreIcon fontSize="large" />}
+          title={'Round End Mode'}
+          description={
+            'In fastest finger timer is set to 15 seconds when the first player submits'
+          }
+        >
+          <Controller
+            name="endMode"
+            control={control}
+            render={({ field }) => (
+              <ToggleButtonGroup
+                // value={alignment}
+                {...field}
+                exclusive
+                // onChange={handleAlignment}
+                aria-label="round end mode"
+              >
+                <ToggleButton value="ROUND-TIMER" aria-label="round timer mode">
+                  Round Timer
+                </ToggleButton>
+                <ToggleButton
+                  value="FASTEST-FINGER"
+                  aria-label="fastest finger mode"
+                >
+                  Fastest Finger
+                </ToggleButton>
+              </ToggleButtonGroup>
+            )}
+          />
         </Setting>
         <Setting
           icon={<LibraryAddIcon fontSize="large" />}
@@ -229,6 +263,7 @@ const SettingsForm = () => {
         </Setting>
       </ul>
       <Button
+        className="mx-auto"
         type="submit"
         disabled={isSubmitting}
         icon={isSubmitting ? <CircularProgress /> : <GrGamepad />}

@@ -5,6 +5,7 @@ type ButtonProps = {
   name?: string | ''
   disabled?: boolean
   icon?: React.ReactNode
+  className?: string
 }
 
 const Button = ({
@@ -14,10 +15,11 @@ const Button = ({
   name = '',
   icon,
   disabled,
+  className,
 }: ButtonProps) => {
   return (
     <button
-      className="flex items-center gap-4 px-6 py-3 text-xl border-4 rounded-lg lg:text-2xl border-accent3 bg-accent text-light max-w-max"
+      className={`flex items-center gap-4 px-6 py-3 text-xl border-4 rounded-lg lg:text-2xl border-accent3 bg-accent text-light max-w-max ${className}`}
       onClick={onClick}
       type={type}
       name={name}

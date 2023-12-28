@@ -7,12 +7,12 @@ type SettingProps = {
 
 const Setting = ({ children, icon, title, description }: SettingProps) => {
   return (
-    <li className="grid md:grid-cols-2">
+    <li className="grid items-center gap-2 border-2 border-primary md:grid-cols-2">
       <div className="flex items-center gap-2">
         {icon}
         <div>
-          <h5>{title}</h5>
-          <p className="text-lg">{description}</p>
+          <h2>{title}</h2>
+          <p className="text-md">{description}</p>
         </div>
       </div>
       {children}

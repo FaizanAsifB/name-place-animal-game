@@ -2,8 +2,8 @@ import SettingsForm from './SettingsForm'
 
 const GameCreation = () => {
   return (
-    <div className="rounded-lg bg-bg-dark">
-      <h1 className="mb-8">Game Settings</h1>
+    <div className="py-12 rounded-lg bg-bg-dark">
+      <h1 className="mb-12">Game Settings</h1>
       <SettingsForm />
     </div>
   )
