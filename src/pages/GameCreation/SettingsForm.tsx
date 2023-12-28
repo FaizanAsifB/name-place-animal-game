@@ -1,3 +1,9 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms'
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
+import NumbersIcon from '@mui/icons-material/Numbers'
+import SportsScoreIcon from '@mui/icons-material/SportsScore'
 import {
   CircularProgress,
   FormControl,
@@ -6,12 +12,9 @@ import {
   Select,
   Slider,
 } from '@mui/material'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-
-import { zodResolver } from '@hookform/resolvers/zod'
-import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms'
 import { serverTimestamp } from 'firebase/firestore'
 import { useContext } from 'react'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { GrGamepad } from 'react-icons/gr'
 import { useNavigate } from 'react-router-dom'
 import ErrorText from '../../components/forms/ErrorText.tsx'
@@ -23,6 +26,7 @@ import {
   PlayerData,
   RoundSettings,
 } from '../../lib/types.ts'
+import Setting from '../GameRoom/components/Setting.tsx'
 import CategoriesList from './CategoriesList.tsx'
 import { SettingsInput, settingsInputSchema } from './lib/types.tsx'
 import { uploadCategories, uploadSettings } from './utils/http.ts'
@@ -106,14 +110,11 @@ const SettingsForm = () => {
       className="grid gap-24 place-items-center"
     >
       <ul className="mx-4 space-y-8 settings">
-        <li>
-          <div className="flex items-center gap-2">
-            <AccessAlarmsIcon fontSize="large" />
-            <div>
-              <h5>Time</h5>
-              <p className="text-lg">Maximum time available for each round</p>
-            </div>
-          </div>
+        <Setting
+          icon={<AccessAlarmsIcon fontSize="large" />}
+          title={'Time'}
+          description={'Maximum time available for each round'}
+        >
           <Controller
             name="roundTime"
             control={control}
@@ -133,9 +134,12 @@ const SettingsForm = () => {
               />
             )}
           />
-        </li>
-        <li>
-          <h5>Total Rounds</h5>
+        </Setting>
+        <Setting
+          icon={<NumbersIcon fontSize="large" />}
+          title={'Total Rounds'}
+          description={'Choose a number of rounds'}
+        >
           <Controller
             name="rounds"
             control={control}
@@ -153,11 +157,23 @@ const SettingsForm = () => {
               />
             )}
           />
-        </li>
+        </Setting>
+
         {/* list of categories to display */}
-        <CategoriesList control={control} />
-        <li>
-          <h5>Round End Mode</h5>
+        <Setting
+          icon={<LibraryBooksIcon fontSize="large" />}
+          title={'Categories'}
+          description={'Choose four starter categories'}
+        >
+          <CategoriesList control={control} />
+        </Setting>
+        <Setting
+          icon={<SportsScoreIcon fontSize="large" />}
+          title={'Round End Mode'}
+          description={
+            'Fastest finger mode: First player to submit will trigger a 15 second countdown'
+          }
+        >
           <FormControl fullWidth>
             <InputLabel id="end-mode-label">End Mode</InputLabel>
             <Controller
@@ -177,9 +193,12 @@ const SettingsForm = () => {
               )}
             />
           </FormControl>
-        </li>
-        <li>
-          <h5>Custom Categories</h5>
+        </Setting>
+        <Setting
+          icon={<LibraryAddIcon fontSize="large" />}
+          title={'Custom Categories'}
+          description={'Submit two custom categories'}
+        >
           <div className="grid grid-cols-2 gap-2">
             <div className="relative">
               <ErrorText align={'left'}>
@@ -207,7 +226,7 @@ const SettingsForm = () => {
               />
             </div>
           </div>
-        </li>
+        </Setting>
       </ul>
       <Button
         type="submit"

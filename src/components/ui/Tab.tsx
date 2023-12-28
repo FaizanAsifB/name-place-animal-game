@@ -8,7 +8,7 @@ type TabProps = {
 
 const Tab = ({ isActive, onClick, label, currentUser }: TabProps) => {
   let activeStyling =
-    'rounded-t-lg bg-slate-700/20 font-bold text-xl md:text-2xl lg:text-3xl'
+    'rounded-t-lg bg-bg-dark font-bold text-xl md:text-2xl lg:text-3xl'
   isActive ? activeStyling : (activeStyling += ' mb-2')
 
   return (

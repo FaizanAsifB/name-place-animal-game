@@ -37,116 +37,33 @@ const CategoriesList = ({ control }: CategoriesListProps) => {
     })
   }
   return (
-    <li>
-      <h5>Categories</h5>
-      <FormGroup row={true}>
-        {defaultCategoriesList.map(category => {
-          return (
-            <Controller
-              key={category}
-              name={category}
-              control={control}
-              render={({ field: { onChange } }) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      disabled={!isChecked[category] && error}
-                      name={category}
-                      checked={isChecked[category]}
-                      onChange={e => {
-                        onChange(e.target.checked)
-                        handleChange(e)
-                      }}
-                    />
-                  }
-                  label={category.charAt(0).toUpperCase() + category.slice(1)}
-                />
-              )}
-            />
-          )
-        })}
-        {/* <Controller
-          name="name"
-          control={control}
-          render={({ field: { onChange } }) => (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={isChecked.name}
-                  onChange={e => onChange(e.target.checked)}
-                />
-              }
-              label="Name"
-            />
-          )}
-        />
-        <Controller
-          name="place"
-          control={control}
-          render={({ field: { onChange } }) => (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked
-                  onChange={e => onChange(e.target.checked)}
-                />
-              }
-              label="Place"
-            />
-          )}
-        />
-        <Controller
-          name="animal"
-          control={control}
-          render={({ field: { onChange } }) => (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked
-                  onChange={e => onChange(e.target.checked)}
-                />
-              }
-              label="Animal"
-            />
-          )}
-        />
-        <Controller
-          name="thing"
-          control={control}
-          render={({ field: { onChange } }) => (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked
-                  onChange={e => onChange(e.target.checked)}
-                />
-              }
-              label="Thing"
-            />
-          )}
-        />
-        <Controller
-          name="occupations"
-          control={control}
-          render={({ field: { onChange } }) => (
-            <FormControlLabel
-              control={<Checkbox onChange={e => onChange(e.target.checked)} />}
-              label="Occupations"
-            />
-          )}
-        />
-        <Controller
-          name="technology"
-          control={control}
-          render={({ field: { onChange } }) => (
-            <FormControlLabel
-              control={<Checkbox onChange={e => onChange(e.target.checked)} />}
-              label="Technology"
-            />
-          )}
-        /> */}
-      </FormGroup>
-    </li>
+    <FormGroup row={true}>
+      {defaultCategoriesList.map(category => {
+        return (
+          <Controller
+            key={category}
+            name={category}
+            control={control}
+            render={({ field: { onChange } }) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={!isChecked[category] && error}
+                    name={category}
+                    checked={isChecked[category]}
+                    onChange={e => {
+                      onChange(e.target.checked)
+                      handleChange(e)
+                    }}
+                  />
+                }
+                label={category.charAt(0).toUpperCase() + category.slice(1)}
+              />
+            )}
+          />
+        )
+      })}
+    </FormGroup>
   )
 }
 export default CategoriesList

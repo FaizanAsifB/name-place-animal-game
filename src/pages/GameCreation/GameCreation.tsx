@@ -2,7 +2,7 @@ import SettingsForm from './SettingsForm'
 
 const GameCreation = () => {
   return (
-    <div className="bg-bg-dark">
+    <div className="rounded-lg bg-bg-dark">
       <h1 className="mb-8">Game Settings</h1>
       <SettingsForm />
     </div>
