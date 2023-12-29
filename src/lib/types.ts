@@ -119,7 +119,7 @@ export type FireStoreError =
     }
   | undefined
 
-export type DefaultCategories = string[] | undefined
+export type DefaultCategories = string[]
 
 export type Categories = {
   default: DefaultCategories

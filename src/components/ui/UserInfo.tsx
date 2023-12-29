@@ -1,6 +1,5 @@
 import { CircularProgress } from '@mui/material'
 import { useFetchPlayers } from '../../hooks/useFetchPlayers'
-import { getUserInfo } from '../../utils/helpers'
 type UserInfoProps = {
   userId: string
 }

@@ -2,7 +2,7 @@ import { CiPlay1 } from 'react-icons/ci'
 import { GiCancel } from 'react-icons/gi'
 import Button from '../../components/ui/Button'
 import useNextPhase from '../../hooks/useNextPhase'
-import { CreateGameData } from '../../lib/types'
+import { Categories, CreateGameData, GameSettings } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 import {
   createRoundsData,
@@ -21,8 +21,14 @@ const Lobby = () => {
   const totalPlayers = data?.totalPlayers
 
   async function handlePlay() {
-    const categoriesData = await fetchLobbyData(params.roomId!, 'categories')
-    const settingsData = await fetchLobbyData(params.roomId!, 'lobbies')
+    const categoriesData = await fetchLobbyData<Categories>(
+      params.roomId!,
+      'categories'
+    )
+    const settingsData = await fetchLobbyData<GameSettings>(
+      params.roomId!,
+      'lobbies'
+    )
     const customCategories = categoriesArr(categoriesData)
     const roundSelections = getRoundsConfig(
       customCategories!,
@@ -31,7 +37,7 @@ const Lobby = () => {
     roundSelections.forEach((round, i) => {
       round.activeCategories =
         i === 0
-          ? [...categoriesData!.default, ...round.categories]
+          ? [...categoriesData.default, ...round.categories]
           : !round.categories.toString()
           ? roundSelections[i - 1].activeCategories
           : [...roundSelections[i - 1].activeCategories!, ...round.categories]

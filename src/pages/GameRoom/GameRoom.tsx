@@ -39,7 +39,7 @@ const GameRoom = () => {
   return (
     <div>
       <div className="flex justify-end gap-4">
-        <Clock roundTime={settings?.settings.roundTime} />
+        <Clock roundTime={settings?.settings['round time']} />
         <div>
           {roundsData
             ? roundsData?.roundsConfig[roundsData?.currentRound - 1].alphabet

@@ -8,14 +8,17 @@ import {
   where,
 } from 'firebase/firestore'
 import { db } from '../config/config'
-import { CollectionEnum, GameSettings, Q } from '../lib/types'
+import { CollectionEnum, Q } from '../lib/types'
 
 export const queryClient = new QueryClient()
 
-export const fetchLobbyData = async (roomId: string, col: CollectionEnum) => {
+export const fetchLobbyData = async <T>(
+  roomId: string,
+  col: CollectionEnum
+) => {
   const docRef = doc(db, col, roomId)
   const docSnap = await getDoc(docRef)
-  return docSnap.data() as GameSettings
+  return docSnap.data() as T
 }
 
 export const fetchPlayers = async (roomId: string | undefined) => {

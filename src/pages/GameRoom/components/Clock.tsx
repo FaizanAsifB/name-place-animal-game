@@ -9,7 +9,7 @@ type ClockProps = {
 }
 
 const Clock = ({ roundTime }: ClockProps) => {
-  const [timeRemaining, setTimeRemaining] = useState(80000)
+  const [timeRemaining, setTimeRemaining] = useState(roundTime)
   const params = useParams()
 
   const minutes = Math.floor(timeRemaining / 60)

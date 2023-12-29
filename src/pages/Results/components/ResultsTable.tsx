@@ -1,6 +1,6 @@
 import { useLoaderData } from 'react-router-dom'
 import UserInfo from '../../../components/ui/UserInfo'
-import { GameData, RoundsData } from '../../../lib/types'
+import { RoundsData } from '../../../lib/types'
 
 const ResultsTable = () => {
   const { roundsData } = useLoaderData() as { roundsData: RoundsData }

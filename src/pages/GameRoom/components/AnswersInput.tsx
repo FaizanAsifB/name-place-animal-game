@@ -6,7 +6,9 @@ import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
 import {
   AnswerInputs,
   Answers,
-  AnswersData,
+  // AnswersData,
+  // Answers,
+  // AnswersData,
   CreateGameData,
   FireStoreError,
   GameData,
@@ -61,13 +63,13 @@ const AnswersInput = () => {
 
   //Submit Data
   const onSubmit = async (data: AnswerInputs) => {
-    const formattedData = {} as Answer
+    const formattedData = {} as Answers
     for (const category in data) {
       formattedData[category] = data[category].map(v => v.answer)
     }
     const answers = { [currentUser!.uid]: formattedData }
     if (
-      settings.settings.endMode === 'FASTEST-FINGER' &&
+      settings.settings['end mode'] === 'Fastest Finger' &&
       gameData?.gameState !== 'END-TIMER'
     )
       await updateGameState('END-TIMER', params.roomId!)

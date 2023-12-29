@@ -6,10 +6,11 @@ import NumbersIcon from '@mui/icons-material/Numbers'
 import SportsScoreIcon from '@mui/icons-material/SportsScore'
 import {
   CircularProgress,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
+
+  // FormControl,
+  // InputLabel,
+  // MenuItem,
+  // Select,
   Slider,
   ToggleButton,
   ToggleButtonGroup,
@@ -71,15 +72,17 @@ const SettingsForm = () => {
       ...categoryOptions
     } = data
 
-    const defaultCategories: DefaultCategories = Object.entries(
-      categoryOptions
-    ).reduce<string[] | undefined>((acc: string[] | undefined, category) => {
-      if (!category[1]) return acc
-      if (category[1]) {
-        acc?.push(category[0])
-        return acc
-      }
-    }, [] as string[])
+    //!Need to check if this works
+    const defaultCategories: DefaultCategories = Object.entries(categoryOptions)
+      .filter(item => item[1])
+      .map(item => item[0])
+    // .reduce((acc: string[], category) => {
+    //   if (!category[1]) return acc
+    //   if (category[1]) {
+    //     acc?.push(category[0])
+    //     return acc
+    //   }
+    // }, [] as string[])
 
     const settings: RoundSettings = {
       'round time': roundTime,

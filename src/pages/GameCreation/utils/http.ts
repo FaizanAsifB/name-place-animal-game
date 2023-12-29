@@ -12,13 +12,14 @@ import {
 
 import { db } from '../../../config/config'
 import {
-  AnswersData,
   Categories,
   CreateGameData,
   GameState,
   LobbySettings,
   PlayerData,
+  RoundsData,
   UpdateScoreData,
+  UserAnswers,
 } from '../../../lib/types'
 import {} from '../SettingsForm'
 import { fetchLobbyData } from '../../../utils/fetchData'
@@ -175,7 +176,7 @@ export const createRoundsData = async (
 }
 
 export const submitAnswers = async (
-  answers: AnswersData,
+  answers: UserAnswers,
   roomId: string,
   currentRound: number
 ) => {
@@ -186,7 +187,7 @@ export const submitAnswers = async (
     })
 
     try {
-      const res = await fetchLobbyData(roomId, 'rounds')
+      const res = await fetchLobbyData<RoundsData>(roomId, 'rounds')
       const answers: number = res?.answers[`round${currentRound}`].length
       return answers
     } catch (error) {
