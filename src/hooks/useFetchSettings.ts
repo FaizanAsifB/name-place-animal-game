@@ -6,9 +6,8 @@ export const useFetchSettings = () => {
   const params = useParams()
   const roomId: string = params.roomId!
 
-  const query = useQuery({
+  return useQuery({
     queryKey: ['settings', roomId],
     queryFn: ({ queryKey }) => fetchLobbyData(queryKey[1], 'lobbies'),
   })
-  return query
 }

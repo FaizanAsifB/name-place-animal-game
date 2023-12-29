@@ -53,7 +53,7 @@ const SettingsForm = () => {
       thing: false,
       occupations: false,
       technology: false,
-      endMode: 'ROUND-TIMER',
+      endMode: 'Round Timer',
       customCategory1: '',
       customCategory2: '',
     },
@@ -82,9 +82,9 @@ const SettingsForm = () => {
     }, [] as string[])
 
     const settings: RoundSettings = {
-      roundTime,
+      'round time': roundTime,
       rounds,
-      endMode,
+      'end mode': endMode,
     }
 
     const categories: Categories = {
@@ -108,7 +108,7 @@ const SettingsForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <ul className="px-6 mb-8 space-y-4">
+      <ul className="px-6 mb-8 space-y-8">
         <Setting
           icon={<AccessAlarmsIcon fontSize="large" />}
           title={'Time'}
@@ -215,11 +215,11 @@ const SettingsForm = () => {
                 // onChange={handleAlignment}
                 aria-label="round end mode"
               >
-                <ToggleButton value="ROUND-TIMER" aria-label="round timer mode">
+                <ToggleButton value="Round Timer" aria-label="round timer mode">
                   Round Timer
                 </ToggleButton>
                 <ToggleButton
-                  value="FASTEST-FINGER"
+                  value="Fastest Finger"
                   aria-label="fastest finger mode"
                 >
                   Fastest Finger

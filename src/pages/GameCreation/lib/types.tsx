@@ -12,7 +12,7 @@ export const settingsInputSchema = z
     thing: z.boolean(),
     occupations: z.boolean(),
     technology: z.boolean(),
-    endMode: z.enum(['FASTEST-FINGER', 'ROUND-TIMER']),
+    endMode: z.enum(['Fastest Finger', 'Round Timer']),
     customCategory1: z
       .string()
       .min(1, { message: 'You must submit two categories' }),

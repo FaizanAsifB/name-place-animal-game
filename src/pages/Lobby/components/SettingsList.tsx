@@ -10,12 +10,18 @@ const SettingsList = () => {
   if (isError) {
     return <span>Error: {error.message}</span>
   }
-
+  console.log(Object.entries(data?.settings))
   return (
-    <div className="bg-amber-700/50">
-      <h2>Lobby Settings</h2>
-      <ul className="grid grid-cols-4 ">
-        <li>
+    <section className="col-span-2 rounded-lg bg-amber-700/50">
+      <h2 className="text-center">Lobby Settings</h2>
+      <ul className="grid grid-cols-2 ">
+        {Object.entries(data?.settings).map(setting => (
+          <li key={setting[0]} className="flex">
+            <h5>{setting[0]}</h5>
+            <p>{setting[1]}</p>
+          </li>
+        ))}
+        {/* <li>
           <h5>Rounds</h5>
           <p>{data?.settings.rounds}</p>
         </li>
@@ -30,10 +36,9 @@ const SettingsList = () => {
               ? 'Round Timer'
               : 'Fastest Finger'}
           </p>
-        </li>
-        <li></li>
+        </li> */}
       </ul>
-    </div>
+    </section>
   )
 }
 export default SettingsList

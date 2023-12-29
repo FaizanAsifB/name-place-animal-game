@@ -45,13 +45,13 @@ const CategoriesList = () => {
           allCategories={addedCategories}
         />
       </Modal>
-      <div className="bg-amber-700/50">
-        <header className="flex justify-between">
+      <section className="col-span-2 rounded-lg bg-amber-700/50">
+        <div className="flex justify-between">
           <h2>Available Categories</h2>
           <button onClick={handleOpenModal}>
             + Add Categories {categoryCount}/2
           </button>
-        </header>
+        </div>
         <ul className="grid grid-cols-4 ">
           {data?.default.map((category: string) => (
             <li key={category}>{category}</li>
@@ -60,7 +60,7 @@ const CategoriesList = () => {
             <li key={category.title}>{category.title}</li>
           ))}
         </ul>
-      </div>
+      </section>
     </>
   )
 }

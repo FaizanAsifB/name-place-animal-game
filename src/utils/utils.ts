@@ -1,6 +1,6 @@
 import { atom } from 'jotai'
 
-export const displayImages = [
+export const avatarImages = [
   { path: '/images/avatars/birdie.svg', title: 'birdie' },
   { path: '/images/avatars/deer.svg', title: 'deer' },
   { path: '/images/avatars/elephant.svg', title: 'elephant' },

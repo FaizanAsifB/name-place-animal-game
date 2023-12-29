@@ -52,28 +52,28 @@ const Lobby = () => {
   }
 
   return (
-    <>
-      <div className="p-4 space-y-4 bg-amber-800/30">
-        <h1>Lobby</h1>
-
+    <div className="p-4 space-y-8 rounded-lg bg-bg-dark">
+      <h1>Lobby</h1>
+      <div className="grid gap-y-4 md:gap-4 md:grid-cols-5 md:grid-rows-2">
         <PlayerSlots data={data} error={fireStoreError} />
+
         <CategoriesList />
         <SettingsList />
-        <div className="flex justify-around">
-          <Button icon={<GiCancel />}>Cancel</Button>
-          <Button
-            disabled={ready !== totalPlayers || !data?.hostId}
-            icon={<CiPlay1 />}
-            onClick={handlePlay}
-          >
-            <span className="mr-2">
-              {ready}/{totalPlayers}
-            </span>
-            <span>{ready !== totalPlayers ? 'Ready' : 'Play'}</span>
-          </Button>
-        </div>
       </div>
-    </>
+      <div className="flex justify-around">
+        <Button icon={<GiCancel />}>Cancel</Button>
+        <Button
+          disabled={ready !== totalPlayers || !data?.hostId}
+          icon={<CiPlay1 />}
+          onClick={handlePlay}
+        >
+          <span className="mr-2">
+            {ready}/{totalPlayers}
+          </span>
+          <span>{ready !== totalPlayers ? 'Ready' : 'Play'}</span>
+        </Button>
+      </div>
+    </div>
   )
 }
 export default Lobby

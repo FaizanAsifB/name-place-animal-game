@@ -7,7 +7,7 @@ import FormInput from '../../../components/ui/FormInput'
 import { auth, db } from '../../../config/config'
 import { SignUpSchema, signUpSchema } from '../../../lib/types'
 import { useAtom } from 'jotai'
-import { avatarAtom, displayImages } from '../../../utils/utils'
+import { avatarAtom, avatarImages } from '../../../utils/utils'
 
 type SignUpFormProps = {
   onClose: () => void
@@ -32,7 +32,7 @@ const SignUpForm = ({ onClose }: SignUpFormProps) => {
       try {
         await updateProfile(res.user, {
           displayName,
-          photoURL: displayImages[avatarIndex].path,
+          photoURL: avatarImages[avatarIndex].path,
         })
 
         await setDoc(doc(db, 'users', res.user.uid), {

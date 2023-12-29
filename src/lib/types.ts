@@ -150,22 +150,23 @@ export type CreateGameData = {
 
 export type RoundsConfig = ReturnType<typeof getRoundsConfig>
 
-// categories: {
-//   default: string[]
-//   custom: string[] | undefined
-//   active: string[]
-// }
-// currentRound: number
-// rounds: {
-//   alphabet: string
-//   categories: string[]
-// }[]
-
 export type RoundSettings = {
-  roundTime: number
+  'round time': number
   rounds: number
-  endMode: 'FASTEST-FINGER' | 'ROUND-TIMER'
+  'end mode': 'Fastest Finger' | 'Round Timer'
 }
+
+export const GameSettingsData = z.object({
+  joinCode: z.string(),
+  hostId: z.string(),
+  settings: z.object({
+    'round time': z.number(),
+    round: z.number(),
+    'end mode': z.enum(['Fastest Finger', 'Round Timer']),
+  }),
+  roomNr: z.string(),
+  lobbyId: z.string(),
+})
 
 export type GameSettings = {
   joinCode: string

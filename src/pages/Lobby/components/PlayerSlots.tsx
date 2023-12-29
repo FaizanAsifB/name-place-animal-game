@@ -98,44 +98,39 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
   //     console.error(error)
   //   }
   // }
-
   return (
-    <>
+    <ul className="col-span-3 space-y-4 rounded-lg row-span-full bg-amber-700/50">
       <h3 className="text-center">
         Players in Lobby {inLobby(data)}/{data?.slots.length}
       </h3>
-      <ul className="p-2 space-y-4 bg-amber-700/50">
-        {data?.slots.map((slot: PlayerData) => {
-          const { uid, displayName, isReady, isHost, slotNr } = slot
-          return (
-            <li
-              key={slot.slotNr}
-              className="flex items-center justify-start gap-2 px-4 py-1 border-2 rounded-3xl bg-amber-600"
-            >
-              <img
-                src={uid ? slot.photoUrl : '/images/empty.svg'}
-                alt=""
-                className="w-10"
+      {data?.slots.map((slot: PlayerData) => {
+        const { uid, displayName, isReady, isHost, slotNr, photoUrl } = slot
+        return (
+          <li
+            key={slot.slotNr}
+            className="flex items-center justify-start gap-2 px-4 py-1 border-2 rounded-3xl bg-amber-600"
+          >
+            <img
+              src={uid ? photoUrl : '/images/avatars/emptyAvatar.svg'}
+              alt=""
+              className="w-10"
+            />
+            <span className="text-xl">{uid ? displayName : 'Empty Slot'}</span>
+            {isHost && <TfiCrown w="24" h="24" />}
+            {uid && (
+              <Checkbox
+                checked={isReady}
+                onChange={e => handleReady(e, slotNr)}
+                disabled={!(uid === currentUser?.uid)}
+                sx={{ ml: 'auto' }}
+                icon={<ClearOutlinedIcon color="error" />}
+                checkedIcon={<CheckOutlinedIcon color="success" />}
               />
-              <span className="text-xl">
-                {uid ? displayName : 'Empty Slot'}
-              </span>
-              {isHost && <TfiCrown w="24" h="24" />}
-              {uid && (
-                <Checkbox
-                  checked={isReady}
-                  onChange={e => handleReady(e, slotNr)}
-                  disabled={!(uid === currentUser?.uid)}
-                  sx={{ ml: 'auto' }}
-                  icon={<ClearOutlinedIcon color="error" />}
-                  checkedIcon={<CheckOutlinedIcon color="success" />}
-                />
-              )}
-            </li>
-          )
-        })}
-      </ul>
-    </>
+            )}
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 export default PlayerSlots
