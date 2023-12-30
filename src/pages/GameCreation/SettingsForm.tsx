@@ -21,7 +21,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { GrGamepad } from 'react-icons/gr'
 import { useNavigate } from 'react-router-dom'
 import ErrorText from '../../components/forms/ErrorText.tsx'
-import Button from '../../components/ui/Button'
+import { Button } from '../../components/ui/Button'
 import { AuthContext } from '../../context/AuthContext'
 import {
   Categories,
@@ -265,12 +265,8 @@ const SettingsForm = () => {
           </div>
         </Setting>
       </ul>
-      <Button
-        className="mx-auto"
-        type="submit"
-        disabled={isSubmitting}
-        icon={isSubmitting ? <CircularProgress /> : <GrGamepad />}
-      >
+      <Button className="mx-auto" type="submit" disabled={isSubmitting}>
+        {isSubmitting ? <CircularProgress /> : <GrGamepad />}
         Create Game
       </Button>
     </form>

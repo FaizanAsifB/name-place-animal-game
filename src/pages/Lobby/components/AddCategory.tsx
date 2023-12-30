@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { CgSpinner } from 'react-icons/cg'
 import { GrGamepad } from 'react-icons/gr'
 import { useParams } from 'react-router-dom'
-import Button from '../../../components/ui/Button'
+import { Button } from '../../../components/ui/Button'
 import FormInput from '../../../components/ui/FormInput'
 import { AuthContext } from '../../../context/AuthContext'
 import {
@@ -147,7 +147,8 @@ const AddCategory = ({
         placeholder="e.g. video games"
       />
       <div>
-        <Button disabled={isSubmitting} type="submit" icon={<GrGamepad />}>
+        <Button disabled={isSubmitting} type="submit">
+          <GrGamepad />
           {isSubmitting ? <CgSpinner /> : 'Add Categories'}
         </Button>
         <Button onClick={handleCancel}>Cancel</Button>

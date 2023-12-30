@@ -1,12 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
+import { useAtom } from 'jotai'
 import { useForm } from 'react-hook-form'
-import Button from '../../../components/ui/Button'
+import { Button } from '../../../components/ui/Button'
 import FormInput from '../../../components/ui/FormInput'
 import { auth, db } from '../../../config/config'
 import { SignUpSchema, signUpSchema } from '../../../lib/types'
-import { useAtom } from 'jotai'
 import { avatarAtom, avatarImages } from '../../../utils/utils'
 
 type SignUpFormProps = {

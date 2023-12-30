@@ -1,6 +1,6 @@
 import { CiPlay1 } from 'react-icons/ci'
 import { GiCancel } from 'react-icons/gi'
-import Button from '../../components/ui/Button'
+import { Button } from '../../components/ui/Button'
 import useNextPhase from '../../hooks/useNextPhase'
 import { Categories, CreateGameData, GameSettings } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
@@ -58,7 +58,7 @@ const Lobby = () => {
   }
 
   return (
-    <div className="p-4 space-y-8 rounded-lg bg-bg-dark">
+    <div className="p-4 space-y-8 rounded-lg bg-background">
       <h1>Lobby</h1>
       <div className="grid gap-y-4 md:gap-4 md:grid-cols-5 md:grid-rows-2">
         <PlayerSlots data={data} error={fireStoreError} />
@@ -67,12 +67,15 @@ const Lobby = () => {
         <SettingsList />
       </div>
       <div className="flex justify-around">
-        <Button icon={<GiCancel />}>Cancel</Button>
+        <Button>
+          <GiCancel />
+          Cancel
+        </Button>
         <Button
           disabled={ready !== totalPlayers || !data?.hostId}
-          icon={<CiPlay1 />}
           onClick={handlePlay}
         >
+          <CiPlay1 />
           <span className="mr-2">
             {ready}/{totalPlayers}
           </span>

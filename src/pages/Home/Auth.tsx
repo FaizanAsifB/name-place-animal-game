@@ -1,11 +1,11 @@
+import { useAtom } from 'jotai'
 import { useContext, useRef, useState } from 'react'
 import { IoGameControllerOutline } from 'react-icons/io5'
 import { PiPlugsConnectedBold } from 'react-icons/pi'
 import { useNavigate } from 'react-router-dom'
-import Button from '../../components/ui/Button'
+import { Button } from '../../components/ui/Button'
 import Tab from '../../components/ui/Tab'
 import { AuthContext } from '../../context/AuthContext'
-import { useAtom } from 'jotai'
 import {
   GameCodeSchema,
   GuestSchema,
@@ -106,7 +106,7 @@ const Auth = () => {
           showGuest={showGuest}
         />
       </div>
-      <div className="flex flex-col justify-center row-start-2 gap-4 md:flex-row-reverse md:gap-8 col-span-full lg:col-span-3 place-items-center md:bg-bg-dark md:pb-8 md:mb-8 md:pr-4 md:rounded-b-lg">
+      <div className="flex flex-col justify-center row-start-2 gap-4 md:flex-row-reverse md:gap-8 col-span-full lg:col-span-3 place-items-center md:bg-background md:pb-8 md:mb-8 md:pr-4 md:rounded-b-lg">
         {currentUser ? (
           <>
             <Button

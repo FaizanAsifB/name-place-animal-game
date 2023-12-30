@@ -1,6 +1,6 @@
 import { useMatch, useNavigate } from 'react-router-dom'
 import img from '../assets/imgs/note-1173544_640.png'
-import Button from '../components/ui/Button'
+import { Button } from '../components/ui/Button'
 
 const Header = () => {
   const match = useMatch('game-creation')

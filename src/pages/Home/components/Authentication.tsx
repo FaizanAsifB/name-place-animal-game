@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { CgNotes } from 'react-icons/cg'
 import { MdOutlineMailOutline } from 'react-icons/md'
-import Button from '../../../components/ui/Button'
+import { Button } from '../../../components/ui/Button'
 import Modal from '../../../components/ui/Modal'
 import LoginForm from './LoginForm'
 import SignUpForm from './SignUpForm'
