@@ -76,3 +76,34 @@
     @apply bg-background text-foreground;
   } */
 }
+@layer base {
+  /* import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css'; */
+  h1,
+  h2,
+  h3 {
+    @apply font-bold capitalize;
+  }
+
+  h1 {
+    @apply text-2xl text-center md:text-3xl lg:text-4xl;
+  }
+
+  h2 {
+    @apply text-xl md:text-2xl lg:text-3xl;
+  }
+
+  h3 {
+    @apply text-lg md:text-xl lg:text-2xl;
+  }
+
+  h5 {
+    @apply text-lg font-bold md:text-xl lg:text-2xl;
+  }
+
+  input {
+    @apply p-2 text-base border rounded-lg outline-none md:text-lg lg:text-xl bg-slate-700/5 border-accent placeholder:text-inherit placeholder:opacity-50;
+  }
+}
