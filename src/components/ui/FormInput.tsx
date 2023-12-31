@@ -21,7 +21,7 @@ const FormInput = ({
   value,
 }: FormInputProps) => {
   return (
-    <>
+    
       <li className="flex flex-col gap-1">
         <label htmlFor={name}>{label}</label>
         <div className="relative">
@@ -37,7 +37,7 @@ const FormInput = ({
           <ErrorText>{error}</ErrorText>
         </div>
       </li>
-    </>
+    
   )
 }
 

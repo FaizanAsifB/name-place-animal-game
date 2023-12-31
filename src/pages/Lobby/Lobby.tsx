@@ -1,6 +1,6 @@
 import { CiPlay1 } from 'react-icons/ci'
 import { GiCancel } from 'react-icons/gi'
-import { Button } from '../../components/ui/Button'
+import { Button } from '../../components/ui/button.tsx'
 import useNextPhase from '../../hooks/useNextPhase'
 import { Categories, CreateGameData, GameSettings } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'

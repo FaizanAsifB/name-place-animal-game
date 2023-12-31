@@ -1,15 +1,15 @@
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined'
-import Checkbox from '@mui/material/Checkbox'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+
 import { useMutation } from '@tanstack/react-query'
 import { DocumentData, FirestoreErrorCode } from 'firebase/firestore'
-import { ChangeEvent, useCallback, useContext, useEffect } from 'react'
-import { TfiCrown } from 'react-icons/tfi'
+import { useCallback, useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { AuthContext } from '../../../context/AuthContext'
 
 import { PlayerData } from '../../../lib/types'
 // import { queryData } from '../../../utils/fetchData'
+import { Toggle } from '@/components/ui/toggle'
+import { Crown, ThumbsDown, ThumbsUp } from 'lucide-react'
 import {
   addPlayerCount,
   createUserCategories,
@@ -40,10 +40,11 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
     mutationFn: updatePlayers,
   })
 
-  function handleReady(e: ChangeEvent<HTMLInputElement>, i: number) {
+  function handleReady(pressed: boolean, i: number) {
+    console.log(pressed)
     const updatedData = data?.slots.with(i, {
       ...data.slots[i],
-      isReady: e.target.checked,
+      isReady: pressed,
     })
     mutate({ roomId: params.roomId!, updatedData })
   }
@@ -110,22 +111,33 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
             key={slot.slotNr}
             className="flex items-center justify-start gap-2 px-4 py-1 border-2 rounded-3xl bg-amber-600"
           >
-            <img
-              src={uid ? photoUrl : '/images/avatars/emptyAvatar.svg'}
-              alt=""
-              className="w-10"
-            />
-            <span className="text-xl">{uid ? displayName : 'Empty Slot'}</span>
-            {isHost && <TfiCrown w="24" h="24" />}
-            {uid && (
-              <Checkbox
-                checked={isReady}
-                onChange={e => handleReady(e, slotNr)}
-                disabled={!(uid === currentUser?.uid)}
-                sx={{ ml: 'auto' }}
-                icon={<ClearOutlinedIcon color="error" />}
-                checkedIcon={<CheckOutlinedIcon color="success" />}
+            <Avatar>
+              <AvatarImage
+                src={uid ? photoUrl : '/images/avatars/emptyAvatar.svg'}
               />
+              <AvatarFallback>
+                <img src="/images/avatars/emptyAvatar.svg" alt="empty slot" />
+              </AvatarFallback>
+            </Avatar>
+
+            <span className="text-xl">{uid ? displayName : 'Empty Slot'}</span>
+            {isHost && <Crown />}
+            {uid && (
+              //added padding to center the icon
+              <Toggle
+                variant={'icon'}
+                size={'icon'}
+                defaultPressed={isReady}
+                onPressedChange={pressed => handleReady(pressed, slotNr)}
+                disabled={!(uid === currentUser?.uid)}
+                className="pb-1"
+              >
+                {isReady ? (
+                  <ThumbsUp color="green" />
+                ) : (
+                  <ThumbsDown color="red" />
+                )}
+              </Toggle>
             )}
           </li>
         )
