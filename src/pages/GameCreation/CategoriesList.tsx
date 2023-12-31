@@ -1,69 +1,75 @@
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
+import { Checkbox } from '@/components/ui/checkbox'
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { useState } from 'react'
-import { Control, Controller } from 'react-hook-form'
+import { Control } from 'react-hook-form'
+import { SettingsInput } from './lib/types'
 // import { DefaultCategoriesList, SettingsInput } from './lib/types'
 
 //!FIX CONTROL TYPE
 type CategoriesListProps = {
-  control: Control<any>
+  control: Control<SettingsInput>
 }
+const defaultCategories: Record<string, string>[] = [
+  { id: 'name', label: 'Name' },
+  { id: 'place', label: 'Place' },
+  { id: 'animal', label: 'Animal' },
+  { id: 'thing', label: 'Thing' },
+  { id: 'occupations', label: 'Occupations' },
+  { id: 'technology', label: 'Technology' },
+]
 
 const CategoriesList = ({ control }: CategoriesListProps) => {
-  const [isChecked, setIsChecked] = useState<Record<string, boolean>>({
-    name: true,
-    place: true,
-    animal: true,
-    thing: false,
-    occupations: false,
-    technology: false,
-  })
-
-  const defaultCategoriesList: string[] = [
-    'name',
-    'place',
-    'animal',
-    'thing',
-    'occupations',
-    'technology',
-  ]
-
-  const checkedCategories = Object.values(isChecked)
-  const error = checkedCategories.filter(c => c).length === 4
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setIsChecked({
-      ...isChecked,
-      [e.target.name]: e.target.checked,
-    })
-  }
   return (
-    <FormGroup row={true}>
-      {defaultCategoriesList.map(category => {
-        return (
-          <Controller
-            key={category}
-            name={category}
-            control={control}
-            render={({ field: { onChange } }) => (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    disabled={!isChecked[category] && error}
-                    name={category}
-                    checked={isChecked[category]}
-                    onChange={e => {
-                      onChange(e.target.checked)
-                      handleChange(e)
-                    }}
-                  />
-                }
-                label={category.charAt(0).toUpperCase() + category.slice(1)}
-              />
-            )}
-          />
-        )
-      })}
-    </FormGroup>
+    <FormField
+      control={control}
+      name="defaultCategories"
+      render={() => (
+        <FormItem className="relative flex flex-wrap items-center gap-4 space-y-0">
+          {defaultCategories.map(category => (
+            <FormField
+              key={category.id}
+              control={control}
+              name="defaultCategories"
+              render={({ field: { onChange, value } }) => {
+                return (
+                  <FormItem
+                    key={category.id}
+                    className="flex items-center gap-1 space-y-0 "
+                  >
+                    <FormControl>
+                      <Checkbox
+                        disabled={
+                          !value?.includes(category.id) && value.length === 4
+                        }
+                        checked={value?.includes(category.id)}
+                        onCheckedChange={checked => {
+                          return checked
+                            ? onChange([...value, category.id])
+                            : onChange(
+                                value?.filter(value => value !== category.id)
+                              )
+                        }}
+                      />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      {category.label}
+                    </FormLabel>
+                  </FormItem>
+                )
+              }}
+            />
+          ))}
+          <FormMessage className="w-full text-center" />
+        </FormItem>
+      )}
+    />
   )
 }
 export default CategoriesList

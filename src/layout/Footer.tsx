@@ -13,7 +13,7 @@ const Footer = () => {
   }
 
   return (
-    <footer className="justify-between hidden h-12 lg:flex">
+    <footer className="flex justify-between h-12 my-8">
       Footer
       {currentUser && <Button onClick={signOutUser}>Logout</Button>}
     </footer>

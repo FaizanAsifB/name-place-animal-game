@@ -103,7 +103,7 @@ import '@fontsource/roboto/700.css'; */
     @apply text-lg font-bold md:text-xl lg:text-2xl;
   }
 
-  input {
+  /* input {
     @apply p-2 text-base border rounded-lg outline-none md:text-lg lg:text-xl bg-slate-700/5 border-accent placeholder:text-inherit placeholder:opacity-50;
-  }
+  } */
 }

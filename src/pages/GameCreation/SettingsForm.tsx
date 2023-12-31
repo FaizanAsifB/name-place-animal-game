@@ -1,34 +1,26 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms'
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
-import NumbersIcon from '@mui/icons-material/Numbers'
-import SportsScoreIcon from '@mui/icons-material/SportsScore'
-import {
-  CircularProgress,
+import { Button } from '@/components/ui/button.tsx'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
-  // FormControl,
-  // InputLabel,
-  // MenuItem,
-  // Select,
-  Slider,
-  ToggleButton,
-  ToggleButtonGroup,
-} from '@mui/material'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Slider } from '@/components/ui/slider'
+import { zodResolver } from '@hookform/resolvers/zod'
+
 import { serverTimestamp } from 'firebase/firestore'
 import { useContext } from 'react'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { GrGamepad } from 'react-icons/gr'
+import { SubmitHandler, useForm } from 'react-hook-form'
+
+import { Input } from '@/components/ui/input.tsx'
+import { Gamepad2, Loader2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import ErrorText from '../../components/forms/ErrorText.tsx'
-import { Button } from '../../components/ui/Button'
 import { AuthContext } from '../../context/AuthContext'
-import {
-  Categories,
-  DefaultCategories,
-  PlayerData,
-  RoundSettings,
-} from '../../lib/types.ts'
+import { Categories, PlayerData, RoundSettings } from '../../lib/types.ts'
 import Setting from '../GameRoom/components/Setting.tsx'
 import CategoriesList from './CategoriesList.tsx'
 import { SettingsInput, settingsInputSchema } from './lib/types.tsx'
@@ -38,22 +30,11 @@ import { makePlayerSlots } from './utils/util.ts'
 const SettingsForm = () => {
   const currentUser = useContext(AuthContext)
 
-  const {
-    control,
-    handleSubmit,
-    register,
-    clearErrors,
-    formState: { errors, isSubmitting },
-  } = useForm<SettingsInput>({
+  const form = useForm<SettingsInput>({
     defaultValues: {
       roundTime: 60,
       rounds: 6,
-      name: true,
-      place: true,
-      animal: true,
-      thing: false,
-      occupations: false,
-      technology: false,
+      defaultCategories: ['name', 'place', 'animal'],
       endMode: 'Round Timer',
       customCategory1: '',
       customCategory2: '',
@@ -63,26 +44,15 @@ const SettingsForm = () => {
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<SettingsInput> = async data => {
+    console.log(data)
     const {
       roundTime,
       rounds,
       endMode,
       customCategory1,
       customCategory2,
-      ...categoryOptions
+      defaultCategories,
     } = data
-
-    //!Need to check if this works
-    const defaultCategories: DefaultCategories = Object.entries(categoryOptions)
-      .filter(item => item[1])
-      .map(item => item[0])
-    // .reduce((acc: string[], category) => {
-    //   if (!category[1]) return acc
-    //   if (category[1]) {
-    //     acc?.push(category[0])
-    //     return acc
-    //   }
-    // }, [] as string[])
 
     const settings: RoundSettings = {
       'round time': roundTime,
@@ -110,166 +80,192 @@ const SettingsForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <ul className="px-6 mb-8 space-y-8">
-        <Setting
-          icon={<AccessAlarmsIcon fontSize="large" />}
-          title={'Time'}
-          description={'Maximum time available for each round'}
-        >
-          <Controller
-            name="roundTime"
-            control={control}
-            render={({ field }) => (
-              <Slider
-                className="text-red-400"
-                {...field}
-                aria-label="time per round"
-                defaultValue={60}
-                // onChange={onChange}
-                id="round-time"
-                // getAriaValueText={valuetext}
-                valueLabelDisplay="auto"
-                step={5}
-                marks
-                min={30}
-                max={120}
-              />
-            )}
-          />
-        </Setting>
-        <Setting
-          icon={<NumbersIcon fontSize="large" />}
-          title={'Total Rounds'}
-          description={'Choose number of rounds to play'}
-        >
-          <Controller
-            name="rounds"
-            control={control}
-            render={({ field }) => (
-              <Slider
-                {...field}
-                aria-label="rounds"
-                defaultValue={5}
-                // getAriaValueText={valuetext}
-                valueLabelDisplay="auto"
-                step={1}
-                marks
-                min={4}
-                max={10}
-              />
-            )}
-          />
-        </Setting>
+    <Form {...form}>
+      <form className="grid space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+        <ul className="px-6 mb-8 space-y-8">
+          <Setting
+            // icon={<AccessAlarmsIcon fontSize="large" />}
+            title={'Time'}
+            description={'Maximum time available for each round'}
+          >
+            <FormField
+              control={form.control}
+              name="roundTime"
+              render={({ field: { value, onChange } }) => (
+                <FormItem>
+                  <FormLabel>{value} Seconds</FormLabel>
+                  <FormControl>
+                    <Slider
+                      // {...field}
+                      // className="text-red-400"
+                      // aria-label="time per round"
+                      defaultValue={[value]}
+                      onValueChange={val => {
+                        onChange(val[0])
+                      }}
+                      // onChange={field.onChange}
+                      id="round-time"
+                      // getAriaValueText={valuetext}
+                      // valueLabelDisplay="auto"
+                      step={5}
+                      // marks
+                      min={30}
+                      max={120}
+                    />
+                  </FormControl>
 
-        {/* list of categories to display */}
-        <Setting
-          icon={<LibraryBooksIcon fontSize="large" />}
-          title={'Categories'}
-          description={'Choose four starter categories'}
-        >
-          <CategoriesList control={control} />
-        </Setting>
-        {/*    <Setting
-          icon={<SportsScoreIcon fontSize="large" />}
-          title={'Round End Mode'}
-          description={
-            'In fastest finger timer is set to 15 seconds when the first player submits'
-          }
-        >
-          <FormControl fullWidth>
-            <InputLabel id="end-mode-label">End Mode</InputLabel>
-            <Controller
-              name="endMode"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  labelId="end-mode-label"
-                  id="end-mode"
-                  variant="filled"
-                  label="round timer"
-                >
-                  <MenuItem value="ROUND-TIMER">Round Timer</MenuItem>
-                  <MenuItem value="FASTEST-FINGER">Fastest Finger</MenuItem>
-                </Select>
+                  <FormMessage />
+                </FormItem>
               )}
             />
-          </FormControl>
-        </Setting> */}
+          </Setting>
+          <Setting
+            // icon={<NumbersIcon fontSize="large" />}
+            title={'Total Rounds'}
+            description={'Choose number of rounds to play'}
+          >
+            <FormField
+              control={form.control}
+              name="rounds"
+              render={({ field: { value, onChange } }) => (
+                <FormItem>
+                  <FormLabel>{value} Rounds</FormLabel>
+                  <FormControl>
+                    <Slider
+                      // className="text-red-400"
+                      aria-label="rounds"
+                      defaultValue={[value]}
+                      onValueChange={val => {
+                        onChange(val[0])
+                      }}
+                      // onChange={field.onChange}
+                      id="round-time"
+                      // getAriaValueText={valuetext}
+                      // valueLabelDisplay="auto"
+                      step={1}
+                      // marks
+                      min={4}
+                      max={10}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </Setting>
 
-        {/* End mode */}
+          {/* list of categories to display */}
 
-        <Setting
-          icon={<SportsScoreIcon fontSize="large" />}
-          title={'Round End Mode'}
-          description={
-            'In fastest finger timer is set to 15 seconds when the first player submits'
+          <Setting
+            // icon={<LibraryBooksIcon fontSize="large" />}
+            title={'Categories'}
+            description={'Choose four starter categories'}
+          >
+            <CategoriesList control={form.control} />
+          </Setting>
+
+          <Setting
+            // icon={<SportsScoreIcon fontSize="large" />}
+            title={'Round End Mode'}
+            description={
+              'In fastest finger timer is set to 15 seconds when the first player submits'
+            }
+          >
+            <FormField
+              control={form.control}
+              name="endMode"
+              render={({ field: { value, onChange } }) => (
+                <FormItem>
+                  <FormControl>
+                    <ToggleGroup
+                      type="single"
+                      defaultValue={value}
+                      onValueChange={onChange}
+                    >
+                      <ToggleGroupItem
+                        aria-label="Select Round Timer"
+                        value="Round Timer"
+                      >
+                        Round Timer
+                      </ToggleGroupItem>
+                      <ToggleGroupItem
+                        aria-label="Select fastest finger"
+                        value="Fastest Finger"
+                      >
+                        Fastest Finger
+                      </ToggleGroupItem>
+                    </ToggleGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </Setting>
+
+          {/* End mode */}
+
+          {
+            <Setting
+              // icon={<LibraryAddIcon fontSize="large" />}
+              title={'Custom Categories'}
+              description={'Submit two custom categories'}
+            >
+              <div className="grid grid-cols-2 gap-2">
+                <FormField
+                  control={form.control}
+                  name="customCategory1"
+                  render={({ field }) => (
+                    <FormItem className="relative">
+                      <FormControl>
+                        <Input
+                          placeholder="Add custom category"
+                          {...field}
+                          // onBlur={() => {
+                          //   form.clearErrors()
+                          // }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="customCategory2"
+                  render={({ field }) => (
+                    <FormItem className="relative">
+                      <FormControl>
+                        <Input
+                          placeholder="Add custom category"
+                          {...field}
+                          // onBlur={() => {
+                          //   form.clearErrors()
+                          // }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </Setting>
           }
+        </ul>
+        <Button
+          className="mx-auto"
+          type="submit"
+          disabled={form.formState.isSubmitting}
         >
-          <Controller
-            name="endMode"
-            control={control}
-            render={({ field }) => (
-              <ToggleButtonGroup
-                // value={alignment}
-                {...field}
-                exclusive
-                // onChange={handleAlignment}
-                aria-label="round end mode"
-              >
-                <ToggleButton value="Round Timer" aria-label="round timer mode">
-                  Round Timer
-                </ToggleButton>
-                <ToggleButton
-                  value="Fastest Finger"
-                  aria-label="fastest finger mode"
-                >
-                  Fastest Finger
-                </ToggleButton>
-              </ToggleButtonGroup>
-            )}
-          />
-        </Setting>
-        <Setting
-          icon={<LibraryAddIcon fontSize="large" />}
-          title={'Custom Categories'}
-          description={'Submit two custom categories'}
-        >
-          <div className="grid grid-cols-2 gap-2">
-            <div className="relative">
-              <ErrorText align={'left'}>
-                {errors.customCategory1?.message}
-              </ErrorText>
-              <input
-                {...register('customCategory1')}
-                type="text"
-                name="customCategory1"
-                placeholder="Add custom category"
-                onBlur={() => clearErrors()}
-              />
-            </div>
-            <div className="relative">
-              <ErrorText align={'left'}>
-                {errors.customCategory2?.message}
-              </ErrorText>
-
-              <input
-                {...register('customCategory2')}
-                type="text"
-                name="customCategory2"
-                placeholder="Add custom category"
-                onBlur={() => clearErrors()}
-              />
-            </div>
-          </div>
-        </Setting>
-      </ul>
-      <Button className="mx-auto" type="submit" disabled={isSubmitting}>
-        {isSubmitting ? <CircularProgress /> : <GrGamepad />}
-        Create Game
-      </Button>
-    </form>
+          {form.formState.isSubmitting ? (
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+          ) : (
+            <Gamepad2 className="mr-2" />
+          )}
+          Create Game
+        </Button>
+      </form>
+    </Form>
   )
 }
 export default SettingsForm
