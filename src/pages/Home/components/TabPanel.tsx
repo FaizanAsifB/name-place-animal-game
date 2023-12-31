@@ -3,6 +3,7 @@ import ErrorText from '../../../components/forms/ErrorText'
 
 import { AuthContext } from '../../../context/AuthContext'
 
+import { Input } from '@/components/ui/input'
 import AvatarSelection from './AvatarSelection'
 
 type TabPanelProps = {
@@ -36,17 +37,19 @@ const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
             <div className="relative">
               <ErrorText align={'right'}>{errorMessage}</ErrorText>
               {currentUser ? (
-                <input
+                <Input
                   name="joinRoom"
                   onChangeCapture={() => setErrorMessage('')}
+                  onBlur={() => setErrorMessage('')}
                   ref={ref}
                   type="text"
                   placeholder="G2F3X"
                 />
               ) : showGuest ? (
-                <input
+                <Input
                   name="createGuest"
                   onChangeCapture={() => setErrorMessage('')}
+                  onBlur={() => setErrorMessage('')}
                   ref={ref}
                   className=""
                   type="text"

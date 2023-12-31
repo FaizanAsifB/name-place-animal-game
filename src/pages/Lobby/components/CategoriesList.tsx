@@ -1,3 +1,11 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Modal from '../../../components/ui/Modal'
@@ -37,31 +45,45 @@ const CategoriesList = () => {
   }
 
   return (
-    <>
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <AddCategory
-          closeModal={closeModal}
-          categoriesData={data?.custom[currentUser!.uid]}
-          allCategories={addedCategories}
-        />
-      </Modal>
-      <section className="col-span-2 rounded-lg bg-amber-700/50">
-        <div className="flex justify-between">
-          <h2>Available Categories</h2>
-          <button onClick={handleOpenModal}>
-            + Add Categories {categoryCount}/2
-          </button>
-        </div>
-        <ul className="grid grid-cols-4 ">
-          {data?.default.map((category: string) => (
-            <li key={category}>{category}</li>
-          ))}
-          {addedCategories?.map(category => (
-            <li key={category.title}>{category.title}</li>
-          ))}
-        </ul>
-      </section>
-    </>
+    // <>
+    //   <Modal isOpen={isModalOpen} onClose={closeModal}>
+    //     <AddCategory
+    //       closeModal={closeModal}
+    //       categoriesData={data?.custom[currentUser!.uid]}
+    //       allCategories={addedCategories}
+    //     />
+    //   </Modal>
+    <section className="col-span-2 rounded-lg bg-amber-700/50">
+      <div className="flex justify-between">
+        <h2>Available Categories</h2>
+        <Dialog>
+          <DialogTrigger asChild>
+            <button>+ Add Categories {categoryCount}/2</button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Custom Categories</DialogTitle>
+              <DialogDescription>
+                Add two categories of your choice.
+              </DialogDescription>
+            </DialogHeader>
+            <AddCategory
+              // closeModal={closeModal}
+              categoriesData={data?.custom[currentUser!.uid]}
+              allCategories={addedCategories}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
+      <ul className="grid grid-cols-4 ">
+        {data?.default.map((category: string) => (
+          <li key={category}>{category}</li>
+        ))}
+        {addedCategories?.map(category => (
+          <li key={category.title}>{category.title}</li>
+        ))}
+      </ul>
+    </section>
   )
 }
 export default CategoriesList

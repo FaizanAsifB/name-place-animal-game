@@ -1,27 +1,39 @@
+import { DialogClose, DialogFooter } from '@/components/ui/dialog.tsx'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { useAtom } from 'jotai'
 import { useForm } from 'react-hook-form'
-import { Button } from '../../../components/ui/Button'
-import FormInput from '../../../components/ui/FormInput'
+import { Button } from '../../../components/ui/button.tsx'
 import { auth, db } from '../../../config/config'
 import { SignUpSchema, signUpSchema } from '../../../lib/types'
 import { avatarAtom, avatarImages } from '../../../utils/utils'
+import { BookText, XCircle } from 'lucide-react'
 
-type SignUpFormProps = {
-  onClose: () => void
-}
+// type SignUpFormProps = {
+//   onClose: () => void
+// }
 
-const SignUpForm = ({ onClose }: SignUpFormProps) => {
+const SignUpForm = () => {
   const [avatarIndex] = useAtom(avatarAtom)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<SignUpSchema>({
+  const form = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      displayName: '',
+      confirmPassword: '',
+    },
   })
 
   const onSubmit = async (data: SignUpSchema) => {
@@ -42,7 +54,7 @@ const SignUpForm = ({ onClose }: SignUpFormProps) => {
           photoURL: res.user.photoURL,
           isAnonymous: res.user.isAnonymous,
         })
-        onClose()
+        // onClose()
       } catch (error) {
         throw new Error('There was an error signing up')
       }
@@ -52,54 +64,77 @@ const SignUpForm = ({ onClose }: SignUpFormProps) => {
   }
 
   return (
-    <>
-      <h2 className="mb-4">Sign up</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ul className="flex flex-col gap-4">
-          <FormInput
-            register={{ ...register('displayName') }}
-            type="text"
-            label="Display Name"
-            name="displayName"
-            error={errors.displayName?.message}
-            placeholder="CoolNick2022"
-          />
-          <FormInput
-            register={{ ...register('email') }}
-            label="Email"
-            name="email"
-            type="email"
-            error={errors.email?.message}
-            placeholder="Enter your email"
-          />
-          <FormInput
-            register={{ ...register('password') }}
-            label="Password"
-            name="password"
-            type="password"
-            error={errors.password?.message}
-            placeholder="Password"
-          />
-          <FormInput
-            register={{ ...register('confirmPassword') }}
-            label="Confirm Password"
-            name="confirmPassword"
-            type="password"
-            error={errors.confirmPassword?.message}
-            placeholder="Confirm Password"
-          />
-          {/* <input type="hidden" name="_action" value="register" /> */}
-        </ul>
-        <menu className="flex justify-between mt-8">
-          <Button onClick={onClose} disabled={isSubmitting}>
-            Cancel
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-4"
+      >
+        <FormField
+          control={form.control}
+          name="displayName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Display Name</FormLabel>
+              <FormControl>
+                <Input placeholder="CoolNick2022" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input placeholder="password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+              <FormControl>
+                <Input placeholder="Confirm Password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <DialogFooter className="flex justify-between mt-8">
+          <DialogClose asChild>
+            <Button disabled={form.formState.isSubmitting}>
+              <XCircle />
+              Cancel
+            </Button>
+          </DialogClose>
+
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            <BookText /> Register
           </Button>
-          <Button type="submit" disabled={isSubmitting}>
-            Register
-          </Button>
-        </menu>
+        </DialogFooter>
       </form>
-    </>
+    </Form>
   )
 }
 export default SignUpForm

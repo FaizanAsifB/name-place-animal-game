@@ -1,12 +1,13 @@
+import { DialogClose, DialogFooter } from '@/components/ui/dialog.tsx'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { DocumentData, Timestamp } from 'firebase/firestore'
+import { Loader2 } from 'lucide-react'
 import { useContext, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { CgSpinner } from 'react-icons/cg'
 import { GrGamepad } from 'react-icons/gr'
 import { useParams } from 'react-router-dom'
-import { Button } from '../../../components/ui/Button'
 import FormInput from '../../../components/ui/FormInput'
+import { Button } from '../../../components/ui/button.tsx'
 import { AuthContext } from '../../../context/AuthContext'
 import {
   CustomCategoriesType,
@@ -15,7 +16,6 @@ import {
 import { submitCategoryInput } from '../../GameCreation/utils/http'
 
 type AddCategoryProps = {
-  closeModal: () => void
   categoriesData: DocumentData | undefined
   allCategories:
     | {
@@ -26,11 +26,7 @@ type AddCategoryProps = {
     | undefined
 }
 
-const AddCategory = ({
-  closeModal,
-  categoriesData,
-  allCategories,
-}: AddCategoryProps) => {
+const AddCategory = ({ categoriesData, allCategories }: AddCategoryProps) => {
   const defaultValues = {
     category1: categoriesData?.category1.title,
     category2: categoriesData?.category2.title,
@@ -66,12 +62,12 @@ const AddCategory = ({
     if (e.target.name === 'category2') setValue('category2', e.target.value)
   }
 
-  function handleCancel() {
-    setValue('category1', defaultValues.category1)
-    setValue('category2', defaultValues.category2)
-    clearErrors()
-    closeModal()
-  }
+  // function handleCancel() {
+  //   setValue('category1', defaultValues.category1)
+  //   setValue('category2', defaultValues.category2)
+  //   clearErrors()
+  //   closeModal()
+  // }
 
   function filterCategories(category: string, categoryNr: string) {
     const exists =
@@ -110,7 +106,8 @@ const AddCategory = ({
       })
     }
 
-    isSubmitSuccessful && closeModal()
+    isSubmitSuccessful
+    //  && closeModal()
   }
 
   return (
@@ -146,13 +143,19 @@ const AddCategory = ({
         type="text"
         placeholder="e.g. video games"
       />
-      <div>
+      <DialogFooter>
         <Button disabled={isSubmitting} type="submit">
           <GrGamepad />
-          {isSubmitting ? <CgSpinner /> : 'Add Categories'}
+          {isSubmitting ? (
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+          ) : (
+            'Add Categories'
+          )}
         </Button>
-        <Button onClick={handleCancel}>Cancel</Button>
-      </div>
+        <DialogClose asChild>
+          <Button>Cancel</Button>
+        </DialogClose>
+      </DialogFooter>
     </form>
   )
 }
