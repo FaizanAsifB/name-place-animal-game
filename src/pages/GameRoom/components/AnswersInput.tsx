@@ -1,14 +1,15 @@
+import { Button } from '@/components/ui/button'
+import { Form } from '@/components/ui/form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { useLoaderData, useParams } from 'react-router-dom'
+import { z } from 'zod'
 import { AuthContext } from '../../../context/AuthContext'
 import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
 import {
   AnswerInputs,
   Answers,
-  // AnswersData,
-  // Answers,
-  // AnswersData,
   CreateGameData,
   FireStoreError,
   GameData,
@@ -17,13 +18,16 @@ import {
 import { submitAnswers, updateGameState } from '../../GameCreation/utils/http'
 import CategoryAnswers from './CategoryAnswers'
 
+export const AnswerSchema = z.array(z.object({ answer: z.string() }))
+
+export const AnswersSchema = z.record(AnswerSchema)
+
 const AnswersInput = () => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
   const { roundsData } = useLoaderData() as {
     roundsData: CreateGameData
   }
-  // const navigate = useNavigate()
 
   const { settings } = useLoaderData() as {
     settings: GameSettings
@@ -48,21 +52,15 @@ const AnswersInput = () => {
     return defaultValues
   }, [activeCategories])
 
-  const {
-    handleSubmit,
-    register,
-    control,
-    setError,
-    watch,
-    getValues,
-    clearErrors,
-    formState: { errors, isSubmitted, isSubmitting },
-  } = useForm<AnswerInputs>({
+  const form = useForm<z.infer<typeof AnswersSchema>>({
     defaultValues,
+    resolver: zodResolver(AnswersSchema),
+    mode: 'onChange',
   })
 
   //Submit Data
   const onSubmit = async (data: AnswerInputs) => {
+    console.log(data)
     const formattedData = {} as Answers
     for (const category in data) {
       formattedData[category] = data[category].map(v => v.answer)
@@ -89,35 +87,27 @@ const AnswersInput = () => {
   if (
     gameData &&
     gameData.gameState === 'ROUND-ENDED' &&
-    (!isSubmitting || !isSubmitted)
+    (!form.formState.isSubmitting || !form.formState.isSubmitted)
   )
-    handleSubmit(onSubmit)()
+    form.handleSubmit(onSubmit)()
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <ul>
-        {activeCategories?.map(category => (
-          <CategoryAnswers
-            key={category}
-            category={category}
-            register={register}
-            control={control}
-            watch={watch}
-            getValues={getValues}
-            setError={setError}
-            clearErrors={clearErrors}
-            errors={errors}
-          />
-        ))}
-      </ul>
-      <button
-        // disabled={isSubmitting || isSubmitted}
-        type="submit"
-        onClick={() => clearErrors()}
-      >
-        Done
-      </button>
-    </form>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <ul>
+          {activeCategories?.map(category => (
+            <CategoryAnswers key={category} category={category} form={form} />
+          ))}
+        </ul>
+        <Button
+          // disabled={form.formState.isSubmitting || form.formState.isSubmitted}
+          type="submit"
+          // onClick={() => form.clearErrors()}
+        >
+          Done
+        </Button>
+      </form>
+    </Form>
   )
 }
 export default AnswersInput

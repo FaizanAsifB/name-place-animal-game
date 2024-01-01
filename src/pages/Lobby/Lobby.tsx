@@ -58,7 +58,7 @@ const Lobby = () => {
   }
 
   return (
-    <div className="p-4 space-y-8 rounded-lg bg-background">
+    <div className="p-4 space-y-8 rounded-lg bg-bg-primary">
       <h1>Lobby</h1>
       <div className="grid gap-y-4 md:gap-4 md:grid-cols-5 md:grid-rows-2">
         <PlayerSlots data={data} error={fireStoreError} />

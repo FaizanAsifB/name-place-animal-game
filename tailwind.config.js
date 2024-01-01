@@ -40,7 +40,7 @@ module.exports = {
         // tertiary: 'hsl(38,75%,37%)',
         // light: '#f5f5f4',
         // dark: '#1c1917',
-        // 'bg-dark': 'hsla(15, 86%, 53%, 0.5)',
+        'bg-primary': 'hsla(15, 86%, 53%, 0.5)',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

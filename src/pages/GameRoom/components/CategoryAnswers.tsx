@@ -1,49 +1,38 @@
+import { Button } from '@/components/ui/button'
 import {
-  Control,
-  FieldErrors,
-  UseFormClearErrors,
-  UseFormGetValues,
-  UseFormRegister,
-  UseFormSetError,
-  UseFormWatch,
-  useFieldArray,
-} from 'react-hook-form'
-import ErrorText from '../../../components/forms/ErrorText'
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { cn } from '@/lib/utils'
+import { UseFormReturn, useFieldArray } from 'react-hook-form'
+
 import { AnswerInputs } from '../../../lib/types'
+import { AnswerSchema } from './AnswersInput'
 
 type CategoryAnswers = {
   category: string
-  register: UseFormRegister<AnswerInputs>
-  control: Control<AnswerInputs>
-  errors: FieldErrors<AnswerInputs>
-  setError: UseFormSetError<AnswerInputs>
-  watch: UseFormWatch<AnswerInputs>
-  getValues: UseFormGetValues<AnswerInputs>
-  clearErrors: UseFormClearErrors<AnswerInputs>
+  form: UseFormReturn<AnswerInputs, undefined>
 }
 
-const CategoryAnswers = ({
-  category,
-  register,
-  control,
-  errors,
-  setError,
-  clearErrors,
-  getValues,
-}: CategoryAnswers) => {
+const CategoryAnswers = ({ category, form }: CategoryAnswers) => {
   const { fields, append } = useFieldArray({
     name: category,
-    control,
+    control: form.control,
   })
 
   function validateAnswer() {
-    // if (!fields[fields.length - 1].answer)
-    if (!getValues(category).at(-1)?.answer) {
-      setError(category, {
+    if (!form.getValues(category).at(-1)?.answer) {
+      return form.setError(category, {
         type: 'manual',
-        message: 'Fill an answer before adding a new field',
+        message: 'Fill this field before adding a new one',
       })
-    } else append({ answer: '' })
+    }
+    return append({ answer: '' })
   }
 
   function handleEnter(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -56,29 +45,31 @@ const CategoryAnswers = ({
 
   return (
     <li className="flex">
-      <label htmlFor="field" className="capitalize">
-        {category}
-      </label>
-      {fields.map((field, i) => {
-        return (
-          <div key={field.id} className="relative">
-            <input
-              type="text"
-              {...register(`${category}.${i}.answer` as const, {
-                onBlur: () => clearErrors(category),
-                onChange: () => clearErrors(category),
-              })}
-              onKeyDown={e => handleEnter(e)}
-            />
-            {i === fields.length - 1 && (
-              <ErrorText align={'right'}>
-                {errors?.[category]?.message?.toString()}
-              </ErrorText>
-            )}
-          </div>
-        )
-      })}
-      <button
+      <Label htmlFor={'field'}>{category}</Label>
+      {fields.map((field, i) => (
+        <FormField
+          control={form.control}
+          key={field.id}
+          name={`${category}.${i}.answer`}
+          render={({ field }) => (
+            <FormItem>
+              <div className="relative">
+                <FormLabel className={cn('sr-only')}>{category}</FormLabel>
+                <FormControl>
+                  <Input {...field} onKeyDown={e => handleEnter(e)} />
+                </FormControl>
+                {i === fields.length - 1 && (
+                  <FormMessage className="right-0">
+                    {form.formState.errors[category]?.message}
+                  </FormMessage>
+                )}
+              </div>
+            </FormItem>
+          )}
+        />
+      ))}
+
+      <Button
         type="button"
         onClick={e => {
           e.preventDefault()
@@ -86,7 +77,7 @@ const CategoryAnswers = ({
         }}
       >
         +
-      </button>
+      </Button>
     </li>
   )
 }

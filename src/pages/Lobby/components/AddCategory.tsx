@@ -1,12 +1,20 @@
 import { DialogClose, DialogFooter } from '@/components/ui/dialog.tsx'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input.tsx'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { DocumentData, Timestamp } from 'firebase/firestore'
 import { Loader2 } from 'lucide-react'
-import { useContext, useEffect } from 'react'
+import { Dispatch, SetStateAction, useContext, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { GrGamepad } from 'react-icons/gr'
 import { useParams } from 'react-router-dom'
-import FormInput from '../../../components/ui/FormInput'
 import { Button } from '../../../components/ui/button.tsx'
 import { AuthContext } from '../../../context/AuthContext'
 import {
@@ -24,23 +32,20 @@ type AddCategoryProps = {
         date: Timestamp
       }[]
     | undefined
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const AddCategory = ({ categoriesData, allCategories }: AddCategoryProps) => {
+const AddCategory = ({
+  categoriesData,
+  allCategories,
+  setIsModalOpen,
+}: AddCategoryProps) => {
   const defaultValues = {
     category1: categoriesData?.category1.title,
     category2: categoriesData?.category2.title,
   }
 
-  const {
-    handleSubmit,
-    register,
-    setValue,
-    setFocus,
-    clearErrors,
-    setError,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
-  } = useForm<CustomCategoriesType>({
+  const form = useForm<CustomCategoriesType>({
     defaultValues,
     resolver: zodResolver(customCategoriesSchema),
   })
@@ -49,24 +54,26 @@ const AddCategory = ({ categoriesData, allCategories }: AddCategoryProps) => {
   const params = useParams()
 
   useEffect(() => {
-    setValue('category1', defaultValues.category1)
-    setValue('category2', defaultValues.category2)
+    form.setValue('category1', defaultValues.category1)
+    form.setValue('category2', defaultValues.category2)
 
     if (defaultValues.category1 && !defaultValues.category2)
-      setFocus('category2')
-    setFocus('category1')
-  }, [defaultValues.category1, defaultValues.category2, setFocus, setValue])
+      form.setFocus('category2')
+    form.setFocus('category1')
+  }, [defaultValues.category1, defaultValues.category2, form])
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.name === 'category1') setValue('category1', e.target.value)
-    if (e.target.name === 'category2') setValue('category2', e.target.value)
-  }
+  // function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  //   if (e.target.name === 'category1')
+  //     form.setValue('category1', e.target.value)
+  //   if (e.target.name === 'category2')
+  //     form.setValue('category2', e.target.value)
+  // }
 
   // function handleCancel() {
   //   setValue('category1', defaultValues.category1)
   //   setValue('category2', defaultValues.category2)
   //   clearErrors()
-  //   closeModal()
+  // closeModal()
   // }
 
   function filterCategories(category: string, categoryNr: string) {
@@ -75,7 +82,7 @@ const AddCategory = ({ categoriesData, allCategories }: AddCategoryProps) => {
         c => c.addedBy !== currentUser?.uid && c.title === category
       ).length !== 0
     exists &&
-      setError(`category${categoryNr}`, {
+      form.setError(`category${categoryNr}`, {
         type: 'manual',
         message: 'This category already exists',
       })
@@ -106,57 +113,62 @@ const AddCategory = ({ categoriesData, allCategories }: AddCategoryProps) => {
       })
     }
 
-    isSubmitSuccessful
-    //  && closeModal()
+    setIsModalOpen(false)
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      <FormInput
-        label="Category 1"
-        register={{
-          ...register('category1', {
-            onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-              handleChange(e),
-            onBlur: () => clearErrors('category1'),
-          }),
-        }}
-        name="category1"
-        //!Errors keep on appearing if they have occurred once
-        error={errors.category1?.message}
-        type="text"
-        placeholder="e.g. space"
-      />
-
-      <FormInput
-        label="Category 2"
-        register={{
-          ...register('category2', {
-            onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-              handleChange(e),
-            onBlur: () => clearErrors('category2'),
-          }),
-        }}
-        name="category2"
-        //!Errors keep on appearing if they have occurred once
-        error={errors.category2?.message}
-        type="text"
-        placeholder="e.g. video games"
-      />
-      <DialogFooter>
-        <Button disabled={isSubmitting} type="submit">
-          <GrGamepad />
-          {isSubmitting ? (
-            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-          ) : (
-            'Add Categories'
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-4"
+      >
+        <FormField
+          control={form.control}
+          name="category1"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category 1</FormLabel>
+              <div className="relative">
+                <FormControl>
+                  <Input placeholder="e.g. space" {...field} />
+                </FormControl>
+                <FormMessage className="right-0" />
+              </div>
+            </FormItem>
           )}
-        </Button>
-        <DialogClose asChild>
-          <Button>Cancel</Button>
-        </DialogClose>
-      </DialogFooter>
-    </form>
+        />
+        <FormField
+          control={form.control}
+          name="category2"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category 2</FormLabel>
+              <div className="relative">
+                <FormControl>
+                  <Input placeholder="e.g. video games" {...field} />
+                </FormControl>
+                <FormMessage className="right-0" />
+              </div>
+            </FormItem>
+          )}
+        />
+
+        <DialogFooter>
+          <Button disabled={form.formState.isSubmitting} type="submit">
+            {form.formState.isSubmitting ? (
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <GrGamepad />
+            )}
+            Add Categories
+          </Button>
+
+          <DialogClose asChild>
+            <Button>Cancel</Button>
+          </DialogClose>
+        </DialogFooter>
+      </form>
+    </Form>
   )
 }
 export default AddCategory

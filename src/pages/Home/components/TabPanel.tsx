@@ -20,7 +20,7 @@ const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
   // const { data } = useOnSnapShot({ docRef: 'users', roomId: currentUser?.uid })
 
   return (
-    <div className="p-8 bg-background" role="tabpanel">
+    <div className="p-8 bg-bg-primary" role="tabpanel">
       <div aria-labelledby={showGuest ? 'guest-tab' : 'authentication-tab'}>
         <div className="grid items-center justify-center justify-items-center gap-4 lg:pt-16 md:grid-cols-[2fr,3fr] lg:gap-8">
           <AvatarSelection />

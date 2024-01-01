@@ -8,7 +8,6 @@ import {
 } from '@/components/ui/dialog'
 import { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import Modal from '../../../components/ui/Modal'
 import { AuthContext } from '../../../context/AuthContext'
 import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
 import { getAllCategories, getCategoryCount } from '../utils/utils'
@@ -28,14 +27,6 @@ const CategoriesList = () => {
   const addedCategories = getAllCategories(data)
   const categoryCount = getCategoryCount(data?.custom[currentUser!.uid])
 
-  function handleOpenModal() {
-    setIsModalOpen(true)
-  }
-
-  function closeModal() {
-    setIsModalOpen(false)
-  }
-
   // if (isPending) {
   //   return <span>Loading...</span>
   // }
@@ -43,20 +34,11 @@ const CategoriesList = () => {
   if (error) {
     return <span>Error: {error.message}</span>
   }
-
   return (
-    // <>
-    //   <Modal isOpen={isModalOpen} onClose={closeModal}>
-    //     <AddCategory
-    //       closeModal={closeModal}
-    //       categoriesData={data?.custom[currentUser!.uid]}
-    //       allCategories={addedCategories}
-    //     />
-    //   </Modal>
     <section className="col-span-2 rounded-lg bg-amber-700/50">
       <div className="flex justify-between">
         <h2>Available Categories</h2>
-        <Dialog>
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogTrigger asChild>
             <button>+ Add Categories {categoryCount}/2</button>
           </DialogTrigger>
@@ -68,7 +50,7 @@ const CategoriesList = () => {
               </DialogDescription>
             </DialogHeader>
             <AddCategory
-              // closeModal={closeModal}
+              setIsModalOpen={setIsModalOpen}
               categoriesData={data?.custom[currentUser!.uid]}
               allCategories={addedCategories}
             />
