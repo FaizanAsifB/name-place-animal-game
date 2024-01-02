@@ -41,7 +41,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   //   (slot: PlayerData) => slot.uid
   // )
 
-  return { roundData /* , userInfo */ }
+  return { roundData, roomId: params.roomId /* , userInfo */ }
 
   // return queryClient.fetchQuery({
   //   queryKey: ['events', params.id],

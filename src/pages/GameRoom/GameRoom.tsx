@@ -27,14 +27,14 @@ const GameRoom = () => {
   const params = useParams()
   const navigate = useNavigate()
 
-  const { data } = useOnSnapShot({
-    docRef: 'gameRooms',
-    roomId: params.roomId!,
-  }) as { data: GameData | undefined; error: FireStoreError }
+  // const { data } = useOnSnapShot({
+  //   docRef: 'gameRooms',
+  //   roomId: params.roomId!,
+  // }) as { data: GameData | undefined; error: FireStoreError }
 
-  useEffect(() => {
-    data?.gameState === 'ROUND-ENDED' && navigate('scoring')
-  }, [data?.gameState, navigate])
+  // useEffect(() => {
+  //   data?.gameState === 'ROUND-ENDED' && navigate('scoring')
+  // }, [data?.gameState, navigate])
 
   return (
     <div>

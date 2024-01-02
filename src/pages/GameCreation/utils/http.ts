@@ -14,7 +14,7 @@ import { db } from '../../../config/config'
 import {
   Categories,
   CreateGameData,
-  GameState,
+  GameStates,
   LobbySettings,
   PlayerData,
   RoundsData,
@@ -146,7 +146,10 @@ export const submitCategoryInput = async (
   }
 }
 
-export const updateGameState = async (gameState: GameState, roomId: string) => {
+export const updateGameState = async (
+  gameState: GameStates,
+  roomId: string
+) => {
   const ref = doc(db, 'gameRooms', roomId)
   try {
     await updateDoc(ref, {

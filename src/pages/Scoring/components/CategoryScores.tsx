@@ -1,25 +1,28 @@
-import ToggleButton from '@mui/material/ToggleButton'
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import { Fragment, useContext, useEffect, useMemo, useState } from 'react'
 import { useLoaderData, useParams } from 'react-router-dom'
 import UserInfo from '../../../components/ui/UserInfo'
 import { AuthContext } from '../../../context/AuthContext'
 import { RoundsData, UpdateScoreData } from '../../../lib/types'
-import { getSum } from '../../../utils/helpers'
+import { getSum, getUserInfo } from '../../../utils/helpers'
 import { updateScoresData } from '../../GameCreation/utils/http'
 import { getScoringData } from '../utils/helpers'
 import AnswersList from './AnswersList'
+import { useFetchPlayers } from '@/hooks/useFetchPlayers'
+import { Button } from '@/components/ui/button'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 const CategoryScores = () => {
   const [scores, setScores] = useState<Record<string, number> | null>(null)
 
-  const { roundData } = useLoaderData() as {
+  const { roundData, roomId } = useLoaderData() as {
     roundData: RoundsData
-    // userInfo: PlayerData[]
+    roomId: string
   }
-  const currentUser = useContext(AuthContext)
-  const params = useParams()
 
+  const { users, isError, error, isPending } = useFetchPlayers()
+
+  const currentUser = useContext(AuthContext)
+  // const params = useParams()
   const currentRound = roundData.currentRound
 
   // Make initial scores object
@@ -40,13 +43,10 @@ const CategoryScores = () => {
   }, [currentUser?.uid, roundData, currentRound])
 
   //state for radio buttons
-  function handleScores(
-    event: React.MouseEvent<HTMLElement>,
-    newScore: string | null
-  ) {
+  function handleScores(category: string, newScore: string | null) {
     if (newScore !== null) {
       setScores(prev => {
-        return { ...prev, [event.currentTarget.id]: +newScore }
+        return { ...prev, [category]: +newScore }
       })
     }
   }
@@ -67,11 +67,7 @@ const CategoryScores = () => {
       currentRound: roundData?.currentRound,
     }
 
-    await updateScoresData(
-      params.roomId!,
-      scoringData!.userIdToCorrect,
-      scoreData
-    )
+    await updateScoresData(roomId, scoringData!.userIdToCorrect, scoreData)
   }
 
   return (
@@ -87,48 +83,63 @@ const CategoryScores = () => {
               <div className="border-2 border-lime-700" key={category[0]}>
                 <h2 className="text-center">{category[0]}</h2>
                 <div className="inline-flex flex-col">
-                  <UserInfo
-                    userId={scoringData.userIdToCorrect}
-                    // users={userInfo}
-                  />
+                  {!isPending && (
+                    <UserInfo
+                      userId={scoringData.userIdToCorrect}
+                      users={users}
+                      // users={userInfo}
+                    />
+                  )}
                   <AnswersList answers={category[1]} />
                   <div className="inline-flex flex-col border-2 border-red-700">
                     {scoringData.otherUsers.map(user => (
                       //[UserId,Answers]
                       <Fragment key={user[0] + category[0]}>
-                        <UserInfo
-                          userId={user[0]}
-                          // users={userInfo}
-                        />
+                        {!isPending && (
+                          <UserInfo userId={user[0]} users={users} />
+                        )}
                         <AnswersList answers={user[1][category[0]]} />
                       </Fragment>
                     ))}
                   </div>
                 </div>
 
-                <ToggleButtonGroup
-                  value={scores?.[category[0]] ?? 0}
-                  exclusive
-                  onChange={handleScores}
+                <ToggleGroup
+                  value={`${scores?.[category[0]] ?? 0}`}
+                  // exclusive
+                  onValueChange={value => handleScores(...[category[0]], value)}
+                  type="single"
                   aria-label="category scoring"
                 >
-                  <ToggleButton value={0} aria-label="zero" id={category[0]}>
+                  <ToggleGroupItem
+                    value={'0'}
+                    aria-label="zero"
+                    id={category[0]}
+                  >
                     0
-                  </ToggleButton>
-                  <ToggleButton value={5} aria-label="five" id={category[0]}>
+                  </ToggleGroupItem>
+                  <ToggleGroupItem
+                    value={'5'}
+                    aria-label="five"
+                    id={category[0]}
+                  >
                     5
-                  </ToggleButton>
-                  <ToggleButton value={10} aria-label="ten" id={category[0]}>
+                  </ToggleGroupItem>
+                  <ToggleGroupItem
+                    value={'10'}
+                    aria-label="ten"
+                    id={category[0]}
+                  >
                     10
-                  </ToggleButton>
-                </ToggleButtonGroup>
+                  </ToggleGroupItem>
+                </ToggleGroup>
               </div>
             )
           })}
       </div>
-      <button type="button" onClick={handleScoring}>
+      <Button type="button" onClick={handleScoring}>
         Submit
-      </button>
+      </Button>
     </>
   )
 }

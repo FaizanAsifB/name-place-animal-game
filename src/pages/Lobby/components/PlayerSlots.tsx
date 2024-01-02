@@ -120,7 +120,7 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
               </AvatarFallback>
             </Avatar>
 
-            <span className="text-xl">{uid ? displayName : 'Empty Slot'}</span>
+            <span>{uid ? displayName : 'Empty Slot'}</span>
             {isHost && <Crown />}
             {uid && (
               //added padding to center the icon

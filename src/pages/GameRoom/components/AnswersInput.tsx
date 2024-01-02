@@ -17,6 +17,7 @@ import {
 } from '../../../lib/types'
 import { submitAnswers, updateGameState } from '../../GameCreation/utils/http'
 import CategoryAnswers from './CategoryAnswers'
+import useNextPhase from '@/hooks/useNextPhase'
 
 export const AnswerSchema = z.array(z.object({ answer: z.string() }))
 
@@ -38,10 +39,7 @@ const AnswersInput = () => {
       .activeCategories
   }, [roundsData.currentRound, roundsData?.roundsConfig])
 
-  const { data: gameData } = useOnSnapShot({
-    docRef: 'gameRooms',
-    roomId: params.roomId!,
-  }) as { data: GameData | undefined; error: FireStoreError }
+  const { data: gameData } = useNextPhase()
 
   const defaultValues = useMemo(() => {
     const defaultValues = {} as AnswerInputs
@@ -77,7 +75,7 @@ const AnswersInput = () => {
       params.roomId!,
       roundsData.currentRound
     )
-
+    console.log(donePlayers)
     if (donePlayers === gameData?.totalPlayers) {
       updateGameState('ROUND-ENDED', params.roomId!)
     }
@@ -86,7 +84,7 @@ const AnswersInput = () => {
   //Submit Data for players that haven't submitted at round end
   if (
     gameData &&
-    gameData.gameState === 'ROUND-ENDED' &&
+    gameData.gameState === 'TIME-ENDED' &&
     (!form.formState.isSubmitting || !form.formState.isSubmitted)
   )
     form.handleSubmit(onSubmit)()

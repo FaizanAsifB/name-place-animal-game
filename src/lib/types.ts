@@ -133,11 +133,12 @@ export type AddedCategories = Record<
   { title: string; addedAt: FieldValue }
 >
 
-export type GameState =
+export type GameStates =
   | 'LOBBY'
   | 'INIT'
   | 'STARTED'
   | 'END-TIMER'
+  | 'TIME-ENDED'
   | 'ROUND-ENDED'
   | 'SCORING'
   | 'RESULT'
@@ -195,16 +196,23 @@ export type AnswersData = {
 
 export type PlayersData = {
   // answers: AnswersData
-  gameState: GameState
+  gameState: GameStates
   hostId: string
   lobbyId: string
   slots: PlayerData[]
   totalPlayers: number
 }
 
+export type GameState = {
+  currentRound: number
+  gameState: GameStates
+  scoresSubmitted: Record<string, number>
+  totalPlayers: number
+}
+
 export type GameData =
   | ({
-      gameState: GameState
+      gameState: GameStates
       totalPlayers: number
       answers: Record<string, AnswersData[]>
       scores: ScoresData

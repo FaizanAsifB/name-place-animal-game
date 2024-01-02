@@ -1,7 +1,8 @@
-import { useNavigate, useParams } from 'react-router-dom'
-import { FireStoreError, PlayersData } from '../lib/types'
-import { useOnSnapShot } from './useOnSnapShot'
+import { updateGameState } from '@/pages/GameCreation/utils/http'
 import { useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { FireStoreError, GameState } from '../lib/types'
+import { useOnSnapShot } from './useOnSnapShot'
 
 const useNextPhase = () => {
   // roomId: string
@@ -9,19 +10,39 @@ const useNextPhase = () => {
   const params = useParams()
 
   const { data, error } = useOnSnapShot({
-    docRef: 'lobbyPlayers',
+    docRef: 'gameRooms',
     roomId: params.roomId,
-  }) as { data: PlayersData | undefined; error: FireStoreError }
+  }) as { data: GameState | undefined; error: FireStoreError }
 
   useEffect(() => {
+    async function navigateToResult() {
+      await updateGameState('RESULT', params.roomId!)
+      navigate('../result')
+    }
     if (!data?.gameState) return
     switch (data?.gameState) {
       case 'INIT':
         navigate(`/game/${params.roomId!}`)
         break
+      case 'ROUND-ENDED':
+        navigate('scoring')
+        break
+      case 'SCORING':
+        if (
+          data.scoresSubmitted?.[`round${data.currentRound}`] ===
+          data.totalPlayers
+        )
+          navigateToResult()
+        break
     }
-    // data?.gameState === 'ROUND-ENDED' && navigate('scoring')
-  }, [data?.gameState, navigate, params.roomId])
+  }, [
+    data?.gameState,
+    navigate,
+    params.roomId,
+    data?.currentRound,
+    data?.scoresSubmitted,
+    data?.totalPlayers,
+  ])
   return { params, data, fireStoreError: error }
 }
 

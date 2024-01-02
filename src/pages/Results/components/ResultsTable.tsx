@@ -1,50 +1,67 @@
 import { useLoaderData } from 'react-router-dom'
 import UserInfo from '../../../components/ui/UserInfo'
 import { RoundsData } from '../../../lib/types'
+import { useFetchPlayers } from '@/hooks/useFetchPlayers'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 
 const ResultsTable = () => {
   const { roundsData } = useLoaderData() as { roundsData: RoundsData }
+  const { users, isError, error, isPending } = useFetchPlayers()
+
   const scoresData = Object.entries(roundsData!.scores).sort(
     (a, b) => b[1].totalScore - a[1].totalScore
   )
 
   return (
-    <table className="w-full text-left">
-      <caption>Results</caption>
-      <thead>
-        <tr>
-          <th></th>
-          <th></th>
-          <th colSpan={roundsData?.roundsConfig.length}>Rounds</th>
-        </tr>
-        <tr>
-          <th>Position</th>
-          <th>User</th>
+    <Table className="w-full text-left">
+      <TableCaption className="caption-top">Results</TableCaption>
+      <TableHeader>
+        {/* <TableRow>
+          <TableHead></TableHead>
+          <TableHead></TableHead>
+          <TableHead
+            className="text-center"
+            colSpan={roundsData?.roundsConfig.length}
+          >
+            Rounds
+          </TableHead>
+        </TableRow> */}
+        <TableRow>
+          <TableHead>Position</TableHead>
+          <TableHead>User</TableHead>
           {roundsData?.roundsConfig.map((_, i) => (
-            <th key={i}>{i + 1}</th>
+            <TableHead key={i}>{i + 1}</TableHead>
           ))}
-          <th>Total Score</th>
-        </tr>
-      </thead>
-      <tbody>
+          <TableHead>Total Score</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
         {scoresData.map((item, i) => (
-          <tr key={item[0]}>
-            <td>{i + 1}</td>
-            <td>
-              <UserInfo userId={item[0]} />
-            </td>
+          <TableRow key={item[0]}>
+            <TableCell>{i + 1}</TableCell>
+            <TableCell>
+              <UserInfo users={users} userId={item[0]} />
+            </TableCell>
             {item[1].scoreRounds.map((score, i) => (
-              <td key={score + i}>{score}</td>
+              <TableCell key={score + i}>{score}</TableCell>
             ))}
             {roundsData?.roundsConfig.map((_, i) => {
               if (i + 1 <= roundsData.currentRound) return
-              return <td key={i}>{'-'}</td>
+              return <TableCell key={i}>{'-'}</TableCell>
             })}
-            <td>{item[1].totalScore}</td>
-          </tr>
+            <TableCell>{item[1].totalScore}</TableCell>
+          </TableRow>
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   )
 }
 export default ResultsTable

@@ -1,20 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { useParams } from 'react-router-dom'
-import { fetchPlayers } from '../utils/fetchData'
 import { PlayerData } from '../lib/types'
-import { getUserInfo } from '../utils/helpers'
+import { fetchPlayers } from '../utils/fetchData'
 
-export const useFetchPlayers = (userId: string) => {
-  const { roomId } = useParams()
-
+export const useFetchPlayers = () => {
+  const params = useParams()
   const { data, isError, error, isPending } = useQuery({
-    queryKey: ['players', roomId],
+    queryKey: ['players', params.roomId],
     queryFn: ({ queryKey }) => fetchPlayers(queryKey[1]),
   })
 
   const users: PlayerData[] = data?.slots.filter((slot: PlayerData) => slot.uid)
 
-  const userInfo = getUserInfo(users, userId)
-  return { userInfo, isError, error, isPending }
+  return { users, isError, error, isPending }
 }

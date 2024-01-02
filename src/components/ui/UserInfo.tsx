@@ -1,25 +1,25 @@
-import { CircularProgress } from '@mui/material'
-import { useFetchPlayers } from '../../hooks/useFetchPlayers'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { getUserInfo } from '@/utils/helpers'
+import { PlayerData } from '@/lib/types'
+
 type UserInfoProps = {
   userId: string
+  users: PlayerData[]
 }
 
-const UserInfo = ({ userId }: UserInfoProps) => {
-  const { userInfo, isError, error, isPending } = useFetchPlayers(userId)
+const UserInfo = ({ userId, users }: UserInfoProps) => {
+  const { displayName, photoUrl } = getUserInfo(users, userId)
 
-  let content
-
-  if (isError) content = error?.message
-  else if (isPending) content = <CircularProgress />
-  else {
-    content = (
-      <>
-        <img src={userInfo.photoUrl} alt="" className="w-8 h-8" />
-        <span>{userInfo.displayName}</span>
-      </>
-    )
-  }
-
-  return <p className="flex">{content}</p>
+  return (
+    <p className="flex">
+      <Avatar>
+        <AvatarImage src={photoUrl} />
+        <AvatarFallback>
+          <img src="/images/avatars/emptyAvatar.svg" alt="empty slot" />
+        </AvatarFallback>
+      </Avatar>
+      <span>{displayName}</span>
+    </p>
+  )
 }
 export default UserInfo
