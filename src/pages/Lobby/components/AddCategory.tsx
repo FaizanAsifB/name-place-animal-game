@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input.tsx'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { DocumentData, Timestamp } from 'firebase/firestore'
+import { Timestamp } from 'firebase/firestore'
 import { Loader2 } from 'lucide-react'
 import { Dispatch, SetStateAction, useContext, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -18,13 +18,16 @@ import { useParams } from 'react-router-dom'
 import { Button } from '../../../components/ui/button.tsx'
 import { AuthContext } from '../../../context/AuthContext'
 import {
+  AddedCategories,
   CustomCategoriesType,
+  DefaultCategories,
   customCategoriesSchema,
 } from '../../../lib/types'
 import { submitCategoryInput } from '../../GameCreation/utils/http'
 
 type AddCategoryProps = {
-  categoriesData: DocumentData | undefined
+  userCategories: AddedCategories
+  defaultCategories: DefaultCategories
   allCategories:
     | {
         addedBy: string
@@ -36,13 +39,14 @@ type AddCategoryProps = {
 }
 
 const AddCategory = ({
-  categoriesData,
+  userCategories,
   allCategories,
   setIsModalOpen,
+  defaultCategories,
 }: AddCategoryProps) => {
   const defaultValues = {
-    category1: categoriesData?.category1.title,
-    category2: categoriesData?.category2.title,
+    category1: userCategories?.category1.title,
+    category2: userCategories?.category2.title,
   }
 
   const form = useForm<CustomCategoriesType>({
@@ -54,8 +58,8 @@ const AddCategory = ({
   const params = useParams()
 
   useEffect(() => {
-    form.setValue('category1', defaultValues.category1)
-    form.setValue('category2', defaultValues.category2)
+    // form.setValue('category1', defaultValues.category1)
+    // form.setValue('category2', defaultValues.category2)
 
     if (defaultValues.category1 && !defaultValues.category2)
       form.setFocus('category2')
@@ -76,27 +80,31 @@ const AddCategory = ({
   // closeModal()
   // }
 
-  function filterCategories(category: string, categoryNr: string) {
+  function checkCategoriesExists(category: string, categoryField: string) {
     const exists =
       allCategories?.filter(
-        c => c.addedBy !== currentUser?.uid && c.title === category
+        c =>
+          c.addedBy !== currentUser?.uid && c.title.toLowerCase() === category
       ).length !== 0
-    exists &&
-      form.setError(`category${categoryNr}`, {
+    if (exists || defaultCategories.includes(category))
+      form.setError(categoryField, {
         type: 'manual',
         message: 'This category already exists',
       })
 
-    return exists
+    // return exists
   }
 
   const onSubmit: SubmitHandler<CustomCategoriesType> = async data => {
     const { category1, category2 } = data
 
-    filterCategories(category1, '1')
-    filterCategories(category2, '2')
+    checkCategoriesExists(category1.toLowerCase(), 'category1')
+    checkCategoriesExists(category2.toLowerCase(), 'category2')
 
-    if (filterCategories(category1, '1') || filterCategories(category2, '2'))
+    if (
+      form.getFieldState('category1').error ||
+      form.getFieldState('category2').error
+    )
       return
 
     if (category1 !== defaultValues.category1) {
@@ -164,7 +172,7 @@ const AddCategory = ({
           </Button>
 
           <DialogClose asChild>
-            <Button>Cancel</Button>
+            <Button disabled={form.formState.isSubmitting}>Cancel</Button>
           </DialogClose>
         </DialogFooter>
       </form>

@@ -1,7 +1,3 @@
-import { useLoaderData } from 'react-router-dom'
-import UserInfo from '../../../components/ui/UserInfo'
-import { RoundsData } from '../../../lib/types'
-import { useFetchPlayers } from '@/hooks/useFetchPlayers'
 import {
   Table,
   TableBody,
@@ -11,9 +7,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useFetchPlayers } from '@/hooks/useFetchPlayers'
+import { useLoaderData } from 'react-router-dom'
+import UserInfo from '../../../components/ui/UserInfo'
+import { RoundsData } from '@/lib/types'
 
-const ResultsTable = () => {
-  const { roundsData } = useLoaderData() as { roundsData: RoundsData }
+type ResultsTableProps = {
+  roundsData: RoundsData
+}
+
+const ResultsTable = ({ roundsData }: ResultsTableProps) => {
   const { users, isError, error, isPending } = useFetchPlayers()
 
   const scoresData = Object.entries(roundsData!.scores).sort(
@@ -36,7 +39,7 @@ const ResultsTable = () => {
         </TableRow> */}
         <TableRow>
           <TableHead>Position</TableHead>
-          <TableHead>User</TableHead>
+          <TableHead>Player</TableHead>
           {roundsData?.roundsConfig.map((_, i) => (
             <TableHead key={i}>{i + 1}</TableHead>
           ))}

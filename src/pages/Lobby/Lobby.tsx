@@ -1,8 +1,15 @@
+import { useOnSnapShot } from '@/hooks/useOnSnapShot.ts'
 import { CiPlay1 } from 'react-icons/ci'
 import { GiCancel } from 'react-icons/gi'
 import { Button } from '../../components/ui/button.tsx'
 import useNextPhase from '../../hooks/useNextPhase'
-import { Categories, CreateGameData, GameSettings } from '../../lib/types'
+import {
+  Categories,
+  CreateGameData,
+  FireStoreError,
+  GameSettings,
+  PlayersData,
+} from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 import {
   createRoundsData,
@@ -15,10 +22,15 @@ import SettingsList from './components/SettingsList'
 import { categoriesArr, getRoundsConfig, readyPlayers } from './utils/utils'
 
 const Lobby = () => {
-  const { params, data, fireStoreError } = useNextPhase()
+  const { params, data: gameState, fireStoreError } = useNextPhase()
 
-  const ready = readyPlayers(data)
-  const totalPlayers = data?.totalPlayers
+  const { data: lobbyPlayers, error } = useOnSnapShot({
+    docRef: 'lobbyPlayers',
+    roomId: params.roomId,
+  }) as { data: PlayersData; error: FireStoreError }
+
+  const ready = readyPlayers(lobbyPlayers)
+  const totalPlayers = gameState?.totalPlayers
 
   async function handlePlay() {
     const categoriesData = await fetchLobbyData<Categories>(
@@ -50,7 +62,7 @@ const Lobby = () => {
 
     await createRoundsData(params.roomId!, roundData)
 
-    data?.slots.map(async slot => {
+    lobbyPlayers?.slots.map(async slot => {
       if (slot.displayName) await createScoresData(params.roomId!, slot.uid)
     })
 
@@ -61,7 +73,7 @@ const Lobby = () => {
     <div className="p-4 space-y-8 rounded-lg bg-bg-primary">
       <h1>Lobby</h1>
       <div className="grid gap-y-4 md:gap-4 md:grid-cols-5 md:grid-rows-2">
-        <PlayerSlots data={data} error={fireStoreError} />
+        <PlayerSlots data={lobbyPlayers} error={fireStoreError} />
 
         <CategoriesList />
         <SettingsList />
@@ -72,7 +84,7 @@ const Lobby = () => {
           Cancel
         </Button>
         <Button
-          disabled={ready !== totalPlayers || !data?.hostId}
+          disabled={ready !== totalPlayers || !lobbyPlayers?.hostId}
           onClick={handlePlay}
         >
           <CiPlay1 />

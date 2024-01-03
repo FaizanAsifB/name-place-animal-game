@@ -2,32 +2,29 @@ import { useEffect } from 'react'
 import { LoaderFunction, useNavigate, useParams } from 'react-router-dom'
 
 import { useOnSnapShot } from '../../hooks/useOnSnapShot'
-import { GameData } from '../../lib/types'
+import { GameData, GameState } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 
 import { updateGameState } from '../GameCreation/utils/http'
 import CategoryScores from './components/CategoryScores'
+import useNextPhase from '@/hooks/useNextPhase'
 
 const Scoring = () => {
-  const params = useParams()
-  const { data } = useOnSnapShot({
-    docRef: 'gameRooms',
-    roomId: params.roomId!,
-  }) as { data: GameData }
+  // const params = useParams()
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
-  useEffect(() => {
-    async function navigateToResult() {
-      await updateGameState('RESULT', params.roomId!)
-      navigate('../result')
-    }
-    if (
-      data &&
-      data.scoresSubmitted?.[`round${data.currentRound}`] === data.totalPlayers
-    )
-      navigateToResult()
-  }, [data, navigate, params.roomId])
+  // useEffect(() => {
+  //   async function navigateToResult() {
+  //     await updateGameState('RESULT', params.roomId!)
+  //     navigate('../result')
+  //   }
+  //   if (
+  //     data &&
+  //     data.scoresSubmitted?.[`round${data.currentRound}`] === data.totalPlayers
+  //   )
+  //     navigateToResult()
+  // }, [data, navigate, params.roomId])
 
   return <CategoryScores />
 }

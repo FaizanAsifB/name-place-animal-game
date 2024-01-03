@@ -120,12 +120,13 @@ export type FireStoreError =
   | undefined
 
 export type DefaultCategories = string[]
+export type CustomCategories = {
+  [userId: string]: AddedCategories
+}
 
 export type Categories = {
   default: DefaultCategories
-  custom: {
-    [userId: string]: AddedCategories
-  }
+  custom: CustomCategories
 }
 
 export type AddedCategories = Record<
@@ -196,11 +197,11 @@ export type AnswersData = {
 
 export type PlayersData = {
   // answers: AnswersData
-  gameState: GameStates
+  // gameState: GameStates
   hostId: string
-  lobbyId: string
+  // lobbyId: string
   slots: PlayerData[]
-  totalPlayers: number
+  // totalPlayers: number
 }
 
 export type GameState = {

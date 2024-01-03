@@ -21,8 +21,8 @@ import {
   UpdateScoreData,
   UserAnswers,
 } from '../../../lib/types'
-import {} from '../SettingsForm'
 import { fetchLobbyData } from '../../../utils/fetchData'
+import {} from '../SettingsForm'
 
 export const uploadCategories = async (
   categories: Categories,
@@ -58,7 +58,7 @@ export const uploadSettings = async (
       await setDoc(doc(db, 'gameRooms', lobbyRef.id), {
         gameState: 'LOBBY',
         totalPlayers: 1,
-        currentRound: 1,
+        // currentRound: 1,
       })
     } catch (error) {
       throw new Error('There was an error creating game')
@@ -66,9 +66,9 @@ export const uploadSettings = async (
 
     try {
       await setDoc(doc(db, 'lobbyPlayers', lobbyRef.id), {
-        lobbyId: lobbyRef.id,
-        gameState: 'LOBBY',
-        totalPlayers: 1,
+        // lobbyId: lobbyRef.id,
+        // gameState: 'LOBBY',
+        // totalPlayers: 1,
         hostId: currentUser!.uid,
         slots,
       })
@@ -148,8 +148,9 @@ export const submitCategoryInput = async (
 
 export const updateGameState = async (
   gameState: GameStates,
-  roomId: string
+  roomId: string | undefined
 ) => {
+  if (!roomId) return
   const ref = doc(db, 'gameRooms', roomId)
   try {
     await updateDoc(ref, {
@@ -158,13 +159,13 @@ export const updateGameState = async (
   } catch (error) {
     throw Error('Error creating')
   }
-  try {
-    await updateDoc(doc(db, 'lobbyPlayers', roomId), {
-      gameState,
-    })
-  } catch (error) {
-    throw Error('Error creating')
-  }
+  // try {
+  //   await updateDoc(doc(db, 'lobbyPlayers', roomId), {
+  //     gameState,
+  //   })
+  // } catch (error) {
+  //   throw Error('Error creating')
+  // }
 }
 
 export const createRoundsData = async (
@@ -226,7 +227,7 @@ export const updateScoresData = async (
   data: UpdateScoreData
 ) => {
   try {
-    const res = await updateDoc(doc(db, 'rounds', lobbyId), {
+    await updateDoc(doc(db, 'rounds', lobbyId), {
       [`scores.${uid}.scoresCategory`]: arrayUnion(data.scoresCategory),
       // [`scores.${uid}.scoreRounds`]: arrayUnion(data.roundScore),
       [`scores.${uid}.scoreRounds`]: data.scoreRounds,
@@ -239,7 +240,6 @@ export const updateScoresData = async (
     } catch (error) {
       throw new Error('There was an error updating')
     }
-    return res
   } catch (error) {
     throw new Error('There was an error creating game')
   }
@@ -247,11 +247,11 @@ export const updateScoresData = async (
 
 export const updateCurrentRound = async (roomId: string) => {
   try {
-    await updateDoc(doc(db, 'gameRooms', roomId), {
+    await updateDoc(doc(db, 'rounds', roomId), {
       currentRound: increment(1),
     })
   } catch (error) {
-    throw Error('Error updating')
+    throw new Error('Error updating')
   }
 }
 

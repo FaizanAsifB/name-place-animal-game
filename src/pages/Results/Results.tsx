@@ -1,53 +1,50 @@
-import { LoaderFunction, useNavigate, useParams } from 'react-router-dom'
-
-import { useEffect } from 'react'
-import { useOnSnapShot } from '../../hooks/useOnSnapShot'
+import { Button } from '@/components/ui/button'
+import useNextPhase from '@/hooks/useNextPhase'
+import { GameSettings, RoundsData } from '@/lib/types'
+import {
+  Link,
+  LoaderFunction,
+  useLoaderData,
+  useParams,
+} from 'react-router-dom'
 import { fetchLobbyData } from '../../utils/fetchData'
 import { updateCurrentRound, updateGameState } from '../GameCreation/utils/http'
 import ResultsTable from './components/ResultsTable'
-import { Button } from '@/components/ui/button'
-import useNextPhase from '@/hooks/useNextPhase'
 
 const Results = () => {
+  const { roundsData, totalRounds } = useLoaderData() as {
+    roundsData: RoundsData
+    totalRounds: number
+  }
   const params = useParams()
 
-  // const { data } = useOnSnapShot({
-  //   docRef: 'gameRooms',
-  //   roomId: params?.roomId,
-  // })
-
-  // const navigate = useNavigate()
-
-  function handleNextRound() {
-    updateCurrentRound(params.roomId!)
-    updateGameState('INIT', params.roomId!)
+  async function handleNextRound() {
+    await updateCurrentRound(params.roomId!)
+    await updateGameState('INIT', params.roomId!)
   }
 
-  useNextPhase()
+  const { error } = useNextPhase()
 
-  // useEffect(() => {
-  //   if (data && data.gameState === 'INIT') navigate(`/game/${params.roomId}`)
-  //   // ../game/:${params.roomId}
-  // }, [data, navigate, params.roomId])
   return (
-    <div>
-      <ResultsTable />
-
-      <Button type="button" onClick={handleNextRound}>
-        Next Round
-      </Button>
+    <div className="h-full grow">
+      <ResultsTable roundsData={roundsData} />
+      {roundsData.currentRound !== totalRounds ? (
+        <Button type="button" onClick={handleNextRound}>
+          Next Round
+        </Button>
+      ) : (
+        <Button asChild>
+          <Link to={'/'}>Exit Game</Link>
+        </Button>
+      )}
     </div>
   )
 }
 export default Results
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const roundsData = await fetchLobbyData(params.roomId!, 'rounds')
+  const roundsData = await fetchLobbyData<RoundsData>(params.roomId!, 'rounds')
+  const settings = await fetchLobbyData<GameSettings>(params.roomId!, 'lobbies')
 
-  return { roundsData }
-
-  // return queryClient.fetchQuery({
-  //   queryKey: ['events', params.id],
-  //   queryFn: ({ signal }) => fetchEvent({ signal, id: params.id }),
-  // })
+  return { roundsData, totalRounds: settings.settings.rounds }
 }

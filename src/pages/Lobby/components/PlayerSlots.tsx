@@ -41,7 +41,6 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
   })
 
   function handleReady(pressed: boolean, i: number) {
-    console.log(pressed)
     const updatedData = data?.slots.with(i, {
       ...data.slots[i],
       isReady: pressed,

@@ -1,15 +1,24 @@
+import { Button } from '@/components/ui/button'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { useFetchPlayers } from '@/hooks/useFetchPlayers'
+import useNextPhase from '@/hooks/useNextPhase'
 import { Fragment, useContext, useEffect, useMemo, useState } from 'react'
 import { useLoaderData, useParams } from 'react-router-dom'
 import UserInfo from '../../../components/ui/UserInfo'
 import { AuthContext } from '../../../context/AuthContext'
-import { RoundsData, UpdateScoreData } from '../../../lib/types'
+import {
+  FireStoreError,
+  GameState,
+  RoundsData,
+  UpdateScoreData,
+} from '../../../lib/types'
 import { getSum, getUserInfo } from '../../../utils/helpers'
-import { updateScoresData } from '../../GameCreation/utils/http'
+import {
+  updateGameState,
+  updateScoresData,
+} from '../../GameCreation/utils/http'
 import { getScoringData } from '../utils/helpers'
 import AnswersList from './AnswersList'
-import { useFetchPlayers } from '@/hooks/useFetchPlayers'
-import { Button } from '@/components/ui/button'
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 const CategoryScores = () => {
   const [scores, setScores] = useState<Record<string, number> | null>(null)
@@ -24,6 +33,17 @@ const CategoryScores = () => {
   const currentUser = useContext(AuthContext)
   // const params = useParams()
   const currentRound = roundData.currentRound
+
+  const { data, error: fireStoreError } = useNextPhase(currentRound) as {
+    data: GameState
+    fireStoreError: FireStoreError
+  }
+
+  useEffect(() => {
+    if (!data?.scoresSubmitted) return
+    if (data.scoresSubmitted[`round${currentRound}`] === data.totalPlayers)
+      (async () => await updateGameState('RESULT', roomId))()
+  }, [data?.scoresSubmitted, data?.totalPlayers, roomId, currentRound])
 
   // Make initial scores object
   useEffect(() => {

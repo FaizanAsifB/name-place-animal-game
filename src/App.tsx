@@ -67,10 +67,10 @@ const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: '/*',
-        loader: redirectLoader,
-      },
+      // {
+      //   path: '/*',
+      //   loader: redirectLoader,
+      // },
     ],
   },
 ])

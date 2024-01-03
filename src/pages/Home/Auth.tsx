@@ -49,7 +49,6 @@ const Auth = () => {
         value: validate.data,
       })
 
-      console.log(res?.lobbyId)
       navigate(`/lobby/${res?.lobbyId}`)
     } catch (error) {
       throw new Error('There was an error creating a guest user')
@@ -106,7 +105,7 @@ const Auth = () => {
           showGuest={showGuest}
         />
       </div>
-      <div className="flex flex-col justify-center row-start-2 gap-4 md:flex-row-reverse md:gap-8 col-span-full lg:col-span-3 place-items-center md:bg-background md:rounded-b-lg">
+      <div className="flex flex-col justify-center row-start-2 gap-4 md:flex-row-reverse md:gap-8 col-span-full lg:col-span-3 place-items-center md:bg-bg-primary md:rounded-b-lg">
         {currentUser ? (
           <>
             <Button onClick={handleCreateGame} size={'lg'}>

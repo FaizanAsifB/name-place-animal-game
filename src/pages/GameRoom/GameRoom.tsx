@@ -24,6 +24,10 @@ const GameRoom = () => {
     roundsData: CreateGameData
   }
 
+  const currentAlphabet =
+    roundsData?.roundsConfig[roundsData?.currentRound - 1].alphabet
+  console.log(currentAlphabet)
+
   const params = useParams()
   const navigate = useNavigate()
 
@@ -40,11 +44,7 @@ const GameRoom = () => {
     <div>
       <div className="flex justify-end gap-4">
         <Clock roundTime={settings?.settings['round time']} />
-        <div>
-          {roundsData
-            ? roundsData?.roundsConfig[roundsData?.currentRound - 1].alphabet
-            : 'loading.....'}
-        </div>
+        <div>{roundsData ? currentAlphabet : 'loading.....'}</div>
       </div>
       <AnswersInput />
     </div>

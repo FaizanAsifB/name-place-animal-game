@@ -58,7 +58,6 @@ const AnswersInput = () => {
 
   //Submit Data
   const onSubmit = async (data: AnswerInputs) => {
-    console.log(data)
     const formattedData = {} as Answers
     for (const category in data) {
       formattedData[category] = data[category].map(v => v.answer)
@@ -75,9 +74,8 @@ const AnswersInput = () => {
       params.roomId!,
       roundsData.currentRound
     )
-    console.log(donePlayers)
     if (donePlayers === gameData?.totalPlayers) {
-      updateGameState('ROUND-ENDED', params.roomId!)
+      updateGameState('SCORING', params.roomId!)
     }
   }
 

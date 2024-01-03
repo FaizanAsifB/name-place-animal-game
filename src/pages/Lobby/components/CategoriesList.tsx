@@ -12,6 +12,8 @@ import { AuthContext } from '../../../context/AuthContext'
 import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
 import { getAllCategories, getCategoryCount } from '../utils/utils'
 import AddCategory from './AddCategory'
+import { Button } from '@/components/ui/button'
+import { Categories, FireStoreError } from '@/lib/types'
 
 const CategoriesList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -22,7 +24,7 @@ const CategoriesList = () => {
   const { data, error } = useOnSnapShot({
     docRef: 'categories',
     roomId: params.roomId!,
-  })
+  }) as { data: Categories; error: FireStoreError }
 
   const addedCategories = getAllCategories(data)
   const categoryCount = getCategoryCount(data?.custom[currentUser!.uid])
@@ -40,7 +42,9 @@ const CategoriesList = () => {
         <h2>Available Categories</h2>
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogTrigger asChild>
-            <button>+ Add Categories {categoryCount}/2</button>
+            <Button variant={'ghost'}>
+              + Add Categories {categoryCount}/2
+            </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -51,8 +55,9 @@ const CategoriesList = () => {
             </DialogHeader>
             <AddCategory
               setIsModalOpen={setIsModalOpen}
-              categoriesData={data?.custom[currentUser!.uid]}
+              userCategories={data?.custom[currentUser!.uid]}
               allCategories={addedCategories}
+              defaultCategories={data?.default}
             />
           </DialogContent>
         </Dialog>

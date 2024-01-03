@@ -44,7 +44,6 @@ const SettingsForm = () => {
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<SettingsInput> = async data => {
-    console.log(data)
     const {
       roundTime,
       rounds,

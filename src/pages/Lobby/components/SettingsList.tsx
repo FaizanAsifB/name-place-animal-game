@@ -1,3 +1,4 @@
+import React from 'react'
 import { useFetchSettings } from '../../../hooks/useFetchSettings'
 
 const SettingsList = () => {
@@ -10,7 +11,6 @@ const SettingsList = () => {
   if (isError) {
     return <span>Error: {error.message}</span>
   }
-  console.log(Object.entries(data?.settings))
   return (
     <section className="col-span-2 rounded-lg bg-amber-700/50">
       <h2 className="text-center">Lobby Settings</h2>
@@ -21,24 +21,8 @@ const SettingsList = () => {
             <p>{setting[1]}</p>
           </li>
         ))}
-        {/* <li>
-          <h5>Rounds</h5>
-          <p>{data?.settings.rounds}</p>
-        </li>
-        <li>
-          <h5>Time Per Round</h5>
-          <p>{data?.settings.roundTime}</p>
-        </li>
-        <li>
-          <h5>End Mode</h5>
-          <p>
-            {data?.settings.endMode === 'ROUND-TIMER'
-              ? 'Round Timer'
-              : 'Fastest Finger'}
-          </p>
-        </li> */}
       </ul>
     </section>
   )
 }
-export default SettingsList
+export default React.memo(SettingsList)
