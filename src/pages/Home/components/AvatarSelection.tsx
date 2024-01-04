@@ -1,5 +1,6 @@
 import { useAtom } from 'jotai'
 import { avatarAtom, avatarImages } from '../../../utils/utils'
+import { RotateCcw } from 'lucide-react'
 
 const AvatarSelection = () => {
   const [avatarIndex, setAvatarIndex] = useAtom(avatarAtom)
@@ -20,7 +21,7 @@ const AvatarSelection = () => {
         className="absolute bottom-0 right-0 mr-1"
         onClick={handleDpChange}
       >
-        {/* <CachedIcon fontSize="large" /> */}
+        <RotateCcw size={24} />
       </button>
     </div>
   )
