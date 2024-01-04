@@ -1,10 +1,8 @@
 import { useAtom } from 'jotai'
 import { useContext, useRef, useState } from 'react'
-import { IoGameControllerOutline } from 'react-icons/io5'
-import { PiPlugsConnectedBold } from 'react-icons/pi'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '../../components/ui/button.tsx'
 import Tab from '../../components/ui/Tab'
+import { Button } from '../../components/ui/button.tsx'
 import { AuthContext } from '../../context/AuthContext'
 import {
   GameCodeSchema,
@@ -109,12 +107,9 @@ const Auth = () => {
         {currentUser ? (
           <>
             <Button onClick={handleCreateGame} size={'lg'}>
-              <IoGameControllerOutline />
               Start
             </Button>
-            <Button onClick={handleJoinGame}>
-              <PiPlugsConnectedBold /> Join
-            </Button>
+            <Button onClick={handleJoinGame}>Join</Button>
           </>
         ) : (
           <Authentication

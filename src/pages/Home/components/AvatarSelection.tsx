@@ -1,5 +1,3 @@
-import CachedIcon from '@mui/icons-material/Cached'
-
 import { useAtom } from 'jotai'
 import { avatarAtom, avatarImages } from '../../../utils/utils'
 
@@ -22,7 +20,7 @@ const AvatarSelection = () => {
         className="absolute bottom-0 right-0 mr-1"
         onClick={handleDpChange}
       >
-        <CachedIcon fontSize="large" />
+        {/* <CachedIcon fontSize="large" /> */}
       </button>
     </div>
   )

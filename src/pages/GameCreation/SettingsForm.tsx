@@ -83,7 +83,6 @@ const SettingsForm = () => {
       <form className="grid space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <ul className="px-6 mb-8 space-y-8">
           <Setting
-            // icon={<AccessAlarmsIcon fontSize="large" />}
             title={'Time'}
             description={'Maximum time available for each round'}
           >

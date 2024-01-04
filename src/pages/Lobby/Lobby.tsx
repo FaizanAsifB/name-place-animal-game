@@ -1,6 +1,5 @@
 import { useOnSnapShot } from '@/hooks/useOnSnapShot.ts'
-import { CiPlay1 } from 'react-icons/ci'
-import { GiCancel } from 'react-icons/gi'
+
 import { Button } from '../../components/ui/button.tsx'
 import useNextPhase from '../../hooks/useNextPhase'
 import {
@@ -79,15 +78,11 @@ const Lobby = () => {
         <SettingsList />
       </div>
       <div className="flex justify-around">
-        <Button>
-          <GiCancel />
-          Cancel
-        </Button>
+        <Button>Cancel</Button>
         <Button
           disabled={ready !== totalPlayers || !lobbyPlayers?.hostId}
           onClick={handlePlay}
         >
-          <CiPlay1 />
           <span className="mr-2">
             {ready}/{totalPlayers}
           </span>

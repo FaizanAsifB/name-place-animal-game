@@ -1,13 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getUserInfo } from '@/utils/helpers'
-import { PlayerData } from '@/lib/types'
+
+import { useFetchPlayers } from '@/hooks/useFetchPlayers'
 
 type UserInfoProps = {
   userId: string
-  users: PlayerData[]
 }
 
-const UserInfo = ({ userId, users }: UserInfoProps) => {
+const UserInfo = ({ userId }: UserInfoProps) => {
+  const { users, isError, error, isPending } = useFetchPlayers()
+
   const { displayName, photoUrl } = getUserInfo(users, userId)
 
   return (

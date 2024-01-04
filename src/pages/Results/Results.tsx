@@ -25,15 +25,17 @@ const Results = () => {
 
   const { error } = useNextPhase()
 
+  const isLastRound = roundsData.currentRound === totalRounds
+
   return (
-    <div className="h-full grow">
-      <ResultsTable roundsData={roundsData} />
-      {roundsData.currentRound !== totalRounds ? (
+    <div className="flex flex-col items-center justify-between h-full">
+      <ResultsTable roundsData={roundsData} isLastRound={isLastRound} />
+      {!isLastRound ? (
         <Button type="button" onClick={handleNextRound}>
           Next Round
         </Button>
       ) : (
-        <Button asChild>
+        <Button asChild className="mb-4">
           <Link to={'/'}>Exit Game</Link>
         </Button>
       )}

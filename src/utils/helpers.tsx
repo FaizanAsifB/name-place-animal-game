@@ -10,3 +10,5 @@ export const getUserInfo = (slots: PlayerData[], uid: string) => {
   const userInfo = slots?.find(slot => slot.uid === uid)
   return { displayName: userInfo?.displayName, photoUrl: userInfo?.photoUrl }
 }
+
+// export const getDbUserInfo = uid => {}

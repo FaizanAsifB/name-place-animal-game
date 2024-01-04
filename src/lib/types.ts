@@ -7,6 +7,13 @@ import { z } from 'zod'
 import { getRoundsConfig } from '../pages/Lobby/utils/utils'
 import { queryData } from '../utils/fetchData'
 
+export type User = {
+  uid: string
+  displayName: string
+  isAnonymous: boolean
+  photoUrl: string
+}
+
 export const CollectionEnum = z.enum([
   'lobbies',
   'lobbyPlayers',
