@@ -10,7 +10,7 @@ import {
 import { Input } from '@/components/ui/input.tsx'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Timestamp } from 'firebase/firestore'
-import { Loader2 } from 'lucide-react'
+import { Gamepad, Loader2 } from 'lucide-react'
 import { Dispatch, SetStateAction, useContext, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
@@ -165,7 +165,7 @@ const AddCategory = ({
             {form.formState.isSubmitting ? (
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
             ) : (
-              <GrGamepad />
+              <Gamepad />
             )}
             Add Categories
           </Button>
