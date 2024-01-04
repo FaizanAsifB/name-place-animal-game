@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button.tsx'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 import {
@@ -26,6 +25,7 @@ import CategoriesList from './CategoriesList.tsx'
 import { SettingsInput, settingsInputSchema } from './lib/types.tsx'
 import { uploadCategories, uploadSettings } from './utils/http.ts'
 import { makePlayerSlots } from './utils/util.ts'
+import { Button } from '@/components/ui/button.tsx'
 
 const SettingsForm = () => {
   const currentUser = useContext(AuthContext)

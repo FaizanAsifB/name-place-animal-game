@@ -1,8 +1,8 @@
 import { signOut } from 'firebase/auth'
 import { useContext } from 'react'
-import { Button } from '../components/ui/button.tsx'
 import { auth } from '../config/config'
 import { AuthContext } from '../context/AuthContext'
+import { Button } from '@/components/ui/button'
 
 const Footer = () => {
   const currentUser = useContext(AuthContext)
