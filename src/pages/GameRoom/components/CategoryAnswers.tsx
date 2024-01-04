@@ -12,7 +12,6 @@ import { cn } from '@/lib/utils'
 import { UseFormReturn, useFieldArray } from 'react-hook-form'
 
 import { AnswerInputs } from '../../../lib/types'
-import { AnswerSchema } from './AnswersInput'
 
 type CategoryAnswers = {
   category: string

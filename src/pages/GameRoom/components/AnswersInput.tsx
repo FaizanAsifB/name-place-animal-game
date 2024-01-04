@@ -6,13 +6,10 @@ import { useForm } from 'react-hook-form'
 import { useLoaderData, useParams } from 'react-router-dom'
 import { z } from 'zod'
 import { AuthContext } from '../../../context/AuthContext'
-import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
 import {
   AnswerInputs,
   Answers,
   CreateGameData,
-  FireStoreError,
-  GameData,
   GameSettings,
 } from '../../../lib/types'
 import { submitAnswers, updateGameState } from '../../GameCreation/utils/http'

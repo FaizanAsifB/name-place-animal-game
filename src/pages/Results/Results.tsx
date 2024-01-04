@@ -23,7 +23,8 @@ const Results = () => {
     await updateGameState('INIT', params.roomId!)
   }
 
-  const { error } = useNextPhase()
+  // const { error } =
+  useNextPhase()
 
   const isLastRound = roundsData.currentRound === totalRounds
 
@@ -44,6 +45,7 @@ const Results = () => {
 }
 export default Results
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const loader: LoaderFunction = async ({ params }) => {
   const roundsData = await fetchLobbyData<RoundsData>(params.roomId!, 'rounds')
   const settings = await fetchLobbyData<GameSettings>(params.roomId!, 'lobbies')

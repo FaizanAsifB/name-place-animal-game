@@ -23,7 +23,7 @@ import { categoriesArr, getRoundsConfig, readyPlayers } from './utils/utils'
 const Lobby = () => {
   const { params, data: gameState, fireStoreError } = useNextPhase()
 
-  const { data: lobbyPlayers, error } = useOnSnapShot({
+  const { data: lobbyPlayers /* error */ } = useOnSnapShot({
     docRef: 'lobbyPlayers',
     roomId: params.roomId,
   }) as { data: PlayersData; error: FireStoreError }

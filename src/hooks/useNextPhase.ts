@@ -1,4 +1,3 @@
-import { updateGameState } from '@/pages/GameCreation/utils/http'
 import { useEffect } from 'react'
 import { useMatch, useNavigate, useParams } from 'react-router-dom'
 import { FireStoreError, GameState } from '../lib/types'

@@ -1,18 +1,15 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { useState } from 'react'
 import { Control } from 'react-hook-form'
 import { SettingsInput } from './lib/types'
 // import { DefaultCategoriesList, SettingsInput } from './lib/types'
 
-//!FIX CONTROL TYPE
 type CategoriesListProps = {
   control: Control<SettingsInput>
 }

@@ -9,7 +9,7 @@ type UserInfoProps = {
 }
 
 const UserInfo = ({ userId }: UserInfoProps) => {
-  const { users, isError, error, isPending } = useFetchPlayers()
+  const { users, /* isError, error, */ isPending } = useFetchPlayers()
 
   const { displayName, photoUrl } = getUserInfo(users, userId)
 

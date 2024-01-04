@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
-import { GameState, GameStates } from '../../../lib/types'
+import { GameStates } from '../../../lib/types'
 import { updateGameState } from '../../GameCreation/utils/http'
 
 type ClockProps = {
@@ -9,7 +9,7 @@ type ClockProps = {
 }
 
 const Clock = ({ roundTime }: ClockProps) => {
-  const [timeRemaining, setTimeRemaining] = useState(9999)
+  const [timeRemaining, setTimeRemaining] = useState(roundTime)
   const params = useParams()
 
   const minutes = Math.floor(timeRemaining / 60)

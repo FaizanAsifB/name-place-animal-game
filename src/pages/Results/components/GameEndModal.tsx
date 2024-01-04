@@ -1,13 +1,11 @@
 import UserInfo from '@/components/ui/UserInfo'
 import { Button } from '@/components/ui/button'
 import {
-  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
 } from '@/components/ui/dialog'
 import { AuthContext } from '@/context/AuthContext'
 import { ScoreData } from '@/lib/types'
@@ -40,8 +38,6 @@ const GameEndModal = ({ scoresData, isLastRound }: GameEndModalProps) => {
     width: 1600,
     zIndex: 100,
   }
-
-  // const user = (await ) as User
 
   return (
     <>

@@ -1,63 +1,29 @@
-import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import useNextPhase from '@/hooks/useNextPhase'
-import { Fragment, useContext, useEffect, useMemo, useState } from 'react'
-import { useLoaderData } from 'react-router-dom'
-import UserInfo from '../../../components/ui/UserInfo'
-import { AuthContext } from '../../../context/AuthContext'
-import {
-  FireStoreError,
-  GameState,
-  RoundsData,
-  UpdateScoreData,
-} from '../../../lib/types'
-import { getSum } from '../../../utils/helpers'
-import {
-  updateGameState,
-  updateScoresData,
-} from '../../GameCreation/utils/http'
-import { getScoringData } from '../utils/helpers'
-import AnswersList from './AnswersList'
+import React from 'react'
+import { useEffect } from 'react'
 
-const CategoryScores = () => {
-  const [scores, setScores] = useState<Record<string, number> | null>(null)
+type ScoresToggleGroupProps = {
+  category: string
+  scores: Record<string, number> | null
+  setScores: React.Dispatch<React.SetStateAction<Record<string, number> | null>>
+  activeCategories: string[] | undefined
+}
 
-  const { roundData, roomId } = useLoaderData() as {
-    roundData: RoundsData
-    roomId: string
-  }
-
-  const currentUser = useContext(AuthContext)
-  // const params = useParams()
-  const currentRound = roundData.currentRound
-
-  const { data, fireStoreError } = useNextPhase(currentRound) as {
-    data: GameState
-    fireStoreError: FireStoreError
-  }
-
-  useEffect(() => {
-    if (!data?.scoresSubmitted) return
-    if (data.scoresSubmitted[`round${currentRound}`] === data.totalPlayers)
-      (async () => await updateGameState('RESULT', roomId))()
-  }, [data?.scoresSubmitted, data?.totalPlayers, roomId, currentRound])
-
+const ScoresToggleGroup = ({
+  category,
+  activeCategories,
+  scores,
+  setScores,
+}: ScoresToggleGroupProps) => {
   // Make initial scores object
   useEffect(() => {
-    if (roundData && scores === null) {
+    if (activeCategories && scores === null) {
       const initialScores = Object.fromEntries(
-        roundData.roundsConfig[currentRound - 1]?.activeCategories!.map(
-          item => [item, 0]
-        )
+        activeCategories.map(item => [item, 0])
       )
       setScores(initialScores)
     }
-  }, [roundData, currentRound, scores])
-
-  // Object that contains user to correct and other users
-  const scoringData: ReturnType<typeof getScoringData> = useMemo(() => {
-    return getScoringData(roundData, currentRound, currentUser?.uid)
-  }, [currentUser?.uid, roundData, currentRound])
+  }, [activeCategories, scores, setScores])
 
   //state for radio buttons
   function handleScores(category: string, newScore: string | null) {
@@ -68,93 +34,25 @@ const CategoryScores = () => {
     }
   }
 
-  async function handleScoring() {
-    const roundScore = getSum(Object.values(scores!))
-    const scoreData: UpdateScoreData = {
-      scoresCategory: scores,
-      roundScore,
-      scoreRounds:
-        roundData?.currentRound === 1
-          ? [roundScore]
-          : [
-              ...roundData!.scores[scoringData!.userIdToCorrect].scoreRounds,
-              roundScore,
-            ],
-
-      currentRound: roundData?.currentRound,
-    }
-
-    await updateScoresData(roomId, scoringData!.userIdToCorrect, scoreData)
-  }
-
   return (
-    <>
-      <div className="grid grid-cols-2 gap-4">
-        {!scoringData && 'Loading....'}
-        {scoringData &&
-          // Answers to correct
-          Object.entries(scoringData.answersToCorrect).map(category => {
-            //[Category,Answer]
-
-            return (
-              <div className="border-2 border-lime-700" key={category[0]}>
-                <h2 className="text-center">{category[0]}</h2>
-                <div className="inline-flex flex-col">
-                  <UserInfo
-                    userId={scoringData.userIdToCorrect}
-
-                    // users={userInfo}
-                  />
-
-                  <AnswersList answers={category[1]} />
-                  <div className="inline-flex flex-col border-2 border-red-700">
-                    {scoringData.otherUsers.map(user => (
-                      //[UserId,Answers]
-                      <Fragment key={user[0] + category[0]}>
-                        <UserInfo userId={user[0]} />
-                        <AnswersList answers={user[1][category[0]]} />
-                      </Fragment>
-                    ))}
-                  </div>
-                </div>
-
-                <ToggleGroup
-                  value={`${scores?.[category[0]] ?? 0}`}
-                  // exclusive
-                  onValueChange={value => handleScores(...[category[0]], value)}
-                  type="single"
-                  aria-label="category scoring"
-                >
-                  <ToggleGroupItem
-                    value={'0'}
-                    aria-label="zero"
-                    id={category[0]}
-                  >
-                    0
-                  </ToggleGroupItem>
-                  <ToggleGroupItem
-                    value={'5'}
-                    aria-label="five"
-                    id={category[0]}
-                  >
-                    5
-                  </ToggleGroupItem>
-                  <ToggleGroupItem
-                    value={'10'}
-                    aria-label="ten"
-                    id={category[0]}
-                  >
-                    10
-                  </ToggleGroupItem>
-                </ToggleGroup>
-              </div>
-            )
-          })}
-      </div>
-      <Button type="button" onClick={handleScoring}>
-        Submit
-      </Button>
-    </>
+    <ToggleGroup
+      value={`${scores?.[category] ?? 0}`}
+      onValueChange={value => {
+        if (value) handleScores(...[category], value)
+      }}
+      type="single"
+      aria-label="category scoring"
+    >
+      <ToggleGroupItem value={'0'} aria-label="zero" id={category}>
+        0
+      </ToggleGroupItem>
+      <ToggleGroupItem value={'5'} aria-label="five" id={category}>
+        5
+      </ToggleGroupItem>
+      <ToggleGroupItem value={'10'} aria-label="ten" id={category}>
+        10
+      </ToggleGroupItem>
+    </ToggleGroup>
   )
 }
-export default CategoryScores
+export default ScoresToggleGroup
