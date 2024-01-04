@@ -17,19 +17,21 @@ import { Link } from 'react-router-dom'
 
 type GameEndModalProps = {
   scoresData: [string, ScoreData][]
+  isLastRound: boolean
 }
 
-const GameEndModal = ({ scoresData }: GameEndModalProps) => {
+const GameEndModal = ({ scoresData, isLastRound }: GameEndModalProps) => {
   const [isExploding, setIsExploding] = useState(false)
   const currentUser = useContext(AuthContext)
 
   const winnerId = scoresData[0][0]
   const winnerScores = scoresData[0][1]
-  const isCurrentWinner = winnerId === currentUser?.uid
+  const isCurrentUserWinner = winnerId === currentUser?.uid
 
   useEffect(() => {
-    if (currentUser?.uid === scoresData[0][0]) setIsExploding(true)
-  }, [currentUser?.uid, scoresData])
+    if (currentUser?.uid === scoresData[0][0] && isLastRound)
+      setIsExploding(true)
+  }, [currentUser?.uid, scoresData, isLastRound])
 
   const largeProps: ConfettiProps = {
     force: 0.8,
@@ -53,7 +55,7 @@ const GameEndModal = ({ scoresData }: GameEndModalProps) => {
             {/* Make changes to your profile here. Click save when you're done. */}
           </DialogDescription>
         </DialogHeader>
-        {isCurrentWinner ? (
+        {isCurrentUserWinner ? (
           <p className="text-4xl text-center">
             Congratulations
             <br /> YOU WON!
@@ -66,8 +68,8 @@ const GameEndModal = ({ scoresData }: GameEndModalProps) => {
         )}
         <p className="text-center">With {winnerScores.totalScore} points</p>
         <DialogFooter>
-          <DialogClose>
-            <Button>Close</Button>
+          <DialogClose asChild>
+            <Button type="button">Close</Button>
           </DialogClose>
           <Button asChild>
             <Link to="/">Exit Game</Link>

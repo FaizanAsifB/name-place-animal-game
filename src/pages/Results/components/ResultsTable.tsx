@@ -25,10 +25,14 @@ const ResultsTable = ({ roundsData, isLastRound }: ResultsTableProps) => {
   return (
     <>
       <Dialog defaultOpen={isLastRound}>
-        <GameEndModal scoresData={scoresData} />
+        <GameEndModal scoresData={scoresData} isLastRound={isLastRound} />
       </Dialog>
       <Table className="w-full text-left">
-        <TableCaption className="caption-top">Results</TableCaption>
+        <TableCaption className="caption-top">
+          <h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl">
+            Results
+          </h1>
+        </TableCaption>
         <TableHeader>
           {/* <TableRow>
           <TableHead></TableHead>
@@ -53,8 +57,15 @@ const ResultsTable = ({ roundsData, isLastRound }: ResultsTableProps) => {
           {scoresData.map((item, i) => (
             <TableRow key={item[0]}>
               <TableCell>{i + 1}</TableCell>
-              <TableCell>
+              <TableCell className="flex gap-2">
                 <UserInfo userId={item[0]} />
+                {isLastRound && i === 0 && (
+                  <img
+                    src="/images/trophy.svg"
+                    alt="Winner trophy"
+                    className="w-10 h-10"
+                  />
+                )}
               </TableCell>
               {item[1].scoreRounds.map((score, i) => (
                 <TableCell key={score + i}>{score}</TableCell>

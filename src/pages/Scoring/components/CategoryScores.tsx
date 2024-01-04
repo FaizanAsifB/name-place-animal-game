@@ -1,9 +1,8 @@
 import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import { useFetchPlayers } from '@/hooks/useFetchPlayers'
 import useNextPhase from '@/hooks/useNextPhase'
 import { Fragment, useContext, useEffect, useMemo, useState } from 'react'
-import { useLoaderData, useParams } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 import UserInfo from '../../../components/ui/UserInfo'
 import { AuthContext } from '../../../context/AuthContext'
 import {
@@ -12,7 +11,7 @@ import {
   RoundsData,
   UpdateScoreData,
 } from '../../../lib/types'
-import { getSum, getUserInfo } from '../../../utils/helpers'
+import { getSum } from '../../../utils/helpers'
 import {
   updateGameState,
   updateScoresData,
@@ -28,13 +27,11 @@ const CategoryScores = () => {
     roomId: string
   }
 
-  const { users, isError, error, isPending } = useFetchPlayers()
-
   const currentUser = useContext(AuthContext)
   // const params = useParams()
   const currentRound = roundData.currentRound
 
-  const { data, error: fireStoreError } = useNextPhase(currentRound) as {
+  const { data, fireStoreError } = useNextPhase(currentRound) as {
     data: GameState
     fireStoreError: FireStoreError
   }
@@ -103,21 +100,18 @@ const CategoryScores = () => {
               <div className="border-2 border-lime-700" key={category[0]}>
                 <h2 className="text-center">{category[0]}</h2>
                 <div className="inline-flex flex-col">
-                  {!isPending && (
-                    <UserInfo
-                      userId={scoringData.userIdToCorrect}
-                      users={users}
-                      // users={userInfo}
-                    />
-                  )}
+                  <UserInfo
+                    userId={scoringData.userIdToCorrect}
+
+                    // users={userInfo}
+                  />
+
                   <AnswersList answers={category[1]} />
                   <div className="inline-flex flex-col border-2 border-red-700">
                     {scoringData.otherUsers.map(user => (
                       //[UserId,Answers]
                       <Fragment key={user[0] + category[0]}>
-                        {!isPending && (
-                          <UserInfo userId={user[0]} users={users} />
-                        )}
+                        <UserInfo userId={user[0]} />
                         <AnswersList answers={user[1][category[0]]} />
                       </Fragment>
                     ))}
