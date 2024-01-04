@@ -14,7 +14,6 @@ import { Gamepad, Loader2 } from 'lucide-react'
 import { Dispatch, SetStateAction, useContext, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
-import { Button } from '../../../components/ui/button.tsx'
 import { AuthContext } from '../../../context/AuthContext'
 import {
   AddedCategories,
@@ -23,6 +22,7 @@ import {
   customCategoriesSchema,
 } from '../../../lib/types'
 import { submitCategoryInput } from '../../GameCreation/utils/http'
+import { Button } from '@/components/ui/button'
 
 type AddCategoryProps = {
   userCategories: AddedCategories

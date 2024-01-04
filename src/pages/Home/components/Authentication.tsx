@@ -6,9 +6,9 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { BookText, Mail } from 'lucide-react'
-import { Button } from '../../../components/ui/button.tsx'
 import LoginForm from './LoginForm'
 import SignUpForm from './SignUpForm'
+import { Button } from '@/components/ui/button'
 
 type AuthenticationProps = {
   showGuest: boolean
@@ -16,28 +16,8 @@ type AuthenticationProps = {
 }
 
 const Authentication = ({ showGuest, guestOnClick }: AuthenticationProps) => {
-  // const [isModalOpen, setIsModalOpen] = useState(false)
-  // const [isSignUp, setIsSignUp] = useState(false)
-
-  // function closeModal() {
-  //   setIsModalOpen(false)
-  // }
-
-  // function openModal(e: React.MouseEvent<HTMLButtonElement>) {
-  //   if (e.currentTarget!.name === 'register') setIsSignUp(true)
-  //   if (e.currentTarget!.name === 'login') setIsSignUp(false)
-  //   setIsModalOpen(true)
-  // }
-
   return (
     <>
-      {/* <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {isSignUp ? (
-          <SignUpForm onClose={closeModal} />
-        ) : (
-          <LoginForm onClose={closeModal} />
-        )}
-      </Modal> */}
       {showGuest ? (
         <Button name="guest" onClick={guestOnClick}>
           Login as Guest

@@ -12,9 +12,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { Mail, XCircle } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { Button } from '../../../components/ui/button.tsx'
 import { auth } from '../../../config/config'
 import { LoginSchema, loginSchema } from '../../../lib/types'
+import { Button } from '@/components/ui/button'
 
 // type LoginFormProps = {
 //   onClose: () => void

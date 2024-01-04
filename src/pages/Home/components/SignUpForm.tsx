@@ -13,11 +13,11 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { useAtom } from 'jotai'
 import { useForm } from 'react-hook-form'
-import { Button } from '../../../components/ui/button.tsx'
 import { auth, db } from '../../../config/config'
 import { SignUpSchema, signUpSchema } from '../../../lib/types'
 import { avatarAtom, avatarImages } from '../../../utils/utils'
 import { BookText, XCircle } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 // type SignUpFormProps = {
 //   onClose: () => void
