@@ -72,7 +72,7 @@ const AnswersInput = () => {
       roundsData.currentRound
     )
     if (donePlayers === gameData?.totalPlayers) {
-      updateGameState('SCORING', params.roomId!)
+      await updateGameState('SCORING', params.roomId!)
     }
   }
 

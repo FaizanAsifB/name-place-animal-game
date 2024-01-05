@@ -9,7 +9,7 @@ type ClockProps = {
 }
 
 const Clock = ({ roundTime }: ClockProps) => {
-  const [timeRemaining, setTimeRemaining] = useState(roundTime)
+  const [timeRemaining, setTimeRemaining] = useState(5)
   const params = useParams()
 
   const minutes = Math.floor(timeRemaining / 60)
@@ -20,11 +20,11 @@ const Clock = ({ roundTime }: ClockProps) => {
     roomId: params.roomId!,
   })
 
-  const gameState: GameStates = gameData?.gameState || 'INIT'
-  if (timeRemaining === 0 && gameState !== 'ROUND-ENDED')
-    updateGameState('TIME-ENDED', params.roomId!)
+  const gameState: GameStates = gameData?.gameState
 
   useEffect(() => {
+    if (timeRemaining === 0 && gameState !== 'ROUND-ENDED')
+      updateGameState('TIME-ENDED', params.roomId!)
     switch (gameState) {
       case 'INIT':
         updateGameState('STARTED', params.roomId!)
@@ -41,15 +41,18 @@ const Clock = ({ roundTime }: ClockProps) => {
       case 'ROUND-ENDED':
         stopTimer()
         break
-      default:
+      case 'TIME-ENDED':
         stopTimer()
+        break
+      // default:
+      //   stopTimer()
     }
     return () => stopTimer()
-  }, [gameState, params.roomId])
+  }, [gameState, params.roomId, timeRemaining])
 
   const timer = useRef<string | number | NodeJS.Timeout | undefined>(0)
 
-  if (timeRemaining <= 0) clearInterval(timer.current)
+  // if (timeRemaining <= 0) clearInterval(timer.current)
 
   function startTimer() {
     timer.current = setInterval(() => {
