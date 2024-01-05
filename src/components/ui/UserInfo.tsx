@@ -14,11 +14,11 @@ const UserInfo = ({ userId }: UserInfoProps) => {
   const { displayName, photoUrl } = getUserInfo(users, userId)
 
   return (
-    <p className="flex">
+    <div className="flex">
       {isPending ? (
         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
       ) : (
-        <div className="flex items-center gap-2">
+        <p className="flex items-center gap-2">
           <Avatar>
             <AvatarImage src={photoUrl} />
             <AvatarFallback>
@@ -26,9 +26,9 @@ const UserInfo = ({ userId }: UserInfoProps) => {
             </AvatarFallback>
           </Avatar>
           <span>{displayName}</span>
-        </div>
+        </p>
       )}
-    </p>
+    </div>
   )
 }
 export default UserInfo

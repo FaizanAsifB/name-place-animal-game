@@ -61,6 +61,7 @@ const Clock = ({ roundTime }: ClockProps) => {
   }
 
   function stopTimer() {
+    if (!timer.current) return
     clearInterval(timer.current)
     timer.current = 0
   }

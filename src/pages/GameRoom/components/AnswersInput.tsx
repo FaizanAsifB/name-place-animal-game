@@ -80,7 +80,8 @@ const AnswersInput = () => {
   if (
     gameData &&
     gameData.gameState === 'TIME-ENDED' &&
-    (!form.formState.isSubmitting || !form.formState.isSubmitted)
+    !form.formState.isSubmitting &&
+    !form.formState.isSubmitted
   )
     form.handleSubmit(onSubmit)()
 
