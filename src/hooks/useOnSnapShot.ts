@@ -2,13 +2,14 @@ import { DocumentData, doc, onSnapshot } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { db } from '../config/config'
 import { FireStoreError } from '../lib/types'
+import { z } from 'zod'
 
 type SnapShot = {
   docRef: string
   roomId: string | undefined
 }
 
-export const useOnSnapShot = ({ docRef, roomId }: SnapShot) => {
+export const useOnSnapShot = <T>({ docRef, roomId }: SnapShot) => {
   const [data, setData] = useState<DocumentData>()
   const [error, setError] = useState<FireStoreError>()
 
@@ -30,5 +31,5 @@ export const useOnSnapShot = ({ docRef, roomId }: SnapShot) => {
     }
   }, [docRef, roomId])
 
-  return { data, error }
+  return { data, error } as { data: T; error: FireStoreError }
 }

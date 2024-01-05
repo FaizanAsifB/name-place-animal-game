@@ -17,7 +17,6 @@ const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
   ref
 ) {
   const currentUser = useContext(AuthContext)
-  // const { data } = useOnSnapShot({ docRef: 'users', roomId: currentUser?.uid })
 
   return (
     <div className="p-8 bg-bg-primary" role="tabpanel">

@@ -178,7 +178,10 @@ const SettingsForm = () => {
                     <ToggleGroup
                       type="single"
                       defaultValue={value}
-                      onValueChange={onChange}
+                      value={value}
+                      onValueChange={value => {
+                        if (value) onChange(value)
+                      }}
                     >
                       <ToggleGroupItem
                         aria-label="Select Round Timer"
@@ -215,13 +218,7 @@ const SettingsForm = () => {
                   render={({ field }) => (
                     <FormItem className="relative">
                       <FormControl>
-                        <Input
-                          placeholder="Add custom category"
-                          {...field}
-                          // onBlur={() => {
-                          //   form.clearErrors()
-                          // }}
-                        />
+                        <Input placeholder="Add custom category" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -234,13 +231,7 @@ const SettingsForm = () => {
                   render={({ field }) => (
                     <FormItem className="relative">
                       <FormControl>
-                        <Input
-                          placeholder="Add custom category"
-                          {...field}
-                          // onBlur={() => {
-                          //   form.clearErrors()
-                          // }}
-                        />
+                        <Input placeholder="Add custom category" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

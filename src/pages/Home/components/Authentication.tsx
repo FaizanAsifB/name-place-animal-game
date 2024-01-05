@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -6,9 +7,10 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { BookText, Mail } from 'lucide-react'
-import LoginForm from './LoginForm'
-import SignUpForm from './SignUpForm'
-import { Button } from '@/components/ui/button'
+import { Suspense, lazy } from 'react'
+
+const LoginForm = lazy(() => import('./LoginForm'))
+const SignUpForm = lazy(() => import('./SignUpForm'))
 
 type AuthenticationProps = {
   showGuest: boolean
@@ -39,7 +41,10 @@ const Authentication = ({ showGuest, guestOnClick }: AuthenticationProps) => {
               <DialogHeader>
                 <DialogTitle>Enter your email and password</DialogTitle>
               </DialogHeader>
-              <LoginForm />
+              {/* Login form */}
+              <Suspense fallback={<p>Loading....</p>}>
+                <LoginForm />
+              </Suspense>
               {/* <DialogFooter>
                 <Button type="submit">Save changes</Button>
               </DialogFooter> */}
@@ -61,7 +66,10 @@ const Authentication = ({ showGuest, guestOnClick }: AuthenticationProps) => {
               <DialogHeader>
                 <DialogTitle>Sign up with email and password</DialogTitle>
               </DialogHeader>
-              <SignUpForm />
+              {/* Sign up Form */}
+              <Suspense fallback={<p>Loading....</p>}>
+                <SignUpForm />
+              </Suspense>
               {/* <DialogFooter>
                 <Button type="submit">Save changes</Button>
               </DialogFooter> */}
