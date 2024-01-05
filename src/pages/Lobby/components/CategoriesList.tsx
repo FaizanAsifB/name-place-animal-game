@@ -13,7 +13,7 @@ import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
 import { getAllCategories, getCategoryCount } from '../utils/utils'
 import AddCategory from './AddCategory'
 import { Button } from '@/components/ui/button'
-import { Categories, FireStoreError } from '@/lib/types'
+import { Categories } from '@/lib/types'
 
 const CategoriesList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -21,10 +21,11 @@ const CategoriesList = () => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
 
-  const { data, error } = useOnSnapShot({
+  const { data, error } = useOnSnapShot<Categories>({
     docRef: 'categories',
     roomId: params.roomId!,
-  }) as { data: Categories; error: FireStoreError }
+  })
+  // as { data: Categories; error: FireStoreError }
 
   const addedCategories = getAllCategories(data)
   const categoryCount = getCategoryCount(data?.custom[currentUser!.uid])

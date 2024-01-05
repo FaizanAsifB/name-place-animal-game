@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useMatch, useNavigate, useParams } from 'react-router-dom'
-import { FireStoreError, GameState } from '../lib/types'
+import { GameState } from '../lib/types'
 import { useOnSnapShot } from './useOnSnapShot'
 
 const useNextPhase = (currentRound?: number) => {
@@ -8,10 +8,11 @@ const useNextPhase = (currentRound?: number) => {
   const params = useParams()
   const matchScoringPath = useMatch(`game/${params.roomId}/scoring`)
 
-  const { data, error } = useOnSnapShot({
+  const { data, error } = useOnSnapShot<GameState | undefined>({
     docRef: 'gameRooms',
     roomId: params.roomId,
-  }) as { data: GameState | undefined; error: FireStoreError }
+  })
+  // as { data: GameState | undefined; error: FireStoreError }
 
   useEffect(() => {
     if (!data?.gameState) return

@@ -22,7 +22,6 @@ import {
   UserAnswers,
 } from '../../../lib/types'
 import { fetchLobbyData } from '../../../utils/fetchData'
-import {} from '../SettingsForm'
 
 export const uploadCategories = async (
   categories: Categories,

@@ -5,7 +5,6 @@ import useNextPhase from '../../hooks/useNextPhase'
 import {
   Categories,
   CreateGameData,
-  FireStoreError,
   GameSettings,
   PlayersData,
 } from '../../lib/types'
@@ -23,10 +22,11 @@ import { categoriesArr, getRoundsConfig, readyPlayers } from './utils/utils'
 const Lobby = () => {
   const { params, data: gameState, fireStoreError } = useNextPhase()
 
-  const { data: lobbyPlayers /* error */ } = useOnSnapShot({
+  const { data: lobbyPlayers /* error */ } = useOnSnapShot<PlayersData>({
     docRef: 'lobbyPlayers',
     roomId: params.roomId,
-  }) as { data: PlayersData; error: FireStoreError }
+  })
+  //  as { data: PlayersData; error: FireStoreError }
 
   const ready = readyPlayers(lobbyPlayers)
   const totalPlayers = gameState?.totalPlayers
