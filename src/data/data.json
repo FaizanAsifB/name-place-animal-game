@@ -1,0 +1,48 @@
+{
+  "avatarImages": [
+    { "path": "/images/avatars/birdie.svg", "title": "birdie" },
+    { "path": "/images/avatars/deer.svg", "title": "deer" },
+    { "path": "/images/avatars/elephant.svg", "title": "elephant" },
+    { "path": "/images/avatars/giraffe.svg", "title": "giraffe" },
+    { "path": "/images/avatars/lion.svg", "title": "lion" },
+    { "path": "/images/avatars/monkey.svg", "title": "monkey" }
+  ],
+  "guide": [
+    {
+      "id": 0,
+      "title": "Gather your friends",
+      "description": "Game is most fun when playing with friends",
+      "animationUrl": "animations/social.json"
+    },
+    {
+      "id": 1,
+      "title": "add categories",
+      "description": "Each player adds two unique categories. Two are added to the first round, one added to subsequent rounds",
+      "animationUrl": ""
+    },
+    {
+      "id": 2,
+      "title": "The chosen one",
+      "description": "Every round a letter is chosen at random 🔤",
+      "animationUrl": "animations/letters.json"
+    },
+    {
+      "id": 3,
+      "title": "A for Apple",
+      "description": "Write words for each category that start with that letter ✍️ ",
+      "animationUrl": ""
+    },
+    {
+      "id": 4,
+      "title": "Score your \"friends\"",
+      "description": "10 points for an unique answer, 5 for duplicates and 🥚 for no answer",
+      "animationUrl": ""
+    },
+    {
+      "id": 5,
+      "title": "The Winner",
+      "description": "Player with the highest score after the last round wins 🏆 ",
+      "animationUrl": "animations/winner.json"
+    }
+  ]
+}

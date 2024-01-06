@@ -1,7 +1,7 @@
 import { signInAnonymously, updateProfile } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../config/config'
-import { avatarImages } from '../context/atoms'
+import data from '../data/data.json'
 
 export const guestSignIn = async function (
   guestName: string,
@@ -12,7 +12,7 @@ export const guestSignIn = async function (
     try {
       await updateProfile(res.user, {
         displayName: guestName,
-        photoURL: avatarImages[avatarIndex].path,
+        photoURL: data.avatarImages[avatarIndex].path,
       })
       await setDoc(doc(db, 'users', res.user.uid), {
         uid: res.user.uid,

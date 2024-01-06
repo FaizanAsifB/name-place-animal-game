@@ -1,22 +1,38 @@
 import { Button } from '@/components/ui/button'
-import { Undo2 } from 'lucide-react'
+import { signOut } from 'firebase/auth'
+import { Home } from 'lucide-react'
+import { useContext } from 'react'
 import { Link, useMatch } from 'react-router-dom'
-import img from '../assets/imgs/note-1173544_640.png'
+import { auth } from '../config/config'
+import { AuthContext } from '../context/AuthContext'
 
 const Header = () => {
-  const match = useMatch('game-creation')
+  const currentUser = useContext(AuthContext)
+
+  const matchCreate = useMatch('game-creation')
+  const matchHome = useMatch('/')
+  async function signOutUser() {
+    signOut(auth)
+  }
 
   return (
-    <div className="flex items-center justify-between py-8">
-      {match && (
-        <Button asChild>
+    <div className="grid items-center grid-cols-4 py-8 ">
+      {matchCreate && (
+        <Button asChild className="w-fit">
           <Link to="/">
-            <Undo2 />
-            Back
+            <Home />
+            Home
           </Link>
         </Button>
       )}
-      <img src={img} alt="" className="w-12 ml-auto aspect-square md:w-24" />
+      <h1 className="col-span-2 col-start-2 text-center">
+        Name Place Animal Thing
+      </h1>
+      {currentUser && matchHome && (
+        <Button onClick={signOutUser} className="col-start-4 ml-auto w-fit">
+          Logout
+        </Button>
+      )}
     </div>
   )
 }
