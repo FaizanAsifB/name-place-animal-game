@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai'
-import { avatarAtom, avatarImages } from '../../../utils/utils'
 import { RotateCcw } from 'lucide-react'
+import { avatarAtom, avatarImages } from '../../../context/atoms'
 
 const AvatarSelection = () => {
   const [avatarIndex, setAvatarIndex] = useAtom(avatarAtom)

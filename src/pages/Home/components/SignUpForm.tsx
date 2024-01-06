@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import { DialogClose, DialogFooter } from '@/components/ui/dialog.tsx'
 import {
   Form,
@@ -12,12 +13,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { useAtom } from 'jotai'
+import { BookText, XCircle } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { auth, db } from '../../../config/config'
+import { avatarAtom, avatarImages } from '../../../context/atoms'
 import { SignUpSchema, signUpSchema } from '../../../lib/types'
-import { avatarAtom, avatarImages } from '../../../utils/utils'
-import { BookText, XCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 
 // type SignUpFormProps = {
 //   onClose: () => void

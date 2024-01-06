@@ -24,53 +24,58 @@ export const CollectionEnum = z.enum([
 ])
 export type CollectionEnum = z.infer<typeof CollectionEnum>
 
-export const guestSchema = z
-  .string()
-  .trim()
-  .toLowerCase()
-  .min(3)
-  .max(20)
-  .refine(
-    async val => {
-      const res = await queryData('users', {
-        property: 'displayName',
-        operator: '==',
-        value: val,
-      })
-      return !res
-    },
-    { message: 'This nickname is already in use' }
-  )
+export const GuestSchema = z.object({
+  guestName: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .min(3)
+    .max(20)
+    .refine(
+      async val => {
+        const res = await queryData('users', {
+          property: 'displayName',
+          operator: '==',
+          value: val,
+        })
+        return !res
+      },
+      { message: 'This nickname is already in use' }
+    ),
+})
 
-export type GuestSchema = z.infer<typeof guestSchema>
+export type GuestName = z.infer<typeof GuestSchema>
 
-export const gameCodeSchema = z
-  .string()
-  .trim()
-  .length(6)
-  .refine(
-    async val => {
-      const res = await queryData('lobbies', {
-        property: 'joinCode',
-        operator: '==',
-        value: val,
-      })
-      return res
-    },
-    { message: 'Enter a valid gameCode' }
-  )
-export type GameCodeSchema = z.infer<typeof gameCodeSchema>
+export const GameCodeSchema = z.object({
+  joinCode: z
+    .string()
+    .trim()
+    .length(6)
+    .refine(
+      async val => {
+        const res = await queryData('lobbies', {
+          property: 'joinCode',
+          operator: '==',
+          value: val,
+        })
+        return res
+      },
+      { message: 'Enter a valid gameCode' }
+    ),
+})
 
-export const AuthPanelSchema = z.union([guestSchema, gameCodeSchema])
+// export type GameCodeSchema = z.infer<typeof gameCodeSchema>
+
+// export const AuthPanelSchema = z.union([GuestSchema, gameCodeSchema])
 
 // export type AuthPanelType = z.infer<typeof AuthPanelSchema>
-export type AuthPanelType =
-  | {
-      gameCode: GameCodeSchema
-    }
-  | {
-      createGuest: GuestSchema
-    }
+// export type AuthPanelType =
+//   | {
+//       gameCode: GameCodeSchema
+//     }
+//   | {
+//       createGuest: GuestName
+//     }
 
 export const loginSchema = z.object({
   email: z.string().trim().min(6).max(30),

@@ -1,23 +1,22 @@
 import { signInAnonymously, updateProfile } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../config/config'
-import { GuestSchema } from '../lib/types'
-import { avatarImages } from './utils'
+import { avatarImages } from '../context/atoms'
 
 export const guestSignIn = async function (
-  displayName: GuestSchema,
+  guestName: string,
   avatarIndex: number
 ) {
   try {
     const res = await signInAnonymously(auth)
     try {
       await updateProfile(res.user, {
-        displayName,
+        displayName: guestName,
         photoURL: avatarImages[avatarIndex].path,
       })
       await setDoc(doc(db, 'users', res.user.uid), {
         uid: res.user.uid,
-        displayName,
+        displayName: guestName,
         photoURL: res.user.photoURL,
         isAnonymous: res.user.isAnonymous,
       })

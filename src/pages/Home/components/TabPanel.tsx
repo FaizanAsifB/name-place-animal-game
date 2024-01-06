@@ -1,10 +1,11 @@
-import { forwardRef, useContext } from 'react'
-import ErrorText from '../../../components/forms/ErrorText'
+import { ReactElement, useContext } from 'react'
 
 import { AuthContext } from '../../../context/AuthContext'
 
-import { Input } from '@/components/ui/input'
+import AuthContent from './AuthContent'
+import AuthModal from './AuthModal'
 import AvatarSelection from './AvatarSelection'
+import GuestContent from './GuestContent'
 
 type TabPanelProps = {
   showGuest: boolean
@@ -12,54 +13,46 @@ type TabPanelProps = {
   setErrorMessage: (value: string) => void
 }
 
-const TabPanel = forwardRef<HTMLInputElement, TabPanelProps>(function TabPanel(
-  { showGuest, errorMessage, setErrorMessage },
-  ref
-) {
+const TabPanel = ({ showGuest }: TabPanelProps) => {
   const currentUser = useContext(AuthContext)
 
+  let content: ReactElement | string = ''
+
+  if (currentUser) {
+    content = <AuthContent displayName={currentUser?.displayName} />
+  } else if (showGuest) {
+    content = <GuestContent />
+  } else {
+    content = (
+      <>
+        <h2>Choose a character and Sign in with email</h2>
+        <AuthModal />
+      </>
+    )
+  }
   return (
     <div className="p-8 bg-bg-primary" role="tabpanel">
       <div aria-labelledby={showGuest ? 'guest-tab' : 'authentication-tab'}>
         <div className="grid items-center justify-center justify-items-center gap-4 lg:pt-16 md:grid-cols-[2fr,3fr] lg:gap-8">
           <AvatarSelection />
           <div className="grid gap-2 place-items-center md:gap-4">
-            <h2 className="text-center max-w-[20ch]">
-              {currentUser?.displayName
-                ? `Welcome back ${currentUser.displayName}! `
-                : `Choose a character and ${
-                    showGuest ? ' nickname' : ' Log in with email'
-                  }`}
-            </h2>
-
-            {currentUser && <p>Enter code to join!</p>}
-            <div className="relative">
-              <ErrorText align={'right'}>{errorMessage}</ErrorText>
-              {currentUser ? (
-                <Input
-                  name="joinRoom"
-                  onChangeCapture={() => setErrorMessage('')}
-                  onBlur={() => setErrorMessage('')}
-                  ref={ref}
-                  type="text"
-                  placeholder="G2F3X"
-                />
-              ) : showGuest ? (
-                <Input
-                  name="createGuest"
-                  onChangeCapture={() => setErrorMessage('')}
-                  onBlur={() => setErrorMessage('')}
-                  ref={ref}
-                  className=""
-                  type="text"
-                  placeholder="RandomNick2002"
-                />
-              ) : null}
-            </div>
+            {content}
+            {/* {currentUser?.displayName && <AuthContent />}
+            {showGuest && !currentUser?.displayName ? (
+              <GuestContent />
+            ) : (
+              <>
+                <h2>Choose a character and Sign in with email</h2>
+                <AuthModal />
+              </>
+            )} */}
+            {/* {currentUser?.displayName && (
+              <AuthContent displayName={currentUser?.displayName} />
+            )} */}
           </div>
         </div>
       </div>
     </div>
   )
-})
+}
 export default TabPanel

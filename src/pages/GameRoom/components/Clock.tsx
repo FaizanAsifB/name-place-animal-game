@@ -44,8 +44,8 @@ const Clock = ({ roundTime }: ClockProps) => {
       case 'TIME-ENDED':
         stopTimer()
         break
-      // default:
-      //   stopTimer()
+      default:
+        stopTimer()
     }
     return () => stopTimer()
   }, [gameState, params.roomId, timeRemaining])
