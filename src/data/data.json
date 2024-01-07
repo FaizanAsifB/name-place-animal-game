@@ -18,7 +18,7 @@
       "id": 1,
       "title": "add categories",
       "description": "Each player adds two unique categories. Two are added to the first round, one added to subsequent rounds",
-      "animationUrl": ""
+      "animationUrl": "animations/puzzle.json"
     },
     {
       "id": 2,
@@ -30,13 +30,13 @@
       "id": 3,
       "title": "A for Apple",
       "description": "Write words for each category that start with that letter ✍️ ",
-      "animationUrl": ""
+      "animationUrl": "animations/science.json"
     },
     {
       "id": 4,
       "title": "Score your \"friends\"",
       "description": "10 points for an unique answer, 5 for duplicates and 🥚 for no answer",
-      "animationUrl": ""
+      "animationUrl": "animations/writing.json"
     },
     {
       "id": 5,

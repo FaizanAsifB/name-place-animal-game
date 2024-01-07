@@ -16,7 +16,8 @@ import { useAtom } from 'jotai'
 import { BookText, XCircle } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { auth, db } from '../../../config/config'
-import { avatarAtom, avatarImages } from '../../../context/atoms'
+import { avatarAtom } from '../../../context/atoms'
+import avatarsData from '../../../data/data.json'
 import { SignUpSchema, signUpSchema } from '../../../lib/types'
 
 // type SignUpFormProps = {
@@ -44,7 +45,7 @@ const SignUpForm = () => {
       try {
         await updateProfile(res.user, {
           displayName,
-          photoURL: avatarImages[avatarIndex].path,
+          photoURL: avatarsData.avatarImages[avatarIndex].path,
         })
 
         await setDoc(doc(db, 'users', res.user.uid), {
