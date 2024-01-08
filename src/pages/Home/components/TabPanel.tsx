@@ -6,6 +6,7 @@ import AuthContent from './AuthContent'
 import AuthModal from './AuthModal'
 import AvatarSelection from './AvatarSelection'
 import GuestContent from './GuestContent'
+import { H2 } from '@/components/typography/Headings'
 
 type TabPanelProps = {
   showGuest: boolean
@@ -25,7 +26,9 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
   } else {
     content = (
       <>
-        <h2>Choose a character and Sign in with email</h2>
+        <H2 className="uppercase w-[22ch] text-center">
+          Choose a character and Sign{/*  in with email */}
+        </H2>
         <AuthModal />
       </>
     )
@@ -33,22 +36,10 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
   return (
     <div className="p-8 bg-bg-primary" role="tabpanel">
       <div aria-labelledby={showGuest ? 'guest-tab' : 'authentication-tab'}>
-        <div className="grid items-center justify-center justify-items-center gap-4 lg:pt-16 md:grid-cols-[2fr,3fr] lg:gap-8">
+        <div className="grid items-center justify-center justify-items-center gap-4 lg:pt-16 lg:grid-cols-[2fr,3fr] lg:gap-8">
           <AvatarSelection />
-          <div className="grid gap-2 place-items-center md:gap-4">
+          <div className="grid gap-2 place-items-center lg:gap-4">
             {content}
-            {/* {currentUser?.displayName && <AuthContent />}
-            {showGuest && !currentUser?.displayName ? (
-              <GuestContent />
-            ) : (
-              <>
-                <h2>Choose a character and Sign in with email</h2>
-                <AuthModal />
-              </>
-            )} */}
-            {/* {currentUser?.displayName && (
-              <AuthContent displayName={currentUser?.displayName} />
-            )} */}
           </div>
         </div>
       </div>

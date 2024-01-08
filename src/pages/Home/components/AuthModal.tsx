@@ -12,22 +12,12 @@ import { Suspense, lazy } from 'react'
 const LoginForm = lazy(() => import('./LoginForm'))
 const SignUpForm = lazy(() => import('./SignUpForm'))
 
-// type AuthenticationProps = {
-//   showGuest: boolean
-//   // guestOnClick: () => void
-// }
-
 const AuthModal = () => {
   return (
-    <>
+    <div className="flex justify-around w-full">
       <Dialog>
         <DialogTrigger asChild>
-          <Button
-            name="login"
-            // onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-            //   openModal(e)
-            // }
-          >
+          <Button name="login">
             <Mail /> Sign In
           </Button>
         </DialogTrigger>
@@ -47,12 +37,7 @@ const AuthModal = () => {
 
       <Dialog>
         <DialogTrigger asChild>
-          <Button
-            name="register"
-            // onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-            //   openModal(e)
-            // }
-          >
+          <Button name="register">
             <BookText /> Sign Up
           </Button>
         </DialogTrigger>
@@ -69,7 +54,7 @@ const AuthModal = () => {
               </DialogFooter> */}
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   )
 }
 export default AuthModal

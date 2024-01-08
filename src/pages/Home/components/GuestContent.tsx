@@ -15,6 +15,7 @@ import { z } from 'zod'
 import { guestSignIn } from '@/utils/auth'
 import { avatarAtom } from '../../../context/atoms'
 import { useAtom } from 'jotai'
+import { H2 } from '@/components/typography/Headings'
 
 // max-w-[20ch]
 const GuestContent = () => {
@@ -33,25 +34,28 @@ const GuestContent = () => {
 
   return (
     <>
-      <h2 className="">Choose a character and nickname</h2>
+      <H2 className="uppercase w-[22ch] text-center">
+        Choose a character and nickname
+      </H2>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          // className="w-2/3 space-y-6"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-2">
           <FormField
             control={form.control}
             name="guestName"
             render={({ field }) => (
               <FormItem className="relative">
                 <FormControl>
-                  <Input placeholder="RandomNick2002" {...field} />
+                  <Input
+                    placeholder="RandomNick2002"
+                    {...field}
+                    className="text-lg"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Sign In as Guest</Button>
+          <Button type="submit">Login</Button>
         </form>
       </Form>
     </>

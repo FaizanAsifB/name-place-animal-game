@@ -1,11 +1,9 @@
 import { Outlet } from 'react-router-dom'
-import Header from '../layout/Header'
 
 const RootLayout = () => {
   return (
-    <div className="grid min-h-screen bg-cover grid-cols-layout bg-main-bg font-display lg:py-28">
-      <main className="flex flex-col col-start-2 text-lg lg:border-2 lg:text-2xl text-light lg:px-8">
-        <Header />
+    <div className="min-h-screen bg-cover grid-cols-layout bg-main-bg font-display lg:py-28">
+      <main className="container min-h-screen col-span-1 col-start-2 lg:border-2 text-light lg:px-8">
         <Outlet />
       </main>
     </div>

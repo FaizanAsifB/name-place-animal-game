@@ -33,6 +33,7 @@ const Guide = () => {
     setCount(api.scrollSnapList().length)
     setCurrent(api.selectedScrollSnap() + 1)
 
+    //!Check this error
     // api.on('autoplay:stop', api.plugins().autoplay.play())
 
     api.on('select', () => {
@@ -41,7 +42,7 @@ const Guide = () => {
   }, [api])
 
   return (
-    <div className="hidden p-4 space-y-8 text-center border-2 lg:col-start-4 lg:row-span-2 col-span-full lg:pb-0 md:block">
+    <div className="hidden p-4 space-y-8 text-center border-2 lg:col-start-4 lg:row-span-2 col-span-full lg:pb-0 lg:block">
       <H2 className="capitalize">How To Play</H2>
       <Carousel
         setApi={setApi}

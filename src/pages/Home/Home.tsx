@@ -1,16 +1,20 @@
+import Header from '@/layout/Header.tsx'
 import Footer from '../../layout/Footer.tsx'
 import Auth from './Auth.tsx'
 import Guide from './Guide.tsx'
 
+// grid grid-cols-5
+
 const Home = () => {
   return (
-    <>
-      <div className="grid w-full h-full grid-cols-5 lg:gap-x-4">
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <div className="flex flex-col flex-1">
         <Auth />
         <Guide />
+        <Footer />
       </div>
-      <Footer />
-    </>
+    </div>
   )
 }
 export default Home

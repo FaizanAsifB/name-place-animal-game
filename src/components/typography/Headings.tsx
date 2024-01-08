@@ -3,10 +3,10 @@ import { twMerge } from 'tailwind-merge'
 
 type HeadingProps = {
   children: ReactNode
-  className: string
+  className?: string
 }
 
-export function H1({ children, className }: HeadingProps) {
+export function H1({ children, className = '' }: HeadingProps) {
   return (
     <h1
       className={twMerge(
@@ -22,7 +22,7 @@ export function H2({ children, className }: HeadingProps) {
   return (
     <h2
       className={twMerge(
-        'pb-2 text-3xl font-semibold tracking-tight border-b scroll-m-20 first:mt-0',
+        'pb-2 text-3xl font-semibold tracking-tight scroll-m-20 first:mt-0',
         className
       )}
     >

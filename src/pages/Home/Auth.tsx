@@ -4,6 +4,7 @@ import Tab from '../../components/ui/Tab'
 import { Button } from '../../components/ui/button.tsx'
 import { AuthContext } from '../../context/AuthContext'
 import TabPanel from './components/TabPanel'
+import { Gamepad2 } from 'lucide-react'
 
 const Auth = () => {
   const [showGuest, setShowGuest] = useState(true)
@@ -52,9 +53,14 @@ const Auth = () => {
           showGuest={showGuest}
         />
       </div>
-      <div className="flex flex-col justify-center row-start-2 gap-4 md:flex-row-reverse md:gap-8 col-span-full lg:col-span-3 place-items-center md:bg-bg-primary md:rounded-b-lg">
-        <Button onClick={handleCreateGame} size={'lg'}>
-          Start
+      <div className="grid flex-1 rounded-b-lg basis-full lg:bg-bg-primary place-items-center">
+        <Button
+          onClick={handleCreateGame}
+          variant={'icon'}
+          size={'lg'}
+          className="shadow-[0_6px_0px_0px] shadow-blue-500 active:translate-y-1 active:shadow-[0_2px_0px_0px] active:shadow-blue-500"
+        >
+          <Gamepad2 /> New Game
         </Button>
         {/* <Button onClick={handleJoinGame}>Join</Button> */}
       </div>
