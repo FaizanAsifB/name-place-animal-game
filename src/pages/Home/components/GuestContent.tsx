@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
+import { H3 } from '@/components/typography/Headings'
 import {
   Form,
   FormControl,
@@ -9,13 +10,12 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { GuestSchema } from '@/lib/types'
+import { guestSignIn } from '@/utils/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useAtom } from 'jotai'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { guestSignIn } from '@/utils/auth'
 import { avatarAtom } from '../../../context/atoms'
-import { useAtom } from 'jotai'
-import { H2 } from '@/components/typography/Headings'
 
 // max-w-[20ch]
 const GuestContent = () => {
@@ -34,9 +34,9 @@ const GuestContent = () => {
 
   return (
     <>
-      <H2 className="uppercase w-[22ch] text-center">
+      <H3 className="uppercase w-[22ch] text-center">
         Choose a character and nickname
-      </H2>
+      </H3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-2">
           <FormField
@@ -45,17 +45,15 @@ const GuestContent = () => {
             render={({ field }) => (
               <FormItem className="relative">
                 <FormControl>
-                  <Input
-                    placeholder="RandomNick2002"
-                    {...field}
-                    className="text-lg"
-                  />
+                  <Input placeholder="RandomNick2002" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Login</Button>
+          <Button type="submit" size={'md'} variant={'secondary'}>
+            Login
+          </Button>
         </form>
       </Form>
     </>

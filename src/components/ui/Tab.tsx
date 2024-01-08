@@ -7,14 +7,15 @@ type TabProps = {
 }
 
 const Tab = ({ isActive, onClick, label, currentUser }: TabProps) => {
-  let activeStyling = 'rounded-t-lg bg-bg-primary font-bold'
-  isActive ? activeStyling : (activeStyling += ' mb-2')
+  let activeStyling =
+    'rounded-t-lg font-bold bg-bg-primary md:text-xl lg:text-2xl '
+  isActive ? activeStyling : (activeStyling += 'mb-1 mx-1 hover:opacity-90')
 
   return (
     <li role="presentation" className={activeStyling}>
       <button
         type="button"
-        className="w-full py-4 capitalize"
+        className={`w-full py-4 capitalize ${!isActive && 'text-primary/70'}`}
         onClick={e => onClick(e)}
         role="tab"
         id={`${label}-tab`}

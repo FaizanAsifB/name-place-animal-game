@@ -16,7 +16,7 @@ const AvatarSelection = () => {
       <img
         src={data.avatarImages[avatarIndex].path}
         alt="character logo"
-        className="absolute bottom-0 left-0 right-0 w-full min-h-full"
+        className="w-full"
       />
       <button
         className="absolute bottom-0 right-0 mr-1"

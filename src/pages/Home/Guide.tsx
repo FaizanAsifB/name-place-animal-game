@@ -20,7 +20,11 @@ const Player = lazy(() =>
   }))
 )
 
-const Guide = () => {
+type GuideProps = {
+  className: string
+}
+
+const Guide = ({ className }: GuideProps) => {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const [count, setCount] = useState(0)
@@ -42,7 +46,7 @@ const Guide = () => {
   }, [api])
 
   return (
-    <div className="hidden p-4 space-y-8 text-center border-2 lg:col-start-4 lg:row-span-2 col-span-full lg:pb-0 lg:block">
+    <div className={`space-y-8 text-center ${className}`}>
       <H2 className="capitalize">How To Play</H2>
       <Carousel
         setApi={setApi}
@@ -56,42 +60,43 @@ const Guide = () => {
         <CarouselContent>
           {data.guide.map((item, i) => (
             <CarouselItem key={item.id}>
-              <div className="flex gap-8 lg:flex-col">
-                {/* <img src="" alt="" className="w-56 mx-auto" />
-                 */}
+              <div className="flex flex-col gap-8">
                 <Suspense fallback={<Loader2 />}>
                   <Player
                     autoplay
                     loop
                     src={item.animationUrl}
-                    style={{ height: '300px', width: '300px' }}
+                    style={{ height: '200px', width: '200px' }}
                   ></Player>
                 </Suspense>
 
                 <div>
-                  <H3 className="mb-2 text-2xl font-bold uppercase">
+                  <H3 className="mb-2 font-bold uppercase">
                     <span className="mr-1">{i + 1}.</span>
                     {item.title}
                   </H3>
-                  <P className="text-xl"> {item.description}</P>
+                  <P className="px-1 text-center"> {item.description}</P>
                 </div>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        {Array.from(Array(count).keys()).map(i => (
-          <Button
-            key={i}
-            className={`mx-1 h-4 aspect-square flex-grow rounded-full p-0 mt-4 ${
-              i === current - 1
-                ? 'bg-white hover:bg-white'
-                : 'bg-neutral-600/75'
-            }`}
-            onClick={() => {
-              api?.scrollTo(i)
-            }}
-          ></Button>
-        ))}
+        <div className="flex justify-center">
+          {Array.from(Array(count).keys()).map(i => (
+            <Button
+              variant={'icon'}
+              key={i}
+              className={`mx-1 h-4 aspect-square rounded-full p-0 mt-4 ${
+                i === current - 1
+                  ? 'bg-primary hover:bg-primary/90'
+                  : 'bg-secondary'
+              }`}
+              onClick={() => {
+                api?.scrollTo(i)
+              }}
+            ></Button>
+          ))}
+        </div>
       </Carousel>
     </div>
   )

@@ -3,10 +3,10 @@ import { twMerge } from 'tailwind-merge'
 
 type TextProps = {
   children: ReactNode
-  className: string
+  className?: string
 }
 
-export function P({ children, className }: TextProps) {
+export function P({ children, className = '' }: TextProps) {
   return (
     <p className={twMerge('leading-7 [&:not(:first-child)]:mt-6', className)}>
       {children}

@@ -124,13 +124,22 @@ const SignUpForm = () => {
         />
         <DialogFooter className="flex justify-between mt-8">
           <DialogClose asChild>
-            <Button disabled={form.formState.isSubmitting}>
+            <Button
+              variant={'secondary'}
+              size={'md'}
+              disabled={form.formState.isSubmitting}
+            >
               <XCircle />
               Cancel
             </Button>
           </DialogClose>
 
-          <Button type="submit" disabled={form.formState.isSubmitting}>
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting}
+            variant={'secondary'}
+            size={'md'}
+          >
             <BookText /> Register
           </Button>
         </DialogFooter>

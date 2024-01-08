@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import { DialogClose, DialogFooter } from '@/components/ui/dialog.tsx'
 import {
   Form,
@@ -14,7 +15,6 @@ import { Mail, XCircle } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { auth } from '../../../config/config'
 import { LoginSchema, loginSchema } from '../../../lib/types'
-import { Button } from '@/components/ui/button'
 
 // type LoginFormProps = {
 //   onClose: () => void
@@ -86,13 +86,19 @@ const LoginForm = () => {
               <DialogClose asChild>
                 <Button
                   type="button"
-                  // onClick={onClose}
+                  variant={'secondary'}
+                  size={'md'}
                   disabled={form.formState.isSubmitting}
                 >
                   <XCircle /> Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit" disabled={form.formState.isSubmitting}>
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                variant={'secondary'}
+                size={'md'}
+              >
                 <Mail /> Sign In
               </Button>
             </DialogFooter>

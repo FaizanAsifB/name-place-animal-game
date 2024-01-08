@@ -14,30 +14,10 @@ const SignUpForm = lazy(() => import('./SignUpForm'))
 
 const AuthModal = () => {
   return (
-    <div className="flex justify-around w-full">
+    <div className="flex justify-center w-full gap-4 lg:gap-6">
       <Dialog>
         <DialogTrigger asChild>
-          <Button name="login">
-            <Mail /> Sign In
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Enter your email and password</DialogTitle>
-          </DialogHeader>
-          {/* Login form */}
-          <Suspense fallback={<p>Loading....</p>}>
-            <LoginForm />
-          </Suspense>
-          {/* <DialogFooter>
-                <Button type="submit">Save changes</Button>
-              </DialogFooter> */}
-        </DialogContent>
-      </Dialog>
-
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button name="register">
+          <Button name="register" variant={'secondary'} size={'md'}>
             <BookText /> Sign Up
           </Button>
         </DialogTrigger>
@@ -48,6 +28,26 @@ const AuthModal = () => {
           {/* Sign up Form */}
           <Suspense fallback={<p>Loading....</p>}>
             <SignUpForm />
+          </Suspense>
+          {/* <DialogFooter>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter> */}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button name="login" variant={'secondary'} size={'md'}>
+            <Mail /> Sign In
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Enter your email and password</DialogTitle>
+          </DialogHeader>
+          {/* Login form */}
+          <Suspense fallback={<p>Loading....</p>}>
+            <LoginForm />
           </Suspense>
           {/* <DialogFooter>
                 <Button type="submit">Save changes</Button>

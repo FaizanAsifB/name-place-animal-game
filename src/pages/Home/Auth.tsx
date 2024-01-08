@@ -1,10 +1,10 @@
+import { Gamepad2 } from 'lucide-react'
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Tab from '../../components/ui/Tab'
 import { Button } from '../../components/ui/button.tsx'
 import { AuthContext } from '../../context/AuthContext'
 import TabPanel from './components/TabPanel'
-import { Gamepad2 } from 'lucide-react'
 
 const Auth = () => {
   const [showGuest, setShowGuest] = useState(true)
@@ -26,8 +26,8 @@ const Auth = () => {
 
   return (
     <>
-      <div className="col-span-5 lg:col-span-3">
-        <menu role="tablist" className="grid grid-cols-2 gap-2">
+      <div className="col-span-5 lg:col-span-3 lg:row-span-1">
+        <menu role="tablist" className="grid grid-cols-2">
           <Tab
             isActive={showGuest}
             onClick={handleTabClick}
@@ -53,16 +53,10 @@ const Auth = () => {
           showGuest={showGuest}
         />
       </div>
-      <div className="grid flex-1 rounded-b-lg basis-full lg:bg-bg-primary place-items-center">
-        <Button
-          onClick={handleCreateGame}
-          variant={'icon'}
-          size={'lg'}
-          className="shadow-[0_6px_0px_0px] shadow-blue-500 active:translate-y-1 active:shadow-[0_2px_0px_0px] active:shadow-blue-500"
-        >
+      <div className="grid row-start-2 rounded-b-lg col-span-full lg:col-span-3 lg:bg-bg-primary place-items-center">
+        <Button onClick={handleCreateGame} className="">
           <Gamepad2 /> New Game
         </Button>
-        {/* <Button onClick={handleJoinGame}>Join</Button> */}
       </div>
     </>
   )
