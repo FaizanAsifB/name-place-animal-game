@@ -9,9 +9,16 @@ import Autoplay from 'embla-carousel-autoplay'
 import { H2, H3 } from '@/components/typography/Headings'
 import { P } from '@/components/typography/TextContent'
 import { Button } from '@/components/ui/button'
-import { Player } from '@lottiefiles/react-lottie-player'
-import { useEffect, useState } from 'react'
+// import { Player } from '@lottiefiles/react-lottie-player'
+import { Loader2 } from 'lucide-react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import data from '../../data/data.json'
+
+const Player = lazy(() =>
+  import('@lottiefiles/react-lottie-player').then(module => ({
+    default: module.Player,
+  }))
+)
 
 const Guide = () => {
   const [api, setApi] = useState<CarouselApi>()
@@ -26,7 +33,7 @@ const Guide = () => {
     setCount(api.scrollSnapList().length)
     setCurrent(api.selectedScrollSnap() + 1)
 
-    api.on('autoplay:stop', api.plugins().autoplay.play())
+    // api.on('autoplay:stop', api.plugins().autoplay.play())
 
     api.on('select', () => {
       setCurrent(api.selectedScrollSnap() + 1)
@@ -51,12 +58,14 @@ const Guide = () => {
               <div className="flex gap-8 lg:flex-col">
                 {/* <img src="" alt="" className="w-56 mx-auto" />
                  */}
-                <Player
-                  autoplay
-                  loop
-                  src={item.animationUrl}
-                  style={{ height: '300px', width: '300px' }}
-                ></Player>
+                <Suspense fallback={<Loader2 />}>
+                  <Player
+                    autoplay
+                    loop
+                    src={item.animationUrl}
+                    style={{ height: '300px', width: '300px' }}
+                  ></Player>
+                </Suspense>
 
                 <div>
                   <H3 className="mb-2 text-2xl font-bold uppercase">
