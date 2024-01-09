@@ -16,6 +16,7 @@ import { AlarmClock, BellElectric, Gamepad2, Loader2 } from 'lucide-react'
 import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { FaFlagCheckered } from 'react-icons/fa6'
+import { MdOutlineCategory } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import { Categories, PlayerData, RoundSettings } from '../../lib/types.ts'
@@ -168,7 +169,7 @@ export const SettingsForm = () => {
           {/* list of categories to display */}
 
           <Setting
-            icon={<LibraryBooksIcon fontSize="large" />}
+            icon={<MdOutlineCategory size={24} />}
             title={'Categories'}
             description={'Choose four starter categories'}
           >
