@@ -83,7 +83,7 @@ const SettingsForm = () => {
 
     await uploadCategories(categories, lobbyId)
 
-    return navigate(`/lobby/${lobbyId}`)
+    return navigate(`/game-room/${lobbyId}/lobby`)
   }
 
   return (

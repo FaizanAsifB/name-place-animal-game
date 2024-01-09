@@ -1,6 +1,6 @@
 import { H1 } from '@/components/typography/Headings'
 import { Button } from '@/components/ui/button'
-import Header from '@/layout/Header'
+import Header from '@/layout/MainHeader.tsx'
 import { Home } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import SettingsForm from './SettingsForm.tsx'

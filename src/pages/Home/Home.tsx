@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button.tsx'
 import { auth } from '@/config/config.ts'
 import { AuthContext } from '@/context/AuthContext.tsx'
-import Header from '@/layout/Header.tsx'
+import Header from '@/layout/MainHeader.tsx'
 import { signOut } from 'firebase/auth'
 import { useContext } from 'react'
 import Footer from '../../layout/Footer.tsx'

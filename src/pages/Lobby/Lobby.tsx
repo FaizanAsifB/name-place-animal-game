@@ -1,5 +1,9 @@
 import { useOnSnapShot } from '@/hooks/useOnSnapShot.ts'
 
+import { H1 } from '@/components/typography/Headings.tsx'
+import { AuthContext } from '@/context/AuthContext.tsx'
+import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../../components/ui/button.tsx'
 import useNextPhase from '../../hooks/useNextPhase'
 import {
@@ -26,10 +30,19 @@ const Lobby = () => {
     docRef: 'lobbyPlayers',
     roomId: params.roomId,
   })
-  //  as { data: PlayersData; error: FireStoreError }
+
+  const navigate = useNavigate()
+  const currentUser = useContext(AuthContext)
 
   const ready = readyPlayers(lobbyPlayers)
   const totalPlayers = gameState?.totalPlayers
+
+  function handleLobbyCancel() {
+    //Delete lobby data
+
+    //Return to Home
+    navigate('/')
+  }
 
   async function handlePlay() {
     const categoriesData = await fetchLobbyData<Categories>(
@@ -70,7 +83,7 @@ const Lobby = () => {
 
   return (
     <div className="p-4 space-y-8 rounded-lg bg-bg-primary">
-      <h1>Lobby</h1>
+      <H1 className="text-center">Lobby</H1>
       <div className="grid gap-y-4 md:gap-4 md:grid-cols-5 md:grid-rows-2">
         <PlayerSlots data={lobbyPlayers} error={fireStoreError} />
 
@@ -78,7 +91,9 @@ const Lobby = () => {
         <SettingsList />
       </div>
       <div className="flex justify-around">
-        <Button>Cancel</Button>
+        <Button onClick={handleLobbyCancel}>
+          {currentUser?.uid === lobbyPlayers?.hostId ? 'Cancel' : 'Leave'}
+        </Button>
         <Button
           disabled={ready !== totalPlayers || !lobbyPlayers?.hostId}
           onClick={handlePlay}

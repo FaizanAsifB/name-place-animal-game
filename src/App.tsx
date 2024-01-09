@@ -34,16 +34,9 @@ const router = createBrowserRouter([
           // </ProtectedRoute>
         ),
       },
+
       {
-        path: 'lobby/:roomId',
-        element: (
-          // <ProtectedRoute>
-          <Lobby />
-          // </ProtectedRoute>
-        ),
-      },
-      {
-        path: 'game/:roomId',
+        path: 'game-room/:roomId',
         element: (
           // <ProtectedRoute>
           <Game />
@@ -51,7 +44,15 @@ const router = createBrowserRouter([
         ),
         children: [
           {
-            index: true,
+            path: 'lobby',
+            element: (
+              // <ProtectedRoute>
+              <Lobby />
+              // </ProtectedRoute>
+            ),
+          },
+          {
+            path: 'game',
             element: <GameRoom />,
             loader: gameLoader,
           },
