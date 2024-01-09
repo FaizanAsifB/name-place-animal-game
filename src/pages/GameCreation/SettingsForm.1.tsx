@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button.tsx'
 import {
   Form,
   FormControl,
@@ -6,16 +7,12 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input.tsx'
 import { Slider } from '@/components/ui/slider'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { MdAssignmentAdd, MdOutlineCategory } from 'react-icons/md'
-
-import LoadingSpinner from '@/components/ui/LoadingSpinner.tsx'
-import { Button } from '@/components/ui/button.tsx'
-import { Input } from '@/components/ui/input.tsx'
 import { serverTimestamp } from 'firebase/firestore'
-import { AlarmClock, BellElectric, Gamepad2 } from 'lucide-react'
+import { AlarmClock, BellElectric, Gamepad2, Loader2 } from 'lucide-react'
 import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { FaFlagCheckered } from 'react-icons/fa6'
@@ -29,13 +26,11 @@ import { uploadCategories, uploadSettings } from './utils/http.ts'
 import { makePlayerSlots } from './utils/util.ts'
 
 //TODO add dynamic import for serverTimeStamp
-
 // const serverTimestamp = () =>
 //   import('firebase/firestore').then(module => ({
 //     default: module.serverTimestamp,
 //   }))
-
-const SettingsForm = () => {
+export const SettingsForm = () => {
   const currentUser = useContext(AuthContext)
 
   const form = useForm<SettingsInput>({
@@ -173,20 +168,18 @@ const SettingsForm = () => {
           {/* list of categories to display */}
 
           <Setting
-            icon={<MdOutlineCategory size={24} />}
+            icon={<LibraryBooksIcon fontSize="large" />}
             title={'Categories'}
             description={'Choose four starter categories'}
           >
             <CategoriesList control={form.control} />
           </Setting>
 
-          {/* End mode */}
-
           <Setting
-            icon={<FaFlagCheckered size={24} />}
+            // icon={<SportsScoreIcon fontSize="large" />}
             title={'Round End Mode'}
             description={
-              'Fastest finger option triggers a 15 seconds countdown timer when the first player submits'
+              'In fastest finger timer is set to 15 seconds when the first player submits'
             }
           >
             <FormField
@@ -206,14 +199,12 @@ const SettingsForm = () => {
                       <ToggleGroupItem
                         aria-label="Select Round Timer"
                         value="Round Timer"
-                        className="lg:text-lg"
                       >
                         Round Timer
                       </ToggleGroupItem>
                       <ToggleGroupItem
                         aria-label="Select fastest finger"
                         value="Fastest Finger"
-                        className="lg:text-lg"
                       >
                         Fastest Finger
                       </ToggleGroupItem>
@@ -225,11 +216,14 @@ const SettingsForm = () => {
             />
           </Setting>
 
+          {/* End mode */}
+
           {
             <Setting
+              // icon={<LibraryAddIcon fontSize="large" />}
               title={'Custom Categories'}
-              description={'Add two categories of your choice'}
-              icon={<MdAssignmentAdd size={24} />}
+              description={'Submit two custom categories'}
+              icon={<FaFlagCheckered size={24} />}
             >
               <div className="grid grid-cols-2 gap-2">
                 <FormField
@@ -238,11 +232,7 @@ const SettingsForm = () => {
                   render={({ field }) => (
                     <FormItem className="relative">
                       <FormControl>
-                        <Input
-                          placeholder="Add custom category"
-                          {...field}
-                          className="lg:text-lg"
-                        />
+                        <Input placeholder="Add custom category" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -255,11 +245,7 @@ const SettingsForm = () => {
                   render={({ field }) => (
                     <FormItem className="relative">
                       <FormControl>
-                        <Input
-                          placeholder="Add custom category"
-                          {...field}
-                          className="lg:text-lg"
-                        />
+                        <Input placeholder="Add custom category" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -270,15 +256,18 @@ const SettingsForm = () => {
           }
         </ul>
         <Button
-          className="mx-auto mt-14"
+          className="mx-auto"
           type="submit"
           disabled={form.formState.isSubmitting}
         >
-          {form.formState.isSubmitting ? <LoadingSpinner /> : <Gamepad2 />}
+          {form.formState.isSubmitting ? (
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+          ) : (
+            <Gamepad2 className="mr-2" />
+          )}
           Create Game
         </Button>
       </form>
     </Form>
   )
 }
-export default SettingsForm

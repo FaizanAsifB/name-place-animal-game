@@ -20,10 +20,6 @@ import { avatarAtom } from '../../../context/atoms'
 import avatarsData from '../../../data/data.json'
 import { SignUpSchema, signUpSchema } from '../../../lib/types'
 
-// type SignUpFormProps = {
-//   onClose: () => void
-// }
-
 const SignUpForm = () => {
   const [avatarIndex] = useAtom(avatarAtom)
 

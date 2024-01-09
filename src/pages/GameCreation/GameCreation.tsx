@@ -1,8 +1,9 @@
+import { H1 } from '@/components/typography/Headings'
 import { Button } from '@/components/ui/button'
 import Header from '@/layout/Header'
 import { Home } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import SettingsForm from './SettingsForm'
+import SettingsForm from './SettingsForm.tsx'
 
 const GameCreation = () => {
   return (
@@ -12,6 +13,7 @@ const GameCreation = () => {
           asChild
           className="col-start-1 row-start-1 w-fit"
           variant={'outline'}
+          size={'md'}
         >
           <Link to="/">
             <Home />
@@ -19,8 +21,8 @@ const GameCreation = () => {
           </Link>
         </Button>
       </Header>
-      <div className="py-12 rounded-lg bg-bg-primary">
-        <h1 className="mb-12">Game Settings</h1>
+      <div className="p-8 rounded-lg bg-bg-primary">
+        <H1 className="text-center">Game Settings</H1>
         <SettingsForm />
       </div>
     </>
