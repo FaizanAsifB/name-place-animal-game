@@ -36,7 +36,7 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
   return (
     <div className="p-8 bg-bg-primary" role="tabpanel">
       <div aria-labelledby={showGuest ? 'guest-tab' : 'authentication-tab'}>
-        <div className="grid items-center justify-center justify-items-center gap-8 lg:pt-6 lg:grid-cols-[2fr,3fr] lg:gap-8">
+        <div className="grid items-center justify-center justify-items-center gap-8 lg:pt-6 xl:grid-cols-[2fr,3fr] lg:gap-8">
           <AvatarSelection />
           <div className="space-y-4">{content}</div>
         </div>

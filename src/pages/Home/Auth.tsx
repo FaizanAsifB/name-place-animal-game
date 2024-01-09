@@ -5,6 +5,7 @@ import Tab from '../../components/ui/Tab'
 import { Button } from '../../components/ui/button.tsx'
 import { AuthContext } from '../../context/AuthContext'
 import TabPanel from './components/TabPanel'
+import { toast } from '@/components/ui/use-toast.ts'
 
 const Auth = () => {
   const [showGuest, setShowGuest] = useState(true)
@@ -21,7 +22,14 @@ const Auth = () => {
   }
 
   function handleCreateGame() {
-    if (currentUser) return navigate('game-creation')
+    if (!currentUser)
+      return toast({
+        variant: 'destructive',
+        title: 'Authentication required!.',
+        description: 'You must be logged in to create a new game.',
+        // action: <ToastAction altText="Try again">Try again</ToastAction>,
+      })
+    return navigate('game-creation')
   }
 
   return (
@@ -54,7 +62,7 @@ const Auth = () => {
         />
       </div>
       <div className="grid row-start-2 rounded-b-lg col-span-full lg:col-span-3 lg:bg-bg-primary place-items-center">
-        <Button onClick={handleCreateGame} className="">
+        <Button onClick={handleCreateGame}>
           <Gamepad2 /> New Game
         </Button>
       </div>

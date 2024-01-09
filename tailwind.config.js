@@ -15,10 +15,6 @@ module.exports = {
         'primary-gradient': 'linear-gradient(to right top, #fe8c00, #f59f00)',
         'main-bg': "url('/images/sun-tornado.svg')",
       },
-      // container: {
-      //     center: true,
-      //     padding: '2rem',
-      //   },
       fontFamily: {
         display: 'Galindo, sans-serif',
       },
@@ -27,7 +23,7 @@ module.exports = {
       },
       container: {
         center: true,
-        padding: '1rem',
+        padding: { DEFAULT: '1rem', lg: '2rem' },
       },
       screens: {
         '2xl': '1400px',
@@ -58,6 +54,10 @@ module.exports = {
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
+        },
+        warning: {
+          DEFAULT: 'hsl(var(--warning))',
+          foreground: 'hsl(var(--warning-foreground))',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',

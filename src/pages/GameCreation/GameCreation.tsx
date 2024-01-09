@@ -1,14 +1,18 @@
-import Header from '@/layout/Header'
-import SettingsForm from './SettingsForm'
 import { Button } from '@/components/ui/button'
-import { Link } from 'react-router-dom'
+import Header from '@/layout/Header'
 import { Home } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import SettingsForm from './SettingsForm'
 
 const GameCreation = () => {
   return (
     <>
       <Header>
-        <Button asChild className="w-fit">
+        <Button
+          asChild
+          className="col-start-1 row-start-1 w-fit"
+          variant={'outline'}
+        >
           <Link to="/">
             <Home />
             Home

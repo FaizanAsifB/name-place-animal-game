@@ -18,7 +18,7 @@ const Home = () => {
   }
 
   return (
-    <div className="flex flex-col h-full ">
+    <>
       <Header>
         <GuideModal />
         {currentUser && (
@@ -27,12 +27,12 @@ const Home = () => {
           </Button>
         )}
       </Header>
-      <div className="grid flex-1  grid-cols-5 grid-rows-[auto,1fr,auto] basis-full gap-x-4">
+      <div className="grid flex-1 grid-cols-5 grid-rows-[auto,1fr,auto] gap-x-6">
         <Auth />
         <Guide className="hidden col-start-4 row-span-2 p-4 pb-0 border-2 col-span-full lg:block" />
         <Footer />
       </div>
-    </div>
+    </>
   )
 }
 export default Home

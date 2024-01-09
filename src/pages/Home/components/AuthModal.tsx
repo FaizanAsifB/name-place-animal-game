@@ -23,7 +23,7 @@ const AuthModal = () => {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Sign up with email and password</DialogTitle>
+            <DialogTitle>Register with Email and Password</DialogTitle>
           </DialogHeader>
           {/* Sign up Form */}
           <Suspense fallback={<p>Loading....</p>}>
@@ -43,7 +43,9 @@ const AuthModal = () => {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Enter your email and password</DialogTitle>
+            <DialogTitle className="capitalize">
+              Enter your Email and Password
+            </DialogTitle>
           </DialogHeader>
           {/* Login form */}
           <Suspense fallback={<p>Loading....</p>}>

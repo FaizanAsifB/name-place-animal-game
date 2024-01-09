@@ -103,7 +103,7 @@ const SignUpForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="password" {...field} />
+                <Input placeholder="Password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -122,7 +122,7 @@ const SignUpForm = () => {
             </FormItem>
           )}
         />
-        <DialogFooter className="flex justify-between mt-8">
+        <DialogFooter className="mt-8">
           <DialogClose asChild>
             <Button
               variant={'secondary'}

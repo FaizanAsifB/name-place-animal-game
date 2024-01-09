@@ -81,28 +81,27 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
-          <div className="flex gap-4">
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button
-                  type="button"
-                  variant={'secondary'}
-                  size={'md'}
-                  disabled={form.formState.isSubmitting}
-                >
-                  <XCircle /> Cancel
-                </Button>
-              </DialogClose>
+
+          <DialogFooter className="mt-8">
+            <DialogClose asChild>
               <Button
-                type="submit"
-                disabled={form.formState.isSubmitting}
+                type="button"
                 variant={'secondary'}
                 size={'md'}
+                disabled={form.formState.isSubmitting}
               >
-                <Mail /> Sign In
+                <XCircle /> Cancel
               </Button>
-            </DialogFooter>
-          </div>
+            </DialogClose>
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              variant={'secondary'}
+              size={'md'}
+            >
+              <Mail /> Sign In
+            </Button>
+          </DialogFooter>
         </ul>
       </form>
     </Form>

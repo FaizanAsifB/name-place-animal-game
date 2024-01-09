@@ -29,6 +29,7 @@ const GuestContent = () => {
   })
 
   async function onSubmit(data: z.infer<typeof GuestSchema>) {
+    console.log(data)
     await guestSignIn(data.guestName, avatarIndex)
   }
 
@@ -43,7 +44,7 @@ const GuestContent = () => {
             control={form.control}
             name="guestName"
             render={({ field }) => (
-              <FormItem className="relative">
+              <FormItem>
                 <FormControl>
                   <Input placeholder="RandomNick2002" {...field} />
                 </FormControl>

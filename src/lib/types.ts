@@ -28,8 +28,7 @@ export const GuestSchema = z.object({
   guestName: z
     .string()
     .trim()
-    .toLowerCase()
-    .min(3)
+    .min(3, { message: 'Nickname must be at least 3 characters' })
     .max(20)
     .refine(
       async val => {
@@ -64,31 +63,28 @@ export const GameCodeSchema = z.object({
     ),
 })
 
-// export type GameCodeSchema = z.infer<typeof gameCodeSchema>
-
-// export const AuthPanelSchema = z.union([GuestSchema, gameCodeSchema])
-
-// export type AuthPanelType = z.infer<typeof AuthPanelSchema>
-// export type AuthPanelType =
-//   | {
-//       gameCode: GameCodeSchema
-//     }
-//   | {
-//       createGuest: GuestName
-//     }
-
 export const loginSchema = z.object({
-  email: z.string().trim().min(6).max(30),
-  password: z.string().min(8).max(30),
+  email: z
+    .string()
+    .trim()
+    .min(6, { message: 'Email must contain at least 6 characters' })
+    .max(30, { message: 'Email should not exceed 30 characters' }),
+  password: z
+    .string()
+    .min(8, { message: 'Password must contain at least 8 characters' })
+    .max(30),
 })
 
 export type LoginSchema = z.infer<typeof loginSchema>
 
 export const signUpSchema = loginSchema
   .extend({
-    displayName: z.string().min(3).max(20),
-    email: z.string().trim().min(6).max(30),
-    password: z.string().min(8).max(30),
+    displayName: z
+      .string()
+      .min(3, { message: 'Display Name must contain at least 3 characters' })
+      .max(20),
+    // email: z.string().trim().min(6).max(30),
+    // password: z.string().min(8).max(30),
     confirmPassword: z.string(),
   })
   .refine(data => data.password === data.confirmPassword, {
