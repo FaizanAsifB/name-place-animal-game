@@ -77,7 +77,7 @@ const Lobby = () => {
     const customCategories = categoriesArr(categoriesData)
     const roundSelections = getRoundsConfig(
       customCategories!,
-      settingsData?.settings.rounds
+      settingsData?.settings.rounds.value
     )
     roundSelections.forEach((round, i) => {
       round.activeCategories =

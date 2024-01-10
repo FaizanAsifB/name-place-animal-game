@@ -161,9 +161,18 @@ export type CreateGameData = {
 export type RoundsConfig = ReturnType<typeof getRoundsConfig>
 
 export type RoundSettings = {
-  'round time': number
-  rounds: number
-  'end mode': 'Fastest Finger' | 'Round Timer'
+  roundTime: {
+    title: string
+    value: number
+  }
+  rounds: {
+    title: string
+    value: number
+  }
+  endMode: {
+    title: string
+    value: 'Fastest Finger' | 'Round Timer'
+  }
 }
 
 export const GameSettingsData = z.object({

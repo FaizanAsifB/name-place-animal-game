@@ -62,9 +62,18 @@ const SettingsForm = () => {
     } = data
 
     const settings: RoundSettings = {
-      'round time': roundTime,
-      rounds,
-      'end mode': endMode,
+      roundTime: {
+        title: 'Round Time',
+        value: roundTime,
+      },
+      rounds: {
+        title: 'Total Rounds',
+        value: rounds,
+      },
+      endMode: {
+        title: 'End Mode',
+        value: endMode,
+      },
     }
 
     const categories: Categories = {

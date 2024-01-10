@@ -21,9 +21,8 @@ const CategoriesList = () => {
   // }
   return (
     <section className="col-span-3 rounded-lg bg-primary-dark">
-      <div className="flex justify-between">
-        <H3 className="text-center">Available Categories</H3>
-        {/* <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <H3 className="text-center">Available Categories</H3>
+      {/* <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogTrigger asChild>
             <Button variant={'ghost'}>
               + Add Categories {categoryCount}/2
@@ -44,8 +43,8 @@ const CategoriesList = () => {
             />
           </DialogContent>
         </Dialog> */}
-      </div>
-      <ul className="grid grid-cols-4 ">
+
+      <ul className="grid grid-cols-4 capitalize">
         {categoriesData?.default?.map((category: string) => (
           <li key={category}>{category}</li>
         ))}

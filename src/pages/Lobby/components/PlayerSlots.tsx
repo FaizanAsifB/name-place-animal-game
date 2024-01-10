@@ -6,24 +6,20 @@ import { useCallback, useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { AuthContext } from '../../../context/AuthContext'
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { PlayerData, PlayersData } from '../../../lib/types'
 // import { queryData } from '../../../utils/fetchData'
 import { H4 } from '@/components/typography/Headings'
 import { Toggle } from '@/components/ui/toggle'
+import { categoriesAtom } from '@/context/atoms'
 import { cn } from '@/lib/utils'
+import { useAtomValue } from 'jotai'
 import { Crown, ThumbsDown, ThumbsUp } from 'lucide-react'
 import {
   addPlayerCount,
   createUserCategories,
   updatePlayers,
 } from '../../GameCreation/utils/http'
-import { inLobby } from '../utils/utils'
+import { getCategoryCount, inLobby } from '../utils/utils'
 import AddCategoriesButton from './AddCategoriesButton'
 
 type PlayerSlotsProps = {
@@ -39,6 +35,7 @@ type PlayerSlotsProps = {
 const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
   const params = useParams()
   const currentUser = useContext(AuthContext)
+  const categoriesData = useAtomValue(categoriesAtom)
 
   const {
     mutate,
@@ -114,11 +111,14 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
       </H4>
       {data?.slots.map((slot: PlayerData) => {
         const { uid, displayName, isReady, isHost, slotNr, photoUrl } = slot
+        const isCurrentPlayer = uid === currentUser?.uid
+        const categoryCount = getCategoryCount(categoriesData?.custom?.[uid])
+
         return (
           <li
             key={slot.slotNr}
             className={cn(
-              'flex items-center justify-start gap-2 px-4 py-1   rounded-3xl',
+              'grid grid-cols-[auto,calc(20ch+2rem),auto,1fr] items-center justify-start gap-2 px-4 py-1 rounded-3xl',
               uid
                 ? 'bg-neutral-100/80'
                 : 'bg-orange-600 outline outline-2 outline-orange-500'
@@ -133,21 +133,17 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
               </AvatarFallback>
             </Avatar>
 
-            <span>{uid ? displayName : 'Empty Slot'}</span>
-            {currentUser?.uid === uid && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <AddCategoriesButton currentUser={currentUser} />
-                    {/* <Button variant={'icon'} size={'icon'}>
-                      +
-                    </Button> */}
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Add two categories of your choice</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+            <p className="flex gap-2">
+              {uid ? displayName : 'Empty Slot'} {isHost && <Crown />}
+            </p>
+            {isCurrentPlayer && (
+              <AddCategoriesButton currentUser={currentUser} />
+            )}
+            {!isCurrentPlayer && uid && (
+              <>
+                <span className="hidden lg:inline-block">Added Categories</span>
+                <span className="px-4 py-2">{categoryCount}/2</span>
+              </>
             )}
             {uid && (
               //added padding to center the icon
@@ -156,7 +152,7 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
                 size={'icon'}
                 defaultPressed={isReady}
                 onPressedChange={pressed => handleReady(pressed, slotNr)}
-                disabled={!(uid === currentUser?.uid)}
+                disabled={!isCurrentPlayer}
                 className="pb-1"
               >
                 {isReady ? (
@@ -166,7 +162,6 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
                 )}
               </Toggle>
             )}
-            {isHost && <Crown />}
           </li>
         )
       })}

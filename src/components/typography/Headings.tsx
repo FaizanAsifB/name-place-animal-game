@@ -56,3 +56,15 @@ export function H4({ children, className }: HeadingProps) {
     </h4>
   )
 }
+export function H5({ children, className }: HeadingProps) {
+  return (
+    <h4
+      className={twMerge(
+        'text-lg font-semibold tracking-tight scroll-m-20',
+        className
+      )}
+    >
+      {children}
+    </h4>
+  )
+}
