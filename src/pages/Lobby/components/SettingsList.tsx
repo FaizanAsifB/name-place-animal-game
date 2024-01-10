@@ -13,7 +13,7 @@ const SettingsList = () => {
     return <span>Error: {error.message}</span>
   }
   return (
-    <section className="col-span-2 rounded-lg bg-amber-700/50">
+    <section className="col-span-3 rounded-lg bg-primary-dark">
       <h2 className="text-center">Lobby Settings</h2>
       <ul className="grid grid-cols-2 ">
         {Object.entries(data?.settings).map(setting => (

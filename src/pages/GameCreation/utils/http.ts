@@ -85,8 +85,9 @@ export const updatePlayers = async ({
   updatedData,
 }: {
   roomId: string
-  updatedData: PlayerData[]
+  updatedData: PlayerData[] | undefined
 }) => {
+  if (!updatedData) return
   try {
     await updateDoc(doc(db, 'lobbyPlayers', roomId), {
       slots: updatedData,

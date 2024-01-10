@@ -24,7 +24,7 @@ import {
 import { submitCategoryInput } from '../../GameCreation/utils/http'
 import { Button } from '@/components/ui/button'
 
-type AddCategoryProps = {
+type AddCategoriesProps = {
   userCategories: AddedCategories
   defaultCategories: DefaultCategories
   allCategories:
@@ -37,12 +37,12 @@ type AddCategoryProps = {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const AddCategory = ({
+const AddCategories = ({
   userCategories,
   allCategories,
   setIsModalOpen,
   defaultCategories,
-}: AddCategoryProps) => {
+}: AddCategoriesProps) => {
   const defaultValues = {
     category1: userCategories?.category1.title,
     category2: userCategories?.category2.title,
@@ -178,4 +178,4 @@ const AddCategory = ({
     </Form>
   )
 }
-export default AddCategory
+export default AddCategories

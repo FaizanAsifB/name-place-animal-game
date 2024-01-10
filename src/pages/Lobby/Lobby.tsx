@@ -2,7 +2,9 @@ import { useOnSnapShot } from '@/hooks/useOnSnapShot.ts'
 
 import { H1 } from '@/components/typography/Headings.tsx'
 import { AuthContext } from '@/context/AuthContext.tsx'
-import { useContext } from 'react'
+import { addedCategoriesAtom, categoriesAtom } from '@/context/atoms.ts'
+import { useSetAtom } from 'jotai'
+import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../../components/ui/button.tsx'
 import useNextPhase from '../../hooks/useNextPhase'
@@ -21,7 +23,12 @@ import {
 import CategoriesList from './components/CategoriesList'
 import PlayerSlots from './components/PlayerSlots'
 import SettingsList from './components/SettingsList'
-import { categoriesArr, getRoundsConfig, readyPlayers } from './utils/utils'
+import {
+  categoriesArr,
+  getAllCategories,
+  getRoundsConfig,
+  readyPlayers,
+} from './utils/utils'
 
 const Lobby = () => {
   const { params, data: gameState, fireStoreError } = useNextPhase()
@@ -30,6 +37,20 @@ const Lobby = () => {
     docRef: 'lobbyPlayers',
     roomId: params.roomId,
   })
+
+  const { data /* error */ } = useOnSnapShot<Categories>({
+    docRef: 'categories',
+    roomId: params.roomId!,
+  })
+
+  const categoriesData = useSetAtom(categoriesAtom)
+  const addedCategories = useSetAtom(addedCategoriesAtom)
+
+  useEffect(() => {
+    if (!data) return
+    categoriesData(data)
+    addedCategories(getAllCategories(data))
+  }, [addedCategories, categoriesData, data])
 
   const navigate = useNavigate()
   const currentUser = useContext(AuthContext)
@@ -97,8 +118,9 @@ const Lobby = () => {
         <Button
           disabled={ready !== totalPlayers || !lobbyPlayers?.hostId}
           onClick={handlePlay}
+          variant={'secondary'}
         >
-          <span className="mr-2">
+          <span>
             {ready}/{totalPlayers}
           </span>
           <span>{ready !== totalPlayers ? 'Ready' : 'Play'}</span>

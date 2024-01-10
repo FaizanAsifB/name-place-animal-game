@@ -1,47 +1,29 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import { useContext, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { AuthContext } from '../../../context/AuthContext'
-import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
-import { getAllCategories, getCategoryCount } from '../utils/utils'
-import AddCategory from './AddCategory'
-import { Button } from '@/components/ui/button'
-import { Categories } from '@/lib/types'
+import { H3 } from '@/components/typography/Headings'
+import { addedCategoriesAtom, categoriesAtom } from '@/context/atoms'
+import { useAtomValue } from 'jotai'
 
 const CategoriesList = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  // const params = useParams()
 
-  const currentUser = useContext(AuthContext)
-  const params = useParams()
+  const categoriesData = useAtomValue(categoriesAtom)
+  const addedCategories = useAtomValue(addedCategoriesAtom)
 
-  const { data, error } = useOnSnapShot<Categories>({
-    docRef: 'categories',
-    roomId: params.roomId!,
-  })
-  // as { data: Categories; error: FireStoreError }
+  console.log(categoriesData)
 
-  const addedCategories = getAllCategories(data)
-  const categoryCount = getCategoryCount(data?.custom[currentUser!.uid])
+  // const addedCategories = getAllCategories(data)
 
   // if (isPending) {
   //   return <span>Loading...</span>
   // }
 
-  if (error) {
-    return <span>Error: {error.message}</span>
-  }
+  // if (error) {
+  //   return <span>Error: {error.message}</span>
+  // }
   return (
-    <section className="col-span-2 rounded-lg bg-amber-700/50">
+    <section className="col-span-3 rounded-lg bg-primary-dark">
       <div className="flex justify-between">
-        <h2>Available Categories</h2>
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <H3 className="text-center">Available Categories</H3>
+        {/* <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogTrigger asChild>
             <Button variant={'ghost'}>
               + Add Categories {categoryCount}/2
@@ -61,10 +43,10 @@ const CategoriesList = () => {
               defaultCategories={data?.default}
             />
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
       </div>
       <ul className="grid grid-cols-4 ">
-        {data?.default.map((category: string) => (
+        {categoriesData?.default?.map((category: string) => (
           <li key={category}>{category}</li>
         ))}
         {addedCategories?.map(category => (

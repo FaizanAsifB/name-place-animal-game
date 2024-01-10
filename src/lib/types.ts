@@ -97,10 +97,10 @@ export type SignUpSchema = z.infer<typeof signUpSchema>
 export type PlayerData = {
   isReady: boolean
   uid: string
-  displayName: string
+  displayName: string | null
   slotNr: number
   isHost: boolean
-  photoUrl: string
+  photoUrl: string | undefined
 }
 
 export const customCategoriesSchema = z

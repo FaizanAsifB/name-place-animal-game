@@ -1,14 +1,22 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import { useMutation } from '@tanstack/react-query'
-import { DocumentData, FirestoreErrorCode } from 'firebase/firestore'
+import { FirestoreErrorCode } from 'firebase/firestore'
 import { useCallback, useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { AuthContext } from '../../../context/AuthContext'
 
-import { PlayerData } from '../../../lib/types'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { PlayerData, PlayersData } from '../../../lib/types'
 // import { queryData } from '../../../utils/fetchData'
+import { H4 } from '@/components/typography/Headings'
 import { Toggle } from '@/components/ui/toggle'
+import { cn } from '@/lib/utils'
 import { Crown, ThumbsDown, ThumbsUp } from 'lucide-react'
 import {
   addPlayerCount,
@@ -16,9 +24,10 @@ import {
   updatePlayers,
 } from '../../GameCreation/utils/http'
 import { inLobby } from '../utils/utils'
+import AddCategoriesButton from './AddCategoriesButton'
 
 type PlayerSlotsProps = {
-  data: DocumentData | undefined
+  data: PlayersData | undefined
   error:
     | {
         code: FirestoreErrorCode
@@ -65,7 +74,7 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
         ...data.slots[i],
         displayName: currentUser.displayName,
         uid: currentUser.uid,
-        photoUrl: currentUser.photoURL,
+        photoUrl: currentUser.photoURL!,
       })
       mutate({ roomId: params.roomId, updatedData })
       addPlayerCount(params.roomId)
@@ -99,16 +108,21 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
   //   }
   // }
   return (
-    <ul className="col-span-3 space-y-4 rounded-lg row-span-full bg-amber-700/50">
-      <h3 className="text-center">
-        Players in Lobby {inLobby(data)}/{data?.slots.length}
-      </h3>
+    <ul className="col-span-3 p-4 space-y-4 rounded-lg bg-primary-dark row-span-full">
+      <H4 className="text-center">
+        PLAYERS {inLobby(data)}/{data?.slots.length}
+      </H4>
       {data?.slots.map((slot: PlayerData) => {
         const { uid, displayName, isReady, isHost, slotNr, photoUrl } = slot
         return (
           <li
             key={slot.slotNr}
-            className="flex items-center justify-start gap-2 px-4 py-1 border-2 rounded-3xl bg-amber-600"
+            className={cn(
+              'flex items-center justify-start gap-2 px-4 py-1   rounded-3xl',
+              uid
+                ? 'bg-neutral-100/80'
+                : 'bg-orange-600 outline outline-2 outline-orange-500'
+            )}
           >
             <Avatar>
               <AvatarImage
@@ -120,7 +134,21 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
             </Avatar>
 
             <span>{uid ? displayName : 'Empty Slot'}</span>
-            {isHost && <Crown />}
+            {currentUser?.uid === uid && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <AddCategoriesButton currentUser={currentUser} />
+                    {/* <Button variant={'icon'} size={'icon'}>
+                      +
+                    </Button> */}
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Add two categories of your choice</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
             {uid && (
               //added padding to center the icon
               <Toggle
@@ -138,6 +166,7 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
                 )}
               </Toggle>
             )}
+            {isHost && <Crown />}
           </li>
         )
       })}

@@ -7,7 +7,9 @@ type AuthContextProviderProps = {
   children: React.ReactNode
 }
 
-export const AuthContext = createContext<firebase.UserInfo | null>(null)
+export type FirebaseUser = firebase.UserInfo
+
+export const AuthContext = createContext<FirebaseUser | null>(null)
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [currentUser, setCurrentUser] = useState<firebase.UserInfo | null>(null)
