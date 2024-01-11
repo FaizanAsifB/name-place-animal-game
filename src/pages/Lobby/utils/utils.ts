@@ -81,7 +81,7 @@ function getRandomIndex(max: number): number {
 }
 
 export const getRoundsConfig = (customCategories: string[], rounds: number) => {
-  let remainingAlphabets = alphabets
+  let remainingAlphabets = [...alphabets]
   let remainingCategories = customCategories
 
   const roundsConfig = new Array(rounds).fill('').map((_, i) => {

@@ -3,9 +3,9 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AuthContextProvider } from './context/AuthContext.tsx'
 import './index.css'
 import ErrorPage from './pages/ErrorPage.tsx'
-import Game from './pages/Game.tsx'
+import GameRoom from './pages/GameRoom.tsx'
 import GameCreation from './pages/GameCreation/index.ts'
-import GameRoom, { loader as gameLoader } from './pages/GameRoom/index.ts'
+import GameScreen, { loader as gameLoader } from './pages/GameRoom/index.ts'
 import Home from './pages/Home/index.tsx'
 import Lobby from './pages/Lobby/index.tsx'
 // import ProtectedRoute from './pages/ProtectedRoute.tsx'
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
         path: 'game-room/:roomId',
         element: (
           // <ProtectedRoute>
-          <Game />
+          <GameRoom />
           // </ProtectedRoute>
         ),
         children: [
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'game',
-            element: <GameRoom />,
+            element: <GameScreen />,
             loader: gameLoader,
           },
           {

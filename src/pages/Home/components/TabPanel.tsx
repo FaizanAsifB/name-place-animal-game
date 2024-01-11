@@ -7,6 +7,8 @@ import AuthContent from './AuthContent'
 import AuthModal from './AuthModal'
 import AvatarSelection from './AvatarSelection'
 import GuestContent from './GuestContent'
+import { useAtomValue } from 'jotai'
+import { displayNameAtom } from '@/context/atoms'
 
 type TabPanelProps = {
   showGuest: boolean
@@ -16,11 +18,12 @@ type TabPanelProps = {
 
 const TabPanel = ({ showGuest }: TabPanelProps) => {
   const currentUser = useContext(AuthContext)
+  const displayName = useAtomValue(displayNameAtom)
 
   let content: ReactElement | string = ''
 
-  if (currentUser) {
-    content = <AuthContent displayName={currentUser?.displayName} />
+  if (currentUser && displayName) {
+    content = <AuthContent />
   } else if (showGuest) {
     content = <GuestContent />
   } else {

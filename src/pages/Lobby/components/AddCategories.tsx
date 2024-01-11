@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import { DialogClose, DialogFooter } from '@/components/ui/dialog.tsx'
 import {
   Form,
@@ -22,7 +23,6 @@ import {
   customCategoriesSchema,
 } from '../../../lib/types'
 import { submitCategoryInput } from '../../GameCreation/utils/http'
-import { Button } from '@/components/ui/button'
 
 type AddCategoriesProps = {
   userCategories: AddedCategories
@@ -106,14 +106,14 @@ const AddCategories = ({
     )
       return
 
-    if (category1 !== defaultValues.category1) {
+    if (form.getFieldState('category1').isDirty) {
       await submitCategoryInput(params.roomId!, currentUser!.uid, {
         name: 'category1',
         title: category1,
       })
     }
 
-    if (category2 !== defaultValues.category1) {
+    if (form.getFieldState('category2').isDirty) {
       await submitCategoryInput(params.roomId!, currentUser!.uid, {
         name: 'category2',
         title: category2,

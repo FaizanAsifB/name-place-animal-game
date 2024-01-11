@@ -17,7 +17,7 @@ const buttonVariants = cva(
           'border-2 border-input bg-primary text-primary-foreground  hover:text-accent-foreground flex gap-2 items-center  hover:bg-accent',
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80 flex gap-2',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        ghost: 'hover:bg-accent hover:text-accent-foreground flex gap-1',
         link: 'text-primary underline-offset-4 hover:underline',
         icon: 'hover:bg-accent hover:text-accent-foreground rounded-full',
       },

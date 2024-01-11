@@ -8,7 +8,7 @@ import { AuthContext } from '../../../context/AuthContext'
 
 import { PlayerData, PlayersData } from '../../../lib/types'
 // import { queryData } from '../../../utils/fetchData'
-import { H4 } from '@/components/typography/Headings'
+import { H4, H6 } from '@/components/typography/Headings'
 import { Toggle } from '@/components/ui/toggle'
 import { categoriesAtom } from '@/context/atoms'
 import { cn } from '@/lib/utils'
@@ -105,67 +105,73 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
   //   }
   // }
   return (
-    <ul className="col-span-3 p-4 space-y-4 rounded-lg bg-primary-dark row-span-full">
-      <H4 className="text-center">
+    <section className="p-4 rounded-lg md:col-span-3 bg-primary-dark md:row-span-full ">
+      <H4 className="mb-4 text-center">
         PLAYERS {inLobby(data)}/{data?.slots.length}
       </H4>
-      {data?.slots.map((slot: PlayerData) => {
-        const { uid, displayName, isReady, isHost, slotNr, photoUrl } = slot
-        const isCurrentPlayer = uid === currentUser?.uid
-        const categoryCount = getCategoryCount(categoriesData?.custom?.[uid])
+      <ul className="space-y-4">
+        {data?.slots.map((slot: PlayerData) => {
+          const { uid, displayName, isReady, isHost, slotNr, photoUrl } = slot
+          const isCurrentPlayer = uid === currentUser?.uid
+          const categoryCount = getCategoryCount(categoriesData?.custom?.[uid])
 
-        return (
-          <li
-            key={slot.slotNr}
-            className={cn(
-              'grid grid-cols-[auto,calc(20ch+2rem),auto,1fr] items-center justify-start gap-2 px-4 py-1 rounded-3xl',
-              uid
-                ? 'bg-neutral-100/80'
-                : 'bg-orange-600 outline outline-2 outline-orange-500'
-            )}
-          >
-            <Avatar>
-              <AvatarImage
-                src={uid ? photoUrl : '/images/avatars/emptyAvatar.svg'}
-              />
-              <AvatarFallback>
-                <img src="/images/avatars/emptyAvatar.svg" alt="empty slot" />
-              </AvatarFallback>
-            </Avatar>
+          return (
+            <li
+              key={slot.slotNr}
+              className={cn(
+                'grid grid-cols-[auto,1fr,auto,auto] items-center justify-start gap-2 px-4 py-1 rounded-3xl md:gap-3',
+                uid
+                  ? 'bg-neutral-100/80'
+                  : 'bg-orange-600 outline outline-2 outline-orange-500'
+              )}
+            >
+              <Avatar className="md:w-14 md:h-14">
+                <AvatarImage
+                  src={uid ? photoUrl : '/images/avatars/emptyAvatar.svg'}
+                />
+                <AvatarFallback>
+                  <img src="/images/avatars/emptyAvatar.svg" alt="empty slot" />
+                </AvatarFallback>
+              </Avatar>
 
-            <p className="flex gap-2">
-              {uid ? displayName : 'Empty Slot'} {isHost && <Crown />}
-            </p>
-            {isCurrentPlayer && (
-              <AddCategoriesButton currentUser={currentUser} />
-            )}
-            {!isCurrentPlayer && uid && (
-              <>
-                <span className="hidden lg:inline-block">Added Categories</span>
-                <span className="px-4 py-2">{categoryCount}/2</span>
-              </>
-            )}
-            {uid && (
-              //added padding to center the icon
-              <Toggle
-                variant={'icon'}
-                size={'icon'}
-                defaultPressed={isReady}
-                onPressedChange={pressed => handleReady(pressed, slotNr)}
-                disabled={!isCurrentPlayer}
-                className="pb-1"
-              >
-                {isReady ? (
-                  <ThumbsUp color="green" />
-                ) : (
-                  <ThumbsDown color="red" />
-                )}
-              </Toggle>
-            )}
-          </li>
-        )
-      })}
-    </ul>
+              <H6 className="flex gap-2 uppercase">
+                {uid ? displayName : 'Empty Slot'} {isHost && <Crown />}
+              </H6>
+              {isCurrentPlayer && (
+                <AddCategoriesButton currentUser={currentUser} />
+              )}
+              {!isCurrentPlayer && uid && (
+                <>
+                  {/* <span className="hidden lg:inline-block">
+                    Added Categories
+                  </span> */}
+                  <span className="px-2 md:text-lg lg:text-2xl">
+                    {categoryCount}/2
+                  </span>
+                </>
+              )}
+              {uid && (
+                //added padding to center the icon
+                <Toggle
+                  variant={'icon'}
+                  size={'icon'}
+                  defaultPressed={isReady}
+                  onPressedChange={pressed => handleReady(pressed, slotNr)}
+                  disabled={!isCurrentPlayer}
+                  className="pb-1"
+                >
+                  {isReady ? (
+                    <ThumbsUp color="green" />
+                  ) : (
+                    <ThumbsDown color="red" />
+                  )}
+                </Toggle>
+              )}
+            </li>
+          )
+        })}
+      </ul>
+    </section>
   )
 }
 export default PlayerSlots

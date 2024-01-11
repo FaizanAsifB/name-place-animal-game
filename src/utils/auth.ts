@@ -14,12 +14,17 @@ export const guestSignIn = async function (
         displayName: guestName,
         photoURL: data.avatarImages[avatarIndex].path,
       })
-      await setDoc(doc(db, 'users', res.user.uid), {
-        uid: res.user.uid,
-        displayName: guestName,
-        photoURL: res.user.photoURL,
-        isAnonymous: res.user.isAnonymous,
-      })
+      try {
+        await setDoc(doc(db, 'users', res.user.uid), {
+          uid: res.user.uid,
+          displayName: guestName,
+          photoURL: res.user.photoURL,
+          isAnonymous: res.user.isAnonymous,
+        })
+        return auth.currentUser
+      } catch (error) {
+        throw new Error('There was an error creating a guest user')
+      }
     } catch (error) {
       throw new Error('There was an error creating a guest user')
     }

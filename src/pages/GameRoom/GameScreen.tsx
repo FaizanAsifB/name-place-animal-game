@@ -5,8 +5,9 @@ import { fetchLobbyData } from '../../utils/fetchData'
 
 import AnswersInput from './components/AnswersInput'
 import Clock from './components/Clock'
+import AlphabetsScroll from './components/AlphabetsScroll'
 
-const GameRoom = () => {
+const GameScreen = () => {
   const { settings, roundsData } = useLoaderData() as {
     settings: GameSettings
     roundsData: CreateGameData
@@ -17,15 +18,16 @@ const GameRoom = () => {
 
   return (
     <div>
+      <AlphabetsScroll />
       <div className="flex justify-end gap-4">
-        <Clock roundTime={settings?.settings['round time']} />
+        <Clock roundTime={settings?.settings.roundTime.value} />
         <div>{roundsData ? currentAlphabet : 'loading.....'}</div>
       </div>
       <AnswersInput />
     </div>
   )
 }
-export default GameRoom
+export default GameScreen
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader: LoaderFunction = async ({ params }) => {

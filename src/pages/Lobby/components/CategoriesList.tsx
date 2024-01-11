@@ -8,8 +8,6 @@ const CategoriesList = () => {
   const categoriesData = useAtomValue(categoriesAtom)
   const addedCategories = useAtomValue(addedCategoriesAtom)
 
-  console.log(categoriesData)
-
   // const addedCategories = getAllCategories(data)
 
   // if (isPending) {
@@ -19,9 +17,10 @@ const CategoriesList = () => {
   // if (error) {
   //   return <span>Error: {error.message}</span>
   // }
+
   return (
-    <section className="col-span-3 rounded-lg bg-primary-dark">
-      <H3 className="text-center">Available Categories</H3>
+    <section className="p-2 rounded-lg col-span-full bg-primary-dark md:col-start-4 md:row-span-2 ">
+      <H3 className="mb-2 text-center">Categories</H3>
       {/* <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogTrigger asChild>
             <Button variant={'ghost'}>
@@ -44,13 +43,31 @@ const CategoriesList = () => {
           </DialogContent>
         </Dialog> */}
 
-      <ul className="grid grid-cols-4 capitalize">
+      <ul className="grid grid-cols-4 capitalize md:grid-cols-2 md:gap-4 md:text-center lg:grid-cols-3">
         {categoriesData?.default?.map((category: string) => (
           <li key={category}>{category}</li>
         ))}
         {addedCategories?.map(category => (
           <li key={category.title}>{category.title}</li>
         ))}
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
+        <li>Apple</li>
       </ul>
     </section>
   )

@@ -53,10 +53,11 @@ const SignUpForm = () => {
         })
         // onClose()
       } catch (error) {
-        throw new Error('There was an error signing up')
+        console.log(error)
+        // throw new Error('There was an error signing up')
       }
     } catch (error) {
-      throw new Error('There was an error signing up')
+      console.log(error)
     }
   }
 
@@ -99,7 +100,7 @@ const SignUpForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="Password" {...field} />
+                <Input type="password" placeholder="Password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -112,7 +113,11 @@ const SignUpForm = () => {
             <FormItem>
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
-                <Input placeholder="Confirm Password" {...field} />
+                <Input
+                  type="password"
+                  placeholder="Confirm Password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

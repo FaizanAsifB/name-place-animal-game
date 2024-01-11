@@ -1,3 +1,4 @@
+import { H2 } from '@/components/typography/Headings'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -8,15 +9,19 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { displayNameAtom } from '@/context/atoms'
 import { GameCodeSchema } from '@/lib/types'
 import { queryData } from '@/utils/fetchData'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useAtomValue } from 'jotai'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
-const AuthContent = ({ displayName }: { displayName: string | null }) => {
+const AuthContent = () => {
   const navigate = useNavigate()
+
+  const displayName = useAtomValue(displayNameAtom)
 
   const form = useForm<z.infer<typeof GameCodeSchema>>({
     resolver: zodResolver(GameCodeSchema),
@@ -36,9 +41,9 @@ const AuthContent = ({ displayName }: { displayName: string | null }) => {
 
   return (
     <>
-      <h2 className="text-center max-w-[20ch]">
+      <H2 className="text-center max-w-[20ch]">
         {`Welcome back ${displayName}! `}
-      </h2>
+      </H2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

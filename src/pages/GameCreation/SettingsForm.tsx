@@ -86,7 +86,7 @@ const SettingsForm = () => {
       },
     }
 
-    const slots: PlayerData[] = makePlayerSlots(currentUser, 8)
+    const slots: PlayerData[] = makePlayerSlots(currentUser, 10)
 
     const lobbyId = await uploadSettings({ slots, settings }, currentUser)
 

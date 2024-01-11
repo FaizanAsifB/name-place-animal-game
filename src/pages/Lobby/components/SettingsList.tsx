@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
 import { H3, H5 } from '@/components/typography/Headings'
-import { P } from '@/components/typography/TextContent'
 import React from 'react'
 import { useFetchSettings } from '../../../hooks/useFetchSettings'
 
@@ -15,11 +14,14 @@ const SettingsList = () => {
     return <span>Error: {error.message}</span>
   }
   return (
-    <section className="col-span-3 rounded-lg bg-primary-dark">
-      <H3 className="text-center">Lobby Settings</H3>
-      <ul className="grid grid-cols-2 ">
+    <section className="p-2 rounded-lg col-span-full bg-primary-dark md:row-start-3 md:col-start-4">
+      <H3 className="mb-2 text-center md:mb-4">Lobby Settings</H3>
+      <ul className="grid grid-cols-[auto,auto] gap-x-2 md:grid-cols-1 md:gap-2 xl:grid-cols-2">
         {Object.entries(data?.settings).map(setting => (
-          <li key={setting[0]} className="flex items-center gap-2">
+          <li
+            key={setting[0]}
+            className="flex items-center gap-2 md:mx-auto xl:mx-4"
+          >
             <H5>{setting[1].title}:</H5>
             <p>{setting[1].value}</p>
           </li>

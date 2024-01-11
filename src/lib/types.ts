@@ -28,6 +28,7 @@ export const GuestSchema = z.object({
   guestName: z
     .string()
     .trim()
+    .toLowerCase()
     .min(3, { message: 'Nickname must be at least 3 characters' })
     .max(20)
     .refine(

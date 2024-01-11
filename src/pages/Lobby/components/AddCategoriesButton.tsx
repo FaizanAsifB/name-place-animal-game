@@ -16,6 +16,7 @@ import {
 import { FirebaseUser } from '@/context/AuthContext'
 import { addedCategoriesAtom, categoriesAtom } from '@/context/atoms'
 import { useAtomValue } from 'jotai'
+import { Pencil, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { getCategoryCount } from '../utils/utils'
 import AddCategories from './AddCategories'
@@ -39,10 +40,13 @@ const AddCategoriesButton = ({ currentUser }: AddCategoriesButton) => {
         <Tooltip>
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
-              <Button variant={'ghost'}>
-                <span className="hidden lg:inline-block">My Categories </span>
+              <Button variant={'ghost'} size={'icon'} className="px-2">
+                {categoryCount === 2 ? (
+                  <Pencil height={16} width={16} />
+                ) : (
+                  <Plus height={16} width={16} />
+                )}
                 {categoryCount}/2
-                <span className="hidden lg:inline-block">Add Categories</span>
               </Button>
             </DialogTrigger>
           </TooltipTrigger>

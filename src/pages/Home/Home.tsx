@@ -1,8 +1,11 @@
 import { Button } from '@/components/ui/button.tsx'
-import { auth } from '@/config/config.ts'
+import { auth, db } from '@/config/config.ts'
 import { AuthContext } from '@/context/AuthContext.tsx'
+import { displayNameAtom } from '@/context/atoms.ts'
 import Header from '@/layout/MainHeader.tsx'
-import { signOut } from 'firebase/auth'
+import { deleteUser, signOut } from 'firebase/auth'
+import { deleteDoc, doc } from 'firebase/firestore'
+import { useAtomValue } from 'jotai'
 import { useContext } from 'react'
 import Footer from '../../layout/Footer.tsx'
 import Auth from './Auth.tsx'
@@ -13,15 +16,27 @@ import GuideModal from './components/GuideModal.tsx'
 
 const Home = () => {
   const currentUser = useContext(AuthContext)
+  const displayName = useAtomValue(displayNameAtom)
+
   async function signOutUser() {
-    signOut(auth)
+    await signOut(auth)
+    try {
+      await deleteUser(currentUser!)
+      try {
+        await deleteDoc(doc(db, 'users', currentUser!.uid))
+      } catch (error) {
+        throw new Error('Error signing out')
+      }
+    } catch (error) {
+      throw new Error('Error signing out')
+    }
   }
 
   return (
     <>
       <Header>
         <GuideModal />
-        {currentUser && (
+        {displayName && (
           <Button onClick={signOutUser} className="col-start-4 ml-auto w-fit">
             Logout
           </Button>

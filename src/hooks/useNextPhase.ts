@@ -18,11 +18,11 @@ const useNextPhase = (currentRound?: number) => {
     if (!data?.gameState) return
     switch (data?.gameState) {
       case 'INIT':
-        navigate(`/game/${params.roomId!}`)
+        navigate(`../game`)
         break
       case 'SCORING':
         if (matchScoringPath) return
-        navigate('scoring')
+        navigate('../scoring')
         break
       case 'RESULT':
         navigate('../result')

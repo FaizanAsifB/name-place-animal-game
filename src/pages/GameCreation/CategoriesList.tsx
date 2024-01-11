@@ -28,7 +28,7 @@ const CategoriesList = ({ control }: CategoriesListProps) => {
       control={control}
       name="defaultCategories"
       render={() => (
-        <FormItem className="flex flex-wrap items-center justify-center gap-4 space-y-0">
+        <FormItem className="relative flex flex-wrap items-center justify-center gap-4 space-y-0">
           {defaultCategories.map(category => (
             <FormField
               key={category.id}
@@ -63,7 +63,7 @@ const CategoriesList = ({ control }: CategoriesListProps) => {
               }}
             />
           ))}
-          <FormMessage className="w-full text-center" />
+          <FormMessage className="justify-center w-full text-center" />
         </FormItem>
       )}
     />
