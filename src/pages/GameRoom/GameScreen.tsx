@@ -3,9 +3,12 @@ import { LoaderFunction, useLoaderData } from 'react-router-dom'
 import { CreateGameData, GameSettings } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 
+import { currentAlphabetAtom } from '@/context/atoms'
+import { useSetAtom } from 'jotai'
+import { useEffect } from 'react'
+import AlphabetsScroll from './components/AlphabetsScroll'
 import AnswersInput from './components/AnswersInput'
 import Clock from './components/Clock'
-import AlphabetsScroll from './components/AlphabetsScroll'
 
 const GameScreen = () => {
   const { settings, roundsData } = useLoaderData() as {
@@ -13,15 +16,20 @@ const GameScreen = () => {
     roundsData: CreateGameData
   }
 
-  const currentAlphabet =
-    roundsData?.roundsConfig[roundsData?.currentRound - 1].alphabet
+  const currentAlphabet = useSetAtom(currentAlphabetAtom)
+
+  useEffect(() => {
+    currentAlphabet(
+      roundsData?.roundsConfig[roundsData?.currentRound - 1].alphabet
+    )
+  }, [currentAlphabet, roundsData?.currentRound, roundsData?.roundsConfig])
 
   return (
     <div>
       <AlphabetsScroll />
       <div className="flex justify-end gap-4">
         <Clock roundTime={settings?.settings.roundTime.value} />
-        <div>{roundsData ? currentAlphabet : 'loading.....'}</div>
+        {/* <div>{roundsData ? currentAlphabet : 'loading.....'}</div> */}
       </div>
       <AnswersInput />
     </div>

@@ -15,3 +15,5 @@ export const addedCategoriesAtom = atom(
       }[]
     | undefined
 )
+
+export const currentAlphabetAtom = atom('')
