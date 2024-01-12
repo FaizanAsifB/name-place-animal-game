@@ -1,34 +1,27 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useOnSnapShot } from '../../../hooks/useOnSnapShot'
-import { GameState, GameStates } from '../../../lib/types'
+import { GameStates } from '../../../lib/types'
 import { updateGameState } from '../../GameCreation/utils/http'
 
 type ClockProps = {
   roundTime: number
+  gameState: GameStates | undefined
 }
 
-const Clock = ({ roundTime }: ClockProps) => {
+const Clock = ({ roundTime, gameState }: ClockProps) => {
   const [timeRemaining, setTimeRemaining] = useState(roundTime * 500)
   const params = useParams()
 
   const minutes = Math.floor(timeRemaining / 60)
   const seconds = timeRemaining % 60
 
-  const { data: gameData } = useOnSnapShot<GameState>({
-    docRef: 'gameRooms',
-    roomId: params.roomId!,
-  })
-
-  const gameState: GameStates = gameData?.gameState
-
   useEffect(() => {
     if (timeRemaining === 0 && gameState !== 'ROUND-ENDED')
       updateGameState('TIME-ENDED', params.roomId!)
     switch (gameState) {
-      case 'INIT':
+      /* case 'INIT':
         updateGameState('STARTED', params.roomId!)
-        break
+        break */
       case 'STARTED':
         startTimer()
         break

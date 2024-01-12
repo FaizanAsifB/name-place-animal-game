@@ -1,12 +1,16 @@
 import { AUTOPLAY_SPEED, MAX_SLIDES } from '@/config/appConfig'
 import { currentAlphabetAtom } from '@/context/atoms'
+import { GameStates } from '@/lib/types'
+import { updateGameState } from '@/pages/GameCreation/utils/http'
 import { alphabets } from '@/pages/Lobby/utils/utils'
 import { useAtomValue } from 'jotai'
 import { useRef, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import Slider from 'react-slick'
 
 type AlphabetsSliderProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  gameState: GameStates | undefined
 }
 
 function HiddenArrow() {
@@ -30,9 +34,11 @@ const initialSettings = {
   // easing: 'ease-in-out',
 }
 
-const AlphabetsSlider = ({ setOpen }: AlphabetsSliderProps) => {
+const AlphabetsSlider = ({ setOpen, gameState }: AlphabetsSliderProps) => {
   const [sliderSettings, setSliderSettings] = useState(initialSettings)
   const currentAlphabet = useAtomValue(currentAlphabetAtom)
+
+  const params = useParams()
 
   const sliderRef = useRef<Slider | null>(null)
   const alphabetCount = useRef(0)
@@ -80,14 +86,16 @@ const AlphabetsSlider = ({ setOpen }: AlphabetsSliderProps) => {
     }
   }
 
-  function handlePlayEnd() {
+  //TODO check if the timer causes delay
+
+  async function handlePlayEnd() {
     if (!currentAlphabetIndex.current || !sliderRef.current) return
     if (alphabetCount.current === maxSlides.current) {
       sliderRef.current.slickPause()
-      const unsub = setTimeout(() => {
+      setTimeout(() => {
+        if (gameState === 'INIT') updateGameState('STARTED', params.roomId!)
         setOpen(false)
       }, 2000)
-      return () => unsub
     }
   }
 
