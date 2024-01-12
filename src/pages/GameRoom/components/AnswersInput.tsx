@@ -1,25 +1,21 @@
+import { H2, H3 } from '@/components/typography/Headings'
 import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
-import useNextPhase from '@/hooks/useNextPhase'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { useLoaderData, useParams } from 'react-router-dom'
-import { z } from 'zod'
 import { AuthContext } from '../../../context/AuthContext'
 import {
-  AnswerInputs,
   Answers,
+  AnswersSchema,
   CreateGameData,
   GameSettings,
   GameState,
 } from '../../../lib/types'
 import { submitAnswers, updateGameState } from '../../GameCreation/utils/http'
-import CategoryAnswers from './CategoryAnswers'
-
-export const AnswerSchema = z.array(z.object({ answer: z.string() }))
-
-export const AnswersSchema = z.record(AnswerSchema)
 
 type AnswerInputProps = {
   gameData: GameState | undefined
@@ -40,39 +36,36 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
   }, [roundsData.currentRound, roundsData?.roundsConfig])
 
   const defaultValues = useMemo(() => {
-    const defaultValues = {} as AnswerInputs
+    const defaultValues: Answers = {}
 
     activeCategories?.forEach(c => {
-      defaultValues[c] = [{ answer: '' }]
+      defaultValues[c] = ['', '']
     })
     return defaultValues
   }, [activeCategories])
 
-  const form = useForm<z.infer<typeof AnswersSchema>>({
+  const form = useForm<Answers>({
     defaultValues,
     resolver: zodResolver(AnswersSchema),
-    mode: 'onChange',
   })
 
   //Submit Data
-  const onSubmit = async (data: AnswerInputs) => {
+  const onSubmit = async (data: Answers) => {
     console.log(data)
-    const formattedData = {} as Answers
-    for (const category in data) {
-      formattedData[category] = data[category].map(v => v.answer)
-    }
-    const answers = { [currentUser!.uid]: formattedData }
+
+    const answers = { [currentUser!.uid]: data }
+    console.log(answers)
     if (
       settings.settings.endMode.title === 'Fastest Finger' &&
       gameData?.gameState !== 'END-TIMER'
     )
       await updateGameState('END-TIMER', params.roomId!)
 
-    // const donePlayers = await submitAnswers(
-    //   answers,
-    //   params.roomId!,
-    //   roundsData.currentRound
-    // )
+    const donePlayers = await submitAnswers(
+      answers,
+      params.roomId!,
+      roundsData.currentRound
+    )
     if (donePlayers === gameData?.totalPlayers) {
       await updateGameState('SCORING', params.roomId!)
     }
@@ -89,16 +82,48 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <ul>
-          {activeCategories?.map(category => (
-            <CategoryAnswers key={category} category={category} form={form} />
-          ))}
-        </ul>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="py-4 space-y-8 bg-bg-primary"
+      >
+        <H2 className="text-center">GAME</H2>
+        {activeCategories?.map(category => (
+          <div key={category} className="space-y-2 border-2 border-orange-300">
+            <Label>
+              <H3 className="text-center uppercase">{category}</H3>
+            </Label>
+            <div className="flex gap-2">
+              <FormField
+                control={form.control}
+                name={`${category}.0`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                key={category}
+                control={form.control}
+                name={`${category}.1`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+        ))}
+
         <Button
           // disabled={form.formState.isSubmitting || form.formState.isSubmitted}
           type="submit"
-          // onClick={() => form.clearErrors()}
+          className="mx-auto"
         >
           Done
         </Button>

@@ -201,9 +201,13 @@ export type LobbySettings = {
   settings: RoundSettings
 }
 
-export type AnswerInputs = Record<string, { answer: string }[]>
+export const AnswerSchema = z.array(z.string())
 
-export type Answers = Record<string, string[]>
+export const AnswersSchema = z.record(z.string(), AnswerSchema)
+
+export type Answers = z.infer<typeof AnswersSchema>
+
+// export type Answers = Record<string, string[]>
 
 export type UserAnswers = {
   [key: string]: Answers

@@ -3,9 +3,10 @@ import { LoaderFunction, useLoaderData } from 'react-router-dom'
 import { CreateGameData, GameSettings } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 
+import GameHeader from '@/components/ui/GameHeader'
 import { currentAlphabetAtom } from '@/context/atoms'
 import useNextPhase from '@/hooks/useNextPhase'
-import { useSetAtom } from 'jotai'
+import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 import AlphabetsScroll from './components/AlphabetsScroll'
 import AnswersInput from './components/AnswersInput'
@@ -17,35 +18,30 @@ const GameScreen = () => {
     roundsData: CreateGameData
   }
 
-  // const params = useParams()
-
   const { data: gameData } = useNextPhase()
 
-  // const { data: gameData } = useOnSnapShot<GameState>({
-  //   docRef: 'gameRooms',
-  //   roomId: params.roomId!,
-  // })
-
-  const currentAlphabet = useSetAtom(currentAlphabetAtom)
+  const [currentAlphabet, setCurrentAlphabet] = useAtom(currentAlphabetAtom)
 
   useEffect(() => {
-    currentAlphabet(
+    setCurrentAlphabet(
       roundsData?.roundsConfig[roundsData?.currentRound - 1].alphabet
     )
-  }, [currentAlphabet, roundsData?.currentRound, roundsData?.roundsConfig])
+  }, [roundsData?.currentRound, roundsData?.roundsConfig, setCurrentAlphabet])
 
   return (
-    <div>
-      <AlphabetsScroll gameState={gameData?.gameState} />
-      <div className="flex justify-end gap-4">
+    <>
+      <GameHeader title={currentAlphabet}>
         <Clock
           roundTime={settings?.settings.roundTime.value}
           gameState={gameData?.gameState}
         />
+      </GameHeader>
+      <AlphabetsScroll gameState={gameData?.gameState} />
+      <div className="flex justify-end gap-4">
         {/* <div>{roundsData ? currentAlphabet : 'loading.....'}</div> */}
       </div>
       <AnswersInput gameData={gameData} />
-    </div>
+    </>
   )
 }
 export default GameScreen

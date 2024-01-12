@@ -60,7 +60,7 @@ const Clock = ({ roundTime, gameState }: ClockProps) => {
   }
 
   return (
-    <div>
+    <div className="col-start-4">
       min:{minutes.toString().padStart(2, '0')} sec:
       {seconds.toString().padStart(2, '0')}
     </div>
