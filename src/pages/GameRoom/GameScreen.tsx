@@ -1,8 +1,9 @@
 import { LoaderFunction, useLoaderData } from 'react-router-dom'
 
-import { CreateGameData, GameSettings } from '../../lib/types'
+import { GameScreenRoundsData, GameSettings } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 
+import { H1, H2 } from '@/components/typography/Headings'
 import GameHeader from '@/components/ui/GameHeader'
 import { currentAlphabetAtom } from '@/context/atoms'
 import useNextPhase from '@/hooks/useNextPhase'
@@ -15,7 +16,7 @@ import Clock from './components/Clock'
 const GameScreen = () => {
   const { settings, roundsData } = useLoaderData() as {
     settings: GameSettings
-    roundsData: CreateGameData
+    roundsData: GameScreenRoundsData
   }
 
   const { data: gameData } = useNextPhase()
@@ -30,17 +31,22 @@ const GameScreen = () => {
 
   return (
     <>
-      <GameHeader title={currentAlphabet}>
+      <GameHeader roundsData={roundsData}>
         <Clock
           roundTime={settings?.settings.roundTime.value}
           gameState={gameData?.gameState}
         />
       </GameHeader>
       <AlphabetsScroll gameState={gameData?.gameState} />
-      <div className="flex justify-end gap-4">
-        {/* <div>{roundsData ? currentAlphabet : 'loading.....'}</div> */}
-      </div>
-      <AnswersInput gameData={gameData} />
+      <section className="px-4 py-5 rounded-lg bg-bg-primary">
+        <div className="flex items-center justify-between">
+          <H2>{currentAlphabet}</H2>
+          <H1 className="mb-6">
+            Round {roundsData?.currentRound}/{roundsData?.roundsConfig.length}
+          </H1>
+        </div>
+        <AnswersInput gameData={gameData} />
+      </section>
     </>
   )
 }

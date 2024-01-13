@@ -1,4 +1,4 @@
-import { H2, H3 } from '@/components/typography/Headings'
+import { H3 } from '@/components/typography/Headings'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -82,48 +82,48 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="py-4 space-y-8 bg-bg-primary"
-      >
-        <H2 className="text-center">GAME</H2>
-        {activeCategories?.map(category => (
-          <div key={category} className="space-y-2 border-2 border-orange-300">
-            <Label>
-              <H3 className="text-center uppercase">{category}</H3>
-            </Label>
-            <div className="flex gap-2">
-              <FormField
-                control={form.control}
-                name={`${category}.0`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                key={category}
-                control={form.control}
-                name={`${category}.1`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="space-y-8">
+          {activeCategories?.map(category => (
+            <div
+              key={category}
+              className="space-y-2 border-2 border-orange-300"
+            >
+              <Label>
+                <H3 className="text-center uppercase">{category}</H3>
+              </Label>
+              <div className="flex gap-2">
+                <FormField
+                  control={form.control}
+                  name={`${category}.0`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  key={category}
+                  control={form.control}
+                  name={`${category}.1`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
-          </div>
-        ))}
-
+          ))}
+        </div>
         <Button
           // disabled={form.formState.isSubmitting || form.formState.isSubmitted}
           type="submit"
-          className="mx-auto"
+          className="mx-auto mt-8 mb-2"
         >
           Done
         </Button>

@@ -268,3 +268,7 @@ export type RoundsData = {
   answers: AnswersData
   scores: ScoresData
 } & CreateGameData
+
+export type GameScreenRoundsData = {
+  scores: ScoresData
+} & CreateGameData

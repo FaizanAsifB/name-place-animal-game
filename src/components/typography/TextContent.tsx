@@ -5,13 +5,9 @@ type TextProps = {
   children: ReactNode
   className?: string
 }
-
+//  [&:not(:first-child)]:mt-6
 export function P({ children, className = '' }: TextProps) {
-  return (
-    <p className={twMerge('leading-7 [&:not(:first-child)]:mt-6', className)}>
-      {children}
-    </p>
-  )
+  return <p className={twMerge('leading-7', className)}>{children}</p>
 }
 
 export function Lead({ children, className }: TextProps) {

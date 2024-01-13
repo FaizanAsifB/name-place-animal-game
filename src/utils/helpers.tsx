@@ -1,4 +1,4 @@
-import { PlayerData } from '../lib/types'
+import { PlayerData, ScoresData } from '../lib/types'
 
 export const getSum = (values: number[]): number => {
   return values.reduce((acc, score) => {
@@ -12,3 +12,9 @@ export const getUserInfo = (slots: PlayerData[], uid: string) => {
 }
 
 // export const getDbUserInfo = uid => {}
+
+export const sortScore = (scoresData: ScoresData) => {
+  return Object.entries(scoresData).sort(
+    (a, b) => b[1].totalScore - a[1].totalScore
+  )
+}

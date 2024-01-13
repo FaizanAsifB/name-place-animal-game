@@ -11,6 +11,7 @@ import {
 import { RoundsData } from '@/lib/types'
 import UserInfo from '../../../components/ui/UserInfo'
 import GameEndModal from './GameEndModal'
+import { sortScore } from '@/utils/helpers'
 
 type ResultsTableProps = {
   roundsData: RoundsData
@@ -18,9 +19,7 @@ type ResultsTableProps = {
 }
 
 const ResultsTable = ({ roundsData, isLastRound }: ResultsTableProps) => {
-  const scoresData = Object.entries(roundsData.scores).sort(
-    (a, b) => b[1].totalScore - a[1].totalScore
-  )
+  const scoresData = sortScore(roundsData.scores)
 
   return (
     <>
