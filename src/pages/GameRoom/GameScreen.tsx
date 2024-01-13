@@ -1,5 +1,4 @@
 import { LoaderFunction, useLoaderData } from 'react-router-dom'
-
 import { GameScreenRoundsData, GameSettings } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 
@@ -30,7 +29,7 @@ const GameScreen = () => {
   }, [roundsData?.currentRound, roundsData?.roundsConfig, setCurrentAlphabet])
 
   return (
-    <>
+    <section className="mt-6 rounded-lg bg-bg-primary ">
       <GameHeader roundsData={roundsData}>
         <Clock
           roundTime={settings?.settings.roundTime.value}
@@ -38,7 +37,7 @@ const GameScreen = () => {
         />
       </GameHeader>
       <AlphabetsScroll gameState={gameData?.gameState} />
-      <section className="px-4 py-5 rounded-lg bg-bg-primary">
+      <div className="px-4 py-5 ">
         <div className="flex items-center justify-between">
           <H2>{currentAlphabet}</H2>
           <H1 className="mb-6">
@@ -46,8 +45,8 @@ const GameScreen = () => {
           </H1>
         </div>
         <AnswersInput gameData={gameData} />
-      </section>
-    </>
+      </div>
+    </section>
   )
 }
 export default GameScreen

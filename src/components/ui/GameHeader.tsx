@@ -2,7 +2,6 @@ import { AuthContext } from '@/context/AuthContext'
 import { GameScreenRoundsData } from '@/lib/types'
 import { sortScore } from '@/utils/helpers'
 import { ReactNode, useContext } from 'react'
-import { P } from '../typography/TextContent'
 import UserInfo from './UserInfo'
 
 type GameHeaderProps = {
@@ -18,7 +17,7 @@ const GameHeader = ({ children, roundsData }: GameHeaderProps) => {
   const scoresData = sortScore(roundsData.scores)
 
   return (
-    <header className="grid items-center grid-cols-4 pt-6 mb-2 justify-items-center">
+    <header className="grid items-center grid-cols-4 pt-6 mb-2 justify-items-center ">
       {currentUser && (
         <div className="flex flex-col items-center">
           <UserInfo
@@ -35,32 +34,18 @@ const GameHeader = ({ children, roundsData }: GameHeaderProps) => {
         {scoresData.map((score, i) => {
           if (i > 1) return
           return (
-            <>
-              <li key={score[0]} className="flex items-center gap-1 ">
-                {
-                  <UserInfo
-                    userId={score[0]}
-                    className="text-xs"
-                    avatarSize="h-6 w-6"
-                  />
-                }
-                <span className="text-xs font-semibold">
-                  {score[1].totalScore}
-                </span>
-              </li>
-              <li key={score[0]} className="flex items-center gap-1 ">
-                {
-                  <UserInfo
-                    userId={score[0]}
-                    className="text-xs"
-                    avatarSize="h-6 w-6"
-                  />
-                }
-                <span className="text-xs font-semibold">
-                  {score[1].totalScore}
-                </span>
-              </li>
-            </>
+            <li key={score[0]} className="flex items-center gap-1 ">
+              {
+                <UserInfo
+                  userId={score[0]}
+                  className="text-xs"
+                  avatarSize="h-6 w-6"
+                />
+              }
+              <span className="text-xs font-semibold">
+                {score[1].totalScore}
+              </span>
+            </li>
           )
         })}
       </ul>
