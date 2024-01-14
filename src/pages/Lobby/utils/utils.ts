@@ -127,11 +127,10 @@ export const getRoundsConfig = (
           activeCategories,
         }
 
-      if (i % 2 !== 0)
-        return {
-          alphabet: activeAlphabet,
-          activeCategories,
-        }
+      return {
+        alphabet: activeAlphabet,
+        activeCategories,
+      }
     })
   return roundsConfig
 }

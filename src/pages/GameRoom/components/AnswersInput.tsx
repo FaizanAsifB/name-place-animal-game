@@ -32,7 +32,7 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
   }
   //TODO WHY is this type undefined?
   const activeCategories = useMemo(() => {
-    return roundsData?.roundsConfig[roundsData?.currentRound - 1]!
+    return roundsData?.roundsConfig[roundsData?.currentRound - 1]
       .activeCategories
   }, [roundsData.currentRound, roundsData?.roundsConfig])
 

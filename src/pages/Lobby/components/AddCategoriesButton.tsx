@@ -13,16 +13,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { FirebaseUser } from '@/context/AuthContext'
 import { addedCategoriesAtom, categoriesAtom } from '@/context/atoms'
 import { useAtomValue } from 'jotai'
 import { Pencil, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { getCategoryCount } from '../utils/utils'
 import AddCategories from './AddCategories'
+import { User } from 'firebase/auth'
 
 type AddCategoriesButton = {
-  currentUser: FirebaseUser | null
+  currentUser: User | null
 }
 
 const AddCategoriesButton = ({ currentUser }: AddCategoriesButton) => {

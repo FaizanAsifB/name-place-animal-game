@@ -96,7 +96,7 @@ const Scoring = () => {
                   scores={scores}
                   setScores={setScores}
                   activeCategories={
-                    roundData.roundsConfig[currentRound - 1].activeCategories
+                    roundData?.roundsConfig[currentRound - 1].activeCategories
                   }
                 />
               </div>
