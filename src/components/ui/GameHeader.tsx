@@ -9,23 +9,21 @@ type GameHeaderProps = {
   roundsData: GameScreenRoundsData
 }
 
-//TODO CHANGE TITLE prop name
-
 const GameHeader = ({ children, roundsData }: GameHeaderProps) => {
   const currentUser = useContext(AuthContext)
 
   const scoresData = sortScore(roundsData.scores)
 
   return (
-    <header className="grid items-center grid-cols-4 pt-6 mb-2 justify-items-center ">
+    <header className="flex items-center gap-3 px-4 pt-6 pb-2 rounded-lg md:gap-6 lg:gap-8 bg-primary-dark">
       {currentUser && (
         <div className="flex flex-col items-center">
           <UserInfo
             userId={currentUser.uid}
-            className="flex-col gap-1 text-xs"
-            avatarSize="h-9 w-9"
+            className="flex-col gap-1 text-xs md:text-sm lg:text-base "
+            avatarSize="h-9 w-9 md:h-12 md:w-12 lg:h-14 lg:w-14"
           />
-          <span className="font-semibold text">
+          <span className="text-base font-semibold md:text-lg lg:text-xl">
             {roundsData.scores[currentUser.uid].totalScore}
           </span>
         </div>
@@ -38,11 +36,11 @@ const GameHeader = ({ children, roundsData }: GameHeaderProps) => {
               {
                 <UserInfo
                   userId={score[0]}
-                  className="text-xs"
-                  avatarSize="h-6 w-6"
+                  className="text-xs md:text-sm lg:text-base "
+                  avatarSize="h-6 w-6 md:h-8 md:w-8 lg:h-10 lg:w-10"
                 />
               }
-              <span className="text-xs font-semibold">
+              <span className="text-xs font-semibold md:text-sm lg:text-base">
                 {score[1].totalScore}
               </span>
             </li>

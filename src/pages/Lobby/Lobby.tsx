@@ -58,6 +58,7 @@ const Lobby = () => {
   const ready = readyPlayers(lobbyPlayers)
   const totalPlayers = gameState?.totalPlayers
 
+  //TODO implement delete lobby logic
   function handleLobbyCancel() {
     //Delete lobby data
 
@@ -77,8 +78,12 @@ const Lobby = () => {
     const customCategories = categoriesArr(categoriesData)
     const roundSelections = getRoundsConfig(
       customCategories!,
-      settingsData?.settings.rounds.value
+      settingsData?.settings.rounds.value,
+      categoriesData.default
     )
+
+    //TODO implement logic below to roundSelections
+
     roundSelections.forEach((round, i) => {
       round.activeCategories =
         i === 0

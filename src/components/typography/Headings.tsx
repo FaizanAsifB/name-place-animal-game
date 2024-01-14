@@ -22,7 +22,7 @@ export function H2({ children, className }: HeadingProps) {
   return (
     <h2
       className={twMerge(
-        'pb-2 text-3xl font-semibold tracking-tight scroll-m-20 first:mt-0 md:text-4xl',
+        'text-3xl font-semibold tracking-tight scroll-m-20 first:mt-0 md:text-4xl',
         className
       )}
     >

@@ -80,39 +80,56 @@ function getRandomIndex(max: number): number {
   return Math.floor(Math.random() * max)
 }
 
-export const getRoundsConfig = (customCategories: string[], rounds: number) => {
+export const getRoundsConfig = (
+  customCategories: string[],
+  rounds: number,
+  defaultCategories: string[]
+) => {
   let remainingAlphabets = [...alphabets]
-  let remainingCategories = customCategories
+  let remainingCategories = [...customCategories]
 
-  const roundsConfig = new Array(rounds).fill('').map((_, i) => {
-    const activeAlphabet = getRandomItem(remainingAlphabets)
-    const addedCategory = getRandomItem(remainingCategories)
+  const activeCategories = [defaultCategories]
 
-    remainingAlphabets = remainingAlphabets.filter(
-      item => item !== activeAlphabet
-    )
-    remainingCategories = remainingCategories.filter(
-      item => item !== addedCategory
-    )
-    if (i === 0) {
-      const extraCategory = getRandomItem(remainingCategories)
-      remainingCategories = remainingCategories.filter(
-        item => item !== extraCategory
+  const roundsConfig = Array(rounds)
+    .fill('')
+    .map((_, i) => {
+      const activeAlphabet = getRandomItem(remainingAlphabets)
+      const categoryToAdd = getRandomItem(remainingCategories)
+
+      remainingAlphabets = remainingAlphabets.filter(
+        item => item !== activeAlphabet
       )
+      remainingCategories = remainingCategories.filter(
+        item => item !== categoryToAdd
+      )
+      if (i === 0) {
+        const extraCategory = getRandomItem(remainingCategories)
+        remainingCategories = remainingCategories.filter(
+          item => item !== extraCategory
+        )
+        return {
+          alphabet: activeAlphabet,
+          categories: extraCategory
+            ? [categoryToAdd, extraCategory]
+            : [categoryToAdd],
+        }
+      }
+
+      //TODO Check if this is wrong xD
+
+      if (i % 2 === 0)
+        return {
+          alphabet: activeAlphabet,
+          categories: [categoryToAdd ?? ''],
+          activeCategories: [] as string[],
+        }
+
       return {
         alphabet: activeAlphabet,
-        categories: extraCategory
-          ? [addedCategory, extraCategory]
-          : [addedCategory],
+        categories: [categoryToAdd ?? ''],
+        activeCategories: [] as string[],
       }
-    }
-
-    return {
-      alphabet: activeAlphabet,
-      categories: [addedCategory ?? ''],
-      activeCategories: [] as string[],
-    }
-  })
+    })
   return roundsConfig
 }
 

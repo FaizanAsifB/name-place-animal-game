@@ -4,6 +4,7 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ListChecks } from 'lucide-react'
 import { useContext, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { useLoaderData, useParams } from 'react-router-dom'
@@ -83,23 +84,26 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="space-y-8">
+        <div className="grid gap-8 md:gap-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 ">
           {activeCategories?.map(category => (
             <div
               key={category}
-              className="space-y-2 border-2 border-orange-300"
+              className="p-2 space-y-3 border-2 border-orange-300 md:space-y-4"
             >
               <Label>
                 <H3 className="text-center uppercase">{category}</H3>
               </Label>
-              <div className="flex gap-2">
+              <div className="flex gap-2 md:gap-3 md:flex-col">
                 <FormField
                   control={form.control}
                   name={`${category}.0`}
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex-1 basis-full">
                       <FormControl>
-                        <Input {...field} />
+                        <Input
+                          {...field}
+                          className="text-lg text-center md:text-xl lg:text-2xl"
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -109,9 +113,12 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
                   control={form.control}
                   name={`${category}.1`}
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex-1 basis-full">
                       <FormControl>
-                        <Input {...field} />
+                        <Input
+                          {...field}
+                          className="text-lg text-center md:text-xl lg:text-2xl"
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -120,12 +127,14 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
             </div>
           ))}
         </div>
+        {/* //TODO should this be sticky? */}
         <Button
           // disabled={form.formState.isSubmitting || form.formState.isSubmitted}
           type="submit"
-          className="mx-auto mt-8 mb-2"
+          className="mx-auto mt-6 md:mt-10 lg:mt-12"
         >
-          Done
+          <ListChecks />
+          submit
         </Button>
       </form>
     </Form>

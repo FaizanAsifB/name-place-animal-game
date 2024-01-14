@@ -23,7 +23,7 @@ const Clock = ({ roundTime, gameState }: ClockProps) => {
     if (remainingTime === 0) setTimeRemaining(0)
 
     return (
-      <div className="col-start-4" role="timer" aria-live="assertive">
+      <div role="timer" aria-live="assertive">
         {minutes.toString().padStart(2, '0')}:
         {seconds.toString().padStart(2, '0')}
       </div>
@@ -77,18 +77,20 @@ const Clock = ({ roundTime, gameState }: ClockProps) => {
   // }
 
   return (
-    <CountdownCircleTimer
-      strokeWidth={6}
-      strokeLinecap={'round'}
-      size={80}
-      isPlaying={isPlaying}
-      duration={timeRemaining}
-      colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-      colorsTime={[60, 45, 30, 15]}
-      onComplete={() => ({ shouldRepeat: true, delay: 1 })}
-    >
-      {renderTime}
-    </CountdownCircleTimer>
+    <div className="ml-auto">
+      <CountdownCircleTimer
+        strokeWidth={6}
+        strokeLinecap={'round'}
+        size={80}
+        isPlaying={isPlaying}
+        duration={timeRemaining}
+        colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+        colorsTime={[60, 45, 30, 15]}
+        onComplete={() => ({ shouldRepeat: true, delay: 1 })}
+      >
+        {renderTime}
+      </CountdownCircleTimer>
+    </div>
   )
 }
 export default Clock

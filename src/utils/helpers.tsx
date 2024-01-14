@@ -14,7 +14,7 @@ export const getUserInfo = (slots: PlayerData[], uid: string) => {
 // export const getDbUserInfo = uid => {}
 
 export const sortScore = (scoresData: ScoresData) => {
-  return Object.entries(scoresData).sort(
+  return Object.entries(scoresData).toSorted(
     (a, b) => b[1].totalScore - a[1].totalScore
   )
 }
