@@ -50,24 +50,6 @@ const CategoriesList = () => {
         {addedCategories?.map(category => (
           <li key={category.title}>{category.title}</li>
         ))}
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
-        <li>Apple</li>
       </ul>
     </section>
   )

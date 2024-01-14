@@ -14,13 +14,13 @@ const Clock = ({ roundTime, gameState }: ClockProps) => {
   const [timeRemaining, setTimeRemaining] = useState(roundTime * 500)
   const params = useParams()
 
-  const isPlaying = gameState === ('STARTED' || 'END-TIMER')
+  const isPlaying = gameState === 'STARTED' || gameState === 'END-TIMER'
 
   const renderTime = ({ remainingTime }: { remainingTime: number }) => {
     const minutes = Math.floor(remainingTime / 60)
     const seconds = remainingTime % 60
 
-    if (remainingTime === 0) setTimeRemaining(0)
+    // if (remainingTime === 0) setTimeRemaining(0)
 
     return (
       <div role="timer" aria-live="assertive">

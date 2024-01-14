@@ -24,7 +24,7 @@ const GameScreen = () => {
 
   useEffect(() => {
     setCurrentAlphabet(
-      roundsData?.roundsConfig[roundsData?.currentRound - 1].alphabet
+      roundsData?.roundsConfig[roundsData?.currentRound - 1]!.alphabet
     )
   }, [roundsData?.currentRound, roundsData?.roundsConfig, setCurrentAlphabet])
 
@@ -37,7 +37,7 @@ const GameScreen = () => {
         />
       </GameHeader>
       <AlphabetsScroll gameState={gameData?.gameState} />
-      <div className="px-4 rounded-lg  basis-full bg-bg-primary">
+      <div className="px-4 rounded-lg basis-full bg-bg-primary">
         <div className="flex items-center justify-between pt-6 mb-8 md:mb-12 lg:mb-16 lg:pt-8">
           <H1>
             Round {roundsData?.currentRound}/{roundsData?.roundsConfig.length}

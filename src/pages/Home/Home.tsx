@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button.tsx'
-import { auth, db } from '@/config/config.ts'
+import { auth } from '@/config/config.ts'
 import { AuthContext } from '@/context/AuthContext.tsx'
 import { displayNameAtom } from '@/context/atoms.ts'
 import Header from '@/layout/MainHeader.tsx'
-import { deleteUser, signOut } from 'firebase/auth'
-import { deleteDoc, doc } from 'firebase/firestore'
+import { deleteGuestUser } from '@/utils/auth.ts'
+import { signOut } from 'firebase/auth'
 import { useAtomValue } from 'jotai'
 import { useContext } from 'react'
 import Footer from '../../layout/Footer.tsx'
@@ -19,14 +19,9 @@ const Home = () => {
   const displayName = useAtomValue(displayNameAtom)
 
   async function signOutUser() {
-    await signOut(auth)
     try {
-      await deleteUser(currentUser!)
-      try {
-        await deleteDoc(doc(db, 'users', currentUser!.uid))
-      } catch (error) {
-        throw new Error('Error signing out')
-      }
+      await signOut(auth)
+      await deleteGuestUser(currentUser!)
     } catch (error) {
       throw new Error('Error signing out')
     }

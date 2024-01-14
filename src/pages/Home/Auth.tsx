@@ -1,3 +1,4 @@
+import { toast } from '@/components/ui/use-toast.ts'
 import { Gamepad2 } from 'lucide-react'
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -5,7 +6,6 @@ import Tab from '../../components/ui/Tab'
 import { Button } from '../../components/ui/button.tsx'
 import { AuthContext } from '../../context/AuthContext'
 import TabPanel from './components/TabPanel'
-import { toast } from '@/components/ui/use-toast.ts'
 
 const Auth = () => {
   const [showGuest, setShowGuest] = useState(true)

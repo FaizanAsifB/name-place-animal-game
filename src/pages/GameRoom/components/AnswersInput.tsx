@@ -30,9 +30,9 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
     roundsData: CreateGameData
     settings: GameSettings
   }
-
+  //TODO WHY is this type undefined?
   const activeCategories = useMemo(() => {
-    return roundsData?.roundsConfig[roundsData.currentRound - 1]
+    return roundsData?.roundsConfig[roundsData?.currentRound - 1]!
       .activeCategories
   }, [roundsData.currentRound, roundsData?.roundsConfig])
 
@@ -52,12 +52,10 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
 
   //Submit Data
   const onSubmit = async (data: Answers) => {
-    console.log(data)
-
     const answers = { [currentUser!.uid]: data }
-    console.log(answers)
+
     if (
-      settings.settings.endMode.title === 'Fastest Finger' &&
+      settings.settings.endMode.value === 'Fastest Finger' &&
       gameData?.gameState !== 'END-TIMER'
     )
       await updateGameState('END-TIMER', params.roomId!)

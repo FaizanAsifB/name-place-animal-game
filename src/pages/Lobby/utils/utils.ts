@@ -88,7 +88,7 @@ export const getRoundsConfig = (
   let remainingAlphabets = [...alphabets]
   let remainingCategories = [...customCategories]
 
-  const activeCategories = [defaultCategories]
+  let activeCategories = [...defaultCategories]
 
   const roundsConfig = Array(rounds)
     .fill('')
@@ -99,19 +99,23 @@ export const getRoundsConfig = (
       remainingAlphabets = remainingAlphabets.filter(
         item => item !== activeAlphabet
       )
-      remainingCategories = remainingCategories.filter(
-        item => item !== categoryToAdd
-      )
+
+      if (categoryToAdd) {
+        remainingCategories = remainingCategories.filter(
+          item => item !== categoryToAdd
+        )
+        activeCategories = [...activeCategories, categoryToAdd]
+      }
+
       if (i === 0) {
         const extraCategory = getRandomItem(remainingCategories)
+        activeCategories = [...activeCategories, extraCategory]
         remainingCategories = remainingCategories.filter(
           item => item !== extraCategory
         )
         return {
           alphabet: activeAlphabet,
-          categories: extraCategory
-            ? [categoryToAdd, extraCategory]
-            : [categoryToAdd],
+          activeCategories: activeCategories,
         }
       }
 
@@ -120,15 +124,14 @@ export const getRoundsConfig = (
       if (i % 2 === 0)
         return {
           alphabet: activeAlphabet,
-          categories: [categoryToAdd ?? ''],
-          activeCategories: [] as string[],
+          activeCategories,
         }
 
-      return {
-        alphabet: activeAlphabet,
-        categories: [categoryToAdd ?? ''],
-        activeCategories: [] as string[],
-      }
+      if (i % 2 !== 0)
+        return {
+          alphabet: activeAlphabet,
+          activeCategories,
+        }
     })
   return roundsConfig
 }

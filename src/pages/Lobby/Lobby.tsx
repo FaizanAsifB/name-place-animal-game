@@ -84,14 +84,14 @@ const Lobby = () => {
 
     //TODO implement logic below to roundSelections
 
-    roundSelections.forEach((round, i) => {
+    /*   roundSelections.forEach((round, i) => {
       round.activeCategories =
         i === 0
           ? [...categoriesData.default, ...round.categories]
           : !round.categories.toString()
           ? roundSelections[i - 1].activeCategories
           : [...roundSelections[i - 1].activeCategories!, ...round.categories]
-    })
+    }) */
 
     const roundData: CreateGameData = {
       currentRound: 1,
@@ -121,7 +121,9 @@ const Lobby = () => {
           {currentUser?.uid === lobbyPlayers?.hostId ? 'Cancel' : 'Leave'}
         </Button>
         <Button
-          disabled={ready !== totalPlayers || !lobbyPlayers?.hostId}
+          disabled={
+            ready !== totalPlayers || currentUser?.uid != lobbyPlayers?.hostId
+          }
           onClick={handlePlay}
           variant={'secondary'}
         >
