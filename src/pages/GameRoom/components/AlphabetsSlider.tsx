@@ -29,7 +29,7 @@ const initialSettings = {
   nextArrow: <HiddenArrow />,
   prevArrow: <HiddenArrow />,
   waitForAnimate: false,
-  fade: true,
+  // fade: true,
   // cssEase: 'ease-in-out',
   // easing: 'ease-in-out',
 }
