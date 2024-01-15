@@ -29,8 +29,11 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
     if (
       gameState.toStarted?.length === gameState.totalPlayers &&
       gameState.gameState !== 'STARTED'
-    )
-      updateGameState('STARTED', params.roomId)
+    ) {
+      setTimeout(() => {
+        updateGameState('STARTED', params.roomId)
+      }, 2000)
+    }
   }, [gameState, open, isSubmitted, params.roomId])
 
   return (

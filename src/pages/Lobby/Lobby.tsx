@@ -2,11 +2,7 @@ import { useOnSnapShot } from '@/hooks/useOnSnapShot.ts'
 
 import { H1 } from '@/components/typography/Headings.tsx'
 import { AuthContext } from '@/context/AuthContext.tsx'
-import {
-  addedCategoriesAtom,
-  categoriesAtom,
-  currentAlphabetAtom,
-} from '@/context/atoms.ts'
+import { addedCategoriesAtom, categoriesAtom } from '@/context/atoms.ts'
 import { useSetAtom } from 'jotai'
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -37,7 +33,6 @@ import {
 
 const Lobby = () => {
   const { params, data: gameState, fireStoreError } = useNextPhase()
-  const currentAlphabet = useSetAtom(currentAlphabetAtom)
 
   const { data: lobbyPlayers /* error */ } = useOnSnapShot<PlayersData>({
     docRef: 'lobbyPlayers',
@@ -84,8 +79,8 @@ const Lobby = () => {
     const customCategories = categoriesArr(categoriesData)
     const roundSelections = getRoundsConfig(
       customCategories!,
-      settingsData?.settings.rounds.value,
-      categoriesData.default
+      settingsData!.settings.rounds.value,
+      categoriesData!.default
     )
 
     const roundData: CreateGameData = {

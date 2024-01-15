@@ -1,13 +1,11 @@
 import { AUTOPLAY_SPEED, MAX_SLIDES } from '@/config/appConfig'
 import { AuthContext } from '@/context/AuthContext'
-import { currentAlphabetAtom } from '@/context/atoms'
-import { RoundsData } from '@/lib/types'
+import { CreateGameData } from '@/lib/types'
 import { submitSlideEnd } from '@/pages/GameCreation/utils/http'
 import { alphabets } from '@/pages/Lobby/utils/utils'
 import { fetchLobbyData } from '@/utils/fetchData'
 import { getCurrentRoundConfig } from '@/utils/helpers'
 import { useQuery } from '@tanstack/react-query'
-import { useAtomValue } from 'jotai'
 import { useContext, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Slider from 'react-slick'
@@ -44,7 +42,7 @@ const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
   const { data: roundsData } = useQuery({
     queryKey: ['roundsData', params.roomId],
     queryFn: ({ queryKey }) =>
-      fetchLobbyData<RoundsData>(queryKey[1], 'rounds'),
+      fetchLobbyData<CreateGameData>(queryKey[1], 'rounds'),
   })
 
   const currentUser = useContext(AuthContext)
@@ -102,11 +100,7 @@ const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
     if (alphabetCount.current === maxSlides.current && !isSubmitted) {
       sliderRef.current.slickPause()
 
-      // await submitSlideEnd(params.roomId!, currentUser?.uid)
-
-      setTimeout(() => {
-        // setOpen(false)
-      }, 2000)
+      await submitSlideEnd(params.roomId!, currentUser?.uid)
     }
   }
 
@@ -125,7 +119,7 @@ const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
     >
       {alphabets.map(alphabet => (
         <div key={alphabet}>
-          <p className="text-[250px] lg:text-[500px] text-center leading-none -mt-8 pb-2 md:text-[500px]">
+          <p className="text-[250px] lg:text-[500px] text-center leading-none -mt-8 pb-2 md:text-[500px] ">
             {alphabet}
           </p>
         </div>

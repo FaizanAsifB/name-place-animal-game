@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { getCurrentRoundConfig } from '@/utils/helpers'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ListChecks } from 'lucide-react'
 import { useContext, useMemo } from 'react'
@@ -32,9 +33,8 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
   }
   //TODO WHY is this type undefined?
   const activeCategories = useMemo(() => {
-    return roundsData?.roundsConfig[roundsData?.currentRound - 1]
-      .activeCategories
-  }, [roundsData?.currentRound, roundsData?.roundsConfig])
+    return getCurrentRoundConfig(roundsData)?.activeCategories
+  }, [roundsData])
 
   const defaultValues = useMemo(() => {
     const defaultValues: Answers = {}
