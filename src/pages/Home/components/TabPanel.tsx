@@ -3,12 +3,12 @@ import { ReactElement, useContext } from 'react'
 import { AuthContext } from '../../../context/AuthContext'
 
 import { H3 } from '@/components/typography/Headings'
+import { displayNameAtom } from '@/context/atoms'
+import { useAtomValue } from 'jotai'
 import AuthContent from './AuthContent'
 import AuthModal from './AuthModal'
 import AvatarSelection from './AvatarSelection'
 import GuestContent from './GuestContent'
-import { useAtomValue } from 'jotai'
-import { displayNameAtom } from '@/context/atoms'
 
 type TabPanelProps = {
   showGuest: boolean

@@ -14,6 +14,7 @@ import { GameCodeSchema } from '@/lib/types'
 import { queryData } from '@/utils/fetchData'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAtomValue } from 'jotai'
+import { DoorOpen } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
@@ -45,10 +46,7 @@ const AuthContent = () => {
         {`Welcome back ${displayName}! `}
       </H2>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          // className="w-2/3 space-y-6"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="">
           <FormField
             control={form.control}
             name="joinCode"
@@ -56,13 +54,22 @@ const AuthContent = () => {
               <FormItem className="relative">
                 <FormLabel> Enter code to join</FormLabel>
                 <FormControl>
-                  <Input placeholder="G2F3X" {...field} />
+                  <div className="relative">
+                    <Input placeholder="G2F3X" {...field} />
+                    <Button
+                      variant={'secondary'}
+                      size={'md'}
+                      className="absolute top-0 right-0 rounded-l-none"
+                      type="submit"
+                    >
+                      <DoorOpen />
+                    </Button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Join Game</Button>
         </form>
       </Form>
     </>

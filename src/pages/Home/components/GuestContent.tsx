@@ -14,6 +14,7 @@ import { GuestSchema } from '@/lib/types'
 import { guestSignIn } from '@/utils/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAtom, useSetAtom } from 'jotai'
+import { LogIn } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { avatarAtom, displayNameAtom } from '../../../context/atoms'
@@ -40,29 +41,37 @@ const GuestContent = () => {
         Choose a character and nickname
       </H3>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-2">
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="guestName"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="RandomNick2002" {...field} />
+                  <div className="flex relative">
+                    <Input placeholder="RandomNick2002" {...field} />
+                    <Button
+                      type="submit"
+                      size={'md'}
+                      variant={'secondary'}
+                      className="absolute top-0 right-0 rounded-l-none"
+                      disabled={
+                        form.formState.isSubmitting ||
+                        form.formState.isSubmitSuccessful
+                      }
+                    >
+                      {form.formState.isSubmitting ? (
+                        <LoadingSpinner />
+                      ) : (
+                        <LogIn />
+                      )}
+                    </Button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button
-            type="submit"
-            size={'md'}
-            variant={'secondary'}
-            disabled={
-              form.formState.isSubmitting || form.formState.isSubmitSuccessful
-            }
-          >
-            {form.formState.isSubmitting && <LoadingSpinner />}Login
-          </Button>
         </form>
       </Form>
     </>
