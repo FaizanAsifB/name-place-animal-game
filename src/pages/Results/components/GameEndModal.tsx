@@ -14,7 +14,7 @@ import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion'
 import { Link } from 'react-router-dom'
 
 type GameEndModalProps = {
-  scoresData: [string, ScoreData][]
+  scoresData: [string, ScoreData][] | undefined
   isLastRound: boolean
 }
 
@@ -22,12 +22,12 @@ const GameEndModal = ({ scoresData, isLastRound }: GameEndModalProps) => {
   const [isExploding, setIsExploding] = useState(false)
   const currentUser = useContext(AuthContext)
 
-  const winnerId = scoresData[0][0]
-  const winnerScores = scoresData[0][1]
+  const winnerId = scoresData?.[0][0]
+  const winnerScores = scoresData?.[0][1]
   const isCurrentUserWinner = winnerId === currentUser?.uid
 
   useEffect(() => {
-    if (currentUser?.uid === scoresData[0][0] && isLastRound)
+    if (currentUser?.uid === scoresData?.[0][0] && isLastRound)
       setIsExploding(true)
   }, [currentUser?.uid, scoresData, isLastRound])
 
@@ -62,7 +62,7 @@ const GameEndModal = ({ scoresData, isLastRound }: GameEndModalProps) => {
             <span> Won</span>
           </div>
         )}
-        <p className="text-center">With {winnerScores.totalScore} points</p>
+        <p className="text-center">With {winnerScores?.totalScore} points</p>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button">Close</Button>

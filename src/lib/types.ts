@@ -265,10 +265,12 @@ export type Q = {
   value: string
 }
 
-export type RoundsData = {
-  answers: AnswersData
-  scores: ScoresData
-} & CreateGameData
+export type RoundsData =
+  | ({
+      answers: AnswersData
+      scores: ScoresData
+    } & CreateGameData)
+  | undefined
 
 export type GameScreenRoundsData =
   | ({

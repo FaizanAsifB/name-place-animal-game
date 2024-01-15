@@ -19,7 +19,7 @@ type ResultsTableProps = {
 }
 
 const ResultsTable = ({ roundsData, isLastRound }: ResultsTableProps) => {
-  const scoresData = sortScore(roundsData.scores)
+  const scoresData = sortScore(roundsData?.scores)
 
   return (
     <>
@@ -53,7 +53,7 @@ const ResultsTable = ({ roundsData, isLastRound }: ResultsTableProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {scoresData.map((item, i) => (
+          {scoresData?.map((item, i) => (
             <TableRow key={item[0]}>
               <TableCell>{i + 1}</TableCell>
               <TableCell className="flex gap-2">
