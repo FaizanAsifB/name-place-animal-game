@@ -51,5 +51,5 @@ export const loader: LoaderFunction = async ({ params }) => {
   const roundsData = await fetchLobbyData<RoundsData>(params.roomId!, 'rounds')
   const settings = await fetchLobbyData<GameSettings>(params.roomId!, 'lobbies')
 
-  return { roundsData, totalRounds: settings.settings.rounds }
+  return { roundsData, totalRounds: settings?.settings.rounds }
 }
