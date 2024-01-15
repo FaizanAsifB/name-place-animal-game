@@ -4,8 +4,8 @@ import { Outlet } from 'react-router-dom'
 const RootLayout = () => {
   return (
     <div className="bg-cover bg-main-bg font-display">
-      <main className="flex min-h-screen px-4 md:px-8 xl:container lg:py-8 ">
-        <div className="flex flex-col flex-1 lg:border-2 lg:px-6">
+      <main className="flex min-h-screen p-4 md:p-8 xl:container lg:p-8 ">
+        <div className="flex flex-col flex-1 lg:border-2">
           <Outlet />
         </div>
       </main>
