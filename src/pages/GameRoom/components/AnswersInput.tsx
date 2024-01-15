@@ -34,7 +34,7 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
   const activeCategories = useMemo(() => {
     return roundsData?.roundsConfig[roundsData?.currentRound - 1]
       .activeCategories
-  }, [roundsData.currentRound, roundsData?.roundsConfig])
+  }, [roundsData?.currentRound, roundsData?.roundsConfig])
 
   const defaultValues = useMemo(() => {
     const defaultValues: Answers = {}

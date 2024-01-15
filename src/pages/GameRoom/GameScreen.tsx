@@ -8,7 +8,6 @@ import { currentAlphabetAtom } from '@/context/atoms'
 import useNextPhase from '@/hooks/useNextPhase'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
-import AlphabetsScroll from './components/AlphabetsScroll'
 import AnswersInput from './components/AnswersInput'
 import Clock from './components/Clock'
 
@@ -23,10 +22,11 @@ const GameScreen = () => {
   const [currentAlphabet, setCurrentAlphabet] = useAtom(currentAlphabetAtom)
 
   useEffect(() => {
-    setCurrentAlphabet(
-      roundsData?.roundsConfig[roundsData?.currentRound - 1]!.alphabet
-    )
-  }, [roundsData?.currentRound, roundsData?.roundsConfig, setCurrentAlphabet])
+    if (roundsData)
+      setCurrentAlphabet(
+        roundsData.roundsConfig[roundsData?.currentRound - 1].alphabet
+      )
+  }, [roundsData, setCurrentAlphabet])
 
   return (
     <section className="flex flex-col flex-1 my-6 ">
@@ -36,7 +36,6 @@ const GameScreen = () => {
           gameState={gameData?.gameState}
         />
       </GameHeader>
-      <AlphabetsScroll gameState={gameData?.gameState} />
       <div className="px-4 rounded-lg basis-full bg-bg-primary">
         <div className="flex items-center justify-between pt-6 mb-8 md:mb-12 lg:mb-16 lg:pt-8">
           <H1>

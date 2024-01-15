@@ -159,13 +159,21 @@ export const updateGameState = async (
   } catch (error) {
     throw Error('Error creating')
   }
-  // try {
-  //   await updateDoc(doc(db, 'lobbyPlayers', roomId), {
-  //     gameState,
-  //   })
-  // } catch (error) {
-  //   throw Error('Error creating')
-  // }
+}
+
+export const submitSlideEnd = async (
+  roomId: string | undefined,
+  userId: string | undefined
+) => {
+  if (!roomId || !userId) return
+  const ref = doc(db, 'gameRooms', roomId)
+  try {
+    return await updateDoc(ref, {
+      toStarted: arrayUnion(userId),
+    })
+  } catch (error) {
+    throw Error('Error creating')
+  }
 }
 
 export const createRoundsData = async (

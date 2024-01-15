@@ -20,6 +20,7 @@ import {
   createScoresData,
   updateGameState,
 } from '../GameCreation/utils/http'
+import AlphabetsScroll from '../GameRoom/components/AlphabetsScroll.tsx'
 import CategoriesList from './components/CategoriesList'
 import PlayerSlots from './components/PlayerSlots'
 import SettingsList from './components/SettingsList'
@@ -82,17 +83,6 @@ const Lobby = () => {
       categoriesData.default
     )
 
-    //TODO implement logic below to roundSelections
-
-    /*   roundSelections.forEach((round, i) => {
-      round.activeCategories =
-        i === 0
-          ? [...categoriesData.default, ...round.categories]
-          : !round.categories.toString()
-          ? roundSelections[i - 1].activeCategories
-          : [...roundSelections[i - 1].activeCategories!, ...round.categories]
-    }) */
-
     const roundData: CreateGameData = {
       currentRound: 1,
       roundsConfig: roundSelections,
@@ -103,12 +93,13 @@ const Lobby = () => {
     lobbyPlayers?.slots.map(async slot => {
       if (slot.displayName) await createScoresData(params.roomId!, slot.uid)
     })
-
     await updateGameState('INIT', params.roomId!)
   }
 
   return (
     <div className="my-4 space-y-8 rounded-lg md:text-lg lg:text-xl">
+      <AlphabetsScroll gameState={gameState} />
+
       <H1 className="text-center">Lobby</H1>
       <div className="grid mx-4 lg:mx-8 gap-y-4 md:gap-x-4 md:grid-cols-5 md:grid-rows-3 xl:grid-cols-6">
         <PlayerSlots data={lobbyPlayers} error={fireStoreError} />

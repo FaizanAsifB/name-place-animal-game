@@ -231,6 +231,7 @@ export type GameState = {
   gameState: GameStates
   scoresSubmitted: Record<string, number>
   totalPlayers: number
+  toStarted: string[] | undefined
 }
 
 export type GameData =
@@ -255,7 +256,7 @@ export type UpdateScoreData = {
   scoresCategory: Record<string, number> | null
   roundScore: number
   scoreRounds: number[]
-  currentRound: number | undefined
+  currentRound: number
 }
 
 export type Q = {
@@ -269,6 +270,8 @@ export type RoundsData = {
   scores: ScoresData
 } & CreateGameData
 
-export type GameScreenRoundsData = {
-  scores: ScoresData
-} & CreateGameData
+export type GameScreenRoundsData =
+  | ({
+      scores: ScoresData
+    } & CreateGameData)
+  | undefined

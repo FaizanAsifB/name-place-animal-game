@@ -17,7 +17,7 @@ const useNextPhase = (currentRound?: number) => {
   useEffect(() => {
     if (!data?.gameState) return
     switch (data?.gameState) {
-      case 'INIT':
+      case 'STARTED':
         navigate(`../game`)
         break
       case 'SCORING':

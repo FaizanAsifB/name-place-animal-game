@@ -1,16 +1,16 @@
 import { AUTOPLAY_SPEED, MAX_SLIDES } from '@/config/appConfig'
+import { AuthContext } from '@/context/AuthContext'
 import { currentAlphabetAtom } from '@/context/atoms'
-import { GameStates } from '@/lib/types'
-import { updateGameState } from '@/pages/GameCreation/utils/http'
+import { submitSlideEnd } from '@/pages/GameCreation/utils/http'
 import { alphabets } from '@/pages/Lobby/utils/utils'
 import { useAtomValue } from 'jotai'
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Slider from 'react-slick'
 
 type AlphabetsSliderProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  gameState: GameStates | undefined
+  isSubmitted: boolean | undefined
 }
 
 function HiddenArrow() {
@@ -30,13 +30,14 @@ const initialSettings = {
   prevArrow: <HiddenArrow />,
   waitForAnimate: false,
   fade: true,
-  // cssEase: 'ease-in-out',
-  // easing: 'ease-in-out',
+  cssEase: 'ease-in-out',
+  easing: 'ease-in-out',
 }
 
-const AlphabetsSlider = ({ setOpen, gameState }: AlphabetsSliderProps) => {
+const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
   const [sliderSettings, setSliderSettings] = useState(initialSettings)
   const currentAlphabet = useAtomValue(currentAlphabetAtom)
+  const currentUser = useContext(AuthContext)
 
   const params = useParams()
 
@@ -90,11 +91,13 @@ const AlphabetsSlider = ({ setOpen, gameState }: AlphabetsSliderProps) => {
 
   async function handlePlayEnd() {
     if (!currentAlphabetIndex.current || !sliderRef.current) return
-    if (alphabetCount.current === maxSlides.current) {
+    if (alphabetCount.current === maxSlides.current && !isSubmitted) {
       sliderRef.current.slickPause()
+
+      await submitSlideEnd(params.roomId!, currentUser?.uid)
+
       setTimeout(() => {
-        if (gameState === 'INIT') updateGameState('STARTED', params.roomId!)
-        setOpen(false)
+        // setOpen(false)
       }, 2000)
     }
   }
