@@ -35,7 +35,7 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent /* visual={true} */>
+      <DialogContent className="w-min h-min" /* visual={true} */>
         <AlphabetsSlider setOpen={setOpen} isSubmitted={isSubmitted} />
       </DialogContent>
     </Dialog>

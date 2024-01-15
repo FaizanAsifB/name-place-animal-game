@@ -1,8 +1,12 @@
 import { AUTOPLAY_SPEED, MAX_SLIDES } from '@/config/appConfig'
 import { AuthContext } from '@/context/AuthContext'
 import { currentAlphabetAtom } from '@/context/atoms'
+import { RoundsData } from '@/lib/types'
 import { submitSlideEnd } from '@/pages/GameCreation/utils/http'
 import { alphabets } from '@/pages/Lobby/utils/utils'
+import { fetchLobbyData } from '@/utils/fetchData'
+import { getCurrentRoundConfig } from '@/utils/helpers'
+import { useQuery } from '@tanstack/react-query'
 import { useAtomValue } from 'jotai'
 import { useContext, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -20,7 +24,7 @@ function HiddenArrow() {
 const initialSettings = {
   dots: false,
   infinite: true,
-  speed: AUTOPLAY_SPEED,
+  speed: 0,
   slidesToShow: 1,
   slidesToScroll: 1,
   vertical: true,
@@ -29,17 +33,21 @@ const initialSettings = {
   nextArrow: <HiddenArrow />,
   prevArrow: <HiddenArrow />,
   waitForAnimate: false,
-  fade: true,
-  cssEase: 'ease-in-out',
-  easing: 'ease-in-out',
+  fade: false,
+  easing: 'linear',
 }
 
 const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
   const [sliderSettings, setSliderSettings] = useState(initialSettings)
-  const currentAlphabet = useAtomValue(currentAlphabetAtom)
-  const currentUser = useContext(AuthContext)
-
   const params = useParams()
+
+  const { data: roundsData } = useQuery({
+    queryKey: ['roundsData', params.roomId],
+    queryFn: ({ queryKey }) =>
+      fetchLobbyData<RoundsData>(queryKey[1], 'rounds'),
+  })
+
+  const currentUser = useContext(AuthContext)
 
   const sliderRef = useRef<Slider | null>(null)
   const alphabetCount = useRef(0)
@@ -47,7 +55,7 @@ const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
   const maxSlides = useRef<number | null>(null)
 
   currentAlphabetIndex.current = alphabets.findIndex(
-    item => item === currentAlphabet
+    item => item === getCurrentRoundConfig(roundsData)?.alphabet
   )
 
   maxSlides.current = MAX_SLIDES(currentAlphabetIndex.current)
@@ -60,28 +68,28 @@ const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
         setSliderSettings(prev => ({
           ...prev,
           autoplaySpeed: AUTOPLAY_SPEED * 3,
-          speed: AUTOPLAY_SPEED * 3,
+          // speed: AUTOPLAY_SPEED * 3,
         }))
         break
       case maxSlides.current - 15:
         setSliderSettings(prev => ({
           ...prev,
           autoplaySpeed: AUTOPLAY_SPEED * 5,
-          speed: AUTOPLAY_SPEED * 5,
+          // speed: AUTOPLAY_SPEED * 5,
         }))
         break
       case maxSlides.current - 10:
         setSliderSettings(prev => ({
           ...prev,
           autoplaySpeed: AUTOPLAY_SPEED * 6,
-          speed: AUTOPLAY_SPEED * 6,
+          // speed: AUTOPLAY_SPEED * 6,
         }))
         break
       case maxSlides.current - 5:
         setSliderSettings(prev => ({
           ...prev,
           autoplaySpeed: AUTOPLAY_SPEED * 10,
-          speed: AUTOPLAY_SPEED * 10,
+          // speed: AUTOPLAY_SPEED * 10,
         }))
         break
     }
@@ -94,7 +102,7 @@ const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
     if (alphabetCount.current === maxSlides.current && !isSubmitted) {
       sliderRef.current.slickPause()
 
-      await submitSlideEnd(params.roomId!, currentUser?.uid)
+      // await submitSlideEnd(params.roomId!, currentUser?.uid)
 
       setTimeout(() => {
         // setOpen(false)
@@ -106,7 +114,7 @@ const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
     <Slider
       ref={sliderRef}
       {...sliderSettings}
-      className="h-full"
+      className=""
       afterChange={() => {
         alphabetCount.current++
         handlePlayEnd()
@@ -117,7 +125,7 @@ const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
     >
       {alphabets.map(alphabet => (
         <div key={alphabet}>
-          <p className="text-[500px] text-center border-2 border-blue-400 leading-none pb-8 -pt-8">
+          <p className="text-[250px] lg:text-[500px] text-center leading-none -mt-8 pb-2 md:text-[500px]">
             {alphabet}
           </p>
         </div>
@@ -126,3 +134,4 @@ const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
   )
 }
 export default AlphabetsSlider
+// pb - 8 - pt - 8

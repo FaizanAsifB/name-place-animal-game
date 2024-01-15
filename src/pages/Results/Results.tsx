@@ -19,6 +19,7 @@ const Results = () => {
   const params = useParams()
 
   async function handleNextRound() {
+    //Todo setAlphabet to next round
     await updateCurrentRound(params.roomId!)
     await updateGameState('INIT', params.roomId!)
   }

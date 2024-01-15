@@ -13,9 +13,10 @@ import { CollectionEnum, Q } from '../lib/types'
 export const queryClient = new QueryClient()
 
 export const fetchLobbyData = async <T>(
-  roomId: string,
+  roomId: string | undefined,
   col: CollectionEnum
 ) => {
+  if (!roomId) return
   const docRef = doc(db, col, roomId)
   const docSnap = await getDoc(docRef)
   return docSnap.data() as T
