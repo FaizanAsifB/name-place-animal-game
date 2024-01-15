@@ -200,7 +200,7 @@ export const submitAnswers = async (
 
     try {
       const res = await fetchLobbyData<RoundsData>(roomId, 'rounds')
-      const answers: number = res?.answers[`round${currentRound}`].length
+      const answers = res?.answers[`round${currentRound}`].length
       return answers
     } catch (error) {
       throw Error('Error creating')

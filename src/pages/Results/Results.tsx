@@ -26,7 +26,7 @@ const Results = () => {
   // const { error } =
   useNextPhase()
 
-  const isLastRound = roundsData.currentRound === totalRounds
+  const isLastRound = roundsData?.currentRound === totalRounds
 
   return (
     <div className="flex flex-col items-center justify-between h-full">

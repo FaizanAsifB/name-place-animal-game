@@ -28,23 +28,37 @@ const Scoring = () => {
     roundData: RoundsData
     roomId: string
   }
-  const currentRound = roundData.currentRound
 
-  const { data /* fireStoreError */ } = useNextPhase(currentRound) as {
+  const { data /* fireStoreError */ } = useNextPhase(
+    roundData?.currentRound
+  ) as {
     data: GameState
     fireStoreError: FireStoreError
   }
 
   // Object that contains user to correct and other users
   const scoringData: ReturnType<typeof getScoringData> = useMemo(() => {
-    return getScoringData(roundData, currentRound, currentUser?.uid)
-  }, [currentUser?.uid, roundData, currentRound])
+    if (roundData)
+      return getScoringData(
+        roundData,
+        roundData?.currentRound,
+        currentUser?.uid
+      )
+  }, [currentUser?.uid, roundData])
 
   useEffect(() => {
     if (!data?.scoresSubmitted) return
-    if (data.scoresSubmitted[`round${currentRound}`] === data.totalPlayers)
+    if (
+      data.scoresSubmitted[`round${roundData?.currentRound}`] ===
+      data.totalPlayers
+    )
       (async () => await updateGameState('RESULT', roomId))()
-  }, [data?.scoresSubmitted, data?.totalPlayers, roomId, currentRound])
+  }, [
+    data?.scoresSubmitted,
+    data?.totalPlayers,
+    roomId,
+    roundData?.currentRound,
+  ])
 
   async function handleScoring() {
     const roundScore = getSum(Object.values(scores!))
@@ -52,14 +66,14 @@ const Scoring = () => {
       scoresCategory: scores,
       roundScore,
       scoreRounds:
-        currentRound === 1
+        roundData?.currentRound === 1
           ? [roundScore]
           : [
               ...roundData!.scores[scoringData!.userIdToCorrect].scoreRounds,
               roundScore,
             ],
 
-      currentRound: currentRound,
+      currentRound: roundData!.currentRound,
     }
 
     await updateScoresData(roomId, scoringData!.userIdToCorrect, scoreData)
@@ -96,7 +110,8 @@ const Scoring = () => {
                   scores={scores}
                   setScores={setScores}
                   activeCategories={
-                    roundData?.roundsConfig[currentRound - 1].activeCategories
+                    roundData?.roundsConfig[roundData?.currentRound - 1]
+                      .activeCategories
                   }
                 />
               </div>
