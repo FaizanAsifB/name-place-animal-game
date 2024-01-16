@@ -30,18 +30,22 @@ const Results = () => {
   const isLastRound = roundsData?.currentRound === totalRounds
 
   return (
-    <div className="flex flex-col items-center justify-between h-full">
+    <section className="flex-1 bg-bg-primary">
       <ResultsTable roundsData={roundsData} isLastRound={isLastRound} />
       {!isLastRound ? (
-        <Button type="button" onClick={handleNextRound}>
+        <Button
+          type="button"
+          className="mx-auto my-6"
+          onClick={handleNextRound}
+        >
           Next Round
         </Button>
       ) : (
-        <Button asChild className="mb-4">
+        <Button asChild className="mx-auto my-6 ">
           <Link to={'/'}>Exit Game</Link>
         </Button>
       )}
-    </div>
+    </section>
   )
 }
 export default Results

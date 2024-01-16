@@ -54,7 +54,7 @@ const Scoring = () => {
   useEffect(() => {
     if (!data?.scoresSubmitted) return
     if (
-      data.scoresSubmitted[`round${roundData?.currentRound}`].length - 1 ===
+      data.scoresSubmitted[`round${roundData?.currentRound}`].length ===
       data.totalPlayers
     )
       (async () => await updateGameState('RESULT', roomId))()

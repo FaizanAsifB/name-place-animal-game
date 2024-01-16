@@ -1,3 +1,4 @@
+import { H1 } from '@/components/typography/Headings'
 import { Dialog } from '@/components/ui/dialog'
 import {
   Table,
@@ -9,9 +10,9 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { RoundsData } from '@/lib/types'
+import { sortScore } from '@/utils/helpers'
 import UserInfo from '../../../components/ui/UserInfo'
 import GameEndModal from './GameEndModal'
-import { sortScore } from '@/utils/helpers'
 
 type ResultsTableProps = {
   roundsData: RoundsData
@@ -26,11 +27,9 @@ const ResultsTable = ({ roundsData, isLastRound }: ResultsTableProps) => {
       <Dialog defaultOpen={isLastRound}>
         <GameEndModal scoresData={scoresData} isLastRound={isLastRound} />
       </Dialog>
-      <Table className="w-full text-left">
+      <Table className="">
         <TableCaption className="caption-top">
-          <h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl">
-            Results
-          </h1>
+          <H1>Results</H1>
         </TableCaption>
         <TableHeader>
           {/* <TableRow>
@@ -47,8 +46,11 @@ const ResultsTable = ({ roundsData, isLastRound }: ResultsTableProps) => {
             <TableHead>Position</TableHead>
             <TableHead>Player</TableHead>
             {roundsData?.roundsConfig.map((_, i) => (
-              <TableHead key={i}>{i + 1}</TableHead>
+              <TableHead className="hidden" key={i}>
+                {i + 1}
+              </TableHead>
             ))}
+            <TableHead>Current Round</TableHead>
             <TableHead>Total Score</TableHead>
           </TableRow>
         </TableHeader>
@@ -66,12 +68,23 @@ const ResultsTable = ({ roundsData, isLastRound }: ResultsTableProps) => {
                   />
                 )}
               </TableCell>
+              {/* Current Round score
+              // TODO Maybe remove the bang!? */}
+              <TableCell>
+                {item[1].scoreRounds[roundsData!.currentRound - 1]}
+              </TableCell>
               {item[1].scoreRounds.map((score, i) => (
-                <TableCell key={score + i}>{score}</TableCell>
+                <TableCell className="hidden" key={score + i}>
+                  {score}
+                </TableCell>
               ))}
               {roundsData?.roundsConfig.map((_, i) => {
                 if (i + 1 <= roundsData.currentRound) return
-                return <TableCell key={i}>{'-'}</TableCell>
+                return (
+                  <TableCell className="hidden" key={i}>
+                    {'-'}
+                  </TableCell>
+                )
               })}
               <TableCell>{item[1].totalScore}</TableCell>
             </TableRow>
