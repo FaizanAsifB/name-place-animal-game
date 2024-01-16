@@ -5,6 +5,7 @@ import { fetchLobbyData } from '../../utils/fetchData'
 import CurrentAlphabet from '@/components/CurrentAlphabet'
 import { H6 } from '@/components/typography/Headings'
 import GameHeader from '@/components/ui/GameHeader'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import UserInfo from '@/components/ui/UserInfo'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,7 +15,7 @@ import useNextPhase from '@/hooks/useNextPhase'
 import { RoundsData, UpdateScoreData } from '@/lib/types'
 import { getCurrentRoundConfig, getSum } from '@/utils/helpers'
 import { SendHorizontal } from 'lucide-react'
-import { Fragment, useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { updateGameState, updateScoresData } from '../GameCreation/utils/http'
 import AnswersList from './components/AnswersList'
 import ScoresToggleGroup from './components/CategoryScores'
@@ -22,6 +23,7 @@ import { getScoringData } from './utils/helpers'
 
 const Scoring = () => {
   const [scores, setScores] = useState<Record<string, number> | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const currentUser = useContext(AuthContext)
 
@@ -42,10 +44,17 @@ const Scoring = () => {
       )
   }, [currentUser?.uid, roundData])
 
+  const isSubmitted = useMemo(() => {
+    if (scoringData)
+      return data?.scoresSubmitted[`round${roundData?.currentRound}`].includes(
+        scoringData?.userIdToCorrect
+      )
+  }, [data?.scoresSubmitted, roundData?.currentRound, scoringData])
+
   useEffect(() => {
     if (!data?.scoresSubmitted) return
     if (
-      data.scoresSubmitted[`round${roundData?.currentRound}`] ===
+      data.scoresSubmitted[`round${roundData?.currentRound}`].length - 1 ===
       data.totalPlayers
     )
       (async () => await updateGameState('RESULT', roomId))()
@@ -71,8 +80,9 @@ const Scoring = () => {
 
       currentRound: roundData!.currentRound,
     }
-
+    setIsSubmitting(true)
     await updateScoresData(roomId, scoringData!.userIdToCorrect, scoreData)
+    setIsSubmitting(false)
   }
 
   const otherAnswers = useMemo(() => {
@@ -97,7 +107,7 @@ const Scoring = () => {
   }, [scoringData?.otherUsers])
 
   return (
-    <section className="my-8">
+    <section className="flex flex-col flex-1 my-8 ">
       <GameHeader roundsData={roundData}>
         {roundData && (
           <CurrentAlphabet
@@ -106,40 +116,35 @@ const Scoring = () => {
           />
         )}
       </GameHeader>
-      <article className="grid gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3">
-        {!scoringData && 'Loading....'}
+      <article className="grid flex-1 gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3 lg:px-6 lg:gap-6 xl:px-8 xl:gap-8">
         {scoringData &&
           // Answers to correct
           Object.entries(scoringData.answersToCorrect).map(category => {
             //[Category,Answer]
 
             return (
-              <Card key={category[0]}>
+              <Card className="mt-2 xl:mt-4" key={category[0]}>
                 <CardHeader>
                   <CardTitle className="text-center uppercase">
                     {category[0]}
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 gap-2 lg:gap-4">
+                <CardContent className="grid grid-cols-2 gap-x-2 lg:gap-x-4 ">
                   <div className="inline-flex flex-col">
                     <UserInfo
                       userId={scoringData.userIdToCorrect}
-                      className="text-xs"
+                      className="text-xs lg:text-sm"
                       avatarSize="self-start"
                     >
                       <AnswersList answers={category[1]} />
                     </UserInfo>
                   </div>
                   <Separator className="col-span-2 row-start-2 my-2" />
-                  <div className="col-span-2 row-start-3 text-sm font-semibold uppercase ">
+                  <div className="col-span-2 row-start-3 text-sm font-semibold uppercase lg:text-base ">
                     <H6 className="text-center">Answers</H6>
                     <ul className="flex flex-wrap gap-2">
                       {otherAnswers[category[0]].map(answer => {
-                        return (
-                          <Fragment key={answer}>
-                            <li>{answer}</li>
-                          </Fragment>
-                        )
+                        return <li key={answer}>{answer}</li>
                       })}
                     </ul>
                   </div>
@@ -159,11 +164,21 @@ const Scoring = () => {
             )
           })}
         <Button
+          disabled={isSubmitting || isSubmitted}
           type="button"
           className="mx-auto my-4 w-fit col-span-full"
           onClick={handleScoring}
         >
-          <SendHorizontal /> Submit
+          {isSubmitting ? (
+            <>
+              <LoadingSpinner /> <span>Submitting</span>
+            </>
+          ) : (
+            <>
+              <SendHorizontal />{' '}
+              <span>{isSubmitted ? 'Submitted' : 'Submit'}</span>
+            </>
+          )}
         </Button>
       </article>
     </section>

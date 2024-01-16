@@ -11,13 +11,13 @@
     {
       "id": 0,
       "title": "Gather your friends",
-      "description": "Game is most fun when playing with friends",
+      "description": "Game is most fun when playing with friends 🎮",
       "animationUrl": "animations/social.json"
     },
     {
       "id": 1,
       "title": "add categories",
-      "description": "Each player adds two unique categories. Two are added to the first round, one added to subsequent rounds",
+      "description": "Each player adds two unique categories. A new category is added in each odd round",
       "animationUrl": "animations/puzzle.json"
     },
     {
@@ -29,7 +29,7 @@
     {
       "id": 3,
       "title": "A for Apple",
-      "description": "Write words for each category that start with that letter ✍️ ",
+      "description": "Write 1-2 word(s) for each category that start with the chosen letter ✍️",
       "animationUrl": "animations/science.json"
     },
     {

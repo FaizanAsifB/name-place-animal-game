@@ -237,13 +237,12 @@ export const updateScoresData = async (
   try {
     await updateDoc(doc(db, 'rounds', lobbyId), {
       [`scores.${uid}.scoresCategory`]: arrayUnion(data.scoresCategory),
-      // [`scores.${uid}.scoreRounds`]: arrayUnion(data.roundScore),
       [`scores.${uid}.scoreRounds`]: data.scoreRounds,
       [`scores.${uid}.totalScore`]: increment(data.roundScore),
     })
     try {
       await updateDoc(doc(db, 'gameRooms', lobbyId), {
-        [`scoresSubmitted.round${data.currentRound}`]: increment(1),
+        [`scoresSubmitted.round${data.currentRound}`]: arrayUnion(uid),
       })
     } catch (error) {
       throw new Error('There was an error updating')

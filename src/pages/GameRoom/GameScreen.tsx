@@ -2,7 +2,7 @@ import { LoaderFunction, useLoaderData } from 'react-router-dom'
 import { GameScreenRoundsData, GameSettings } from '../../lib/types'
 import { fetchLobbyData } from '../../utils/fetchData'
 
-import { H1, H2 } from '@/components/typography/Headings'
+import { H1 } from '@/components/typography/Headings'
 import GameHeader from '@/components/ui/GameHeader'
 import { currentAlphabetAtom } from '@/context/atoms'
 import useNextPhase from '@/hooks/useNextPhase'
@@ -11,8 +11,8 @@ import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 import Clock from './components/Clock'
 
-import AnswerCards from './components/AnswerCards'
 import CurrentAlphabet from '@/components/CurrentAlphabet'
+import AnswerCards from './components/AnswerCards'
 
 const GameScreen = () => {
   const { settings, roundsData } = useLoaderData() as {
