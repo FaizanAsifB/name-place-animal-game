@@ -2,32 +2,34 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getUserInfo } from '@/utils/helpers'
 
 import { useFetchPlayers } from '@/hooks/useFetchPlayers'
-import { cn } from '@/lib/utils'
-import { Loader2 } from 'lucide-react'
-import { P } from '../typography/TextContent'
+import { ReactNode } from 'react'
+import { twMerge } from 'tailwind-merge'
+import LoadingSpinner from './LoadingSpinner'
 
 type UserInfoProps = {
   userId: string
   className?: string
   avatarSize?: string
+  children?: ReactNode
 }
 
 const UserInfo = ({
   userId,
   className = '',
   avatarSize = '',
+  children,
 }: UserInfoProps) => {
   const { users, /* isError, error, */ isPending } = useFetchPlayers()
 
   const { displayName, photoUrl } = getUserInfo(users, userId)
 
   return (
-    <div /*  className="flex" */>
+    <>
       {isPending ? (
-        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+        <LoadingSpinner />
       ) : (
-        <P
-          className={cn(
+        <article
+          className={twMerge(
             'flex items-center gap-2 uppercase font-semibold ',
             className
           )}
@@ -38,10 +40,13 @@ const UserInfo = ({
               <img src="/images/avatars/emptyAvatar.svg" alt="empty slot" />
             </AvatarFallback>
           </Avatar>
-          <span>{displayName}</span>
-        </P>
+          <div>
+            <span>{displayName}</span>
+            {children}
+          </div>
+        </article>
       )}
-    </div>
+    </>
   )
 }
 export default UserInfo

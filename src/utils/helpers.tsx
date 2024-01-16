@@ -20,9 +20,6 @@ export const sortScore = (scoresData: ScoresData | undefined) => {
   )
 }
 
-export const getCurrentRoundConfig = (
-  roundsData: CreateGameData | undefined
-) => {
-  if (!roundsData) return
+export const getCurrentRoundConfig = (roundsData: CreateGameData) => {
   return roundsData?.roundsConfig[roundsData.currentRound - 1]
 }

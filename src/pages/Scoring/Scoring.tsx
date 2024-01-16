@@ -2,17 +2,18 @@ import { LoaderFunction, useLoaderData } from 'react-router-dom'
 
 import { fetchLobbyData } from '../../utils/fetchData'
 
+import CurrentAlphabet from '@/components/CurrentAlphabet'
+import { H6 } from '@/components/typography/Headings'
+import GameHeader from '@/components/ui/GameHeader'
 import UserInfo from '@/components/ui/UserInfo'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import { AuthContext } from '@/context/AuthContext'
 import useNextPhase from '@/hooks/useNextPhase'
-import {
-  FireStoreError,
-  GameState,
-  RoundsData,
-  UpdateScoreData,
-} from '@/lib/types'
-import { getSum } from '@/utils/helpers'
+import { RoundsData, UpdateScoreData } from '@/lib/types'
+import { getCurrentRoundConfig, getSum } from '@/utils/helpers'
+import { SendHorizontal } from 'lucide-react'
 import { Fragment, useContext, useEffect, useMemo, useState } from 'react'
 import { updateGameState, updateScoresData } from '../GameCreation/utils/http'
 import AnswersList from './components/AnswersList'
@@ -29,12 +30,7 @@ const Scoring = () => {
     roomId: string
   }
 
-  const { data /* fireStoreError */ } = useNextPhase(
-    roundData?.currentRound
-  ) as {
-    data: GameState
-    fireStoreError: FireStoreError
-  }
+  const { data /* fireStoreError */ } = useNextPhase()
 
   // Object that contains user to correct and other users
   const scoringData: ReturnType<typeof getScoringData> = useMemo(() => {
@@ -79,9 +75,38 @@ const Scoring = () => {
     await updateScoresData(roomId, scoringData!.userIdToCorrect, scoreData)
   }
 
+  const otherAnswers = useMemo(() => {
+    const answers: Record<string, string[]> = {}
+    scoringData?.otherUsers.forEach((answer, i) => {
+      for (const category in answer[1]) {
+        if (i === 0) {
+          answers[category] = [...answer[1][category]]
+        }
+        if (i !== 0) {
+          answers[category] = [...answers[category], ...answer[1][category]]
+        }
+      }
+    })
+
+    for (const category in answers) {
+      answers[category] = answers[category].filter((value, index, arr) => {
+        return arr.indexOf(value) === index && value
+      })
+    }
+    return answers
+  }, [scoringData?.otherUsers])
+
   return (
-    <>
-      <div className="grid grid-cols-2 gap-4">
+    <section className="my-8">
+      <GameHeader roundsData={roundData}>
+        {roundData && (
+          <CurrentAlphabet
+            className="ml-auto"
+            currentAlphabet={getCurrentRoundConfig(roundData).alphabet}
+          />
+        )}
+      </GameHeader>
+      <article className="grid gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3">
         {!scoringData && 'Loading....'}
         {scoringData &&
           // Answers to correct
@@ -89,39 +114,59 @@ const Scoring = () => {
             //[Category,Answer]
 
             return (
-              <div className="border-2 border-lime-700" key={category[0]}>
-                <h2 className="text-center">{category[0]}</h2>
-                <div className="inline-flex flex-col">
-                  <UserInfo userId={scoringData.userIdToCorrect} />
-
-                  <AnswersList answers={category[1]} />
-                  <div className="inline-flex flex-col border-2 border-red-700">
-                    {scoringData.otherUsers.map(user => (
-                      //[UserId,Answers]
-                      <Fragment key={user[0] + category[0]}>
-                        <UserInfo userId={user[0]} />
-                        <AnswersList answers={user[1][category[0]]} />
-                      </Fragment>
-                    ))}
+              <Card key={category[0]}>
+                <CardHeader>
+                  <CardTitle className="text-center uppercase">
+                    {category[0]}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-2 gap-2 lg:gap-4">
+                  <div className="inline-flex flex-col">
+                    <UserInfo
+                      userId={scoringData.userIdToCorrect}
+                      className="text-xs"
+                      avatarSize="self-start"
+                    >
+                      <AnswersList answers={category[1]} />
+                    </UserInfo>
                   </div>
-                </div>
-                <ScoresToggleGroup
-                  category={category[0]}
-                  scores={scores}
-                  setScores={setScores}
-                  activeCategories={
-                    roundData?.roundsConfig[roundData?.currentRound - 1]
-                      .activeCategories
-                  }
-                />
-              </div>
+                  <Separator className="col-span-2 row-start-2 my-2" />
+                  <div className="col-span-2 row-start-3 text-sm font-semibold uppercase ">
+                    <H6 className="text-center">Answers</H6>
+                    <ul className="flex flex-wrap gap-2">
+                      {otherAnswers[category[0]].map(answer => {
+                        return (
+                          <Fragment key={answer}>
+                            <li>{answer}</li>
+                          </Fragment>
+                        )
+                      })}
+                    </ul>
+                  </div>
+                  <div className="row-span-1">
+                    <ScoresToggleGroup
+                      category={category[0]}
+                      scores={scores}
+                      setScores={setScores}
+                      activeCategories={
+                        roundData?.roundsConfig[roundData?.currentRound - 1]
+                          .activeCategories
+                      }
+                    />
+                  </div>
+                </CardContent>
+              </Card>
             )
           })}
-      </div>
-      <Button type="button" onClick={handleScoring}>
-        Submit
-      </Button>
-    </>
+        <Button
+          type="button"
+          className="mx-auto my-4 w-fit col-span-full"
+          onClick={handleScoring}
+        >
+          <SendHorizontal /> Submit
+        </Button>
+      </article>
+    </section>
   )
 }
 export default Scoring

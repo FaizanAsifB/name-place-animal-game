@@ -1,8 +1,7 @@
-import { H3 } from '@/components/typography/Headings'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { getCurrentRoundConfig } from '@/utils/helpers'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ListChecks } from 'lucide-react'
@@ -19,11 +18,11 @@ import {
 } from '../../../lib/types'
 import { submitAnswers, updateGameState } from '../../GameCreation/utils/http'
 
-type AnswerInputProps = {
+type AnswerCardsProps = {
   gameData: GameState | undefined
 }
 
-const AnswersInput = ({ gameData }: AnswerInputProps) => {
+const AnswerCards = ({ gameData }: AnswerCardsProps) => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
 
@@ -84,14 +83,14 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid gap-8 md:gap-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 ">
           {activeCategories?.map(category => (
-            <div
-              key={category}
-              className="p-2 space-y-3 border-2 border-orange-300 md:space-y-4"
-            >
-              <Label>
-                <H3 className="text-center uppercase">{category}</H3>
-              </Label>
-              <div className="flex gap-2 md:gap-3 md:flex-col">
+            <Card key={category} className="p-2 space-y-3 md:space-y-4">
+              <CardHeader>
+                <CardTitle className="text-center uppercase">
+                  {category}
+                </CardTitle>
+              </CardHeader>
+
+              <CardContent className="flex gap-2 md:gap-3 md:flex-col">
                 <FormField
                   control={form.control}
                   name={`${category}.0`}
@@ -121,8 +120,8 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
                     </FormItem>
                   )}
                 />
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
         {/* //TODO should this be sticky? */}
@@ -138,4 +137,4 @@ const AnswersInput = ({ gameData }: AnswerInputProps) => {
     </Form>
   )
 }
-export default AnswersInput
+export default AnswerCards

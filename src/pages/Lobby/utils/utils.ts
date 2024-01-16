@@ -99,38 +99,38 @@ export const getRoundsConfig = (
       remainingAlphabets = remainingAlphabets.filter(
         item => item !== activeAlphabet
       )
-
-      if (categoryToAdd) {
-        remainingCategories = remainingCategories.filter(
-          item => item !== categoryToAdd
-        )
-        activeCategories = [...activeCategories, categoryToAdd]
-      }
-
-      if (i === 0) {
-        const extraCategory = getRandomItem(remainingCategories)
-        activeCategories = [...activeCategories, extraCategory]
-        remainingCategories = remainingCategories.filter(
-          item => item !== extraCategory
-        )
-        return {
-          alphabet: activeAlphabet,
-          activeCategories: activeCategories,
+      if (i % 2 === 0) {
+        if (categoryToAdd) {
+          remainingCategories = remainingCategories.filter(
+            item => item !== categoryToAdd
+          )
+          activeCategories = [...activeCategories, categoryToAdd]
         }
-      }
 
-      //TODO Check if this is wrong xD
-
-      if (i % 2 === 0)
         return {
           alphabet: activeAlphabet,
           activeCategories,
         }
+      }
 
       return {
         alphabet: activeAlphabet,
         activeCategories,
       }
+
+      // if (i === 0) {
+      //   const extraCategory = getRandomItem(remainingCategories)
+      //   activeCategories = [...activeCategories, extraCategory]
+      //   remainingCategories = remainingCategories.filter(
+      //     item => item !== extraCategory
+      //   )
+      //   return {
+      //     alphabet: activeAlphabet,
+      //     activeCategories: activeCategories,
+      //   }
+      // }
+
+      //TODO Check if this is wrong xD
     })
   return roundsConfig
 }

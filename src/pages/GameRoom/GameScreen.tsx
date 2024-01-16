@@ -6,10 +6,13 @@ import { H1, H2 } from '@/components/typography/Headings'
 import GameHeader from '@/components/ui/GameHeader'
 import { currentAlphabetAtom } from '@/context/atoms'
 import useNextPhase from '@/hooks/useNextPhase'
+import { getCurrentRoundConfig } from '@/utils/helpers'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
-import AnswersInput from './components/AnswersInput'
 import Clock from './components/Clock'
+
+import AnswerCards from './components/AnswerCards'
+import CurrentAlphabet from '@/components/CurrentAlphabet'
 
 const GameScreen = () => {
   const { settings, roundsData } = useLoaderData() as {
@@ -22,10 +25,10 @@ const GameScreen = () => {
   const [currentAlphabet, setCurrentAlphabet] = useAtom(currentAlphabetAtom)
 
   useEffect(() => {
-    if (roundsData)
-      setCurrentAlphabet(
-        roundsData.roundsConfig[roundsData?.currentRound - 1].alphabet
-      )
+    if (roundsData) {
+      const currentAlphabet = getCurrentRoundConfig(roundsData).alphabet
+      setCurrentAlphabet(currentAlphabet)
+    }
   }, [roundsData, setCurrentAlphabet])
 
   return (
@@ -36,17 +39,15 @@ const GameScreen = () => {
           gameState={gameData?.gameState}
         />
       </GameHeader>
-      <div className="px-4 rounded-lg basis-full bg-bg-primary">
+      <article className="px-4 basis-full bg-bg-primary">
         <div className="flex items-center justify-between pt-6 mb-8 md:mb-12 lg:mb-16 lg:pt-8">
           <H1>
             Round {roundsData?.currentRound}/{roundsData?.roundsConfig.length}
           </H1>
-          <div className="grid w-12 h-12 border-4 rounded-full border-accent place-items-center">
-            <H2>{currentAlphabet}</H2>
-          </div>
+          <CurrentAlphabet currentAlphabet={currentAlphabet} />
         </div>
-        <AnswersInput gameData={gameData} />
-      </div>
+        <AnswerCards gameData={gameData} />
+      </article>
     </section>
   )
 }

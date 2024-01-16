@@ -4,9 +4,9 @@ type AnswersListProps = {
 
 const AnswersList = ({ answers }: AnswersListProps) => {
   return (
-    <ul className="flex gap-4 border-2 border-b-black">
-      {answers.map((answer, index) => (
-        <li key={answer + index}>{!answer ? 'Garam Anday🥚' : answer}</li>
+    <ul className="flex flex-col gap-1 text-sm min-h-[2.75rem]">
+      {answers.map((answer, i) => (
+        <li key={answer + i}>{answer}</li>
       ))}
     </ul>
   )

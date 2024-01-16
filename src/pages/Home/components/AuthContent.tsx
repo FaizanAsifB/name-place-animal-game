@@ -37,7 +37,7 @@ const AuthContent = () => {
       operator: '==',
       value: data.joinCode,
     })
-    return navigate(`/lobby/${res?.lobbyId}`)
+    return navigate(`/${res?.lobbyId}/lobby`)
   }
 
   return (

@@ -12,7 +12,6 @@ const useNextPhase = (currentRound?: number) => {
     docRef: 'gameRooms',
     roomId: params.roomId,
   })
-  // as { data: GameState | undefined; error: FireStoreError }
 
   useEffect(() => {
     if (!data?.gameState) return
