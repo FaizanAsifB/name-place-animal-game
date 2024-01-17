@@ -12,12 +12,16 @@ import {
 import { fetchLobbyData } from '../../utils/fetchData'
 import { updateCurrentRound, updateGameState } from '../GameCreation/utils/http'
 import ResultsTable from './components/ResultsTable'
+import { AuthContext } from '@/context/AuthContext'
+import { useContext } from 'react'
 
 const Results = () => {
-  const { roundsData, totalRounds } = useLoaderData() as {
+  const { roundsData, settings } = useLoaderData() as {
     roundsData: RoundsData
-    totalRounds: number
+    settings: GameSettings
   }
+
+  const currentUser = useContext(AuthContext)
   const params = useParams()
 
   async function handleNextRound() {
@@ -28,13 +32,15 @@ const Results = () => {
   // const { error } =
   const { data: gameState } = useNextPhase()
 
-  const isLastRound = roundsData?.currentRound === totalRounds
+  const isLastRound =
+    roundsData?.currentRound === settings?.settings.rounds.value
 
   return (
     <section className="flex flex-col justify-between flex-1 my-6 bg-bg-primary">
       <ResultsTable roundsData={roundsData} isLastRound={isLastRound} />
       {!isLastRound ? (
         <Button
+          disabled={currentUser?.uid !== settings?.hostId}
           type="button"
           className="mx-auto my-6"
           onClick={handleNextRound}
@@ -63,5 +69,5 @@ export const loader: LoaderFunction = async ({ params }) => {
   const roundsData = await fetchLobbyData<RoundsData>(params.roomId!, 'rounds')
   const settings = await fetchLobbyData<GameSettings>(params.roomId!, 'lobbies')
 
-  return { roundsData, totalRounds: settings?.settings.rounds.value }
+  return { roundsData, settings }
 }

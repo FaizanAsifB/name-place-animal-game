@@ -54,19 +54,19 @@ const Scoring = () => {
       )
   }, [data?.scoresSubmitted, roundData?.currentRound, scoringData])
 
-  useEffect(() => {
-    if (!data?.scoresSubmitted?.[`round${roundData?.currentRound}`]) return
-    if (
-      data.scoresSubmitted[`round${roundData?.currentRound}`].length ===
-      data.totalPlayers
-    )
-      (async () => await updateGameState('RESULT', roomId))()
-  }, [
-    data?.scoresSubmitted,
-    data?.totalPlayers,
-    roomId,
-    roundData?.currentRound,
-  ])
+  // useEffect(() => {
+  //   if (!data?.scoresSubmitted?.[`round${roundData?.currentRound}`]) return
+  //   if (
+  //     data.scoresSubmitted[`round${roundData?.currentRound}`].length ===
+  //     data.totalPlayers
+  //   )
+  //     (async () => await updateGameState('RESULT', roomId))()
+  // }, [
+  //   data?.scoresSubmitted,
+  //   data?.totalPlayers,
+  //   roomId,
+  //   roundData?.currentRound,
+  // ])
 
   async function handleScoring() {
     const roundScore = getSum(Object.values(scores!))
@@ -86,6 +86,12 @@ const Scoring = () => {
     setIsSubmitting(true)
     await updateScoresData(roomId, scoringData!.userIdToCorrect, scoreData)
     setIsSubmitting(false)
+
+    if (
+      data?.scoresSubmitted[`round${roundData?.currentRound}`].length ===
+      data?.totalPlayers
+    )
+      await updateGameState('RESULT', roomId)
   }
 
   const otherAnswers = useMemo(() => {
