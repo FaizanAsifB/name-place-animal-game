@@ -11,7 +11,7 @@ type ClockProps = {
 }
 
 const Clock = ({ roundTime, gameState }: ClockProps) => {
-  const [timeRemaining, setTimeRemaining] = useState(roundTime * 500)
+  const [timeRemaining, setTimeRemaining] = useState(roundTime)
   const params = useParams()
 
   const isPlaying = gameState === 'STARTED' || gameState === 'END-TIMER'
