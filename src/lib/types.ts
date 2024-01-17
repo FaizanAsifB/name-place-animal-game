@@ -231,7 +231,7 @@ export type GameState = {
   gameState: GameStates
   scoresSubmitted: Record<string, string[]>
   totalPlayers: number
-  toStarted: string[] | undefined
+  toStarted: Record<string, string[]> | undefined
 }
 
 export type GameData =

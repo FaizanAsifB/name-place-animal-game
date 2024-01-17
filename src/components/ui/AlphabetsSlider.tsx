@@ -3,9 +3,7 @@ import { AuthContext } from '@/context/AuthContext'
 import { CreateGameData } from '@/lib/types'
 import { submitSlideEnd } from '@/pages/GameCreation/utils/http'
 import { alphabets } from '@/pages/Lobby/utils/utils'
-import { fetchLobbyData } from '@/utils/fetchData'
 import { getCurrentRoundConfig } from '@/utils/helpers'
-import { useQuery } from '@tanstack/react-query'
 import { useContext, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Slider from 'react-slick'
@@ -13,6 +11,7 @@ import Slider from 'react-slick'
 type AlphabetsSliderProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   isSubmitted: boolean | undefined
+  roundsData: CreateGameData | undefined
 }
 
 function HiddenArrow() {
@@ -35,15 +34,9 @@ const initialSettings = {
   easing: 'linear',
 }
 
-const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
+const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
   const [sliderSettings, setSliderSettings] = useState(initialSettings)
   const params = useParams()
-
-  const { data: roundsData } = useQuery({
-    queryKey: ['roundsData', params.roomId],
-    queryFn: ({ queryKey }) =>
-      fetchLobbyData<CreateGameData>(queryKey[1], 'rounds'),
-  })
 
   const currentUser = useContext(AuthContext)
 
@@ -53,7 +46,7 @@ const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
   const maxSlides = useRef<number | null>(null)
 
   currentAlphabetIndex.current = alphabets.findIndex(
-    item => item === getCurrentRoundConfig(roundsData)?.alphabet
+    item => item === getCurrentRoundConfig(roundsData!).alphabet
   )
 
   maxSlides.current = MAX_SLIDES(currentAlphabetIndex.current)
@@ -97,10 +90,15 @@ const AlphabetsSlider = ({ isSubmitted }: AlphabetsSliderProps) => {
 
   async function handlePlayEnd() {
     if (!currentAlphabetIndex.current || !sliderRef.current) return
+
     if (alphabetCount.current === maxSlides.current && !isSubmitted) {
       sliderRef.current.slickPause()
 
-      await submitSlideEnd(params.roomId!, currentUser?.uid)
+      await submitSlideEnd(
+        params.roomId!,
+        currentUser?.uid,
+        roundsData!.currentRound
+      )
     }
   }
 

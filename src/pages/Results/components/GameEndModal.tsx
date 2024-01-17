@@ -27,9 +27,8 @@ const GameEndModal = ({ scoresData, isLastRound }: GameEndModalProps) => {
   const isCurrentUserWinner = winnerId === currentUser?.uid
 
   useEffect(() => {
-    if (currentUser?.uid === scoresData?.[0][0] && isLastRound)
-      setIsExploding(true)
-  }, [currentUser?.uid, scoresData, isLastRound])
+    if (currentUser?.uid === winnerId && isLastRound) setIsExploding(true)
+  }, [currentUser?.uid, scoresData, isLastRound, winnerId])
 
   const largeProps: ConfettiProps = {
     force: 0.8,

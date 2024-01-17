@@ -45,14 +45,17 @@ const Scoring = () => {
   }, [currentUser?.uid, roundData])
 
   const isSubmitted = useMemo(() => {
-    if (scoringData)
+    if (
+      scoringData &&
+      data?.scoresSubmitted?.[`round${roundData?.currentRound}`]
+    )
       return data?.scoresSubmitted[`round${roundData?.currentRound}`].includes(
         scoringData?.userIdToCorrect
       )
   }, [data?.scoresSubmitted, roundData?.currentRound, scoringData])
 
   useEffect(() => {
-    if (!data?.scoresSubmitted) return
+    if (!data?.scoresSubmitted?.[`round${roundData?.currentRound}`]) return
     if (
       data.scoresSubmitted[`round${roundData?.currentRound}`].length ===
       data.totalPlayers
@@ -119,9 +122,8 @@ const Scoring = () => {
       <article className="grid flex-1 gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3 lg:px-6 lg:gap-6 xl:px-8 xl:gap-8">
         {scoringData &&
           // Answers to correct
-          Object.entries(scoringData.answersToCorrect).map(category => {
+          Object.entries(scoringData?.answersToCorrect).map(category => {
             //[Category,Answer]
-
             return (
               <Card className="mt-2 xl:mt-4" key={category[0]}>
                 <CardHeader>
@@ -143,9 +145,10 @@ const Scoring = () => {
                   <div className="col-span-2 row-start-3 text-sm font-semibold uppercase lg:text-base ">
                     <H6 className="text-center">Answers</H6>
                     <ul className="flex flex-wrap gap-2">
-                      {otherAnswers[category[0]].map(answer => {
-                        return <li key={answer}>{answer}</li>
-                      })}
+                      {otherAnswers?.[category[0]] &&
+                        otherAnswers[category[0]].map(answer => {
+                          return <li key={answer}>{answer}</li>
+                        })}
                     </ul>
                   </div>
                   <div className="row-span-1">

@@ -6,6 +6,7 @@ import { addedCategoriesAtom, categoriesAtom } from '@/context/atoms.ts'
 import { useSetAtom } from 'jotai'
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import AlphabetsScroll from '../../components/ui/AlphabetsScroll.tsx'
 import { Button } from '../../components/ui/button.tsx'
 import useNextPhase from '../../hooks/useNextPhase'
 import {
@@ -20,7 +21,6 @@ import {
   createScoresData,
   updateGameState,
 } from '../GameCreation/utils/http'
-import AlphabetsScroll from '../GameRoom/components/AlphabetsScroll.tsx'
 import CategoriesList from './components/CategoriesList'
 import PlayerSlots from './components/PlayerSlots'
 import SettingsList from './components/SettingsList'
@@ -98,7 +98,9 @@ const Lobby = () => {
 
   return (
     <div className="my-4 space-y-8 rounded-lg md:text-lg lg:text-xl">
-      <AlphabetsScroll gameState={gameState} />
+      {gameState?.gameState === 'INIT' && (
+        <AlphabetsScroll gameState={gameState} />
+      )}
 
       <H1 className="text-center">Lobby</H1>
       <div className="grid gap-y-4 md:gap-x-4 md:grid-cols-5 md:grid-rows-3 xl:grid-cols-6">

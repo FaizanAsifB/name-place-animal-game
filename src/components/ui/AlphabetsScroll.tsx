@@ -4,8 +4,10 @@ import 'slick-carousel/slick/slick-theme.css'
 import 'slick-carousel/slick/slick.css'
 
 import { AuthContext } from '@/context/AuthContext'
-import { GameState } from '@/lib/types'
+import { CreateGameData, GameState } from '@/lib/types'
 import { updateGameState } from '@/pages/GameCreation/utils/http'
+import { fetchLobbyData } from '@/utils/fetchData'
+import { useQuery } from '@tanstack/react-query'
 import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import AlphabetsSlider from './AlphabetsSlider'
@@ -20,26 +22,42 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
 
-  const isSubmitted = gameState?.toStarted?.includes(currentUser?.uid ?? '')
+  const { data: roundsData } = useQuery({
+    queryKey: ['roundsData', params.roomId],
+    queryFn: ({ queryKey }) =>
+      fetchLobbyData<CreateGameData>(queryKey[1], 'rounds'),
+  })
+
+  console.log(roundsData?.currentRound)
+
+  const isSubmitted = gameState?.toStarted?.[
+    `round${roundsData?.currentRound}`
+  ]?.includes(currentUser?.uid ?? '')
 
   useEffect(() => {
     if (!gameState) return
-    if (gameState.gameState === 'INIT' && !isSubmitted) setOpen(true)
+    if (gameState.gameState === 'INIT' && !isSubmitted && roundsData)
+      setOpen(true)
     // if (open && gameState.gameState !== 'INIT') setOpen(false)
     if (
-      gameState.toStarted?.length === gameState.totalPlayers &&
+      gameState.toStarted?.[`round${roundsData?.currentRound}`]?.length ===
+        gameState.totalPlayers &&
       gameState.gameState !== 'STARTED'
     ) {
       setTimeout(() => {
         updateGameState('STARTED', params.roomId)
       }, 2000)
     }
-  }, [gameState, open, isSubmitted, params.roomId])
+  }, [gameState, open, isSubmitted, params.roomId, roundsData])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="w-min h-min" /* visual={true} */>
-        <AlphabetsSlider setOpen={setOpen} isSubmitted={isSubmitted} />
+        <AlphabetsSlider
+          setOpen={setOpen}
+          isSubmitted={isSubmitted}
+          roundsData={roundsData}
+        />
       </DialogContent>
     </Dialog>
   )

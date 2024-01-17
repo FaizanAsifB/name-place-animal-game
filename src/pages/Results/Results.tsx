@@ -1,6 +1,8 @@
+import AlphabetsScroll from '@/components/ui/AlphabetsScroll'
 import { Button } from '@/components/ui/button'
 import useNextPhase from '@/hooks/useNextPhase'
 import { GameSettings, RoundsData } from '@/lib/types'
+import { ArrowRightCircle, Home } from 'lucide-react'
 import {
   Link,
   LoaderFunction,
@@ -19,18 +21,17 @@ const Results = () => {
   const params = useParams()
 
   async function handleNextRound() {
-    //Todo setAlphabet to next round
     await updateCurrentRound(params.roomId!)
     await updateGameState('INIT', params.roomId!)
   }
 
   // const { error } =
-  useNextPhase()
+  const { data: gameState } = useNextPhase()
 
   const isLastRound = roundsData?.currentRound === totalRounds
 
   return (
-    <section className="flex-1 bg-bg-primary">
+    <section className="flex flex-col justify-between flex-1 my-6 bg-bg-primary">
       <ResultsTable roundsData={roundsData} isLastRound={isLastRound} />
       {!isLastRound ? (
         <Button
@@ -38,12 +39,19 @@ const Results = () => {
           className="mx-auto my-6"
           onClick={handleNextRound}
         >
-          Next Round
+          <ArrowRightCircle /> Next Round
         </Button>
       ) : (
         <Button asChild className="mx-auto my-6 ">
-          <Link to={'/'}>Exit Game</Link>
+          <Link to={'/'}>
+            {' '}
+            <Home />
+            Exit Game
+          </Link>
         </Button>
+      )}
+      {gameState?.gameState === 'INIT' && (
+        <AlphabetsScroll gameState={gameState} />
       )}
     </section>
   )
@@ -55,5 +63,5 @@ export const loader: LoaderFunction = async ({ params }) => {
   const roundsData = await fetchLobbyData<RoundsData>(params.roomId!, 'rounds')
   const settings = await fetchLobbyData<GameSettings>(params.roomId!, 'lobbies')
 
-  return { roundsData, totalRounds: settings?.settings.rounds }
+  return { roundsData, totalRounds: settings?.settings.rounds.value }
 }

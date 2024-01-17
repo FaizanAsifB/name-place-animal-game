@@ -27,7 +27,7 @@ const ResultsTable = ({ roundsData, isLastRound }: ResultsTableProps) => {
       <Dialog defaultOpen={isLastRound}>
         <GameEndModal scoresData={scoresData} isLastRound={isLastRound} />
       </Dialog>
-      <Table className="">
+      <Table>
         <TableCaption className="caption-top">
           <H1>Results</H1>
         </TableCaption>

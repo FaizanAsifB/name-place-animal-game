@@ -65,9 +65,6 @@ export const uploadSettings = async (
 
     try {
       await setDoc(doc(db, 'lobbyPlayers', lobbyRef.id), {
-        // lobbyId: lobbyRef.id,
-        // gameState: 'LOBBY',
-        // totalPlayers: 1,
         hostId: currentUser!.uid,
         slots,
       })
@@ -163,13 +160,14 @@ export const updateGameState = async (
 
 export const submitSlideEnd = async (
   roomId: string | undefined,
-  userId: string | undefined
+  userId: string | undefined,
+  currentRound: number
 ) => {
   if (!roomId || !userId) return
   const ref = doc(db, 'gameRooms', roomId)
   try {
     return await updateDoc(ref, {
-      toStarted: arrayUnion(userId),
+      [`toStarted.round${currentRound}`]: arrayUnion(userId),
     })
   } catch (error) {
     throw Error('Error creating')

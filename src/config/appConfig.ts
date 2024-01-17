@@ -1,7 +1,7 @@
 import { alphabets } from '@/pages/Lobby/utils/utils'
 
 export const AUTOPLAY_SPEED = 50
-const MAX_LOOPS = 2
+const MAX_LOOPS = 1
 
 export const MAX_SLIDES = (currentAlphabetIndex: number | null) => {
   if (!currentAlphabetIndex) return null
