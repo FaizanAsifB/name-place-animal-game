@@ -1,12 +1,6 @@
-import { RoundsData } from '../../../lib/types'
+import { UserAnswers } from '../../../lib/types'
 
-export const getScoringData = (
-  roundData: RoundsData,
-  currentRound: number,
-  currentUser: string | undefined
-) => {
-  if (!roundData) return
-  const answers = roundData.answers[`round${currentRound}`]
+export const getScoringData = (answers: UserAnswers[], currentUser: string) => {
   const currentUserIndex = answers.findIndex(
     item => Object.keys(item)[0] === currentUser
   )

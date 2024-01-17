@@ -6,21 +6,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { defaultCategories } from '@/config/appConfig'
 import { Control } from 'react-hook-form'
 import { SettingsInput } from './lib/types'
-// import { DefaultCategoriesList, SettingsInput } from './lib/types'
 
 type CategoriesListProps = {
   control: Control<SettingsInput>
 }
-const defaultCategories: Record<string, string>[] = [
-  { id: 'name', label: 'Name' },
-  { id: 'place', label: 'Place' },
-  { id: 'animal', label: 'Animal' },
-  { id: 'thing', label: 'Thing' },
-  { id: 'occupations', label: 'Occupations' },
-  { id: 'technology', label: 'Technology' },
-]
 
 const CategoriesList = ({ control }: CategoriesListProps) => {
   return (
@@ -35,6 +27,9 @@ const CategoriesList = ({ control }: CategoriesListProps) => {
               control={control}
               name="defaultCategories"
               render={({ field: { onChange, value } }) => {
+                value?.find(item => {
+                  return item.label === category.label
+                })
                 return (
                   <FormItem
                     key={category.id}
@@ -43,19 +38,24 @@ const CategoriesList = ({ control }: CategoriesListProps) => {
                     <FormControl>
                       <Checkbox
                         disabled={
-                          !value?.includes(category.id) && value.length === 4
+                          !value?.find(item => item.label === category.label) &&
+                          value.length === 4
                         }
-                        checked={value?.includes(category.id)}
+                        checked={
+                          !!value?.find(item => item.label === category.label)
+                        }
                         onCheckedChange={checked => {
                           return checked
-                            ? onChange([...value, category.id])
+                            ? onChange([...value, category])
                             : onChange(
-                                value?.filter(value => value !== category.id)
+                                value?.filter(
+                                  value => value.label !== category.label
+                                )
                               )
                         }}
                       />
                     </FormControl>
-                    <FormLabel className="font-normal lg:text-lg">
+                    <FormLabel className="font-normal capitalize lg:text-lg">
                       {category.label}
                     </FormLabel>
                   </FormItem>

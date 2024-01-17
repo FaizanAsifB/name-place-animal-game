@@ -126,7 +126,7 @@ const AnswerCards = ({ gameData }: AnswerCardsProps) => {
         </div>
         {/* //TODO should this be sticky? */}
         <Button
-          // disabled={form.formState.isSubmitting || form.formState.isSubmitted}
+          disabled={form.formState.isSubmitting || form.formState.isSubmitted}
           type="submit"
           className="mx-auto mt-6 md:mt-10 lg:mt-12"
         >

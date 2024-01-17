@@ -38,7 +38,6 @@ const AuthContent = () => {
       value: data.joinCode,
     })
 
-    console.log(res.lobbyId)
     return navigate(`game-room/${res?.lobbyId}/lobby`)
   }
 

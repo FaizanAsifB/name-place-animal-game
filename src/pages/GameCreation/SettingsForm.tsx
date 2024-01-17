@@ -14,6 +14,7 @@ import { MdAssignmentAdd, MdOutlineCategory } from 'react-icons/md'
 import LoadingSpinner from '@/components/ui/LoadingSpinner.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Input } from '@/components/ui/input.tsx'
+import { defaultCategories } from '@/config/appConfig.ts'
 import { serverTimestamp } from 'firebase/firestore'
 import { AlarmClock, BellElectric, Gamepad2 } from 'lucide-react'
 import { useContext } from 'react'
@@ -42,7 +43,7 @@ const SettingsForm = () => {
     defaultValues: {
       roundTime: 60,
       rounds: 6,
-      defaultCategories: ['name', 'place', 'animal'],
+      defaultCategories: [...defaultCategories.slice(0, 3)],
       endMode: 'Round Timer',
       customCategory1: '',
       customCategory2: '',
@@ -60,6 +61,8 @@ const SettingsForm = () => {
       customCategory2,
       defaultCategories,
     } = data
+
+    console.log(defaultCategories)
 
     const settings: RoundSettings = {
       roundTime: {
@@ -88,11 +91,11 @@ const SettingsForm = () => {
 
     const slots: PlayerData[] = makePlayerSlots(currentUser, 10)
 
-    const lobbyId = await uploadSettings({ slots, settings }, currentUser)
+    // const lobbyId = await uploadSettings({ slots, settings }, currentUser)
 
-    await uploadCategories(categories, lobbyId)
+    // await uploadCategories(categories, lobbyId)
 
-    return navigate(`/game-room/${lobbyId}/lobby`)
+    // return navigate(`/game-room/${lobbyId}/lobby`)
   }
 
   return (
@@ -115,19 +118,12 @@ const SettingsForm = () => {
                     </FormLabel>
                     <FormControl>
                       <Slider
-                        // {...field}
-                        // className="text-red-400"
-                        // aria-label="time per round"
                         defaultValue={[value]}
                         onValueChange={val => {
                           onChange(val[0])
                         }}
-                        // onChange={field.onChange}
                         id="round-time"
-                        // getAriaValueText={valuetext}
-                        // valueLabelDisplay="auto"
                         step={5}
-                        // marks
                         min={30}
                         max={120}
                       />
@@ -140,7 +136,6 @@ const SettingsForm = () => {
             />
           </Setting>
           <Setting
-            // icon={<NumbersIcon fontSize="large" />}
             title={'Total Rounds'}
             description={'Choose number of rounds to play'}
             icon={<BellElectric />}
@@ -162,10 +157,8 @@ const SettingsForm = () => {
                         onValueChange={val => {
                           onChange(val[0])
                         }}
-                        // onChange={field.onChange}
                         id="round-time"
-                        // getAriaValueText={valuetext}
-                        // valueLabelDisplay="auto"
+                        // ge
                         step={1}
                         // marks
                         min={4}

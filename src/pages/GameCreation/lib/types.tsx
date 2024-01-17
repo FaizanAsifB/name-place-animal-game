@@ -6,9 +6,16 @@ export const settingsInputSchema = z
   .object({
     roundTime: z.number(),
     rounds: z.number(),
-    defaultCategories: z.array(z.string()).refine(value => value.length === 4, {
-      message: 'You have to select at least four categories.',
-    }),
+    defaultCategories: z
+      .array(
+        z.object({
+          id: z.number(),
+          label: z.string(),
+        })
+      )
+      .refine(value => value.length === 4, {
+        message: 'You have to select at least four categories.',
+      }),
     endMode: z.enum(['Fastest Finger', 'Round Timer']),
     customCategory1: z
       .string()

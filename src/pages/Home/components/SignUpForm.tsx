@@ -53,11 +53,10 @@ const SignUpForm = () => {
         })
         // onClose()
       } catch (error) {
-        console.log(error)
-        // throw new Error('There was an error signing up')
+        throw new Error('There was an error signing up')
       }
     } catch (error) {
-      console.log(error)
+      throw new Error('There was an error signing up')
     }
   }
 

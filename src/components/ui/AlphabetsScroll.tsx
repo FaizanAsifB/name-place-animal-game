@@ -28,8 +28,6 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
       fetchLobbyData<CreateGameData>(queryKey[1], 'rounds'),
   })
 
-  console.log(roundsData?.currentRound)
-
   const isSubmitted = gameState?.toStarted?.[
     `round${roundsData?.currentRound}`
   ]?.includes(currentUser?.uid ?? '')

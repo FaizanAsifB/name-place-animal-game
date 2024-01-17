@@ -2,3 +2,5 @@
 - [ ] Add navigation to sign up from sign in and vice versa
 - [ ] Add forgotten password
 - [ ] Error handling of firebase errors
+- [ ] Optimize with React.lazy
+- [ ] Add timer and slide to local storage / session storage
