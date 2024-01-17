@@ -44,8 +44,8 @@ const CategoriesList = () => {
         </Dialog> */}
 
       <ul className="grid grid-cols-4 capitalize md:grid-cols-2 md:gap-4 md:text-center lg:grid-cols-3">
-        {categoriesData?.default?.map((category: string) => (
-          <li key={category}>{category}</li>
+        {categoriesData?.default?.map(category => (
+          <li key={category.id}>{category.title}</li>
         ))}
         {addedCategories?.map(category => (
           <li key={category.title}>{category.title}</li>

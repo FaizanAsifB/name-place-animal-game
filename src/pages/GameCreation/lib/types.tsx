@@ -10,7 +10,7 @@ export const settingsInputSchema = z
       .array(
         z.object({
           id: z.number(),
-          label: z.string(),
+          title: z.string(),
         })
       )
       .refine(value => value.length === 4, {

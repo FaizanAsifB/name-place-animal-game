@@ -1,12 +1,12 @@
 import { alphabets } from '@/pages/Lobby/utils/utils'
 
-export const defaultCategories = [
-  { id: 1, label: 'name' },
-  { id: 2, label: 'place' },
-  { id: 3, label: 'animal' },
-  { id: 4, label: 'thing' },
-  { id: 5, label: 'occupations' },
-  { id: 6, label: 'technology' },
+export const DEFAULT_CATEGORIES = [
+  { id: 1, title: 'name' },
+  { id: 2, title: 'place' },
+  { id: 3, title: 'animal' },
+  { id: 4, title: 'thing' },
+  { id: 5, title: 'occupations' },
+  { id: 6, title: 'technology' },
 ]
 
 export const AUTOPLAY_SPEED = 50

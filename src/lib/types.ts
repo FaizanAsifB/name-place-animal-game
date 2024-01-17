@@ -128,7 +128,10 @@ export type FireStoreError =
     }
   | undefined
 
-export type DefaultCategories = string[]
+export type DefaultCategories = {
+  id: number
+  title: string
+}[]
 export type CustomCategories = {
   [userId: string]: AddedCategories
 }

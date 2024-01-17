@@ -6,7 +6,7 @@ type ScoresToggleGroupProps = {
   category: string
   scores: Record<string, number> | null
   setScores: React.Dispatch<React.SetStateAction<Record<string, number> | null>>
-  activeCategories: string[] | undefined
+  activeCategories: { id: number; title: string }[] | undefined
 }
 
 const ScoresToggleGroup = ({

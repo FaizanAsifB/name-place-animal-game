@@ -6,7 +6,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { defaultCategories } from '@/config/appConfig'
+import { DEFAULT_CATEGORIES } from '@/config/appConfig'
 import { Control } from 'react-hook-form'
 import { SettingsInput } from './lib/types'
 
@@ -21,14 +21,14 @@ const CategoriesList = ({ control }: CategoriesListProps) => {
       name="defaultCategories"
       render={() => (
         <FormItem className="relative flex flex-wrap items-center justify-center gap-4 space-y-0">
-          {defaultCategories.map(category => (
+          {DEFAULT_CATEGORIES.map(category => (
             <FormField
               key={category.id}
               control={control}
               name="defaultCategories"
               render={({ field: { onChange, value } }) => {
                 value?.find(item => {
-                  return item.label === category.label
+                  return item.title === category.title
                 })
                 return (
                   <FormItem
@@ -38,25 +38,25 @@ const CategoriesList = ({ control }: CategoriesListProps) => {
                     <FormControl>
                       <Checkbox
                         disabled={
-                          !value?.find(item => item.label === category.label) &&
+                          !value?.find(item => item.title === category.title) &&
                           value.length === 4
                         }
                         checked={
-                          !!value?.find(item => item.label === category.label)
+                          !!value?.find(item => item.title === category.title)
                         }
                         onCheckedChange={checked => {
                           return checked
                             ? onChange([...value, category])
                             : onChange(
                                 value?.filter(
-                                  value => value.label !== category.label
+                                  value => value.title !== category.title
                                 )
                               )
                         }}
                       />
                     </FormControl>
                     <FormLabel className="font-normal capitalize lg:text-lg">
-                      {category.label}
+                      {category.title}
                     </FormLabel>
                   </FormItem>
                 )

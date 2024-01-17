@@ -39,7 +39,7 @@ const AnswerCards = ({ gameData }: AnswerCardsProps) => {
     const defaultValues: Answers = {}
 
     activeCategories?.forEach(c => {
-      defaultValues[c] = ['', '']
+      defaultValues[c.title] = ['', '']
     })
     return defaultValues
   }, [activeCategories])
@@ -51,6 +51,8 @@ const AnswerCards = ({ gameData }: AnswerCardsProps) => {
 
   //Submit Data
   const onSubmit = async (data: Answers) => {
+    console.log(data)
+
     const answers = { [currentUser!.uid]: data }
 
     if (
@@ -59,14 +61,14 @@ const AnswerCards = ({ gameData }: AnswerCardsProps) => {
     )
       await updateGameState('END-TIMER', params.roomId!)
 
-    const donePlayers = await submitAnswers(
-      answers,
-      params.roomId!,
-      roundsData.currentRound!
-    )
-    if (donePlayers === gameData?.totalPlayers) {
-      await updateGameState('SCORING', params.roomId!)
-    }
+    // const donePlayers = await submitAnswers(
+    //   answers,
+    //   params.roomId!,
+    //   roundsData.currentRound!
+    // )
+    // if (donePlayers === gameData?.totalPlayers) {
+    //   await updateGameState('SCORING', params.roomId!)
+    // }
   }
 
   //Submit Data for players that haven't submitted at round end
@@ -83,17 +85,17 @@ const AnswerCards = ({ gameData }: AnswerCardsProps) => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid gap-8 md:gap-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 ">
           {activeCategories?.map(category => (
-            <Card key={category} className="p-2 space-y-3 md:space-y-4">
+            <Card key={category.id} className="p-2 space-y-3 md:space-y-4">
               <CardHeader>
                 <CardTitle className="text-center uppercase">
-                  {category}
+                  {category.title}
                 </CardTitle>
               </CardHeader>
 
               <CardContent className="flex gap-2 md:gap-3 md:flex-col">
                 <FormField
                   control={form.control}
-                  name={`${category}.0`}
+                  name={`${category.title}.0`}
                   render={({ field }) => (
                     <FormItem className="flex-1 basis-full">
                       <FormControl>
@@ -106,9 +108,9 @@ const AnswerCards = ({ gameData }: AnswerCardsProps) => {
                   )}
                 />
                 <FormField
-                  key={category}
+                  key={category.id}
                   control={form.control}
-                  name={`${category}.1`}
+                  name={`${category.title}.1`}
                   render={({ field }) => (
                     <FormItem className="flex-1 basis-full">
                       <FormControl>

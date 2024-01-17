@@ -1,5 +1,6 @@
+import { DEFAULT_CATEGORIES } from '@/config/appConfig'
 import { DocumentData, Timestamp } from 'firebase/firestore'
-import { PlayerData } from '../../../lib/types'
+import { DefaultCategories, PlayerData } from '../../../lib/types'
 
 type AddedCategories = {
   addedBy: string | undefined
@@ -83,7 +84,7 @@ function getRandomIndex(max: number): number {
 export const getRoundsConfig = (
   customCategories: string[],
   rounds: number,
-  defaultCategories: string[]
+  defaultCategories: DefaultCategories
 ) => {
   let remainingAlphabets = [...alphabets]
   let remainingCategories = [...customCategories]
@@ -104,7 +105,10 @@ export const getRoundsConfig = (
           remainingCategories = remainingCategories.filter(
             item => item !== categoryToAdd
           )
-          activeCategories = [...activeCategories, categoryToAdd]
+          activeCategories = [
+            ...activeCategories,
+            { id: DEFAULT_CATEGORIES.length + i + 1, title: categoryToAdd },
+          ]
         }
 
         return {
@@ -117,18 +121,6 @@ export const getRoundsConfig = (
         alphabet: activeAlphabet,
         activeCategories,
       }
-
-      // if (i === 0) {
-      //   const extraCategory = getRandomItem(remainingCategories)
-      //   activeCategories = [...activeCategories, extraCategory]
-      //   remainingCategories = remainingCategories.filter(
-      //     item => item !== extraCategory
-      //   )
-      //   return {
-      //     alphabet: activeAlphabet,
-      //     activeCategories: activeCategories,
-      //   }
-      // }
 
       //TODO Check if this is wrong xD
     })
