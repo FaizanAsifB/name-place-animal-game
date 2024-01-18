@@ -179,7 +179,7 @@ export const createRoundsData = async (
   data: CreateGameData
 ) => {
   try {
-    await setDoc(doc(db, 'rounds', lobbyId), data)
+    return await setDoc(doc(db, 'rounds', lobbyId), data)
   } catch (error) {
     throw new Error('There was an error creating game')
   }

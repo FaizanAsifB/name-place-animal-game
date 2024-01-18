@@ -94,6 +94,7 @@ const Lobby = () => {
       if (slot.displayName) await createScoresData(params.roomId!, slot.uid)
     })
     await updateGameState('INIT', params.roomId!)
+    return
   }
 
   return (
