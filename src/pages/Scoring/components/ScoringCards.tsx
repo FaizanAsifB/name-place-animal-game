@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { AuthContext } from '@/context/AuthContext'
 import useNextPhase from '@/hooks/useNextPhase'
-import { RoundsData, UpdateScoreData } from '@/lib/types'
+import { RoundsData } from '@/lib/types'
 import { getSum } from '@/utils/helpers'
 import { SendHorizontal } from 'lucide-react'
 import { memo, useContext, useEffect, useMemo, useState } from 'react'
@@ -67,7 +67,7 @@ const ScoringCards = memo(({ roundData }: ScoringCardsProps) => {
 
   async function handleScoring() {
     const roundScore = getSum(Object.values(scores!))
-    const scoreData: UpdateScoreData = {
+    const scoreData = {
       scoresCategory: scores,
       roundScore,
       scoreRounds:
@@ -89,40 +89,17 @@ const ScoringCards = memo(({ roundData }: ScoringCardsProps) => {
     setIsSubmitting(false)
   }
 
-  const otherAnswers = useMemo(() => {
-    const answers: Record<string, string[]> = {}
-    scoringData?.otherUsers.forEach((answer, i) => {
-      for (const category in answer[1]) {
-        if (i === 0) {
-          answers[category] = [...answer[1][category]]
-        }
-        if (i !== 0) {
-          answers[category] = [...answers[category], ...answer[1][category]]
-        }
-      }
-    })
-
-    for (const category in answers) {
-      answers[category] = answers[category].filter((value, index, arr) => {
-        return arr.indexOf(value) === index && value
-      })
-    }
-    return answers
-  }, [scoringData?.otherUsers])
-
-  console.log(scoringData)
-
   return (
     <article className="grid flex-1 gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3 lg:px-6 lg:gap-6 xl:px-8 xl:gap-8">
       {scoringData &&
         // Answers to correct
-        Object.entries(scoringData?.answersToCorrect).map(category => {
+        scoringData?.answersToCorrect.map(category => {
           //[Category,Answer]
           return (
-            <Card className="mt-2 xl:mt-4" key={category[0]}>
+            <Card className="mt-2 xl:mt-4" key={category.title}>
               <CardHeader>
                 <CardTitle className="text-center uppercase">
-                  {category[0]}
+                  {category.title}
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid grid-cols-2 gap-x-2 lg:gap-x-4 ">
@@ -132,22 +109,24 @@ const ScoringCards = memo(({ roundData }: ScoringCardsProps) => {
                     className="text-xs lg:text-sm"
                     avatarSize="self-start"
                   >
-                    <AnswersList answers={category[1]} />
+                    <AnswersList answers={category.answers} />
                   </UserInfo>
                 </div>
                 <Separator className="col-span-2 row-start-2 my-2" />
                 <div className="col-span-2 row-start-3 text-sm font-semibold uppercase lg:text-base ">
                   <H6 className="text-center">Answers</H6>
                   <ul className="flex flex-wrap gap-2">
-                    {otherAnswers?.[category[0]] &&
-                      otherAnswers[category[0]].map(answer => {
-                        return <li key={answer}>{answer}</li>
-                      })}
+                    {scoringData.otherAnswers?.[category.title] &&
+                      scoringData.otherAnswers[category.title].map(
+                        (answer, i) => {
+                          return <li key={answer + i}>{answer}</li>
+                        }
+                      )}
                   </ul>
                 </div>
                 <div className="row-span-1">
                   <ScoresToggleGroup
-                    category={category[0]}
+                    category={category.title}
                     scores={scores}
                     setScores={setScores}
                     activeCategories={

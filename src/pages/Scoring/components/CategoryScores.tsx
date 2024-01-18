@@ -19,7 +19,7 @@ const ScoresToggleGroup = ({
   useEffect(() => {
     if (activeCategories && scores === null) {
       const initialScores = Object.fromEntries(
-        activeCategories.map(item => [item, 0])
+        activeCategories.map(item => [item.title, 0])
       )
       setScores(initialScores)
     }

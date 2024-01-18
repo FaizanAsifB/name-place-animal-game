@@ -204,16 +204,22 @@ export type LobbySettings = {
   settings: RoundSettings
 }
 
-export const AnswerSchema = z.array(z.string())
+export const AnswerSchema = z.string().array()
 
 export const AnswersSchema = z.record(z.string(), AnswerSchema)
 
 export type Answers = z.infer<typeof AnswersSchema>
 
-// export type Answers = Record<string, string[]>
+export const SubmittedAnswerSchema = z
+  .object({
+    id: z.number(),
+    title: z.string(),
+    answers: z.string().array().length(2),
+  })
+  .array()
 
 export type UserAnswers = {
-  [key: string]: Answers
+  [key: string]: z.infer<typeof SubmittedAnswerSchema>
 }
 
 export type AnswersData = {
@@ -221,12 +227,8 @@ export type AnswersData = {
 }
 
 export type PlayersData = {
-  // answers: AnswersData
-  // gameState: GameStates
   hostId: string
-  // lobbyId: string
   slots: PlayerData[]
-  // totalPlayers: number
 }
 
 export type GameState = {

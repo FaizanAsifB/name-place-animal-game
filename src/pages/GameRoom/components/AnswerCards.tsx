@@ -51,13 +51,12 @@ const AnswerCards = ({ gameData }: AnswerCardsProps) => {
 
   //Submit Data
   const onSubmit = async (data: Answers) => {
-    const x = activeCategories.map(item => ({
+    const answersObj = activeCategories.map(item => ({
       ...item,
       answers: data[item.title],
     }))
-    console.log(x)
 
-    const answers = { [currentUser!.uid]: data }
+    const answers = { [currentUser!.uid]: answersObj }
 
     if (
       settings.settings.endMode.value === 'Fastest Finger' &&
@@ -65,14 +64,14 @@ const AnswerCards = ({ gameData }: AnswerCardsProps) => {
     )
       await updateGameState('END-TIMER', params.roomId!)
 
-    // const donePlayers = await submitAnswers(
-    //   answers,
-    //   params.roomId!,
-    //   roundsData.currentRound!
-    // )
-    // if (donePlayers === gameData?.totalPlayers) {
-    //   await updateGameState('SCORING', params.roomId!)
-    // }
+    const donePlayers = await submitAnswers(
+      answers,
+      params.roomId!,
+      roundsData.currentRound!
+    )
+    if (donePlayers === gameData?.totalPlayers) {
+      await updateGameState('SCORING', params.roomId!)
+    }
   }
 
   //Submit Data for players that haven't submitted at round end

@@ -8,17 +8,27 @@ export const getScoringData = (answers: UserAnswers[], currentUser: string) => {
   //Index of user to correct
   const indexToCorrect =
     currentUserIndex === answers.length - 1 ? 0 : currentUserIndex + 1
-
   // The User object to correct
-  const userToCorrect = Object.entries(answers[indexToCorrect])[0]
 
-  const otherUsers = answers
-    .filter((_, i) => i !== indexToCorrect)
-    .map(item => {
-      return Object.entries(item)[0]
+  const userIdToCorrect = Object.keys(answers[indexToCorrect])[0]
+  const answersToCorrect = Object.values(answers[indexToCorrect])[0]
+  const otherUsers = answers.filter((_, i) => i !== indexToCorrect)
+
+  const otherAnswers: Record<string, string[]> = {}
+
+  otherUsers
+    .flatMap(item => {
+      return Object.values(item)
     })
+    .flatMap(item => item)
+    .forEach(item => {
+      if (!otherAnswers[item.title])
+        return (otherAnswers[item.title] = item.answers)
 
-  const userIdToCorrect = userToCorrect[0]
-  const answersToCorrect = userToCorrect[1]
-  return { userIdToCorrect, answersToCorrect, otherUsers }
+      return (otherAnswers[item.title] = [
+        ...otherAnswers[item.title],
+        ...item.answers,
+      ])
+    })
+  return { userIdToCorrect, answersToCorrect, otherAnswers }
 }
