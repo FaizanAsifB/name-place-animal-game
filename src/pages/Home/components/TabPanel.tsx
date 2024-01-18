@@ -5,6 +5,7 @@ import { AuthContext } from '../../../context/AuthContext'
 import { H3 } from '@/components/typography/Headings'
 import { displayNameAtom } from '@/context/atoms'
 import { useAtomValue } from 'jotai'
+
 import AuthContent from './AuthContent'
 import AuthModal from './AuthModal'
 import AvatarSelection from './AvatarSelection'
@@ -24,9 +25,11 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
 
   if (currentUser && displayName) {
     content = <AuthContent />
-  } else if (showGuest) {
+  }
+  if (!currentUser && showGuest) {
     content = <GuestContent />
-  } else {
+  }
+  if (!currentUser && !showGuest)
     content = (
       <>
         <H3 className="uppercase w-[22ch] text-center">
@@ -35,7 +38,7 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
         <AuthModal />
       </>
     )
-  }
+
   return (
     <div className="p-8 bg-bg-primary" role="tabpanel">
       <div aria-labelledby={showGuest ? 'guest-tab' : 'authentication-tab'}>

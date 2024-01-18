@@ -9,7 +9,7 @@ import {
 import { BookText, Mail } from 'lucide-react'
 import { Suspense, lazy } from 'react'
 
-const LoginForm = lazy(() => import('./LoginForm'))
+const SignInForm = lazy(() => import('./SignInForm'))
 const SignUpForm = lazy(() => import('./SignUpForm'))
 
 const AuthModal = () => {
@@ -49,7 +49,7 @@ const AuthModal = () => {
           </DialogHeader>
           {/* Login form */}
           <Suspense fallback={<p>Loading....</p>}>
-            <LoginForm />
+            <SignInForm />
           </Suspense>
           {/* <DialogFooter>
                 <Button type="submit">Save changes</Button>

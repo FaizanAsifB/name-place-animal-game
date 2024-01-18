@@ -8,6 +8,7 @@ import Home from './pages/Home/index.tsx'
 // import ProtectedRoute from './pages/ProtectedRoute.tsx'
 import { Suspense, lazy } from 'react'
 import LoadingSpinner from './components/ui/LoadingSpinner.tsx'
+import ProtectedRoute from './pages/ProtectedRoute.tsx'
 import { loader as redirectLoader } from './pages/Redirect.tsx'
 import { loader as resultLoader } from './pages/Results/index.tsx'
 import RootLayout from './pages/RootLayout.tsx'
@@ -35,58 +36,64 @@ const router = createBrowserRouter([
       {
         path: 'game-creation',
         element: (
-          // <ProtectedRoute>
-          <Suspense fallback={<LoadingSpinner />}>
-            <GameCreation />
-          </Suspense>
-          // </ProtectedRoute>
+          <ProtectedRoute>
+            <Suspense fallback={<LoadingSpinner />}>
+              <GameCreation />
+            </Suspense>
+          </ProtectedRoute>
         ),
       },
 
       {
         path: 'game-room/:roomId',
         element: (
-          // <ProtectedRoute>
-          <Suspense fallback={<LoadingSpinner />}>
-            <GameRoom />
-          </Suspense>
-          // </ProtectedRoute>
+          <ProtectedRoute>
+            <Suspense fallback={<LoadingSpinner />}>
+              <GameRoom />
+            </Suspense>
+          </ProtectedRoute>
         ),
         children: [
           {
             path: 'lobby',
             element: (
-              // <ProtectedRoute>
-              <Suspense fallback={<LoadingSpinner />}>
-                <Lobby />
-              </Suspense>
-              // </ProtectedRoute>
+              <ProtectedRoute>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Lobby />
+                </Suspense>
+              </ProtectedRoute>
             ),
           },
           {
             path: 'game',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
-                <GameScreen />,
-              </Suspense>
+              <ProtectedRoute>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <GameScreen />,
+                </Suspense>
+              </ProtectedRoute>
             ),
             loader: gameLoader,
           },
           {
             path: 'scoring',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
-                <Scoring />
-              </Suspense>
+              <ProtectedRoute>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Scoring />
+                </Suspense>
+              </ProtectedRoute>
             ),
             loader: scoringLoader,
           },
           {
             path: 'result',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
-                <Results />
-              </Suspense>
+              <ProtectedRoute>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Results />
+                </Suspense>
+              </ProtectedRoute>
             ),
             loader: resultLoader,
           },

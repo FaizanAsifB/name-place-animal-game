@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { DialogClose, DialogFooter } from '@/components/ui/dialog.tsx'
+import { DialogFooter } from '@/components/ui/dialog.tsx'
 import {
   Form,
   FormControl,
@@ -11,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input.tsx'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { Mail, XCircle } from 'lucide-react'
+import { Mail } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { auth } from '../../../config/config'
 import { LoginSchema, loginSchema } from '../../../lib/types'
@@ -20,7 +20,7 @@ import { LoginSchema, loginSchema } from '../../../lib/types'
 //   onClose: () => void
 // }
 
-const LoginForm = () => {
+const SignInForm = () => {
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -32,7 +32,7 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginSchema) => {
     const { email, password } = data
 
-    //!add to zod
+    //TODO add to zod
     try {
       await signInWithEmailAndPassword(auth, email, password)
       // onClose()
@@ -87,21 +87,20 @@ const LoginForm = () => {
           />
 
           <DialogFooter className="mt-8">
-            <DialogClose asChild>
-              <Button
-                type="button"
-                variant={'secondary'}
-                size={'md'}
-                disabled={form.formState.isSubmitting}
-              >
-                <XCircle /> Cancel
-              </Button>
-            </DialogClose>
+            {/* <Button
+              type="button"
+              variant={'link'}
+              size={'md'}
+              disabled={form.formState.isSubmitting}
+            >
+              <ClipboardList /> Sign Up
+            </Button> */}
             <Button
               type="submit"
               disabled={form.formState.isSubmitting}
               variant={'secondary'}
               size={'md'}
+              className="mt-4 ml-auto"
             >
               <Mail /> Sign In
             </Button>
@@ -111,4 +110,4 @@ const LoginForm = () => {
     </Form>
   )
 }
-export default LoginForm
+export default SignInForm
