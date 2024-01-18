@@ -4,3 +4,4 @@
 - [ ] Error handling of firebase errors
 - [ ] Optimize with React.lazy
 - [ ] Add timer and slide to local storage / session storage
+- [ ] Sync clock for all players

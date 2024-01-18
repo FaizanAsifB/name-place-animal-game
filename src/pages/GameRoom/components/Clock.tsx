@@ -11,16 +11,26 @@ type ClockProps = {
 }
 
 const Clock = ({ roundTime, gameState }: ClockProps) => {
-  const [timeRemaining, setTimeRemaining] = useState(roundTime)
+  // const [timeRemaining, setTimeRemaining] = useState(roundTime)
   const params = useParams()
 
   const isPlaying = gameState === 'STARTED' || gameState === 'END-TIMER'
+  const totalTime = calcDuration()
+  function calcDuration() {
+    if (gameState === 'END-TIMER') return FASTEST_FINGER_TIME
+    if (!gameState || gameState === 'STARTED') return roundTime
+    return 0
+  }
+
+  const key = !gameState || gameState === 'STARTED' ? 'STARTED' : 'END-TIMER'
 
   const renderTime = ({ remainingTime }: { remainingTime: number }) => {
-    const minutes = Math.floor(remainingTime / 60)
-    const seconds = remainingTime % 60
+    const minutes = remainingTime <= 0 ? 0 : Math.floor(remainingTime / 60)
+    const seconds = remainingTime <= 0 ? 0 : remainingTime % 60
 
     // if (remainingTime === 0) setTimeRemaining(0)
+    if (remainingTime === 0 && gameState !== 'ROUND-ENDED')
+      updateGameState('TIME-ENDED', params.roomId!)
 
     return (
       <div role="timer" aria-live="assertive">
@@ -30,35 +40,35 @@ const Clock = ({ roundTime, gameState }: ClockProps) => {
     )
   }
 
-  useEffect(() => {
-    if (timeRemaining === 0 && gameState !== 'ROUND-ENDED')
-      updateGameState('TIME-ENDED', params.roomId!)
-    if (gameState === 'END-TIMER') setTimeRemaining(FASTEST_FINGER_TIME)
+  // useEffect(() => {
+  //   if (timeRemaining === 0 && gameState !== 'ROUND-ENDED')
+  //     updateGameState('TIME-ENDED', params.roomId!)
+  //   if (gameState === 'END-TIMER') setTimeRemaining(FASTEST_FINGER_TIME)
 
-    // switch (gameState) {
-    //   /* case 'INIT':
-    //     updateGameState('STARTED', params.roomId!)
-    //     break */
-    //   case 'STARTED':
-    //     // startTimer()
-    //     break
-    //   case 'END-TIMER':
-    //     {
-    //       setTimeRemaining(15)
-    //       // startTimer()
-    //     }
-    //     break
-    //   case 'ROUND-ENDED':
-    //     stopTimer()
-    //     break
-    //   case 'TIME-ENDED':
-    //     stopTimer()
-    //     break
-    //   default:
-    //     stopTimer()
-    // }
-    // return () => stopTimer()
-  }, [gameState, params.roomId, timeRemaining])
+  // switch (gameState) {
+  //   /* case 'INIT':
+  //     updateGameState('STARTED', params.roomId!)
+  //     break */
+  //   case 'STARTED':
+  //     // startTimer()
+  //     break
+  //   case 'END-TIMER':
+  //     {
+  //       setTimeRemaining(15)
+  //       // startTimer()
+  //     }
+  //     break
+  //   case 'ROUND-ENDED':
+  //     stopTimer()
+  //     break
+  //   case 'TIME-ENDED':
+  //     stopTimer()
+  //     break
+  //   default:
+  //     stopTimer()
+  // }
+  // return () => stopTimer()
+  // }, [gameState, params.roomId, timeRemaining])
 
   // const timer = useRef<string | number | NodeJS.Timeout | undefined>(0)
 
@@ -79,14 +89,15 @@ const Clock = ({ roundTime, gameState }: ClockProps) => {
   return (
     <div className="ml-auto">
       <CountdownCircleTimer
+        key={key}
         strokeWidth={6}
         strokeLinecap={'round'}
         size={80}
         isPlaying={isPlaying}
-        duration={timeRemaining}
+        duration={totalTime}
         colors={['#004777', '#F7B801', '#A30000', '#A30000']}
         colorsTime={[60, 45, 30, 15]}
-        onComplete={() => ({ shouldRepeat: true, delay: 1 })}
+        onComplete={() => ({ shouldRepeat: false })}
       >
         {renderTime}
       </CountdownCircleTimer>
