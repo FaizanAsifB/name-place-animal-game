@@ -1,5 +1,4 @@
 import { FASTEST_FINGER_TIME } from '@/config/appConfig'
-import { useEffect, useState } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { useParams } from 'react-router-dom'
 import { GameStates } from '../../../lib/types'
@@ -11,7 +10,6 @@ type ClockProps = {
 }
 
 const Clock = ({ roundTime, gameState }: ClockProps) => {
-  // const [timeRemaining, setTimeRemaining] = useState(roundTime)
   const params = useParams()
 
   const isPlaying = gameState === 'STARTED' || gameState === 'END-TIMER'
@@ -39,52 +37,6 @@ const Clock = ({ roundTime, gameState }: ClockProps) => {
       </div>
     )
   }
-
-  // useEffect(() => {
-  //   if (timeRemaining === 0 && gameState !== 'ROUND-ENDED')
-  //     updateGameState('TIME-ENDED', params.roomId!)
-  //   if (gameState === 'END-TIMER') setTimeRemaining(FASTEST_FINGER_TIME)
-
-  // switch (gameState) {
-  //   /* case 'INIT':
-  //     updateGameState('STARTED', params.roomId!)
-  //     break */
-  //   case 'STARTED':
-  //     // startTimer()
-  //     break
-  //   case 'END-TIMER':
-  //     {
-  //       setTimeRemaining(15)
-  //       // startTimer()
-  //     }
-  //     break
-  //   case 'ROUND-ENDED':
-  //     stopTimer()
-  //     break
-  //   case 'TIME-ENDED':
-  //     stopTimer()
-  //     break
-  //   default:
-  //     stopTimer()
-  // }
-  // return () => stopTimer()
-  // }, [gameState, params.roomId, timeRemaining])
-
-  // const timer = useRef<string | number | NodeJS.Timeout | undefined>(0)
-
-  // if (timeRemaining <= 0) clearInterval(timer.current)
-
-  // function startTimer() {
-  //   timer.current = setInterval(() => {
-  //     setTimeRemaining(prev => prev - 1)
-  //   }, 1000)
-  // }
-
-  // function stopTimer() {
-  //   if (!timer.current) return
-  //   clearInterval(timer.current)
-  //   timer.current = 0
-  // }
 
   return (
     <div className="ml-auto">
