@@ -51,7 +51,11 @@ const AnswerCards = ({ gameData }: AnswerCardsProps) => {
 
   //Submit Data
   const onSubmit = async (data: Answers) => {
-    console.log(data)
+    const x = activeCategories.map(item => ({
+      ...item,
+      answers: data[item.title],
+    }))
+    console.log(x)
 
     const answers = { [currentUser!.uid]: data }
 
@@ -128,7 +132,7 @@ const AnswerCards = ({ gameData }: AnswerCardsProps) => {
         </div>
         {/* //TODO should this be sticky? */}
         <Button
-          disabled={form.formState.isSubmitting || form.formState.isSubmitted}
+          // disabled={form.formState.isSubmitting || form.formState.isSubmitted}
           type="submit"
           className="mx-auto mt-6 md:mt-10 lg:mt-12"
         >

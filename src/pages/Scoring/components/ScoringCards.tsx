@@ -30,17 +30,16 @@ const ScoringCards = memo(({ roundData }: ScoringCardsProps) => {
   const { data, params /* fireStoreError */ } = useNextPhase()
 
   // Object that contains user to correct and other users
-  const scoringData: ReturnType<typeof getScoringData> | undefined =
-    useMemo(() => {
-      if (
-        roundData?.answers[`round${roundData.currentRound}`] &&
+  const scoringData = useMemo(() => {
+    if (
+      roundData?.answers[`round${roundData.currentRound}`] &&
+      currentUser?.uid
+    )
+      return getScoringData(
+        roundData.answers[`round${roundData.currentRound}`],
         currentUser?.uid
       )
-        return getScoringData(
-          roundData.answers[`round${roundData.currentRound}`],
-          currentUser?.uid
-        )
-    }, [currentUser, roundData?.answers, roundData?.currentRound])
+  }, [currentUser, roundData?.answers, roundData?.currentRound])
 
   const isSubmitted = useMemo(() => {
     if (
