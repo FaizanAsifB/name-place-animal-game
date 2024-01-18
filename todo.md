@@ -5,3 +5,7 @@
 - [ ] Optimize with React.lazy
 - [ ] Add timer and slide to local storage / session storage
 - [ ] Sync clock for all players
+- [ ] Fix button click bug
+- [ ] Implement proper error handling
+- [ ] Make Clock sticky
+- [ ] Add exit button to game screens

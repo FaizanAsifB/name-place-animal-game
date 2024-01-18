@@ -1,10 +1,18 @@
-import { useRouteError } from 'react-router-dom'
+import { H1 } from '@/components/typography/Headings'
+import { P } from '@/components/typography/TextContent'
+import { Button } from '@/components/ui/button'
+import { Link, useRouteError } from 'react-router-dom'
 
 const Error = () => {
-  const error = useRouteError()
+  const error = useRouteError() as Error
 
-  const title = 'An error occurred!'
-  const message = 'Something went wrong!'
+  let title = 'An error occurred!'
+  let message = 'Something went wrong!'
+
+  if (error) {
+    title = error.statusText
+    message = error.error.message
+  }
 
   // if (error.status === 500) {
   //   message = error.data.message
@@ -16,10 +24,15 @@ const Error = () => {
   // }
   console.error(error)
   return (
-    <>
-      <h1>{title}</h1>
-      <p>{message}</p>
-    </>
+    <main className="grid min-h-screen bg-cover bg-main-bg font-display place-items-center">
+      <div className="p-8 space-y-12 text-center border-2 rounded-lg bg-bg-primary">
+        <H1>{title}</H1>
+        <P>{message}</P>
+        <Button asChild>
+          <Link to="/">Home</Link>
+        </Button>
+      </div>
+    </main>
   )
 }
 export default Error

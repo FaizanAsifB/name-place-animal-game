@@ -3,17 +3,23 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AuthContextProvider } from './context/AuthContext.tsx'
 import './index.css'
 import ErrorPage from './pages/ErrorPage.tsx'
-import GameRoom from './pages/GameRoom.tsx'
-import GameCreation from './pages/GameCreation/index.ts'
-import GameScreen, { loader as gameLoader } from './pages/GameRoom/index.ts'
+import { loader as gameLoader } from './pages/GameRoom/index.ts'
 import Home from './pages/Home/index.tsx'
-import Lobby from './pages/Lobby/index.tsx'
 // import ProtectedRoute from './pages/ProtectedRoute.tsx'
+import { Suspense, lazy } from 'react'
+import LoadingSpinner from './components/ui/LoadingSpinner.tsx'
 import { loader as redirectLoader } from './pages/Redirect.tsx'
-import Results, { loader as resultLoader } from './pages/Results/index.tsx'
+import { loader as resultLoader } from './pages/Results/index.tsx'
 import RootLayout from './pages/RootLayout.tsx'
-import Scoring, { loader as scoringLoader } from './pages/Scoring/index.tsx'
+import { loader as scoringLoader } from './pages/Scoring/index.tsx'
 import { queryClient } from './utils/fetchData.ts'
+
+const GameCreation = lazy(() => import('./pages/GameCreation/index.ts'))
+const GameRoom = lazy(() => import('./pages/GameRoom.tsx'))
+const Lobby = lazy(() => import('./pages/Lobby/index.tsx'))
+const Results = lazy(() => import('./pages/Results/index.tsx'))
+const Scoring = lazy(() => import('./pages/Scoring/index.tsx'))
+const GameScreen = lazy(() => import('./pages/GameRoom/index.ts'))
 
 const router = createBrowserRouter([
   {
@@ -30,7 +36,9 @@ const router = createBrowserRouter([
         path: 'game-creation',
         element: (
           // <ProtectedRoute>
-          <GameCreation />
+          <Suspense fallback={<LoadingSpinner />}>
+            <GameCreation />
+          </Suspense>
           // </ProtectedRoute>
         ),
       },
@@ -39,7 +47,9 @@ const router = createBrowserRouter([
         path: 'game-room/:roomId',
         element: (
           // <ProtectedRoute>
-          <GameRoom />
+          <Suspense fallback={<LoadingSpinner />}>
+            <GameRoom />
+          </Suspense>
           // </ProtectedRoute>
         ),
         children: [
@@ -47,23 +57,37 @@ const router = createBrowserRouter([
             path: 'lobby',
             element: (
               // <ProtectedRoute>
-              <Lobby />
+              <Suspense fallback={<LoadingSpinner />}>
+                <Lobby />
+              </Suspense>
               // </ProtectedRoute>
             ),
           },
           {
             path: 'game',
-            element: <GameScreen />,
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <GameScreen />,
+              </Suspense>
+            ),
             loader: gameLoader,
           },
           {
             path: 'scoring',
-            element: <Scoring />,
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <Scoring />
+              </Suspense>
+            ),
             loader: scoringLoader,
           },
           {
             path: 'result',
-            element: <Results />,
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <Results />
+              </Suspense>
+            ),
             loader: resultLoader,
           },
         ],
