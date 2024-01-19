@@ -2,7 +2,7 @@
 - [ ] Add navigation to sign up from sign in and vice versa
 - [ ] Add forgotten password
 - [ ] Error handling of firebase errors
-- [ ] Optimize with React.lazy
+- [ ] Optimize app
 - [ ] Add timer and slide to local storage / session storage
 - [ ] Disable slider interactions
 - [ ] Sync clock for all players

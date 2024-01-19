@@ -32,6 +32,8 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
     `round${roundsData?.currentRound}`
   ]?.includes(currentUser?.uid ?? '')
 
+  console.log(gameState?.toStarted?.[`round${roundsData?.currentRound}`])
+
   useEffect(() => {
     if (!gameState) return
     if (gameState.gameState === 'INIT' && !isSubmitted && roundsData)
@@ -42,9 +44,10 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
         gameState.totalPlayers &&
       gameState.gameState !== 'STARTED'
     ) {
-      setTimeout(() => {
+      const unsub = setTimeout(() => {
         updateGameState('STARTED', params.roomId)
       }, 2000)
+      return () => clearInterval(unsub)
     }
   }, [gameState, open, isSubmitted, params.roomId, roundsData])
 

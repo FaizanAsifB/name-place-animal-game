@@ -59,28 +59,24 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
         setSliderSettings(prev => ({
           ...prev,
           autoplaySpeed: AUTOPLAY_SPEED * 3,
-          // speed: AUTOPLAY_SPEED * 3,
         }))
         break
       case maxSlides.current - 15:
         setSliderSettings(prev => ({
           ...prev,
           autoplaySpeed: AUTOPLAY_SPEED * 5,
-          // speed: AUTOPLAY_SPEED * 5,
         }))
         break
       case maxSlides.current - 10:
         setSliderSettings(prev => ({
           ...prev,
           autoplaySpeed: AUTOPLAY_SPEED * 6,
-          // speed: AUTOPLAY_SPEED * 6,
         }))
         break
       case maxSlides.current - 5:
         setSliderSettings(prev => ({
           ...prev,
           autoplaySpeed: AUTOPLAY_SPEED * 10,
-          // speed: AUTOPLAY_SPEED * 10,
         }))
         break
     }
@@ -109,6 +105,7 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
       className=""
       afterChange={() => {
         alphabetCount.current++
+
         handlePlayEnd()
       }}
       beforeChange={() => {
