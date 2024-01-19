@@ -53,7 +53,8 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
         className="w-min h-min"
-        onEscapeKeyDown={e => e.preventDefault()} /* visual={true} */
+        onEscapeKeyDown={e => e.preventDefault()}
+        visual={true}
         onPointerDownOutside={e => e.preventDefault()}
         onInteractOutside={e => e.preventDefault()}
       >
