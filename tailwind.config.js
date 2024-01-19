@@ -29,6 +29,7 @@ module.exports = {
         '2xl': '1400px',
       },
       colors: {
+        dots: 'var(--_g)',
         // primary: 'hsl(15,86%,53%)',
         // 'primary-light': 'hsl(38,86%,53%)',
         //  secondary: 'hsl(162,86%,53%)',
@@ -91,10 +92,41 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        dots: {
+          '0%': {
+            'background-position':
+              'calc(0 * 100% / 3) 50%, calc(1 * 100% / 3) 50%,    calc(2 * 100% / 3) 50%, calc(3 * 100% / 3) 50%',
+          },
+          '16.67%': {
+            'background-position':
+              'calc(0 * 100% / 3) 0, calc(1 * 100% / 3) 50%,     calc(2 * 100% / 3) 50%, calc(3 * 100% / 3) 50%',
+          },
+          '33.33%': {
+            'background-position':
+              'calc(0 * 100% / 3) 100%, calc(1 * 100% / 3) 0,      calc(2 * 100% / 3) 50%, calc(3 * 100% / 3) 50%',
+          },
+          '50%': {
+            'background-position':
+              'calc(0 * 100% / 3) 50%, calc(1 * 100% / 3) 100%, calc(2 * 100% / 3) 0, calc(3 * 100% / 3) 50%',
+          },
+          '66.67%': {
+            'background-position':
+              'calc(0 * 100% / 3) 50%, calc(1 * 100% / 3) 50%,      calc(2 * 100% / 3) 100%, calc(3 * 100% / 3) 0',
+          },
+          '83.33%': {
+            'background-position':
+              'calc(0 * 100% / 3) 50%, calc(1 * 100% / 3) 50%,      calc(2 * 100% / 3) 50%, calc(3 * 100% / 3) 100%',
+          },
+          '100%': {
+            'background-position':
+              'calc(0 * 100% / 3) 50%, calc(1 * 100% / 3) 50%,      calc(2 * 100% / 3) 50%, calc(3 * 100% / 3) 50%',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        dots: 'dots 1s infinite linear',
       },
     },
   },
