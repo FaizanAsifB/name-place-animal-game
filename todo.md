@@ -1,4 +1,4 @@
-- [ ] Add protected routes for !auth || gameState !== "LOBBY"
+- [x] Add protected routes for !auth || gameState !== "LOBBY"
 - [ ] Add navigation to sign up from sign in and vice versa
 - [ ] Add forgotten password
 - [ ] Error handling of firebase errors

@@ -7,11 +7,11 @@ import { deleteGuestUser } from '@/utils/auth.ts'
 import { signOut } from 'firebase/auth'
 import { useAtomValue } from 'jotai'
 import { useContext, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import Footer from '../../layout/Footer.tsx'
 import Auth from './Auth.tsx'
 import Guide from './Guide.tsx'
 import GuideModal from './components/GuideModal.tsx'
-import { useNavigate, useSearchParams } from 'react-router-dom'
 
 // grid grid-cols-5
 
@@ -20,11 +20,9 @@ const Home = () => {
   const displayName = useAtomValue(displayNameAtom)
   const navigate = useNavigate()
 
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
 
-  const joinCode = searchParams.get('c')
-
-  console.log(joinCode)
+  const joinCode = searchParams.get('jc')
 
   useEffect(() => {
     if (joinCode && displayName) navigate(`/game-room/${joinCode}/lobby`)

@@ -37,7 +37,6 @@
     "lucide-react": "^0.303.0",
     "react": "^18.2.0",
     "react-confetti-explosion": "^2.1.2",
-    "react-countdown": "^2.3.5",
     "react-countdown-circle-timer": "^3.2.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.2",

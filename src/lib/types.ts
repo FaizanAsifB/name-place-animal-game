@@ -201,7 +201,7 @@ export type GameSettings = {
 
 export type LobbySettings = {
   slots: PlayerData[]
-  settings: RoundSettings
+  hostId: string
 }
 
 export const AnswerSchema = z.string().array()
