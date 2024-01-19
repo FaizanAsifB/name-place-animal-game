@@ -12,6 +12,11 @@ const DialogPortal = DialogPrimitive.Portal
 
 const DialogClose = DialogPrimitive.Close
 
+interface XButtonProps
+  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+  visual?: true
+}
+
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
@@ -29,7 +34,7 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+  XButtonProps
 >(({ className, children, visual, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
