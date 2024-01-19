@@ -15,8 +15,8 @@ import {
   Categories,
   CreateGameData,
   GameStates,
-  LobbySettings,
   PlayerData,
+  RoundSettings,
   RoundsData,
   UpdateScoreData,
   UserAnswers,
@@ -36,7 +36,7 @@ export const uploadCategories = async (
 }
 
 export const uploadSettings = async (
-  { slots, settings }: LobbySettings,
+  { slots, settings }: { slots: PlayerData[]; settings: RoundSettings },
   currentUser: firebase.UserInfo | null
 ) => {
   const snapshot = await getCountFromServer(collection(db, 'lobbies'))

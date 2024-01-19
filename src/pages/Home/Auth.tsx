@@ -63,7 +63,7 @@ const Auth = () => {
       </div>
       <div className="grid row-start-2 rounded-b-lg col-span-full lg:col-span-3 lg:bg-bg-primary place-items-center">
         <Button onClick={handleCreateGame}>
-          <Gamepad2 /> New Game
+          <Gamepad2 /> <span>Start</span>
         </Button>
       </div>
     </>

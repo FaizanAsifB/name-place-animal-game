@@ -199,7 +199,7 @@ export type GameSettings = {
   lobbyId: string
 }
 
-export type LobbySettings = {
+export type LobbyPlayers = {
   slots: PlayerData[]
   hostId: string
 }

@@ -57,27 +57,10 @@ const AddCategories = ({
   const params = useParams()
 
   useEffect(() => {
-    // form.setValue('category1', defaultValues.category1)
-    // form.setValue('category2', defaultValues.category2)
-
     if (defaultValues.category1 && !defaultValues.category2)
       form.setFocus('category2')
     form.setFocus('category1')
   }, [defaultValues.category1, defaultValues.category2, form])
-
-  // function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-  //   if (e.target.name === 'category1')
-  //     form.setValue('category1', e.target.value)
-  //   if (e.target.name === 'category2')
-  //     form.setValue('category2', e.target.value)
-  // }
-
-  // function handleCancel() {
-  //   setValue('category1', defaultValues.category1)
-  //   setValue('category2', defaultValues.category2)
-  //   clearErrors()
-  // closeModal()
-  // }
 
   function checkCategoriesExists(category: string, categoryField: string) {
     const exists =
@@ -85,7 +68,10 @@ const AddCategories = ({
         c =>
           c.addedBy !== currentUser?.uid && c.title.toLowerCase() === category
       ).length !== 0
-    if (exists || defaultCategories.includes(category))
+    if (
+      exists ||
+      defaultCategories.findIndex(item => item.title === category) !== -1
+    )
       form.setError(categoryField, {
         type: 'manual',
         message: 'This category already exists',

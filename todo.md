@@ -6,7 +6,7 @@
 - [ ] Add timer and slide to local storage / session storage
 - [ ] Disable slider interactions
 - [ ] Sync clock for all players
-- [ ] Fix button click bug
+- [x] Fix button click bug. Solved by adding pseudo
 - [ ] Implement proper error handling
 - [ ] Make Clock sticky
 - [ ] Add exit button to game screens

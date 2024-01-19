@@ -1,9 +1,9 @@
-import { LobbySettings } from '@/lib/types'
 import { fetchLobbyData } from '@/utils/fetchData'
 import { useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
+import { LobbyPlayers } from '@/lib/types'
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const currentUser = useContext(AuthContext)
@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { data: lobbyPlayers, isPending } = useQuery({
     queryKey: ['lobbyPlayers', roomId],
     queryFn: ({ queryKey }) =>
-      fetchLobbyData<LobbySettings>(queryKey[1], 'lobbyPlayers'),
+      fetchLobbyData<LobbyPlayers>(queryKey[1], 'lobbyPlayers'),
   })
 
   const pathname = location.pathname

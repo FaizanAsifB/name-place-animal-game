@@ -1,27 +1,28 @@
 import { H1 } from '@/components/typography/Headings'
 import { P } from '@/components/typography/TextContent'
 import { Button } from '@/components/ui/button'
-import { Link, useRouteError } from 'react-router-dom'
+import { ErrorResponse, Link, useRouteError } from 'react-router-dom'
 
 const Error = () => {
-  const error = useRouteError() as Error
+  const error = useRouteError() as ErrorResponse
 
   let title = 'An error occurred!'
   let message = 'Something went wrong!'
 
-  if (error) {
-    title = error.statusText
-    message = error.error.message
+  // if (error) {
+  //   title = error.statusText
+  //   message = error.error.message
+  // }
+
+  if (error.status === 500) {
+    message = error.data.message
   }
 
-  // if (error.status === 500) {
-  //   message = error.data.message
-  // }
+  if (error.status === 404) {
+    title = 'Not found!'
+    message = 'Could not find resource or page.'
+  }
 
-  // if (error.status === 404) {
-  //   title = 'Not found!'
-  //   message = 'Could not find resource or page.'
-  // }
   console.error(error)
   return (
     <main className="grid min-h-screen bg-cover bg-main-bg font-display place-items-center">
