@@ -20,11 +20,14 @@ function HiddenArrow() {
 
 const initialSettings = {
   dots: false,
-  infinite: true,
+  draggable: false,
+  pauseOnHover: false,
   speed: 0,
   slidesToShow: 1,
   slidesToScroll: 1,
+  swipe: false,
   vertical: true,
+  touchMove: false,
   autoplay: true,
   autoplaySpeed: AUTOPLAY_SPEED,
   nextArrow: <HiddenArrow />,
