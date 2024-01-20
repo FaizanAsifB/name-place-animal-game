@@ -44,7 +44,9 @@ const Results = () => {
       {!isLastRound && !isHost && (
         <div className="flex items-center gap-2 mx-auto mb-4">
           <DotsLoader />
-          <span className="text-lg">Waiting for host to continue</span>
+          <span className="text-lg uppercase">
+            Waiting for host to continue
+          </span>
         </div>
       )}
       {!isLastRound && isHost && (

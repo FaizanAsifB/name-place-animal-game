@@ -92,9 +92,7 @@ const ScoringCards = memo(({ roundData }: ScoringCardsProps) => {
   return (
     <article className="grid flex-1 gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3 lg:px-6 lg:gap-6 xl:px-8 xl:gap-8">
       {scoringData &&
-        // Answers to correct
         scoringData?.answersToCorrect.map(category => {
-          //[Category,Answer]
           return (
             <Card className="mt-2 xl:mt-4" key={category.title}>
               <CardHeader>
@@ -142,7 +140,7 @@ const ScoringCards = memo(({ roundData }: ScoringCardsProps) => {
       <Button
         disabled={isSubmitting || isSubmitted}
         type="button"
-        className="mx-auto my-4 w-fit col-span-full"
+        className="mx-auto my-4 col-span-full"
         onClick={handleScoring}
       >
         {isSubmitting ? (

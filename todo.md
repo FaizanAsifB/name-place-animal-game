@@ -4,7 +4,7 @@
 - [ ] Error handling of firebase errors
 - [ ] Optimize app
 - [ ] Add timer and slide to local storage / session storage
-- [ ] Disable slider interactions
+- [x] Disable slider interactions
 - [ ] Sync clock for all players
 - [x] Fix button click bug. Solved by adding pseudo
 - [ ] Implement proper error handling

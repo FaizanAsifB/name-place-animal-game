@@ -1,26 +1,11 @@
 import { H1 } from '@/components/typography/Headings'
-import { Button } from '@/components/ui/button'
-import Header from '@/layout/MainHeader.tsx'
-import { Home } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import MainHeader from '@/layout/MainHeader.tsx'
 import SettingsForm from './SettingsForm.tsx'
 
 const GameCreation = () => {
   return (
     <>
-      <Header>
-        <Button
-          asChild
-          className="col-start-1 row-start-1 w-fit"
-          variant={'outline'}
-          size={'md'}
-        >
-          <Link to="/">
-            <Home />
-            Home
-          </Link>
-        </Button>
-      </Header>
+      <MainHeader hasHomeButton />
       <div className="p-8 rounded-lg bg-bg-primary">
         <H1 className="text-center">Game Settings</H1>
         <SettingsForm />

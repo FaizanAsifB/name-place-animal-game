@@ -1,8 +1,9 @@
 import { useOnSnapShot } from '@/hooks/useOnSnapShot.ts'
 
-import { H1 } from '@/components/typography/Headings.tsx'
+import DotsLoader from '@/components/ui/DotsLoader.tsx'
 import { AuthContext } from '@/context/AuthContext.tsx'
 import { addedCategoriesAtom, categoriesAtom } from '@/context/atoms.ts'
+import MainHeader from '@/layout/MainHeader.tsx'
 import { useSetAtom } from 'jotai'
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -22,6 +23,7 @@ import {
   updateGameState,
 } from '../GameCreation/utils/http'
 import CategoriesList from './components/CategoriesList'
+import InviteDropDown from './components/InviteDropDown.tsx'
 import PlayerSlots from './components/PlayerSlots'
 import SettingsList from './components/SettingsList'
 import {
@@ -55,6 +57,8 @@ const Lobby = () => {
 
   const navigate = useNavigate()
   const currentUser = useContext(AuthContext)
+
+  const isHost = lobbyPlayers?.hostId === currentUser?.uid
 
   const ready = readyPlayers(lobbyPlayers)
   const totalPlayers = gameState?.totalPlayers
@@ -98,36 +102,54 @@ const Lobby = () => {
   }
 
   return (
-    <div className="my-4 space-y-8 rounded-lg md:text-lg lg:text-xl">
-      {gameState?.gameState === 'INIT' && (
-        <AlphabetsScroll gameState={gameState} />
-      )}
+    <>
+      <MainHeader hasHomeButton onClick={handleLobbyCancel} />
+      <div className="my-4 space-y-8 rounded-lg md:text-lg lg:text-xl">
+        {gameState?.gameState === 'INIT' && (
+          <AlphabetsScroll gameState={gameState} />
+        )}
+        <div className="grid gap-y-4 md:gap-x-4 md:grid-cols-5 md:grid-rows-3 xl:grid-cols-6">
+          <PlayerSlots data={lobbyPlayers} error={fireStoreError} />
 
-      <H1 className="text-center">Lobby</H1>
-      <div className="grid gap-y-4 md:gap-x-4 md:grid-cols-5 md:grid-rows-3 xl:grid-cols-6">
-        <PlayerSlots data={lobbyPlayers} error={fireStoreError} />
-
-        <CategoriesList />
-        <SettingsList />
+          <CategoriesList />
+          <SettingsList />
+        </div>
+        {isHost && (
+          <footer className="flex justify-around">
+            <InviteDropDown roomId={params?.roomId} />
+            <Button
+              disabled={ready !== totalPlayers || !isHost}
+              onClick={handlePlay}
+              variant={'secondary'}
+            >
+              <span>
+                {ready}/{totalPlayers}
+              </span>
+              <span>{ready !== totalPlayers ? 'Ready' : 'Play'}</span>
+            </Button>
+          </footer>
+        )}
+        {!isHost && (
+          <footer className="flex w-full">
+            <div className="mx-auto">
+              <div>
+                {ready !== totalPlayers ? (
+                  `${ready}/${totalPlayers} Players Ready`
+                ) : (
+                  <p className="flex items-center gap-2 mx-auto mb-4">
+                    <DotsLoader />
+                    <span className="text-lg uppercase">
+                      Waiting for host to start the game
+                    </span>
+                  </p>
+                )}
+              </div>
+              <span></span>
+            </div>
+          </footer>
+        )}
       </div>
-      <div className="flex justify-around">
-        <Button onClick={handleLobbyCancel}>
-          {currentUser?.uid === lobbyPlayers?.hostId ? 'Cancel' : 'Leave'}
-        </Button>
-        <Button
-          disabled={
-            ready !== totalPlayers || currentUser?.uid != lobbyPlayers?.hostId
-          }
-          onClick={handlePlay}
-          variant={'secondary'}
-        >
-          <span>
-            {ready}/{totalPlayers}
-          </span>
-          <span>{ready !== totalPlayers ? 'Ready' : 'Play'}</span>
-        </Button>
-      </div>
-    </div>
+    </>
   )
 }
 export default Lobby
