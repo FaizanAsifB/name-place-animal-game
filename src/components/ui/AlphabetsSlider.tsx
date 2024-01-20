@@ -9,7 +9,6 @@ import { useParams } from 'react-router-dom'
 import Slider from 'react-slick'
 
 type AlphabetsSliderProps = {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
   isSubmitted: boolean | undefined
   roundsData: CreateGameData | undefined
 }
@@ -58,25 +57,25 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
     if (!maxSlides.current) return
 
     switch (alphabetCount.current) {
-      case maxSlides.current / 2:
+      case maxSlides.current - 15:
         setSliderSettings(prev => ({
           ...prev,
           autoplaySpeed: AUTOPLAY_SPEED * 3,
         }))
         break
-      case maxSlides.current - 15:
+      case maxSlides.current - 10:
         setSliderSettings(prev => ({
           ...prev,
           autoplaySpeed: AUTOPLAY_SPEED * 5,
         }))
         break
-      case maxSlides.current - 10:
+      case maxSlides.current - 5:
         setSliderSettings(prev => ({
           ...prev,
           autoplaySpeed: AUTOPLAY_SPEED * 6,
         }))
         break
-      case maxSlides.current - 5:
+      case maxSlides.current - 2:
         setSliderSettings(prev => ({
           ...prev,
           autoplaySpeed: AUTOPLAY_SPEED * 10,
@@ -88,10 +87,10 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
   //TODO check if the timer causes delay
 
   async function handlePlayEnd() {
-    if (!currentAlphabetIndex.current || !sliderRef.current) return
+    // if (!currentAlphabetIndex.current || !sliderRef.current) return
 
     if (alphabetCount.current === maxSlides.current && !isSubmitted) {
-      sliderRef.current.slickPause()
+      sliderRef.current?.slickPause()
 
       await submitSlideEnd(
         params.roomId!,
@@ -108,6 +107,7 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
       className=""
       afterChange={() => {
         alphabetCount.current++
+        console.log(roundsData)
 
         handlePlayEnd()
       }}

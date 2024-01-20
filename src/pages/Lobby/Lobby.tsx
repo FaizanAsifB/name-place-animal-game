@@ -16,7 +16,7 @@ import {
   GameSettings,
   PlayersData,
 } from '../../lib/types'
-import { fetchLobbyData } from '../../utils/fetchData'
+import { fetchLobbyData, queryClient } from '../../utils/fetchData'
 import {
   createRoundsData,
   createScoresData,
@@ -32,6 +32,7 @@ import {
   getRoundsConfig,
   readyPlayers,
 } from './utils/utils'
+import { useMutation } from '@tanstack/react-query'
 
 const Lobby = () => {
   const { params, data: gameState, fireStoreError } = useNextPhase()
@@ -46,6 +47,18 @@ const Lobby = () => {
     roomId: params.roomId!,
   })
 
+  const { mutate } = useMutation({
+    mutationFn: updatePlayers,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['lobbyPlayers', params.roomId],
+      })
+    },
+  })
+
+  const navigate = useNavigate()
+  const currentUser = useContext(AuthContext)
+
   const categoriesData = useSetAtom(categoriesAtom)
   const addedCategories = useSetAtom(addedCategoriesAtom)
 
@@ -54,9 +67,6 @@ const Lobby = () => {
     categoriesData(data)
     addedCategories(getAllCategories(data))
   }, [addedCategories, categoriesData, data])
-
-  const navigate = useNavigate()
-  const currentUser = useContext(AuthContext)
 
   const isHost = lobbyPlayers?.hostId === currentUser?.uid
 
@@ -81,15 +91,14 @@ const Lobby = () => {
       'lobbies'
     )
     const customCategories = categoriesArr(categoriesData)
-    const roundSelections = getRoundsConfig(
-      customCategories!,
-      settingsData!.settings.rounds.value,
-      categoriesData!.default
-    )
 
     const roundData: CreateGameData = {
       currentRound: 1,
-      roundsConfig: roundSelections,
+      roundsConfig: getRoundsConfig(
+        customCategories!,
+        settingsData!.settings.rounds.value,
+        categoriesData!.default
+      ),
     }
 
     await createRoundsData(params.roomId!, roundData)
@@ -97,7 +106,14 @@ const Lobby = () => {
     lobbyPlayers?.slots.map(async slot => {
       if (slot.displayName) await createScoresData(params.roomId!, slot.uid)
     })
-    await updateGameState('INIT', params.roomId!)
+
+    const res = await queryClient.refetchQueries({
+      queryKey: ['roundsData', params.roomId],
+      type: 'active',
+      exact: true,
+    })
+    console.log(res)
+    // await updateGameState('INIT', params.roomId!)
     return
   }
 
@@ -122,10 +138,13 @@ const Lobby = () => {
               onClick={handlePlay}
               variant={'secondary'}
             >
-              <span>
-                {ready}/{totalPlayers}
-              </span>
-              <span>{ready !== totalPlayers ? 'Ready' : 'Play'}</span>
+              {ready === totalPlayers ? (
+                <span>Play</span>
+              ) : (
+                <span>
+                  {ready}/{totalPlayers} Ready
+                </span>
+              )}
             </Button>
           </footer>
         )}
@@ -144,7 +163,6 @@ const Lobby = () => {
                   </p>
                 )}
               </div>
-              <span></span>
             </div>
           </footer>
         )}

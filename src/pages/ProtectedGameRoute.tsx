@@ -1,9 +1,9 @@
+import { LobbyPlayers } from '@/lib/types'
 import { fetchLobbyData } from '@/utils/fetchData'
 import { useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
-import { LobbyPlayers } from '@/lib/types'
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const currentUser = useContext(AuthContext)
@@ -16,9 +16,9 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   })
 
   const pathname = location.pathname
-
   const isInLobby =
-    lobbyPlayers?.slots.findIndex(slot => slot.uid === currentUser?.uid) !== -1
+    lobbyPlayers &&
+    lobbyPlayers?.slots.findIndex(slot => slot.uid === currentUser?.uid) >= 0
 
   if (!isPending && isInLobby) return children
 

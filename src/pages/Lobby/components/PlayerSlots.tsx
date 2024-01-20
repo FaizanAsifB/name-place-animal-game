@@ -12,6 +12,7 @@ import { H4, H6 } from '@/components/typography/Headings'
 import { Toggle } from '@/components/ui/toggle'
 import { categoriesAtom } from '@/context/atoms'
 import { cn } from '@/lib/utils'
+import { queryClient } from '@/utils/fetchData'
 import { useAtomValue } from 'jotai'
 import { Crown, ThumbsDown, ThumbsUp } from 'lucide-react'
 import {
@@ -44,6 +45,11 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
     // error: updatingError,
   } = useMutation({
     mutationFn: updatePlayers,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['lobbyPlayers', params.roomId],
+      })
+    },
   })
 
   function handleReady(pressed: boolean, i: number) {

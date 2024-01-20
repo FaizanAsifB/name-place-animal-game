@@ -22,7 +22,7 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
 
-  const { data: roundsData } = useQuery({
+  const { data: roundsData, isPending } = useQuery({
     queryKey: ['roundsData', params.roomId],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<CreateGameData>(queryKey[1], 'rounds'),
@@ -32,11 +32,12 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
     `round${roundsData?.currentRound}`
   ]?.includes(currentUser?.uid ?? '')
 
+  console.log(roundsData)
+
   useEffect(() => {
     if (!gameState) return
-    if (gameState.gameState === 'INIT' && !isSubmitted && roundsData)
+    if (gameState.gameState === 'INIT' && !isSubmitted && !isPending)
       setOpen(true)
-    // if (open && gameState.gameState !== 'INIT') setOpen(false)
     if (
       gameState.toStarted?.[`round${roundsData?.currentRound}`]?.length ===
         gameState.totalPlayers &&
@@ -47,7 +48,14 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
       }, 2000)
       return () => clearInterval(unsub)
     }
-  }, [gameState, open, isSubmitted, params.roomId, roundsData])
+  }, [
+    gameState,
+    open,
+    isSubmitted,
+    params.roomId,
+    roundsData?.currentRound,
+    isPending,
+  ])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -58,11 +66,7 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
         onPointerDownOutside={e => e.preventDefault()}
         onInteractOutside={e => e.preventDefault()}
       >
-        <AlphabetsSlider
-          setOpen={setOpen}
-          isSubmitted={isSubmitted}
-          roundsData={roundsData}
-        />
+        <AlphabetsSlider isSubmitted={isSubmitted} roundsData={roundsData} />
       </DialogContent>
     </Dialog>
   )

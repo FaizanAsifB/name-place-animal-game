@@ -1,6 +1,6 @@
 const DotsLoader = () => {
   return (
-    <div
+    <span
       style={{
         background: 'var(--_g), var(--_g), var(--_g), var(--_g)',
         backgroundSize: '20% 50%',
@@ -8,7 +8,7 @@ const DotsLoader = () => {
         aspectRatio: '2.5',
       }}
       className="animate-dots"
-    ></div>
+    ></span>
   )
 }
 export default DotsLoader
