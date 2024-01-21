@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import { RotateCcw } from 'lucide-react'
+import { RefreshCw } from 'lucide-react'
 import { avatarAtom } from '../../../context/atoms'
 import data from '../../../data/data.json' /* assert { type: 'json' } */
 
@@ -7,8 +7,8 @@ const AvatarSelection = () => {
   const [avatarIndex, setAvatarIndex] = useAtom(avatarAtom)
 
   function handleDpChange() {
-    if (avatarIndex === data.avatarImages.length - 1) setAvatarIndex(0)
-    setAvatarIndex(prev => prev + 1)
+    if (avatarIndex === data.avatarImages.length - 1) return setAvatarIndex(0)
+    return setAvatarIndex(prev => prev + 1)
   }
 
   return (
@@ -16,13 +16,13 @@ const AvatarSelection = () => {
       <img
         src={data.avatarImages[avatarIndex].path}
         alt="character logo"
-        className="w-full"
+        className="w-full h-full"
       />
       <button
-        className="absolute bottom-0 right-0 mr-1"
+        className="absolute bottom-0 right-0 p-1 bg-white border-4 border-white rounded-full hover:bg-orange-400"
         onClick={handleDpChange}
       >
-        <RotateCcw size={24} />
+        <RefreshCw size={30} strokeWidth={2.5} />
       </button>
     </div>
   )

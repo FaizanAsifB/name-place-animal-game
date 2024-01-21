@@ -2,6 +2,21 @@
   "avatarImages": [
     { "path": "/images/avatars/bear.svg", "title": "bear" },
     { "path": "/images/avatars/koala.svg", "title": "koala" },
+    { "path": "/images/avatars/alligator.svg", "title": "alligator" },
+    { "path": "/images/avatars/bear-green.svg", "title": "bear-green" },
+    { "path": "/images/avatars/bear-purple.svg", "title": "bear-purple" },
+    { "path": "/images/avatars/bunny-pink.svg", "title": "bunny-pink" },
+    { "path": "/images/avatars/chick.svg", "title": "chick" },
+    { "path": "/images/avatars/chicken.svg", "title": "chicken" },
+    { "path": "/images/avatars/elephant.svg", "title": "elephant" },
+    { "path": "/images/avatars/hippo.svg", "title": "hippo" },
+    { "path": "/images/avatars/lion.svg", "title": "lion" },
+    { "path": "/images/avatars/panda.svg", "title": "panda" },
+    { "path": "/images/avatars/rabbit.svg", "title": "rabbit" },
+    { "path": "/images/avatars/racoon-green.svg", "title": "racoon-green" },
+    { "path": "/images/avatars/racoon-pink.svg", "title": "racoon-pink" },
+    { "path": "/images/avatars/racoon.svg", "title": "racoon" },
+    { "path": "/images/avatars/sheep.svg", "title": "sheep" },
     { "path": "/images/avatars/brown-bear.svg", "title": "brown-bear" }
   ],
   "guide": [
