@@ -1,9 +1,6 @@
-import { toast } from '@/components/ui/use-toast.ts'
-import { Gamepad2 } from 'lucide-react'
 import { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Tab from '../../components/ui/Tab'
-import { Button } from '../../components/ui/button.tsx'
+
 import { AuthContext } from '../../context/AuthContext'
 import TabPanel from './components/TabPanel'
 
@@ -12,24 +9,12 @@ const Auth = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
   const currentUser = useContext(AuthContext)
-  const navigate = useNavigate()
 
   if (currentUser?.email && showGuest) setShowGuest(false)
 
   function handleTabClick(e: React.MouseEvent<HTMLButtonElement>) {
     if (e.currentTarget.ariaSelected == 'true') return
     setShowGuest(!showGuest)
-  }
-
-  function handleCreateGame() {
-    if (!currentUser)
-      return toast({
-        variant: 'destructive',
-        title: 'Authentication required!.',
-        description: 'You must be logged in to create a new game.',
-        // action: <ToastAction altText="Try again">Try again</ToastAction>,
-      })
-    return navigate('game-creation')
   }
 
   return (
@@ -60,11 +45,6 @@ const Auth = () => {
           setErrorMessage={setErrorMessage}
           showGuest={showGuest}
         />
-      </div>
-      <div className="grid row-start-2 rounded-b-lg col-span-full lg:col-span-3 lg:bg-bg-primary place-items-center">
-        <Button onClick={handleCreateGame}>
-          <Gamepad2 /> <span>Start</span>
-        </Button>
       </div>
     </>
   )
