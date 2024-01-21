@@ -160,6 +160,7 @@ export type GameStates =
 export type CreateGameData = {
   currentRound: number
   roundsConfig: RoundsConfig
+  scores: ScoresData
 }
 
 export type RoundsConfig = ReturnType<typeof getRoundsConfig>

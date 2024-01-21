@@ -107,7 +107,6 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
       className=""
       afterChange={() => {
         alphabetCount.current++
-        console.log(roundsData)
 
         handlePlayEnd()
       }}

@@ -4,6 +4,7 @@ import DotsLoader from '@/components/ui/DotsLoader.tsx'
 import { AuthContext } from '@/context/AuthContext.tsx'
 import { addedCategoriesAtom, categoriesAtom } from '@/context/atoms.ts'
 import MainHeader from '@/layout/MainHeader.tsx'
+import { useMutation } from '@tanstack/react-query'
 import { useSetAtom } from 'jotai'
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -15,6 +16,7 @@ import {
   CreateGameData,
   GameSettings,
   PlayersData,
+  ScoresData,
 } from '../../lib/types'
 import { fetchLobbyData, queryClient } from '../../utils/fetchData'
 import {
@@ -32,7 +34,6 @@ import {
   getRoundsConfig,
   readyPlayers,
 } from './utils/utils'
-import { useMutation } from '@tanstack/react-query'
 
 const Lobby = () => {
   const { params, data: gameState, fireStoreError } = useNextPhase()
@@ -48,11 +49,9 @@ const Lobby = () => {
   })
 
   const { mutate } = useMutation({
-    mutationFn: updatePlayers,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['lobbyPlayers', params.roomId],
-      })
+    mutationFn: createRoundsData,
+    onSuccess: async () => {
+      await updateGameState('INIT', params.roomId!)
     },
   })
 
@@ -92,6 +91,17 @@ const Lobby = () => {
     )
     const customCategories = categoriesArr(categoriesData)
 
+    const initialScoresData: ScoresData = {}
+
+    for (const slot of lobbyPlayers.slots) {
+      if (slot.displayName)
+        initialScoresData[slot.uid] = {
+          scoresCategory: [],
+          scoreRounds: [],
+          totalScore: 0,
+        }
+    }
+
     const roundData: CreateGameData = {
       currentRound: 1,
       roundsConfig: getRoundsConfig(
@@ -99,20 +109,15 @@ const Lobby = () => {
         settingsData!.settings.rounds.value,
         categoriesData!.default
       ),
+      scores: initialScoresData,
     }
 
-    await createRoundsData(params.roomId!, roundData)
+    mutate({ lobbyId: params.roomId!, data: roundData })
 
-    lobbyPlayers?.slots.map(async slot => {
-      if (slot.displayName) await createScoresData(params.roomId!, slot.uid)
-    })
+    // lobbyPlayers?.slots.map(async slot => {
+    //   if (slot.displayName) await createScoresData(params.roomId!, slot.uid)
+    // })
 
-    const res = await queryClient.refetchQueries({
-      queryKey: ['roundsData', params.roomId],
-      type: 'active',
-      exact: true,
-    })
-    console.log(res)
     // await updateGameState('INIT', params.roomId!)
     return
   }

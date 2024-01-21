@@ -174,12 +174,15 @@ export const submitSlideEnd = async (
   }
 }
 
-export const createRoundsData = async (
-  lobbyId: string,
+export const createRoundsData = async ({
+  lobbyId,
+  data,
+}: {
+  lobbyId: string
   data: CreateGameData
-) => {
+}) => {
   try {
-    return await setDoc(doc(db, 'rounds', lobbyId), data)
+    await setDoc(doc(db, 'rounds', lobbyId), data)
   } catch (error) {
     throw new Error('There was an error creating game')
   }
@@ -208,24 +211,24 @@ export const submitAnswers = async (
   }
 }
 
-export const createScoresData = async (
-  lobbyId: string,
-  uid: string
-  // data: ScoreData
-) => {
-  try {
-    const res = await updateDoc(doc(db, 'rounds', lobbyId), {
-      [`scores.${uid}`]: {
-        scoresCategory: [],
-        scoreRounds: [],
-        totalScore: 0,
-      },
-    })
-    return res
-  } catch (error) {
-    throw new Error('There was an error creating game')
-  }
-}
+// export const createScoresData = async (
+//   lobbyId: string,
+//   uid: string
+//   // data: ScoreData
+// ) => {
+//   try {
+//     const res = await updateDoc(doc(db, 'rounds', lobbyId), {
+//       [`scores.${uid}`]: {
+//         scoresCategory: [],
+//         scoreRounds: [],
+//         totalScore: 0,
+//       },
+//     })
+//     return res
+//   } catch (error) {
+//     throw new Error('There was an error creating game')
+//   }
+// }
 
 export const updateScoresData = async (
   lobbyId: string,
