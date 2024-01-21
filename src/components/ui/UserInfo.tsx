@@ -2,7 +2,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getUserInfo } from '@/utils/helpers'
 
 import { useFetchPlayers } from '@/hooks/useFetchPlayers'
-import { ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'
 import LoadingSpinner from './LoadingSpinner'
 
@@ -10,14 +9,12 @@ type UserInfoProps = {
   userId: string
   className?: string
   avatarSize?: string
-  children?: ReactNode
 }
 
 const UserInfo = ({
   userId,
   className = '',
   avatarSize = '',
-  children,
 }: UserInfoProps) => {
   const { users, /* isError, error, */ isPending } = useFetchPlayers()
 
@@ -42,7 +39,6 @@ const UserInfo = ({
           </Avatar>
           <div>
             <span>{displayName}</span>
-            {children}
           </div>
         </article>
       )}

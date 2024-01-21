@@ -21,7 +21,6 @@ type ResultsTableProps = {
 
 const ResultsTable = ({ roundsData, isLastRound }: ResultsTableProps) => {
   const scoresData = sortScore(roundsData?.scores)
-
   return (
     <>
       <Dialog defaultOpen={isLastRound}>
@@ -32,16 +31,6 @@ const ResultsTable = ({ roundsData, isLastRound }: ResultsTableProps) => {
           <H1>Results</H1>
         </TableCaption>
         <TableHeader>
-          {/* <TableRow>
-          <TableHead></TableHead>
-          <TableHead></TableHead>
-          <TableHead
-            className="text-center"
-            colSpan={roundsData?.roundsConfig.length}
-          >
-            Rounds
-          </TableHead>
-        </TableRow> */}
           <TableRow>
             <TableHead>Position</TableHead>
             <TableHead>Player</TableHead>

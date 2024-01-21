@@ -1,15 +1,14 @@
+import { H2, H3 } from '@/components/typography/Headings'
 import UserInfo from '@/components/ui/UserInfo'
 import { Button } from '@/components/ui/button'
 import {
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
 } from '@/components/ui/dialog'
 import { AuthContext } from '@/context/AuthContext'
 import { ScoreData } from '@/lib/types'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion'
 import { Link } from 'react-router-dom'
 
@@ -25,7 +24,12 @@ const GameEndModal = ({ scoresData, isLastRound }: GameEndModalProps) => {
   const winnerId = scoresData?.[0][0]
   const winnerScores = scoresData?.[0][1]
   const isCurrentUserWinner = winnerId === currentUser?.uid
+  const currentUserScores = useMemo(() => {
+    if (currentUser)
+      return scoresData?.find(item => item[0] === currentUser?.uid)
+  }, [currentUser, scoresData])
 
+  console.log(currentUserScores)
   useEffect(() => {
     if (currentUser?.uid === winnerId && isLastRound) setIsExploding(true)
   }, [currentUser?.uid, scoresData, isLastRound, winnerId])
@@ -41,28 +45,31 @@ const GameEndModal = ({ scoresData, isLastRound }: GameEndModalProps) => {
   return (
     <>
       {isExploding && (
-        <ConfettiExplosion {...largeProps} className="absolute" />
+        <ConfettiExplosion
+          {...largeProps}
+          className="absolute left-1/2 top-1/4"
+        />
       )}
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          {/* <DialogTitle className="text-center">Final Result</DialogTitle> */}
-          <DialogDescription>
-            {/* Make changes to your profile here. Click save when you're done. */}
-          </DialogDescription>
-        </DialogHeader>
         {isCurrentUserWinner ? (
-          <p className="text-4xl text-center">
-            Congratulations
-            <br /> YOU WON!
-          </p>
+          <>
+            <H2 className="text-center uppercase">Congratulations</H2>
+            <H3 className="text-center uppercase">YOU WON!</H3>
+          </>
         ) : (
-          <div className="flex gap-2">
-            <UserInfo userId={currentUser!.uid} />
-            <span> Won</span>
-          </div>
+          <>
+            <H2 className="text-center uppercase">The winner is</H2>
+            <UserInfo userId={currentUser!.uid} className="justify-center" />
+            <p className="font-semibold text-center capitalize">
+              Their final score: {winnerScores?.totalScore}
+            </p>
+          </>
         )}
-        <p className="text-center">With {winnerScores?.totalScore} points</p>
-        <DialogFooter>
+        <p className="py-4 font-semibold text-center capitalize">
+          {currentUserScores &&
+            `Your final score: ${currentUserScores[1].totalScore}`}
+        </p>
+        <DialogFooter className="pt-4">
           <DialogClose asChild>
             <Button type="button">Close</Button>
           </DialogClose>

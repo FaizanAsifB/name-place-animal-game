@@ -20,11 +20,7 @@ const Player = lazy(() =>
   }))
 )
 
-type GuideProps = {
-  className: string
-}
-
-const Guide = ({ className }: GuideProps) => {
+const Guide = () => {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const [count, setCount] = useState(0)
@@ -46,7 +42,7 @@ const Guide = ({ className }: GuideProps) => {
   }, [api])
 
   return (
-    <div className={`space-y-8 text-center ${className}`}>
+    <div className="hidden col-start-4 row-span-2 p-4 pb-0 space-y-8 text-center border-2 bg-bg-primary col-span-full lg:block">
       <H2 className="capitalize">How To Play</H2>
       <Carousel
         setApi={setApi}
