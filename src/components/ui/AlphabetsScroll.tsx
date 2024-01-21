@@ -32,8 +32,6 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
     `round${roundsData?.currentRound}`
   ]?.includes(currentUser?.uid ?? '')
 
-  console.log(roundsData)
-
   useEffect(() => {
     if (!gameState) return
     if (gameState.gameState === 'INIT' && !isSubmitted && !isPending)

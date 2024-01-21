@@ -18,12 +18,8 @@ import {
   PlayersData,
   ScoresData,
 } from '../../lib/types'
-import { fetchLobbyData, queryClient } from '../../utils/fetchData'
-import {
-  createRoundsData,
-  createScoresData,
-  updateGameState,
-} from '../GameCreation/utils/http'
+import { fetchLobbyData } from '../../utils/fetchData'
+import { createRoundsData, updateGameState } from '../GameCreation/utils/http'
 import CategoriesList from './components/CategoriesList'
 import InviteDropDown from './components/InviteDropDown.tsx'
 import PlayerSlots from './components/PlayerSlots'
