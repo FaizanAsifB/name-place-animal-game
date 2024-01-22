@@ -2,6 +2,10 @@ import { AUTOPLAY_SPEED, MAX_SLIDES } from '@/config/appConfig'
 import { AuthContext } from '@/context/AuthContext'
 import { CreateGameData } from '@/lib/types'
 import { submitSlideEnd } from '@/pages/GameCreation/utils/http'
+import {
+  getFromSessionStorage,
+  saveToSessionStorage,
+} from '@/pages/GameRoom/components/util/utils'
 import { alphabets } from '@/pages/Lobby/utils/utils'
 import { getCurrentRoundConfig } from '@/utils/helpers'
 import { useContext, useRef, useState } from 'react'
@@ -51,6 +55,15 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
     item => item === getCurrentRoundConfig(roundsData!).alphabet
   )
 
+  const alphabetCountInStorage = getFromSessionStorage<number>(
+    'alphabet' + params.roomId + roundsData?.currentRound
+  )
+
+  function setSlide() {
+    if (alphabetCountInStorage) alphabetCount.current = alphabetCountInStorage
+    sliderRef.current?.slickGoTo(alphabetCount.current + 1)
+  }
+
   maxSlides.current = MAX_SLIDES(currentAlphabetIndex.current)
 
   function setAutoPlaySpeed() {
@@ -84,11 +97,7 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
     }
   }
 
-  //TODO check if the timer causes delay
-
   async function handlePlayEnd() {
-    // if (!currentAlphabetIndex.current || !sliderRef.current) return
-
     if (alphabetCount.current === maxSlides.current && !isSubmitted) {
       sliderRef.current?.slickPause()
 
@@ -105,9 +114,13 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
       ref={sliderRef}
       {...sliderSettings}
       className=""
+      onInit={setSlide}
       afterChange={() => {
         alphabetCount.current++
-
+        saveToSessionStorage(
+          'alphabet' + params.roomId + roundsData?.currentRound,
+          alphabetCount.current
+        )
         handlePlayEnd()
       }}
       beforeChange={() => {

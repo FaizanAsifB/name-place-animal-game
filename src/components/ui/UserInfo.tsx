@@ -9,12 +9,14 @@ type UserInfoProps = {
   userId: string
   className?: string
   avatarSize?: string
+  children?: React.ReactNode
 }
 
 const UserInfo = ({
   userId,
   className = '',
   avatarSize = '',
+  children,
 }: UserInfoProps) => {
   const { users, /* isError, error, */ isPending } = useFetchPlayers()
 
@@ -39,6 +41,7 @@ const UserInfo = ({
           </Avatar>
           <div>
             <span>{displayName}</span>
+            {children}
           </div>
         </article>
       )}
