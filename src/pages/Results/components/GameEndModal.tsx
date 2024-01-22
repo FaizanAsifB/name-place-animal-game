@@ -37,6 +37,8 @@ const GameEndModal = ({
       return scoresData?.find(item => item[0] === currentUser?.uid)
   }, [currentUser, scoresData])
 
+  console.log(scoresData)
+
   useEffect(() => {
     if (
       isCurrentUserWinner &&
@@ -74,7 +76,7 @@ const GameEndModal = ({
         ) : (
           <>
             <H2 className="text-center uppercase">The winner is</H2>
-            <UserInfo userId={currentUser!.uid} className="justify-center" />
+            <UserInfo userId={winnerId!} className="justify-center" />
             <p className="font-semibold text-center capitalize">
               Their final score: {winnerScores?.totalScore}
             </p>

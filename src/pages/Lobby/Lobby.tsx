@@ -25,10 +25,10 @@ import InviteDropDown from './components/InviteDropDown.tsx'
 import PlayerSlots from './components/PlayerSlots'
 import SettingsList from './components/SettingsList'
 import {
+  calcReadyPlayers,
   categoriesArr,
   getAllCategories,
   getRoundsConfig,
-  readyPlayers,
 } from './utils/utils'
 
 const Lobby = () => {
@@ -65,8 +65,9 @@ const Lobby = () => {
 
   const isHost = lobbyPlayers?.hostId === currentUser?.uid
 
-  const ready = readyPlayers(lobbyPlayers)
+  const readyPlayers = calcReadyPlayers(lobbyPlayers)
   const totalPlayers = gameState?.totalPlayers
+  const allPlayersReady = readyPlayers === totalPlayers
 
   //TODO implement delete lobby logic
   function handleLobbyCancel() {
@@ -130,15 +131,15 @@ const Lobby = () => {
           <footer className="flex justify-around">
             <InviteDropDown roomId={params?.roomId} />
             <Button
-              disabled={ready !== totalPlayers || !isHost}
+              disabled={!allPlayersReady || !isHost}
               onClick={handlePlay}
               variant={'secondary'}
             >
-              {ready === totalPlayers ? (
+              {allPlayersReady ? (
                 <span>Play</span>
               ) : (
                 <span>
-                  {ready}/{totalPlayers} Ready
+                  {readyPlayers}/{totalPlayers} Ready
                 </span>
               )}
             </Button>
@@ -148,15 +149,18 @@ const Lobby = () => {
           <footer className="flex w-full">
             <div className="mx-auto">
               <div>
-                {ready !== totalPlayers ? (
-                  `${ready}/${totalPlayers} Players Ready`
-                ) : (
+                {!allPlayersReady &&
+                  `${readyPlayers}/${totalPlayers} Players Ready`}
+
+                {allPlayersReady && gameState?.gameState !== 'INIT' ? (
                   <p className="flex items-center gap-2 mx-auto mb-4">
                     <DotsLoader />
                     <span className="text-lg uppercase">
                       Waiting for host to start the game
                     </span>
                   </p>
+                ) : (
+                  ''
                 )}
               </div>
             </div>

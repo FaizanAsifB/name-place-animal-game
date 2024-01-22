@@ -1,4 +1,5 @@
 import { H1 } from '@/components/typography/Headings'
+import AlphabetsScroll from '@/components/ui/AlphabetsScroll'
 import { Dialog } from '@/components/ui/dialog'
 import {
   Table,
@@ -9,13 +10,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import useNextPhase from '@/hooks/useNextPhase'
 import { RoundsData } from '@/lib/types'
 import { sortScore } from '@/utils/helpers'
 import { useMemo } from 'react'
 import UserInfo from '../../../components/ui/UserInfo'
 import GameEndModal from './GameEndModal'
-import useNextPhase from '@/hooks/useNextPhase'
-import AlphabetsScroll from '@/components/ui/AlphabetsScroll'
 
 type ResultsTableProps = {
   roundsData: RoundsData

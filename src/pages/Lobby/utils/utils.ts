@@ -21,7 +21,7 @@ export const inLobby = (data: DocumentData | undefined): number => {
   }, 0)
 }
 
-export const readyPlayers = (data: DocumentData | undefined): number => {
+export const calcReadyPlayers = (data: DocumentData | undefined): number => {
   return data?.slots.reduce((acc: number, item: PlayerData) => {
     if (!item.isReady) return acc
     if (item.isReady) return acc + 1

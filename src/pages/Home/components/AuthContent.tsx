@@ -43,8 +43,12 @@ const AuthContent = () => {
 
   return (
     <>
-      <H2 className="text-center max-w-[20ch]">
-        {`Welcome back ${displayName}! `}
+      <H2 className="text-center max-w-[20ch] capitalize">
+        Welcome back
+        <span className="lg:inline-block lg:pt-1">
+          {' '}
+          {displayName?.toUpperCase()}
+        </span>
       </H2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="">
@@ -53,7 +57,7 @@ const AuthContent = () => {
             name="joinCode"
             render={({ field }) => (
               <FormItem className="relative">
-                <FormLabel> Enter code to join</FormLabel>
+                <FormLabel className="text-lg"> Enter code to join</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input placeholder="G2F3X" {...field} />
