@@ -62,7 +62,7 @@ const Home = () => {
       </Header>
       <div className="grid flex-1 grid-cols-5 grid-rows-[auto,1fr,auto] gap-x-6">
         <Auth />
-        <Guide />
+        <Guide className="hidden col-start-4 row-span-2 p-4 pb-0 border-2 col-span-full lg:block" />
         <div className="grid row-start-2 rounded-b-lg col-span-full lg:col-span-3 lg:bg-bg-primary place-items-center">
           <Button onClick={handleCreateGame}>
             <Gamepad2 /> <span>Start</span>

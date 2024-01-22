@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 // import { Player } from '@lottiefiles/react-lottie-player'
 import { Loader2 } from 'lucide-react'
 import { Suspense, lazy, useEffect, useState } from 'react'
+import { twMerge } from 'tailwind-merge'
 import data from '../../data/data.json'
 
 const Player = lazy(() =>
@@ -20,7 +21,7 @@ const Player = lazy(() =>
   }))
 )
 
-const Guide = () => {
+const Guide = ({ className }: { className: string }) => {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const [count, setCount] = useState(0)
@@ -42,7 +43,7 @@ const Guide = () => {
   }, [api])
 
   return (
-    <div className="hidden col-start-4 row-span-2 p-4 pb-0 space-y-8 text-center border-2 bg-bg-primary col-span-full lg:block">
+    <div className={twMerge('space-y-8 text-center', className)}>
       <H2 className="capitalize">How To Play</H2>
       <Carousel
         setApi={setApi}
