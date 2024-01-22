@@ -57,7 +57,6 @@ export const uploadSettings = async (
       await setDoc(doc(db, 'gameRooms', lobbyRef.id), {
         gameState: 'LOBBY',
         totalPlayers: 1,
-        // currentRound: 1,
       })
     } catch (error) {
       throw new Error('There was an error creating game')

@@ -110,11 +110,6 @@ const Lobby = () => {
 
     mutate({ lobbyId: params.roomId!, data: roundData })
 
-    // lobbyPlayers?.slots.map(async slot => {
-    //   if (slot.displayName) await createScoresData(params.roomId!, slot.uid)
-    // })
-
-    // await updateGameState('INIT', params.roomId!)
     return
   }
 

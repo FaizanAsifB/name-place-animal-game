@@ -85,10 +85,10 @@ const AnswerCards = ({ gameData }: AnswerCardsProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="grid gap-8 md:gap-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 ">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid">
+        <div className="grid gap-8 md:gap-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:grid-rows-3">
           {activeCategories?.map(category => (
-            <Card key={category.id} className="p-2 space-y-3 md:space-y-4">
+            <Card key={category.id} className="p-1 space-y-3">
               <CardHeader>
                 <CardTitle className="text-center uppercase">
                   {category.title}
@@ -129,16 +129,17 @@ const AnswerCards = ({ gameData }: AnswerCardsProps) => {
             </Card>
           ))}
         </div>
-        {/* //TODO should this be sticky? */}
-
-        <Button
-          // disabled={form.formState.isSubmitting || form.formState.isSubmitted}
-          type="submit"
-          className="mx-auto mt-6 md:mt-10 lg:mt-12"
-        >
-          <ListChecks />
-          submit
-        </Button>
+        {/* //TODO should this be sticky on smaller screens? */}
+        <div className="py-12 lg:pt-10 lg:pb-8">
+          <Button
+            disabled={form.formState.isSubmitting || form.formState.isSubmitted}
+            type="submit"
+            className="mx-auto "
+          >
+            <ListChecks />
+            submit
+          </Button>
+        </div>
       </form>
     </Form>
   )

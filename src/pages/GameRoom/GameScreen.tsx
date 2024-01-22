@@ -35,12 +35,13 @@ const GameScreen = () => {
     <section className="flex flex-col flex-1 my-6 ">
       <GameHeader roundsData={roundsData}>
         <Clock
-          roundTime={settings?.settings.roundTime.value}
+          roundTime={5}
           gameState={gameData?.gameState}
+          currentRound={roundsData?.currentRound}
         />
       </GameHeader>
       <article className="px-4 basis-full bg-bg-primary">
-        <div className="flex items-center justify-between pt-6 mb-8 md:mb-12 lg:mb-16 lg:pt-8">
+        <div className="flex items-center justify-between pt-6 pb-8 md:pb-12 lg:pb-16 lg:pt-8">
           <H1>
             Round {roundsData?.currentRound}/{roundsData?.roundsConfig.length}
           </H1>

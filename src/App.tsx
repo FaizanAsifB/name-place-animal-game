@@ -69,7 +69,7 @@ const router = createBrowserRouter([
             element: (
               <ProtectedGameRoute>
                 <Suspense fallback={<LoadingSpinner />}>
-                  <GameScreen />,
+                  <GameScreen />
                 </Suspense>
               </ProtectedGameRoute>
             ),
