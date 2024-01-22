@@ -11,8 +11,11 @@ import {
 } from '@/components/ui/table'
 import { RoundsData } from '@/lib/types'
 import { sortScore } from '@/utils/helpers'
+import { useMemo } from 'react'
 import UserInfo from '../../../components/ui/UserInfo'
 import GameEndModal from './GameEndModal'
+import useNextPhase from '@/hooks/useNextPhase'
+import AlphabetsScroll from '@/components/ui/AlphabetsScroll'
 
 type ResultsTableProps = {
   roundsData: RoundsData
@@ -20,11 +23,24 @@ type ResultsTableProps = {
 }
 
 const ResultsTable = ({ roundsData, isLastRound }: ResultsTableProps) => {
-  const scoresData = sortScore(roundsData?.scores)
+  const { data: gameState } = useNextPhase()
+
+  const scoresData = useMemo(
+    () => sortScore(roundsData?.scores),
+    [roundsData?.scores]
+  )
+
   return (
     <>
+      {gameState?.gameState === 'INIT' && (
+        <AlphabetsScroll gameState={gameState} />
+      )}
       <Dialog defaultOpen={isLastRound}>
-        <GameEndModal scoresData={scoresData} isLastRound={isLastRound} />
+        <GameEndModal
+          scoresData={scoresData}
+          isLastRound={isLastRound}
+          gameState={gameState}
+        />
       </Dialog>
       <Table>
         <TableCaption className="caption-top">

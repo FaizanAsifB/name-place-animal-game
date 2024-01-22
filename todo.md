@@ -10,4 +10,4 @@
 - [ ] Implement proper error handling
 - [ ] Make Clock sticky
 - [ ] Add exit button to game screens
-- [ ] Make avatars same size
+- [x] Make avatars same size

@@ -7,18 +7,26 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog'
 import { AuthContext } from '@/context/AuthContext'
-import { ScoreData } from '@/lib/types'
+import { GameState, ScoreData } from '@/lib/types'
+import { updateGameState } from '@/pages/GameCreation/utils/http'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 type GameEndModalProps = {
   scoresData: [string, ScoreData][] | undefined
   isLastRound: boolean
+  gameState: GameState | undefined
 }
 
-const GameEndModal = ({ scoresData, isLastRound }: GameEndModalProps) => {
+const GameEndModal = ({
+  scoresData,
+  isLastRound,
+  gameState,
+}: GameEndModalProps) => {
   const [isExploding, setIsExploding] = useState(false)
+
+  const params = useParams()
   const currentUser = useContext(AuthContext)
 
   const winnerId = scoresData?.[0][0]
@@ -29,10 +37,17 @@ const GameEndModal = ({ scoresData, isLastRound }: GameEndModalProps) => {
       return scoresData?.find(item => item[0] === currentUser?.uid)
   }, [currentUser, scoresData])
 
-  console.log(currentUserScores)
   useEffect(() => {
-    if (currentUser?.uid === winnerId && isLastRound) setIsExploding(true)
-  }, [currentUser?.uid, scoresData, isLastRound, winnerId])
+    if (
+      isCurrentUserWinner &&
+      isLastRound &&
+      gameState &&
+      gameState?.gameState !== 'GAME-COMPLETED'
+    ) {
+      setIsExploding(true)
+      updateGameState('GAME-COMPLETED', params?.roomId)
+    }
+  }, [isCurrentUserWinner, isLastRound, gameState, params?.roomId])
 
   const largeProps: ConfettiProps = {
     force: 0.8,
