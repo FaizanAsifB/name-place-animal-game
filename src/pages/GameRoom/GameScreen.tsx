@@ -35,7 +35,7 @@ const GameScreen = () => {
     <section className="flex flex-col flex-1 my-6 ">
       <GameHeader roundsData={roundsData}>
         <Clock
-          roundTime={5}
+          roundTime={settings?.settings.roundTime.value}
           gameState={gameData?.gameState}
           currentRound={roundsData?.currentRound}
         />

@@ -1,10 +1,9 @@
 import { FASTEST_FINGER_TIME } from '@/config/appConfig'
-import { AuthContext } from '@/context/AuthContext'
-import { useContext, useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { useParams } from 'react-router-dom'
 import { GameStates } from '../../../lib/types'
-import { updateGameState, updateTimerTime } from '../../GameCreation/utils/http'
+import { updateGameState } from '../../GameCreation/utils/http'
 import { getTimerEndTime, setTimerEndTime } from './util/utils'
 
 type ClockProps = {
@@ -44,8 +43,9 @@ const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {
     const minutes = remainingTime <= 0 ? 0 : Math.floor(remainingTime / 60)
     const seconds = remainingTime <= 0 ? 0 : remainingTime % 60
 
-    if (remainingTime === 0 && gameState !== 'ROUND-ENDED')
+    if (remainingTime === 0 && gameState !== 'ROUND-ENDED') {
       updateGameState('TIME-ENDED', params.roomId!)
+    }
 
     return (
       <div role="timer" aria-live="assertive" aria-label="round-timer">
