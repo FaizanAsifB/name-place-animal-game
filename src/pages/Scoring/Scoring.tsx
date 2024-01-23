@@ -1,4 +1,4 @@
-import { LoaderFunction, useLoaderData, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { fetchLobbyData } from '../../utils/fetchData'
 
@@ -42,7 +42,7 @@ const Scoring = () => {
 export default Scoring
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const loader: LoaderFunction = async ({ params }) => {
-  const roundData = await fetchLobbyData(params.roomId!, 'rounds')
-  return { roundData, roomId: params.roomId /* , userInfo */ }
-}
+// export const loader: LoaderFunction = async ({ params }) => {
+//   const roundData = await fetchLobbyData(params.roomId!, 'rounds')
+//   return { roundData, roomId: params.roomId /* , userInfo */ }
+// }

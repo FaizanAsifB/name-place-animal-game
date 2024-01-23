@@ -8,8 +8,8 @@ import { getFromSessionStorage, saveToSessionStorage } from './util/utils'
 
 type ClockProps = {
   roundTime: number
-  gameState: GameStates | undefined
-  currentRound: number | undefined
+  gameState: GameStates
+  currentRound: number
 }
 
 const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {

@@ -12,7 +12,6 @@ import ProtectedRoute from './pages/ProtectedRoute.tsx'
 import { loader as redirectLoader } from './pages/Redirect.tsx'
 import { loader as resultLoader } from './pages/Results/index.tsx'
 import RootLayout from './pages/RootLayout.tsx'
-import { loader as scoringLoader } from './pages/Scoring/index.tsx'
 import { queryClient } from './utils/fetchData.ts'
 
 const GameCreation = lazy(() => import('./pages/GameCreation/index.ts'))
@@ -84,7 +83,7 @@ const router = createBrowserRouter([
                 </Suspense>
               </ProtectedGameRoute>
             ),
-            loader: scoringLoader,
+            // loader: scoringLoader,
           },
           {
             path: 'result',
