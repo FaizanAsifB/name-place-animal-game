@@ -11,6 +11,6 @@
 - [ ] Make Clock sticky
 - [ ] Add exit button to game screens
 - [x] Make avatars same size
-- [ ] Add update function for avatars
+- [x] Add update function for avatars
 - [ ] Waiting for others submission
 - [ ] Score shouldn't update on scoring screen

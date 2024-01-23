@@ -45,6 +45,8 @@ export const updatePhotoUrl = async (
   user: User,
   updatedUserInfo: UserInfoUpdate
 ) => {
+  if (user.photoURL === updatedUserInfo.photoURL) return
+
   try {
     await updateProfile(user, updatedUserInfo)
     try {

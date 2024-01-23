@@ -36,10 +36,9 @@ const SignInForm = () => {
     //TODO add to zod
     try {
       const res = await signInWithEmailAndPassword(auth, email, password)
-      const photoURL = getAvatarPath(avatarIndex)
-      if (res.user.photoURL !== photoURL) {
-        await updatePhotoUrl(res.user, { photoURL })
-      }
+
+      await updatePhotoUrl(res.user, { photoURL: getAvatarPath(avatarIndex) })
+
       // onClose()
     } catch (error) {
       form.setError(

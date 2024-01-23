@@ -9,12 +9,16 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { displayNameAtom } from '@/context/atoms'
+import { AuthContext } from '@/context/AuthContext'
+import { avatarAtom, displayNameAtom } from '@/context/atoms'
 import { GameCodeSchema } from '@/lib/types'
+import { getAvatarPath } from '@/lib/utils'
+import { updatePhotoUrl } from '@/utils/authentication'
 import { queryData } from '@/utils/fetchData'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { DoorOpen } from 'lucide-react'
+import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
@@ -23,6 +27,9 @@ const AuthContent = () => {
   const navigate = useNavigate()
 
   const displayName = useAtomValue(displayNameAtom)
+  const [avatarIndex] = useAtom(avatarAtom)
+
+  const currentUser = useContext(AuthContext)
 
   const form = useForm<z.infer<typeof GameCodeSchema>>({
     resolver: zodResolver(GameCodeSchema),
@@ -37,6 +44,7 @@ const AuthContent = () => {
       operator: '==',
       value: data.joinCode,
     })
+    await updatePhotoUrl(currentUser!, { photoURL: getAvatarPath(avatarIndex) })
 
     return navigate(`game-room/${res?.lobbyId}/lobby`)
   }
