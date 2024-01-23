@@ -1,5 +1,5 @@
 import { RegistrationInfoType, UserInfoUpdate } from '@/lib/types'
-import { getAvatarPath } from '@/lib/utils'
+import { deleteDataDb, getAvatarPath } from '@/lib/utils'
 import {
   User,
   createUserWithEmailAndPassword,
@@ -7,7 +7,7 @@ import {
   signInAnonymously,
   updateProfile,
 } from 'firebase/auth'
-import { deleteDoc, doc, setDoc } from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../config/firebaseConfig'
 
 export const updateUserProfile = async (
@@ -101,11 +101,7 @@ export const emailSignUp = async (
 export const deleteGuestUser = async (currentUser: User) => {
   try {
     await deleteUser(currentUser)
-    try {
-      await deleteDoc(doc(db, 'users', currentUser!.uid))
-    } catch (error) {
-      throw new Error('Error signing out')
-    }
+    await deleteDataDb('users', currentUser.uid)
   } catch (error) {
     throw new Error('Error signing out')
   }

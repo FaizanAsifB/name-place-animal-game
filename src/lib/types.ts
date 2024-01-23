@@ -217,6 +217,7 @@ export type GameStates =
   | 'SCORING'
   | 'RESULT'
   | 'GAME-COMPLETED'
+  | 'CANCELLED'
 
 export type CreateGameData = {
   currentRound: number

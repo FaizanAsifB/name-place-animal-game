@@ -27,6 +27,9 @@ const useNextPhase = (currentRound?: number) => {
       case 'RESULT':
         navigate('../result')
         break
+      case 'CANCELLED':
+        navigate('/')
+        break
     }
   }, [
     currentRound,

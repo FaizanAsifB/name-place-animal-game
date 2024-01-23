@@ -11,8 +11,6 @@ export const getUserInfo = (slots: PlayerData[], uid: string) => {
   return { displayName: userInfo?.displayName, photoUrl: userInfo?.photoUrl }
 }
 
-// export const getDbUserInfo = uid => {}
-
 export const sortScore = (scoresData: ScoresData | undefined) => {
   if (!scoresData) return
   return Object.entries(scoresData).toSorted(

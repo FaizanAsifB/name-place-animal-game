@@ -1,6 +1,14 @@
 import { DEFAULT_CATEGORIES } from '@/config/gameConfig'
 import { DocumentData, Timestamp } from 'firebase/firestore'
-import { DefaultCategories, PlayerData } from '../../../lib/types'
+import {
+  Categories,
+  CreateGameData,
+  DefaultCategories,
+  GameSettings,
+  PlayerData,
+  ScoresData,
+} from '../../../lib/types'
+import { fetchLobbyData } from '@/utils/fetchData'
 
 type AddedCategories = {
   addedBy: string | undefined
@@ -128,4 +136,33 @@ const getRandomItem = <T>(data: T[]): T => {
   const randomItem = data[i]
 
   return randomItem
+}
+
+export async function roundsDataForPlay(roomId: string, slots: PlayerData[]) {
+  const categoriesData = await fetchLobbyData<Categories>(roomId, 'categories')
+  const settingsData = await fetchLobbyData<GameSettings>(roomId, 'lobbies')
+  const customCategories = categoriesArr(categoriesData)
+
+  const initialScoresData: ScoresData = {}
+
+  for (const slot of slots) {
+    if (slot.displayName)
+      initialScoresData[slot.uid] = {
+        scoresCategory: [],
+        scoreRounds: [],
+        totalScore: 0,
+      }
+  }
+
+  const roundData: CreateGameData = {
+    currentRound: 1,
+    roundsConfig: getRoundsConfig(
+      customCategories!,
+      settingsData!.settings.rounds.value,
+      categoriesData!.default
+    ),
+    scores: initialScoresData,
+  }
+
+  return roundData
 }

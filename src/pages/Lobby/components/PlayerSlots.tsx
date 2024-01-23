@@ -89,27 +89,6 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
     addToLobby()
   }, [addToLobby])
 
-  // if (isPending) {
-  //   return <span>Loading...</span>
-  // }
-
-  // if (isError) {
-  //   return <span>Error: {error.message}</span>
-  // }
-  // const photoUrl = async () => {
-  //   if (!currentUser) return
-
-  //   try {
-  //     const res = await queryData('users', {
-  //       property: 'uid',
-  //       operator: '==',
-  //       value: currentUser?.uid,
-  //     })
-  //     return res?.photoURL
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }
   return (
     <section className="p-4 rounded-lg md:col-span-3 bg-primary-dark md:row-span-full ">
       <H4 className="mb-4 text-center">
