@@ -4,6 +4,7 @@ import { auth } from '@/config/config.ts'
 import { AuthContext } from '@/context/AuthContext.tsx'
 import { avatarAtom, displayNameAtom } from '@/context/atoms.ts'
 import Header from '@/layout/MainHeader.tsx'
+import { getAvatarPath } from '@/lib/utils.ts'
 import { deleteGuestUser, updatePhotoUrl } from '@/utils/authentication.ts'
 import { signOut } from 'firebase/auth'
 import { useAtom, useAtomValue } from 'jotai'
@@ -14,29 +15,30 @@ import Footer from '../../layout/Footer.tsx'
 import Auth from './Auth.tsx'
 import Guide from './Guide.tsx'
 import GuideModal from './components/GuideModal.tsx'
-import { getAvatarPath } from '@/lib/utils.ts'
 
 // grid grid-cols-5
 
 const Home = () => {
   const currentUser = useContext(AuthContext)
-  const displayName = useAtomValue(displayNameAtom)
   const navigate = useNavigate()
-
   const [searchParams] = useSearchParams()
 
-  const joinCode = searchParams.get('jc')
-
+  const displayName = useAtomValue(displayNameAtom)
   const [avatarIndex] = useAtom(avatarAtom)
+
+  const joinCode = searchParams.get('jc')
 
   useEffect(() => {
     if (joinCode && displayName) navigate(`/game-room/${joinCode}/lobby`)
   }, [displayName, joinCode, navigate])
 
   async function signOutUser() {
+    if (!currentUser) return
+
+    if (currentUser?.isAnonymous) return await deleteGuestUser(currentUser)
+
     try {
       await signOut(auth)
-      await deleteGuestUser(currentUser!)
     } catch (error) {
       throw new Error('Error signing out')
     }
@@ -54,6 +56,8 @@ const Home = () => {
 
     return navigate('game-creation')
   }
+
+  console.log(displayName)
 
   return (
     <>

@@ -100,17 +100,14 @@ export const emailSignUp = async (
 }
 
 export const deleteGuestUser = async (currentUser: User) => {
-  if (currentUser?.isAnonymous) {
+  try {
+    await deleteUser(currentUser)
     try {
-      await deleteUser(currentUser!)
-      try {
-        await deleteDoc(doc(db, 'users', currentUser!.uid))
-      } catch (error) {
-        throw new Error('Error signing out')
-      }
+      await deleteDoc(doc(db, 'users', currentUser!.uid))
     } catch (error) {
       throw new Error('Error signing out')
     }
+  } catch (error) {
+    throw new Error('Error signing out')
   }
-  return
 }
