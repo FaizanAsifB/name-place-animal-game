@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { GuestSchema } from '@/lib/types'
-import { guestSignIn } from '@/utils/auth'
+import { guestSignIn } from '@/utils/authentication'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAtom, useSetAtom } from 'jotai'
 import { LogIn } from 'lucide-react'

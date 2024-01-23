@@ -7,8 +7,8 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { DEFAULT_CATEGORIES } from '@/config/appConfig'
+import { SettingsInput } from '@/lib/types'
 import { Control } from 'react-hook-form'
-import { SettingsInput } from './lib/types'
 
 type CategoriesListProps = {
   control: Control<SettingsInput>

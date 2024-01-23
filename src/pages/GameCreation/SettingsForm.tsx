@@ -22,10 +22,15 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { FaFlagCheckered } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
-import { Categories, PlayerData, RoundSettings } from '../../lib/types.ts'
+import {
+  Categories,
+  PlayerData,
+  RoundSettings,
+  SettingsInput,
+  settingsInputSchema,
+} from '../../lib/types.ts'
 import CategoriesList from './CategoriesList.tsx'
 import Setting from './components/Setting.tsx'
-import { SettingsInput, settingsInputSchema } from './lib/types.tsx'
 import { uploadCategories, uploadSettings } from './utils/http.ts'
 import { makePlayerSlots } from './utils/util.ts'
 
