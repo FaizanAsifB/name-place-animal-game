@@ -7,11 +7,20 @@ import { z } from 'zod'
 import { getRoundsConfig } from '../pages/Lobby/utils/utils'
 import { queryData } from '../utils/fetchData'
 
-export type User = {
+export type UserInfo = {
   uid: string
   displayName: string
   isAnonymous: boolean
-  photoUrl: string
+  photoURL: string
+  email?: string | null
+}
+
+export type UserInfoUpdate = {
+  uid?: string
+  displayName?: string
+  isAnonymous?: boolean
+  photoURL: string
+  email?: string | null
 }
 
 export const CollectionEnum = z.enum([
@@ -102,13 +111,13 @@ const RegistrationInfoSchema = loginSchema.merge(DisplayNameSchema)
 
 export type RegistrationInfoType = z.infer<typeof RegistrationInfoSchema>
 
-export type UserInfoDb = {
-  uid?: string
-  displayName?: string
-  photoURL: string | null
-  isAnonymous?: boolean
-  email?: string
-}
+// export type UserInfo = {
+//   uid?: string
+//   displayName?: string
+//   photoURL: string | null
+//   isAnonymous?: boolean
+//   email?: string
+// }
 
 export type PlayerData = {
   isReady: boolean

@@ -11,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input.tsx'
 import { avatarAtom } from '@/context/atoms'
 import { getAvatarPath } from '@/lib/utils'
-import { updateUserInfoDb, updateUserProfile } from '@/utils/authentication'
+import { updatePhotoUrl } from '@/utils/authentication'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useAtom } from 'jotai'
@@ -38,8 +38,7 @@ const SignInForm = () => {
       const res = await signInWithEmailAndPassword(auth, email, password)
       const photoURL = getAvatarPath(avatarIndex)
       if (res.user.photoURL !== photoURL) {
-        await updateUserProfile(res.user, { photoURL })
-        await updateUserInfoDb(res.user.uid, { photoURL })
+        await updatePhotoUrl(res.user, { photoURL })
       }
       // onClose()
     } catch (error) {

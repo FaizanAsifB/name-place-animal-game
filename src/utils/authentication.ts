@@ -1,4 +1,4 @@
-import { RegistrationInfoType, UserInfoDb } from '@/lib/types'
+import { RegistrationInfoType, UserInfoUpdate } from '@/lib/types'
 import { getAvatarPath } from '@/lib/utils'
 import {
   User,
@@ -12,13 +12,48 @@ import { auth, db } from '../config/config'
 
 export const updateUserProfile = async (
   user: User,
-  profileDataToUpdate: {
-    photoURL: string
-    displayName?: string
-  }
+  { displayName, email, photoURL, isAnonymous }: UserInfoUpdate
 ) => {
   try {
-    await updateProfile(user, profileDataToUpdate)
+    await updateProfile(user, {
+      photoURL,
+      displayName,
+    })
+    try {
+      await setDoc(
+        doc(db, 'users', user.uid),
+        {
+          uid: user.uid,
+          displayName,
+          email,
+          photoURL,
+          isAnonymous,
+        },
+        {
+          merge: true,
+        }
+      )
+    } catch (error) {
+      throw new Error('There was an error creating user info')
+    }
+  } catch (error) {
+    throw new Error('There was an error creating a guest user')
+  }
+}
+
+export const updatePhotoUrl = async (
+  user: User,
+  updatedUserInfo: UserInfoUpdate
+) => {
+  try {
+    await updateProfile(user, updatedUserInfo)
+    try {
+      await setDoc(doc(db, 'users', user.uid), updatedUserInfo, {
+        merge: true,
+      })
+    } catch (error) {
+      throw new Error('There was an error updating user info')
+    }
   } catch (error) {
     throw new Error('There was an error creating a guest user')
   }
@@ -31,15 +66,10 @@ export const guestSignIn = async function (
   try {
     const res = await signInAnonymously(auth)
 
-    await updateUserProfile(res.user, {
+    updateUserProfile(res.user, {
+      displayName: guestName,
+      email: res.user.email,
       photoURL: getAvatarPath(avatarIndex),
-      displayName: guestName,
-    })
-
-    await updateUserInfoDb(res.user.uid, {
-      uid: res.user.uid,
-      displayName: guestName,
-      photoURL: res.user.photoURL,
       isAnonymous: res.user.isAnonymous,
     })
 
@@ -56,31 +86,14 @@ export const emailSignUp = async (
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password)
 
-    await updateUserProfile(res.user, {
+    updateUserProfile(res.user, {
+      displayName,
+      email: res.user.email,
       photoURL: getAvatarPath(avatarIndex),
-      displayName,
-    })
-
-    await updateUserInfoDb(res.user.uid, {
-      uid: res.user.uid,
-      displayName,
-      email,
-      photoURL: res.user.photoURL,
       isAnonymous: res.user.isAnonymous,
     })
   } catch (error) {
     throw new Error('There was an error signing up')
-  }
-}
-
-export const updateUserInfoDb = async (
-  userId: string,
-  infoToUpdate: UserInfoDb
-) => {
-  try {
-    await setDoc(doc(db, 'users', userId), infoToUpdate, { merge: true })
-  } catch (error) {
-    throw new Error('There was an error updating user info')
   }
 }
 
