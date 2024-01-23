@@ -54,7 +54,7 @@ const AuthContent = () => {
       <H2 className="text-center max-w-[16ch] capitalize">
         Welcome back{' '}
         <span className="lg:inline-block lg:pt-1">
-          {displayName?.toUpperCase()}
+          {displayName!.toUpperCase()}
         </span>
       </H2>
       <Form {...form}>

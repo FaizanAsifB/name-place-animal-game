@@ -1,8 +1,8 @@
 import { User, onAuthStateChanged } from 'firebase/auth'
+import { useSetAtom } from 'jotai'
 import { createContext, useEffect, useState } from 'react'
 import { auth } from '../config/config'
 import { displayNameAtom } from './atoms'
-import { useSetAtom } from 'jotai'
 
 type AuthContextProviderProps = {
   children: React.ReactNode

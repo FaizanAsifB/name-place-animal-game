@@ -19,17 +19,17 @@ type TabPanelProps = {
 
 const TabPanel = ({ showGuest }: TabPanelProps) => {
   const currentUser = useContext(AuthContext)
-  const displayName = useAtomValue(displayNameAtom)
 
+  const displayName = useAtomValue(displayNameAtom)
   let content: ReactElement | string = ''
 
   if (currentUser && displayName) {
     content = <AuthContent />
   }
-  if (!currentUser && showGuest) {
+  if (!displayName && showGuest) {
     content = <GuestContent />
   }
-  if (!currentUser && !showGuest)
+  if (!displayName && !showGuest)
     content = (
       <>
         <H3 className="uppercase w-[22ch] text-center">

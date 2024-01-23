@@ -37,8 +37,6 @@ const GameEndModal = ({
       return scoresData?.find(item => item[0] === currentUser?.uid)
   }, [currentUser, scoresData])
 
-  console.log(scoresData)
-
   useEffect(() => {
     if (
       isCurrentUserWinner &&

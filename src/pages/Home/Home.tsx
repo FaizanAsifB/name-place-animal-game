@@ -52,12 +52,10 @@ const Home = () => {
         description: 'You must be logged in to create a new game.',
         // action: <ToastAction altText="Try again">Try again</ToastAction>,
       })
-    await updatePhotoUrl(currentUser!, { photoURL: getAvatarPath(avatarIndex) })
+    await updatePhotoUrl(currentUser, { photoURL: getAvatarPath(avatarIndex) })
 
     return navigate('game-creation')
   }
-
-  console.log(displayName)
 
   return (
     <>

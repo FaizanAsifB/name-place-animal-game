@@ -68,14 +68,13 @@ export const guestSignIn = async function (
   try {
     const res = await signInAnonymously(auth)
 
-    updateUserProfile(res.user, {
+    await updateUserProfile(res.user, {
       displayName: guestName,
       email: res.user.email,
       photoURL: getAvatarPath(avatarIndex),
       isAnonymous: res.user.isAnonymous,
     })
-
-    return auth.currentUser
+    return res.user.displayName
   } catch (error) {
     throw new Error('There was an error creating a guest user')
   }

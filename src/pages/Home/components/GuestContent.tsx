@@ -31,8 +31,8 @@ const GuestContent = () => {
   })
 
   async function onSubmit(data: z.infer<typeof GuestSchema>) {
-    const userProfile = await guestSignIn(data.guestName, avatarIndex)
-    userDisplayName(userProfile?.displayName)
+    const displayName = await guestSignIn(data.guestName, avatarIndex)
+    userDisplayName(displayName)
   }
 
   return (
@@ -48,7 +48,7 @@ const GuestContent = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex relative">
+                  <div className="relative flex">
                     <Input placeholder="RandomNick2002" {...field} />
                     <Button
                       type="submit"
