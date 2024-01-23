@@ -9,21 +9,18 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { SignUpType, signUpSchema } from '@/lib/types'
+import { emailSignUp } from '@/utils/authentication'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
-import { doc, setDoc } from 'firebase/firestore'
 import { useAtom } from 'jotai'
 import { BookText, XCircle } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { auth, db } from '../../../config/config'
 import { avatarAtom } from '../../../context/atoms'
-import avatarsData from '../../../data/data.json'
-import { SignUpSchema, signUpSchema } from '../../../lib/types'
 
 const SignUpForm = () => {
   const [avatarIndex] = useAtom(avatarAtom)
 
-  const form = useForm<SignUpSchema>({
+  const form = useForm<SignUpType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: '',
@@ -33,31 +30,8 @@ const SignUpForm = () => {
     },
   })
 
-  const onSubmit = async (data: SignUpSchema) => {
-    const { displayName, email, password } = data
-
-    try {
-      const res = await createUserWithEmailAndPassword(auth, email, password)
-      try {
-        await updateProfile(res.user, {
-          displayName,
-          photoURL: avatarsData.avatarImages[avatarIndex].path,
-        })
-
-        await setDoc(doc(db, 'users', res.user.uid), {
-          uid: res.user.uid,
-          displayName,
-          email,
-          photoURL: res.user.photoURL,
-          isAnonymous: res.user.isAnonymous,
-        })
-        // onClose()
-      } catch (error) {
-        throw new Error('There was an error signing up')
-      }
-    } catch (error) {
-      throw new Error('There was an error signing up')
-    }
+  const onSubmit = async (data: SignUpType) => {
+    await emailSignUp(data, avatarIndex)
   }
 
   return (

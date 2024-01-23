@@ -2,6 +2,7 @@ import { useAtom } from 'jotai'
 import { RefreshCw } from 'lucide-react'
 import { avatarAtom } from '../../../context/atoms'
 import data from '../../../data/data.json' /* assert { type: 'json' } */
+import { getAvatarPath } from '@/lib/utils'
 
 const AvatarSelection = () => {
   const [avatarIndex, setAvatarIndex] = useAtom(avatarAtom)
@@ -14,7 +15,7 @@ const AvatarSelection = () => {
   return (
     <div className="relative w-40 md:w-60 lg:w-64 xl:w-72 aspect-square">
       <img
-        src={data.avatarImages[avatarIndex].path}
+        src={getAvatarPath(avatarIndex)}
         alt="character logo"
         className="w-full h-full"
       />

@@ -9,18 +9,19 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input.tsx'
+import { avatarAtom } from '@/context/atoms'
+import { getAvatarPath } from '@/lib/utils'
+import { updateUserInfoDb, updateUserProfile } from '@/utils/authentication'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signInWithEmailAndPassword } from 'firebase/auth'
+import { useAtom } from 'jotai'
 import { Mail } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { auth } from '../../../config/config'
 import { LoginSchema, loginSchema } from '../../../lib/types'
 
-// type LoginFormProps = {
-//   onClose: () => void
-// }
-
 const SignInForm = () => {
+  const [avatarIndex] = useAtom(avatarAtom)
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -29,12 +30,17 @@ const SignInForm = () => {
     },
   })
 
-  const onSubmit = async (data: LoginSchema) => {
-    const { email, password } = data
+  const onSubmit = async (loginDetails: LoginSchema) => {
+    const { email, password } = loginDetails
 
     //TODO add to zod
     try {
-      await signInWithEmailAndPassword(auth, email, password)
+      const res = await signInWithEmailAndPassword(auth, email, password)
+      const photoURL = getAvatarPath(avatarIndex)
+      if (res.user.photoURL !== photoURL) {
+        await updateUserProfile(res.user, { photoURL })
+        await updateUserInfoDb(res.user.uid, { photoURL })
+      }
       // onClose()
     } catch (error) {
       form.setError(

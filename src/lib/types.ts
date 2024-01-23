@@ -67,6 +67,7 @@ export const GameCodeSchema = z.object({
 export const loginSchema = z.object({
   email: z
     .string()
+    .email()
     .trim()
     .min(6, { message: 'Email must contain at least 6 characters' })
     .max(30, { message: 'Email should not exceed 30 characters' }),
@@ -78,14 +79,16 @@ export const loginSchema = z.object({
 
 export type LoginSchema = z.infer<typeof loginSchema>
 
+export const DisplayNameSchema = z.object({
+  displayName: z
+    .string()
+    .min(3, { message: 'Display Name must contain at least 3 characters' })
+    .max(20),
+})
+
 export const signUpSchema = loginSchema
+  .merge(DisplayNameSchema)
   .extend({
-    displayName: z
-      .string()
-      .min(3, { message: 'Display Name must contain at least 3 characters' })
-      .max(20),
-    // email: z.string().trim().min(6).max(30),
-    // password: z.string().min(8).max(30),
     confirmPassword: z.string(),
   })
   .refine(data => data.password === data.confirmPassword, {
@@ -93,7 +96,19 @@ export const signUpSchema = loginSchema
     path: ['confirmPassword'],
   })
 
-export type SignUpSchema = z.infer<typeof signUpSchema>
+export type SignUpType = z.infer<typeof signUpSchema>
+
+const RegistrationInfoSchema = loginSchema.merge(DisplayNameSchema)
+
+export type RegistrationInfoType = z.infer<typeof RegistrationInfoSchema>
+
+export type UserInfoDb = {
+  uid?: string
+  displayName?: string
+  photoURL: string | null
+  isAnonymous?: boolean
+  email?: string
+}
 
 export type PlayerData = {
   isReady: boolean

@@ -33,7 +33,7 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
     content = (
       <>
         <H3 className="uppercase w-[22ch] text-center">
-          Choose a character and Sign
+          Choose a character and Sign in
         </H3>
         <AuthModal />
       </>
