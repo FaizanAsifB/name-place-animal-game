@@ -11,7 +11,7 @@ import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 import Clock from './components/Clock'
 
-import CurrentAlphabet from '@/components/CurrentAlphabet'
+import CurrentAlphabet from '@/components/ui/CurrentAlphabet'
 import AnswerCards from './components/AnswerCards'
 
 const GameScreen = () => {

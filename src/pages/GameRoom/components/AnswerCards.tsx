@@ -16,7 +16,7 @@ import {
   GameSettings,
   GameState,
 } from '../../../lib/types'
-import { submitAnswers, updateGameState } from '../../GameCreation/utils/http'
+import { submitAnswers, updateGameState } from '../../../utils/http'
 
 type AnswerCardsProps = {
   gameData: GameState | undefined

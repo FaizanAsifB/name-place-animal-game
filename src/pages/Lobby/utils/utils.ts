@@ -1,4 +1,4 @@
-import { DEFAULT_CATEGORIES } from '@/config/appConfig'
+import { DEFAULT_CATEGORIES } from '@/config/gameConfig'
 import { DocumentData, Timestamp } from 'firebase/firestore'
 import { DefaultCategories, PlayerData } from '../../../lib/types'
 
@@ -91,39 +91,35 @@ export const getRoundsConfig = (
 
   let activeCategories = [...defaultCategories]
 
-  const roundsConfig = Array(rounds)
-    .fill('')
-    .map((_, i) => {
-      const activeAlphabet = getRandomItem(remainingAlphabets)
-      const categoryToAdd = getRandomItem(remainingCategories)
+  const roundsConfig = new Array(rounds).fill('').map((_, i) => {
+    const activeAlphabet = getRandomItem(remainingAlphabets)
+    const categoryToAdd = getRandomItem(remainingCategories)
 
-      remainingAlphabets = remainingAlphabets.filter(
-        item => item !== activeAlphabet
-      )
-      if (i % 2 === 0) {
-        if (categoryToAdd) {
-          remainingCategories = remainingCategories.filter(
-            item => item !== categoryToAdd
-          )
-          activeCategories = [
-            ...activeCategories,
-            { id: DEFAULT_CATEGORIES.length + i + 1, title: categoryToAdd },
-          ]
-        }
-
-        return {
-          alphabet: activeAlphabet,
-          activeCategories,
-        }
+    remainingAlphabets = remainingAlphabets.filter(
+      item => item !== activeAlphabet
+    )
+    if (i % 2 === 0) {
+      if (categoryToAdd) {
+        remainingCategories = remainingCategories.filter(
+          item => item !== categoryToAdd
+        )
+        activeCategories = [
+          ...activeCategories,
+          { id: DEFAULT_CATEGORIES.length + i + 1, title: categoryToAdd },
+        ]
       }
 
       return {
         alphabet: activeAlphabet,
         activeCategories,
       }
+    }
 
-      //TODO Check if this is wrong xD
-    })
+    return {
+      alphabet: activeAlphabet,
+      activeCategories,
+    }
+  })
   return roundsConfig
 }
 

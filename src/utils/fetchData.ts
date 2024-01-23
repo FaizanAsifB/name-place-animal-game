@@ -7,7 +7,7 @@ import {
   query,
   where,
 } from 'firebase/firestore'
-import { db } from '../config/config'
+import { db } from '../config/firebaseConfig'
 import { CollectionEnum, Q } from '../lib/types'
 
 export const queryClient = new QueryClient()

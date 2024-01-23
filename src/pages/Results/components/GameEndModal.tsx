@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/dialog'
 import { AuthContext } from '@/context/AuthContext'
 import { GameState, ScoreData } from '@/lib/types'
-import { updateGameState } from '@/pages/GameCreation/utils/http'
+import { updateGameState } from '@/utils/http'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion'
 import { Link, useParams } from 'react-router-dom'

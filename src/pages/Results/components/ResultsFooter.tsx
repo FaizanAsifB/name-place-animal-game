@@ -1,10 +1,7 @@
 import DotsLoader from '@/components/ui/DotsLoader'
 import { Button } from '@/components/ui/button'
 import { AuthContext } from '@/context/AuthContext'
-import {
-  updateCurrentRound,
-  updateGameState,
-} from '@/pages/GameCreation/utils/http'
+import { updateCurrentRound, updateGameState } from '@/utils/http'
 import { ArrowRightCircle, Home } from 'lucide-react'
 import { useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'

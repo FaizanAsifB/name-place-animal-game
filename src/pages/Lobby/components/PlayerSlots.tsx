@@ -19,7 +19,7 @@ import {
   addPlayerCount,
   createUserCategories,
   updatePlayers,
-} from '../../GameCreation/utils/http'
+} from '../../../utils/http'
 import { getCategoryCount, inLobby } from '../utils/utils'
 import AddCategoriesButton from './AddCategoriesButton'
 

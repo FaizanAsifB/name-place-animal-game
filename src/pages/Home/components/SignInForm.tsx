@@ -17,7 +17,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useAtom } from 'jotai'
 import { Mail } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { auth } from '../../../config/config'
+import { auth } from '../../../config/firebaseConfig'
 import { LoginSchema, loginSchema } from '../../../lib/types'
 
 const SignInForm = () => {

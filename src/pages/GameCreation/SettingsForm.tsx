@@ -14,8 +14,7 @@ import { MdAssignmentAdd, MdOutlineCategory } from 'react-icons/md'
 import LoadingSpinner from '@/components/ui/LoadingSpinner.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Input } from '@/components/ui/input.tsx'
-import { DEFAULT_CATEGORIES } from '@/config/appConfig.ts'
-import { serverTimestamp } from 'firebase/firestore'
+import { DEFAULT_CATEGORIES } from '@/config/gameConfig.ts'
 import { AlarmClock, BellElectric, Gamepad2 } from 'lucide-react'
 import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -31,7 +30,9 @@ import {
 } from '../../lib/types.ts'
 import CategoriesList from './CategoriesList.tsx'
 import Setting from './components/Setting.tsx'
-import { uploadCategories, uploadSettings } from './utils/http.ts'
+
+import { serverTimestamp } from 'firebase/firestore'
+import { uploadCategories, uploadSettings } from '../../utils/http.ts'
 import { makePlayerSlots } from './utils/util.ts'
 
 //TODO add dynamic import for serverTimeStamp

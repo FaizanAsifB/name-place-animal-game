@@ -1,6 +1,6 @@
 import { DocumentData, doc, onSnapshot } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import { db } from '../config/config'
+import { db } from '../config/firebaseConfig'
 import { FireStoreError } from '../lib/types'
 
 type SnapShot = {

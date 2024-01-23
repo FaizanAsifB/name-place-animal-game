@@ -6,7 +6,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { DEFAULT_CATEGORIES } from '@/config/appConfig'
+import { DEFAULT_CATEGORIES } from '@/config/gameConfig'
 import { SettingsInput } from '@/lib/types'
 import { Control } from 'react-hook-form'
 

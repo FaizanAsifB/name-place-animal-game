@@ -10,10 +10,7 @@ import { RoundsData } from '@/lib/types'
 import { getSum } from '@/utils/helpers'
 import { SendHorizontal } from 'lucide-react'
 import { memo, useContext, useEffect, useMemo, useState } from 'react'
-import {
-  updateGameState,
-  updateScoresData,
-} from '../../GameCreation/utils/http'
+import { updateGameState, updateScoresData } from '../../../utils/http'
 import AnswersList from './../components/AnswersList'
 import ScoresToggleGroup from './../components/CategoryScores'
 import { getScoringData } from './../utils/helpers'

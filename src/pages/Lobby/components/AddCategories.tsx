@@ -22,7 +22,7 @@ import {
   DefaultCategories,
   customCategoriesSchema,
 } from '../../../lib/types'
-import { submitCategoryInput } from '../../GameCreation/utils/http'
+import { submitCategoryInput } from '../../../utils/http'
 
 type AddCategoriesProps = {
   userCategories: AddedCategories

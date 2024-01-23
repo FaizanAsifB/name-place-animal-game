@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button.tsx'
 import { toast } from '@/components/ui/use-toast.ts'
-import { auth } from '@/config/config.ts'
+import { auth } from '@/config/firebaseConfig.ts'
 import { AuthContext } from '@/context/AuthContext.tsx'
 import { avatarAtom, displayNameAtom } from '@/context/atoms.ts'
 import Header from '@/layout/MainHeader.tsx'

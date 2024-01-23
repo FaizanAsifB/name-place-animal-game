@@ -8,7 +8,7 @@ import {
   updateProfile,
 } from 'firebase/auth'
 import { deleteDoc, doc, setDoc } from 'firebase/firestore'
-import { auth, db } from '../config/config'
+import { auth, db } from '../config/firebaseConfig'
 
 export const updateUserProfile = async (
   user: User,

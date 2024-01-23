@@ -2,7 +2,7 @@ import { LoaderFunction, useLoaderData } from 'react-router-dom'
 
 import { fetchLobbyData } from '../../utils/fetchData'
 
-import CurrentAlphabet from '@/components/CurrentAlphabet'
+import CurrentAlphabet from '@/components/ui/CurrentAlphabet'
 
 import GameHeader from '@/components/ui/GameHeader'
 

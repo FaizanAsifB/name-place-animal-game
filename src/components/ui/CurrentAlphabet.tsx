@@ -1,5 +1,5 @@
 import { twMerge } from 'tailwind-merge'
-import { H2 } from './typography/Headings'
+import { H2 } from '../typography/Headings'
 
 type CurrentAlphabetProps = {
   currentAlphabet: string

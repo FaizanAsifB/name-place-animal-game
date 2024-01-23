@@ -1,9 +1,9 @@
-import { FASTEST_FINGER_TIME } from '@/config/appConfig'
+import { FASTEST_FINGER_TIME } from '@/config/gameConfig'
 import { useMemo } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { useParams } from 'react-router-dom'
 import { GameStates } from '../../../lib/types'
-import { updateGameState } from '../../GameCreation/utils/http'
+import { updateGameState } from '../../../utils/http'
 import { getFromSessionStorage, saveToSessionStorage } from './util/utils'
 
 type ClockProps = {

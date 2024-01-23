@@ -10,7 +10,7 @@ import {
   updateDoc,
 } from 'firebase/firestore'
 
-import { db } from '../../../config/config'
+import { db } from '../config/firebaseConfig'
 import {
   Categories,
   CreateGameData,
@@ -20,8 +20,8 @@ import {
   RoundsData,
   UpdateScoreData,
   UserAnswers,
-} from '../../../lib/types'
-import { fetchLobbyData } from '../../../utils/fetchData'
+} from '../lib/types'
+import { fetchLobbyData } from './fetchData'
 
 export const uploadCategories = async (
   categories: Categories,

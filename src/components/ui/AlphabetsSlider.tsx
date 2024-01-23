@@ -1,13 +1,13 @@
-import { AUTOPLAY_SPEED, MAX_SLIDES } from '@/config/appConfig'
+import { AUTOPLAY_SPEED, MAX_SLIDES } from '@/config/gameConfig'
 import { AuthContext } from '@/context/AuthContext'
 import { CreateGameData } from '@/lib/types'
-import { submitSlideEnd } from '@/pages/GameCreation/utils/http'
 import {
   getFromSessionStorage,
   saveToSessionStorage,
 } from '@/pages/GameRoom/components/util/utils'
 import { alphabets } from '@/pages/Lobby/utils/utils'
 import { getCurrentRoundConfig } from '@/utils/helpers'
+import { submitSlideEnd } from '@/utils/http'
 import { useContext, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Slider from 'react-slick'
