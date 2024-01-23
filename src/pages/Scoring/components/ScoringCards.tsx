@@ -16,10 +16,10 @@ import ScoresToggleGroup from './../components/CategoryScores'
 import { getScoringData } from './../utils/helpers'
 
 type ScoringCardsProps = {
-  roundData: RoundsData
+  roundsData: RoundsData
 }
 
-const ScoringCards = memo(({ roundData }: ScoringCardsProps) => {
+const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
   const [scores, setScores] = useState<Record<string, number> | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const currentUser = useContext(AuthContext)
@@ -29,29 +29,29 @@ const ScoringCards = memo(({ roundData }: ScoringCardsProps) => {
   // Object that contains user to correct and other users
   const scoringData = useMemo(() => {
     if (
-      roundData?.answers[`round${roundData.currentRound}`] &&
+      roundsData?.answers[`round${roundsData.currentRound}`] &&
       currentUser?.uid
     )
       return getScoringData(
-        roundData.answers[`round${roundData.currentRound}`],
+        roundsData.answers[`round${roundsData.currentRound}`],
         currentUser?.uid
       )
-  }, [currentUser, roundData?.answers, roundData?.currentRound])
+  }, [currentUser, roundsData?.answers, roundsData?.currentRound])
 
   const isSubmitted = useMemo(() => {
     if (
       scoringData &&
-      data?.scoresSubmitted?.[`round${roundData?.currentRound}`]
+      data?.scoresSubmitted?.[`round${roundsData?.currentRound}`]
     )
-      return data?.scoresSubmitted[`round${roundData?.currentRound}`].includes(
+      return data?.scoresSubmitted[`round${roundsData?.currentRound}`].includes(
         scoringData?.userIdToCorrect
       )
-  }, [data?.scoresSubmitted, roundData?.currentRound, scoringData])
+  }, [data?.scoresSubmitted, roundsData?.currentRound, scoringData])
 
   useEffect(() => {
-    if (!data?.scoresSubmitted?.[`round${roundData?.currentRound}`]) return
+    if (!data?.scoresSubmitted?.[`round${roundsData?.currentRound}`]) return
     if (
-      data.scoresSubmitted[`round${roundData?.currentRound}`].length ===
+      data.scoresSubmitted[`round${roundsData?.currentRound}`].length ===
       data.totalPlayers
     )
       (async () => await updateGameState('RESULT', params.roomId))()
@@ -59,7 +59,7 @@ const ScoringCards = memo(({ roundData }: ScoringCardsProps) => {
     data?.scoresSubmitted,
     data?.totalPlayers,
     params.roomId,
-    roundData?.currentRound,
+    roundsData?.currentRound,
   ])
 
   async function handleScoring() {
@@ -68,14 +68,14 @@ const ScoringCards = memo(({ roundData }: ScoringCardsProps) => {
       scoresCategory: scores,
       roundScore,
       scoreRounds:
-        roundData?.currentRound === 1
+        roundsData?.currentRound === 1
           ? [roundScore]
           : [
-              ...roundData!.scores[scoringData!.userIdToCorrect].scoreRounds,
+              ...roundsData!.scores[scoringData!.userIdToCorrect].scoreRounds,
               roundScore,
             ],
 
-      currentRound: roundData!.currentRound,
+      currentRound: roundsData!.currentRound,
     }
     setIsSubmitting(true)
     await updateScoresData(
@@ -125,7 +125,7 @@ const ScoringCards = memo(({ roundData }: ScoringCardsProps) => {
                     scores={scores}
                     setScores={setScores}
                     activeCategories={
-                      roundData?.roundsConfig[roundData?.currentRound - 1]
+                      roundsData?.roundsConfig[roundsData?.currentRound - 1]
                         .activeCategories
                     }
                   />
