@@ -13,13 +13,12 @@ import { CollectionEnum, Q } from '../lib/types'
 export const queryClient = new QueryClient()
 
 export const fetchLobbyData = async <T>(
-  roomId: string | undefined,
+  roomId: string,
   col: CollectionEnum
 ) => {
-  if (!roomId) return
   const docRef = doc(db, col, roomId)
   const docSnap = await getDoc(docRef)
-  return docSnap.data() as T
+  return docSnap.data() as Awaited<Promise<T>>
 }
 
 export const fetchPlayers = async (roomId: string | undefined) => {

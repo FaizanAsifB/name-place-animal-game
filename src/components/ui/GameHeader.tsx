@@ -1,12 +1,12 @@
 import { AuthContext } from '@/context/AuthContext'
-import { GameScreenRoundsData } from '@/lib/types'
+import { GameScreenRoundsData, RoundsData } from '@/lib/types'
 import { sortScore } from '@/utils/helpers'
 import { ReactNode, useContext } from 'react'
 import UserInfo from './UserInfo'
 
 type GameHeaderProps = {
   children?: ReactNode
-  roundsData: GameScreenRoundsData
+  roundsData: RoundsData | GameScreenRoundsData | undefined
 }
 
 const GameHeader = ({ children, roundsData }: GameHeaderProps) => {

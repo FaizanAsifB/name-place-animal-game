@@ -12,24 +12,24 @@ import { useEffect } from 'react'
 import Clock from './components/Clock'
 
 import CurrentAlphabet from '@/components/ui/CurrentAlphabet'
-import AnswerCards from './components/AnswerCards'
 import { useQuery } from '@tanstack/react-query'
+import AnswerCards from './components/AnswerCards'
 
 const GameScreen = () => {
   // const { settings, roundsData } = useLoaderData() as {
   //   settings: GameSettings
   //   roundsData: GameScreenRoundsData
   // }
-  const params = useParams()
+  const { roomId } = useParams() as { roomId: string }
 
   const { data: roundsData } = useQuery({
-    queryKey: ['roundsData', params.roomId],
+    queryKey: ['roundsData', roomId],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<RoundsData | GameScreenRoundsData>(queryKey[1], 'rounds'),
   })
 
   const { data: settings } = useQuery({
-    queryKey: ['lobbies', params.roomId],
+    queryKey: ['lobbies', roomId],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<GameSettings>(queryKey[1], 'lobbies'),
   })
@@ -48,7 +48,7 @@ const GameScreen = () => {
   return (
     <section className="flex flex-col flex-1 my-6 ">
       <GameHeader roundsData={roundsData}>
-        {settings && roundsData && gameData && (
+        {gameData && settings && roundsData && (
           <Clock
             roundTime={settings?.settings.roundTime.value}
             gameState={gameData?.gameState}
@@ -63,7 +63,13 @@ const GameScreen = () => {
           </H1>
           <CurrentAlphabet currentAlphabet={currentAlphabet} />
         </div>
-        <AnswerCards gameData={gameData} />
+        {gameData && roundsData && settings && (
+          <AnswerCards
+            gameData={gameData}
+            roundsData={roundsData}
+            endMode={settings.settings.endMode.value}
+          />
+        )}
       </article>
     </section>
   )
@@ -73,13 +79,13 @@ export default GameScreen
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader: LoaderFunction = async ({ params }) => {
   const roundsData = await queryClient.fetchQuery({
-    queryKey: ['roundsData', params.roomId],
+    queryKey: ['roundsData', params.roomId!],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<RoundsData | GameScreenRoundsData>(queryKey[1], 'rounds'),
   })
 
   const settings = await queryClient.fetchQuery({
-    queryKey: ['lobbies', params.roomId],
+    queryKey: ['lobbies', params.roomId!],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<GameSettings>(queryKey[1], 'lobbies'),
   })

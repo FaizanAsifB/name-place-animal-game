@@ -4,7 +4,7 @@ import { CreateGameData } from '@/lib/types'
 import {
   getFromSessionStorage,
   saveToSessionStorage,
-} from '@/pages/GameRoom/components/util/utils'
+} from '@/pages/GameScreen/components/util/utils'
 import { alphabets } from '@/pages/Lobby/utils/utils'
 import { getCurrentRoundConfig } from '@/utils/helpers'
 import { submitSlideEnd } from '@/utils/http'

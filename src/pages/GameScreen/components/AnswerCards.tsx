@@ -13,23 +13,28 @@ import {
   Answers,
   AnswersSchema,
   CreateGameData,
+  EndMode,
+  GameScreenRoundsData,
   GameSettings,
   GameState,
+  RoundsData,
 } from '../../../lib/types'
 import { submitAnswers, updateGameState } from '../../../utils/http'
 
 type AnswerCardsProps = {
-  gameData: GameState | undefined
+  gameData: GameState
+  roundsData: RoundsData | GameScreenRoundsData
+  endMode: EndMode
 }
 
-const AnswerCards = ({ gameData }: AnswerCardsProps) => {
+const AnswerCards = ({ gameData, roundsData }: AnswerCardsProps) => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
 
-  const { roundsData, settings } = useLoaderData() as {
-    roundsData: CreateGameData
-    settings: GameSettings
-  }
+  // const { roundsData, settings } = useLoaderData() as {
+  //   roundsData: CreateGameData
+  //   settings: GameSettings
+  // }
   //TODO WHY is this type undefined?
   const activeCategories = useMemo(() => {
     return getCurrentRoundConfig(roundsData)?.activeCategories

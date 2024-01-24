@@ -1,4 +1,10 @@
-import { CreateGameData, PlayerData, ScoresData } from '../lib/types'
+import {
+  CreateGameData,
+  GameScreenRoundsData,
+  PlayerData,
+  RoundsData,
+  ScoresData,
+} from '../lib/types'
 
 export const getSum = (values: number[]): number => {
   return values.reduce((acc, score) => {
@@ -18,6 +24,8 @@ export const sortScore = (scoresData: ScoresData | undefined) => {
   )
 }
 
-export const getCurrentRoundConfig = (roundsData: CreateGameData) => {
+export const getCurrentRoundConfig = (
+  roundsData: RoundsData | GameScreenRoundsData | CreateGameData
+) => {
   return roundsData?.roundsConfig[roundsData.currentRound - 1]
 }

@@ -72,9 +72,9 @@ const router = createBrowserRouter([
                 </Suspense>
               </ProtectedGameRoute>
             ),
-            loader: () =>
+            loader: params =>
               import('./pages/GameScreen').then(module => ({
-                default: module.loader,
+                loader: module.loader(params),
               })),
           },
           {
@@ -97,9 +97,9 @@ const router = createBrowserRouter([
                 </Suspense>
               </ProtectedGameRoute>
             ),
-            loader: () =>
+            loader: params =>
               import('./pages/Results').then(module => ({
-                default: module.loader,
+                loader: module.loader(params),
               })),
           },
         ],

@@ -131,6 +131,11 @@ export type PlayerData = {
 export const defaultCategoriesSchema = z.record(z.boolean())
 export type DefaultCategoriesList = z.infer<typeof defaultCategoriesSchema>
 
+const EndModeSchema = z.union([
+  z.literal('Fastest Finger'),
+  z.literal('Round Timer'),
+])
+
 export const settingsInputSchema = z
   .object({
     roundTime: z.number(),
@@ -145,7 +150,7 @@ export const settingsInputSchema = z
       .refine(value => value.length === 4, {
         message: 'You have to select at least four categories.',
       }),
-    endMode: z.enum(['Fastest Finger', 'Round Timer']),
+    endMode: EndModeSchema,
     customCategory1: z
       .string()
       .min(1, { message: 'You must submit two categories' }),
@@ -227,6 +232,8 @@ export type CreateGameData = {
 
 export type RoundsConfig = ReturnType<typeof getRoundsConfig>
 
+export type EndMode = z.infer<typeof EndModeSchema>
+
 export type RoundSettings = {
   roundTime: {
     title: string
@@ -238,21 +245,9 @@ export type RoundSettings = {
   }
   endMode: {
     title: string
-    value: 'Fastest Finger' | 'Round Timer'
+    value: EndMode
   }
 }
-
-export const GameSettingsData = z.object({
-  joinCode: z.string(),
-  hostId: z.string(),
-  settings: z.object({
-    'round time': z.number(),
-    round: z.number(),
-    'end mode': z.enum(['Fastest Finger', 'Round Timer']),
-  }),
-  roomNr: z.string(),
-  lobbyId: z.string(),
-})
 
 export type GameSettings = {
   joinCode: string
@@ -333,15 +328,11 @@ export type Q = {
   value: string
 }
 
-export type RoundsData =
-  | ({
-      answers: AnswersData
-      scores: ScoresData
-    } & CreateGameData)
-  | undefined
+export type RoundsData = {
+  answers: AnswersData
+  scores: ScoresData
+} & CreateGameData
 
-export type GameScreenRoundsData =
-  | ({
-      scores: ScoresData
-    } & CreateGameData)
-  | undefined
+export type GameScreenRoundsData = {
+  scores: ScoresData
+} & CreateGameData
