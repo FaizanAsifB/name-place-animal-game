@@ -50,7 +50,6 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
 
   //Submit Data
   const onSubmit = async (data: Answers) => {
-    debugger
     const answersObj = activeCategories.map(item => ({
       ...item,
       answers: data[item.title],
@@ -72,6 +71,7 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
       })
       await updateGameState('SCORING', params.roomId!)
     }
+    return
   }
 
   //Submit Data for players that haven't submitted at round end
@@ -82,6 +82,8 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
     !form.formState.isSubmitted
   )
     form.handleSubmit(onSubmit)()
+
+  console.log(roundsData)
 
   return (
     <Form {...form}>
@@ -132,7 +134,7 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
         {/* //TODO should this be sticky on smaller screens? */}
         <div className="py-12 lg:pt-10 lg:pb-8">
           <Button
-            disabled={form.formState.isSubmitting || form.formState.isSubmitted}
+            // disabled={form.formState.isSubmitting || form.formState.isSubmitted}
             type="submit"
             className="mx-auto "
           >

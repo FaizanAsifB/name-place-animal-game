@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick.css'
 
 import { AuthContext } from '@/context/AuthContext'
 import { CreateGameData, GameState } from '@/lib/types'
-import { fetchLobbyData } from '@/utils/fetchData'
+import { fetchLobbyData, queryClient } from '@/utils/fetchData'
 import { updateGameState } from '@/utils/http'
 import { useQuery } from '@tanstack/react-query'
 import { useContext, useEffect, useState } from 'react'
@@ -40,7 +40,12 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
         gameState.totalPlayers &&
       gameState.gameState !== 'STARTED'
     ) {
-      const unsub = setTimeout(() => {
+      // eslint-disable-next-line no-extra-semi
+      ;(async () =>
+        await queryClient.invalidateQueries({
+          queryKey: ['roundsData', params.roomId!],
+        }))()
+      const unsub = setTimeout(async () => {
         updateGameState('STARTED', params.roomId)
       }, 2000)
       return () => clearInterval(unsub)
