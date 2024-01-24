@@ -1,3 +1,6 @@
+import { H2, H3 } from '@/components/typography/Headings'
+import { P } from '@/components/typography/TextContent'
+import { Button } from '@/components/ui/button'
 import {
   Carousel,
   CarouselContent,
@@ -5,21 +8,17 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel'
 import Autoplay from 'embla-carousel-autoplay'
-
-import { H2, H3 } from '@/components/typography/Headings'
-import { P } from '@/components/typography/TextContent'
-import { Button } from '@/components/ui/button'
-// import { Player } from '@lottiefiles/react-lottie-player'
+import Lottie from 'react-lottie-player/dist/LottiePlayerLight'
 import { Loader2 } from 'lucide-react'
-import { Suspense, lazy, useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
-import data from '../../data/data.json'
+import guideData from '../../data/data.json'
 
-const Player = lazy(() =>
-  import('@lottiefiles/react-lottie-player').then(module => ({
-    default: module.Player,
-  }))
-)
+// const Player = lazy(() =>
+//   import('@lottiefiles/react-lottie-player').then(module => ({
+//     default: module.Player,
+//   }))
+// )
 
 const Guide = ({ className }: { className: string }) => {
   const [api, setApi] = useState<CarouselApi>()
@@ -55,16 +54,20 @@ const Guide = ({ className }: { className: string }) => {
         ]}
       >
         <CarouselContent>
-          {data.guide.map((item, i) => (
+          {guideData.guide.map((item, i) => (
             <CarouselItem key={item.id}>
               <div className="flex flex-col gap-8">
                 <Suspense fallback={<Loader2 />}>
-                  <Player
-                    autoplay
+                  <Lottie
+                    play
                     loop
-                    src={item.animationUrl}
-                    style={{ height: '200px', width: '200px' }}
-                  ></Player>
+                    path={item.animationUrl}
+                    style={{
+                      height: '200px',
+                      width: '200px',
+                      marginInline: 'auto',
+                    }}
+                  ></Lottie>
                 </Suspense>
 
                 <div>
