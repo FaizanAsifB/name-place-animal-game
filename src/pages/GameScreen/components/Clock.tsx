@@ -15,10 +15,9 @@ type ClockProps = {
 const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {
   const params = useParams()
 
-  const initialRemainingTime =
-    gameState === 'END-TIMER' ? FASTEST_FINGER_TIME : roundTime
+  const duration = gameState === 'END-TIMER' ? FASTEST_FINGER_TIME : roundTime
 
-  const remainingDuration = useMemo(() => {
+  const initialRemainingTime = useMemo(() => {
     const storageKey = 'time' + params.roomId! + currentRound
     const timerEndTime = Date.now() + roundTime * 1000
 
@@ -38,20 +37,30 @@ const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {
     return timeInSeconds
   }, [currentRound, params.roomId, roundTime, gameState])
 
-  const isPlaying = remainingDuration > 0
+  console.log(initialRemainingTime)
+
+  const isPlaying = initialRemainingTime > 0
 
   const key = !gameState || gameState === 'STARTED' ? 'STARTED' : 'END-TIMER'
+
+  async function setTimeEndedState() {
+    try {
+      await updateGameState('TIME-ENDED', params.roomId!)
+    } catch (error) {
+      throw new Error('An error occurred!')
+    }
+  }
 
   const renderTime = ({ remainingTime }: { remainingTime: number }) => {
     const minutes = remainingTime <= 0 ? 0 : Math.floor(remainingTime / 60)
     const seconds = remainingTime <= 0 ? 0 : remainingTime % 60
 
-    if (remainingTime === 0 && gameState !== 'ROUND-ENDED') {
-      updateGameState('TIME-ENDED', params.roomId!)
+    if (remainingTime <= 0 && gameState !== 'ROUND-ENDED') {
+      setTimeEndedState()
     }
 
     return (
-      <div role="timer" aria-live="assertive" aria-label="round-timer">
+      <div role="timer" aria-live="assertive" aria-label="round timer">
         {minutes.toString().padStart(2, '0')}:
         {seconds.toString().padStart(2, '0')}
       </div>
@@ -66,8 +75,8 @@ const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {
         strokeLinecap={'round'}
         size={80}
         isPlaying={isPlaying}
-        initialRemainingTime={remainingDuration}
-        duration={initialRemainingTime}
+        initialRemainingTime={initialRemainingTime}
+        duration={duration}
         colors={['#004777', '#F7B801', '#A30000', '#A30000']}
         colorsTime={[60, 45, 30, 15]}
         onComplete={() => ({ shouldRepeat: false })}

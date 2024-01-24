@@ -187,11 +187,15 @@ export const createRoundsData = async ({
   }
 }
 
-export const submitAnswers = async (
-  answers: UserAnswers,
-  roomId: string,
+export const submitAnswers = async ({
+  answers,
+  roomId,
+  currentRound,
+}: {
+  answers: UserAnswers
+  roomId: string
   currentRound: number
-) => {
+}) => {
   const ref = doc(db, 'rounds', roomId)
   try {
     await updateDoc(ref, {

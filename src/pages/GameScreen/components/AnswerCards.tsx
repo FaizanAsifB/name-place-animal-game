@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { queryClient } from '@/utils/fetchData'
 import { getCurrentRoundConfig } from '@/utils/helpers'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { ListChecks } from 'lucide-react'
 import { useContext, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
@@ -29,6 +30,14 @@ type AnswerCardsProps = {
 const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
+
+  const { mutate } = useMutation({
+    mutationFn: submitAnswers,
+    onSuccess: async data => {
+      if (data === gameData?.totalPlayers)
+        await updateGameState('SCORING', params.roomId!)
+    },
+  })
 
   const activeCategories = useMemo(() => {
     return getCurrentRoundConfig(roundsData)?.activeCategories
@@ -60,17 +69,12 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
     if (endMode === 'FASTEST_FINGER' && gameData?.gameState !== 'END-TIMER')
       await updateGameState('END-TIMER', params.roomId!)
 
-    const donePlayers = await submitAnswers(
+    mutate({
       answers,
-      params.roomId!,
-      roundsData.currentRound!
-    )
-    if (donePlayers === gameData?.totalPlayers) {
-      await queryClient.invalidateQueries({
-        queryKey: ['roundsData', params.roomId!],
-      })
-      await updateGameState('SCORING', params.roomId!)
-    }
+      roomId: params.roomId!,
+      currentRound: roundsData.currentRound!,
+    })
+
     return
   }
 
@@ -82,8 +86,6 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
     !form.formState.isSubmitted
   )
     form.handleSubmit(onSubmit)()
-
-  console.log(roundsData)
 
   return (
     <Form {...form}>
@@ -134,7 +136,7 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
         {/* //TODO should this be sticky on smaller screens? */}
         <div className="py-12 lg:pt-10 lg:pb-8">
           <Button
-            // disabled={form.formState.isSubmitting || form.formState.isSubmitted}
+            disabled={form.formState.isSubmitting || form.formState.isSubmitted}
             type="submit"
             className="mx-auto "
           >

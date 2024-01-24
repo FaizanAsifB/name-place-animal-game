@@ -31,17 +31,19 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
 
   const { mutate } = useMutation({
     mutationFn: updateScoresData,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['roundsData', params.roomId!],
-      })
-    },
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries({
+    //     queryKey: ['roundsData', params.roomId!],
+    //   })
+    // },
   })
 
   const currentRoundName = useMemo(
     () => `round${roundsData?.currentRound}`,
     [roundsData?.currentRound]
   )
+
+  console.log(roundsData.answers[currentRoundName])
 
   // Object that contains user to correct and other users
   const scoringData = useMemo(() => {

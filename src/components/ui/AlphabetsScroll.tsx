@@ -41,10 +41,10 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
       gameState.gameState !== 'STARTED'
     ) {
       // eslint-disable-next-line no-extra-semi
-      ;(async () =>
-        await queryClient.invalidateQueries({
-          queryKey: ['roundsData', params.roomId!],
-        }))()
+      // ;(async () =>
+      //   await queryClient.invalidateQueries({
+      //     queryKey: ['roundsData', params.roomId!],
+      //   }))()
       const unsub = setTimeout(async () => {
         updateGameState('STARTED', params.roomId)
       }, 2000)

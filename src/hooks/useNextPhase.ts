@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useMatch, useNavigate, useParams } from 'react-router-dom'
 import { GameState } from '../lib/types'
 import { useOnSnapShot } from './useOnSnapShot'
+import { queryClient } from '@/utils/fetchData'
 
 const useNextPhase = (currentRound?: number) => {
   const navigate = useNavigate()
@@ -13,18 +14,31 @@ const useNextPhase = (currentRound?: number) => {
     roomId: params.roomId,
   })
 
+  const invalidateRoundsData = useCallback(async () => {
+    try {
+      await queryClient.invalidateQueries({
+        queryKey: ['roundsData', params.roomId!],
+      })
+    } catch (error) {
+      throw new Error('Something went wrong!')
+    }
+  }, [params.roomId])
+
   useEffect(() => {
     if (!data?.gameState) return
     switch (data?.gameState) {
       case 'STARTED':
+        // invalidateRoundsData()
         navigate(`../game`)
         break
       case 'SCORING':
-        if (matchScoringPath) return
+        invalidateRoundsData()
+        // if (matchScoringPath) return
         window.sessionStorage.clear()
         navigate('../scoring')
         break
       case 'RESULT':
+        invalidateRoundsData()
         navigate('../result')
         break
       case 'CANCELLED':
@@ -32,6 +46,7 @@ const useNextPhase = (currentRound?: number) => {
         break
     }
   }, [
+    invalidateRoundsData,
     currentRound,
     data?.gameState,
     data?.scoresSubmitted,
