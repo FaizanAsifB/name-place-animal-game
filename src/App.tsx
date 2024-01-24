@@ -19,7 +19,7 @@ const GameRoom = lazy(() => import('./pages/GameRoom.tsx'))
 const Lobby = lazy(() => import('./pages/Lobby'))
 const Results = lazy(() => import('./pages/Results'))
 const Scoring = lazy(() => import('./pages/Scoring'))
-const GameScreen = lazy(() => import('./pages/GameScreen))
+const GameScreen = lazy(() => import('./pages/GameScreen'))
 
 const router = createBrowserRouter([
   {
