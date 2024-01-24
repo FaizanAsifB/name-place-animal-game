@@ -1,1 +1,1 @@
-export { default, loader } from './Scoring.tsx'
+export { default } from './Scoring.tsx'
