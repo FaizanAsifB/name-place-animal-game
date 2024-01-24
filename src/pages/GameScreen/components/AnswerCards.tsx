@@ -57,7 +57,7 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
 
     const answers = { [currentUser!.uid]: answersObj }
 
-    if (endMode === 'Fastest Finger' && gameData?.gameState !== 'END-TIMER')
+    if (endMode === 'FASTEST_FINGER' && gameData?.gameState !== 'END-TIMER')
       await updateGameState('END-TIMER', params.roomId!)
 
     const donePlayers = await submitAnswers(
