@@ -20,7 +20,7 @@ const Scoring = () => {
   const params = useParams()
 
   const { data: roundsData } = useQuery({
-    queryKey: ['roundData', params.roomId],
+    queryKey: ['roundData', params.roomId!],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<RoundsData>(queryKey[1], 'rounds'),
   })
@@ -35,7 +35,7 @@ const Scoring = () => {
           />
         )}
       </GameHeader>
-      <ScoringCards roundsData={roundsData} />
+      {roundsData && <ScoringCards roundsData={roundsData} />}
     </section>
   )
 }

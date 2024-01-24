@@ -3,21 +3,27 @@ import { Button } from '@/components/ui/button'
 import { AuthContext } from '@/context/AuthContext'
 import { updateCurrentRound, updateGameState } from '@/utils/http'
 import { ArrowRightCircle, Home } from 'lucide-react'
-import { useContext } from 'react'
+import { Dispatch, useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 type ResultsFooterProps = {
   hostId: string
   isLastRound: boolean
+  setQueryEnabled: Dispatch<React.SetStateAction<boolean>>
 }
 
-const ResultsFooter = ({ hostId, isLastRound }: ResultsFooterProps) => {
+const ResultsFooter = ({
+  hostId,
+  isLastRound,
+  setQueryEnabled,
+}: ResultsFooterProps) => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
 
   const isHost = currentUser?.uid === hostId
 
   async function handleNextRound() {
+    setQueryEnabled(false)
     await updateCurrentRound(params.roomId!)
     await updateGameState('INIT', params.roomId!)
   }
@@ -32,12 +38,7 @@ const ResultsFooter = ({ hostId, isLastRound }: ResultsFooterProps) => {
 
   if (!isLastRound && isHost)
     return (
-      <Button
-        disabled={currentUser?.uid !== hostId}
-        type="button"
-        className="mx-auto my-6"
-        onClick={handleNextRound}
-      >
+      <Button type="button" className="mx-auto my-6" onClick={handleNextRound}>
         <ArrowRightCircle /> Next Round
       </Button>
     )

@@ -97,10 +97,10 @@ const router = createBrowserRouter([
                 </Suspense>
               </ProtectedGameRoute>
             ),
-            loader: params =>
+            /* loader: params =>
               import('./pages/Results').then(module => ({
                 loader: module.loader(params),
-              })),
+              })), */
           },
         ],
       },

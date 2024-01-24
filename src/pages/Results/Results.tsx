@@ -1,33 +1,75 @@
-import { GameSettings, RoundsData } from '@/lib/types'
-import { LoaderFunction, useLoaderData } from 'react-router-dom'
+import { GameScreenRoundsData, GameSettings, RoundsData } from '@/lib/types'
+import { useQuery } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
 import { fetchLobbyData } from '../../utils/fetchData'
 import ResultsFooter from './components/ResultsFooter'
 import ResultsTable from './components/ResultsTable'
+import { useMemo, useState } from 'react'
+import AlphabetsScroll from '@/components/ui/AlphabetsScroll'
+import { Dialog } from '@/components/ui/dialog'
+import GameEndModal from './components/GameEndModal'
+import useNextPhase from '@/hooks/useNextPhase'
+import { sortScore } from '@/utils/helpers'
 
 const Results = () => {
-  const { roundsData, settings } = useLoaderData() as {
-    roundsData: RoundsData
-    settings: GameSettings
-  }
+  const [queryEnabled, setQueryEnabled] = useState(true)
+  const { data: gameState } = useNextPhase()
 
-  // const { error } =
+  const { roomId } = useParams() as { roomId: string }
+
+  const { data: roundsData } = useQuery({
+    queryKey: ['roundsData', roomId],
+    queryFn: ({ queryKey }) =>
+      fetchLobbyData<RoundsData | GameScreenRoundsData>(queryKey[1], 'rounds'),
+    enabled: queryEnabled,
+  })
+
+  console.log(queryEnabled, roundsData?.currentRound)
+
+  const { data: settings } = useQuery({
+    queryKey: ['lobbies', roomId],
+    queryFn: ({ queryKey }) =>
+      fetchLobbyData<GameSettings>(queryKey[1], 'lobbies'),
+    enabled: queryEnabled,
+  })
+
+  const scoresData = useMemo(
+    () => sortScore(roundsData?.scores),
+    [roundsData?.scores]
+  )
 
   const isLastRound =
     roundsData?.currentRound === settings?.settings.rounds.value
 
+  console.log(isLastRound)
+
   return (
     <section className="flex flex-col justify-between flex-1 my-6 bg-bg-primary">
-      <ResultsTable roundsData={roundsData} isLastRound={isLastRound} />
-      <ResultsFooter hostId={settings?.hostId} isLastRound={isLastRound} />
+      {gameState?.gameState === 'INIT' && (
+        <AlphabetsScroll gameState={gameState} />
+      )}
+
+      <GameEndModal
+        scoresData={scoresData}
+        isLastRound={isLastRound}
+        gameState={gameState}
+      />
+
+      {roundsData && settings && (
+        <>
+          <ResultsTable
+            scoresData={scoresData!}
+            isLastRound={isLastRound}
+            currentRound={roundsData.currentRound}
+          />
+          <ResultsFooter
+            hostId={settings?.hostId}
+            isLastRound={isLastRound}
+            setQueryEnabled={setQueryEnabled}
+          />
+        </>
+      )}
     </section>
   )
 }
 export default Results
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const loader: LoaderFunction = async ({ params }) => {
-  const roundsData = await fetchLobbyData<RoundsData>(params.roomId!, 'rounds')
-  const settings = await fetchLobbyData<GameSettings>(params.roomId!, 'lobbies')
-
-  return { roundsData, settings }
-}

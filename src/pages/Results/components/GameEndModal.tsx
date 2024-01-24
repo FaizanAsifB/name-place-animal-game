@@ -2,6 +2,7 @@ import { H2, H3 } from '@/components/typography/Headings'
 import UserInfo from '@/components/ui/UserInfo'
 import { Button } from '@/components/ui/button'
 import {
+  Dialog,
   DialogClose,
   DialogContent,
   DialogFooter,
@@ -58,7 +59,7 @@ const GameEndModal = ({
   }
 
   return (
-    <>
+    <Dialog defaultOpen={isLastRound}>
       {isExploding && (
         <ConfettiExplosion
           {...largeProps}
@@ -93,7 +94,7 @@ const GameEndModal = ({
           </Button>
         </DialogFooter>
       </DialogContent>
-    </>
+    </Dialog>
   )
 }
 export default GameEndModal

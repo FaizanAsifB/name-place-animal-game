@@ -7,15 +7,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ListChecks } from 'lucide-react'
 import { useContext, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import { useLoaderData, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { AuthContext } from '../../../context/AuthContext'
 import {
   Answers,
   AnswersSchema,
-  CreateGameData,
   EndMode,
   GameScreenRoundsData,
-  GameSettings,
   GameState,
   RoundsData,
 } from '../../../lib/types'
@@ -27,7 +25,7 @@ type AnswerCardsProps = {
   endMode: EndMode
 }
 
-const AnswerCards = ({ gameData, roundsData }: AnswerCardsProps) => {
+const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
 
@@ -63,10 +61,7 @@ const AnswerCards = ({ gameData, roundsData }: AnswerCardsProps) => {
 
     const answers = { [currentUser!.uid]: answersObj }
 
-    if (
-      settings.settings.endMode.value === 'Fastest Finger' &&
-      gameData?.gameState !== 'END-TIMER'
-    )
+    if (endMode === 'Fastest Finger' && gameData?.gameState !== 'END-TIMER')
       await updateGameState('END-TIMER', params.roomId!)
 
     const donePlayers = await submitAnswers(
