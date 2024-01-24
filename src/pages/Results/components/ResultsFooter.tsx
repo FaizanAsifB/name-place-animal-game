@@ -18,7 +18,6 @@ const ResultsFooter = ({ hostId, isLastRound }: ResultsFooterProps) => {
   const isHost = currentUser?.uid === hostId
 
   async function handleNextRound() {
-    // setQueryEnabled(false)
     await updateCurrentRound(params.roomId!)
     await updateGameState('INIT', params.roomId!)
   }

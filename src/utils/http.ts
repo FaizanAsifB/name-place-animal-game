@@ -229,11 +229,15 @@ export const submitAnswers = async (
 //   }
 // }
 
-export const updateScoresData = async (
-  lobbyId: string,
-  uid: string,
+export const updateScoresData = async ({
+  lobbyId,
+  uid,
+  data,
+}: {
+  lobbyId: string
+  uid: string
   data: UpdateScoreData
-) => {
+}) => {
   try {
     await updateDoc(doc(db, 'rounds', lobbyId), {
       [`scores.${uid}.scoresCategory`]: arrayUnion(data.scoresCategory),

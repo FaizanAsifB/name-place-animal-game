@@ -5,12 +5,10 @@ import LoadingSpinner from './components/ui/LoadingSpinner.tsx'
 import { AuthContextProvider } from './context/AuthContext.tsx'
 import './index.css'
 import ErrorPage from './pages/ErrorPage.tsx'
-// import { loader as gameLoader } from './pages/GameScreen/index.ts'
 import Home from './pages/Home'
 import ProtectedGameRoute from './pages/ProtectedGameRoute.tsx'
 import ProtectedRoute from './pages/ProtectedRoute.tsx'
 import { loader as redirectLoader } from './pages/Redirect.tsx'
-// import { loader as resultLoader } from './pages/Results/index.tsx'
 import RootLayout from './pages/RootLayout.tsx'
 import { queryClient } from './utils/fetchData.ts'
 
@@ -86,7 +84,6 @@ const router = createBrowserRouter([
                 </Suspense>
               </ProtectedGameRoute>
             ),
-            // loader: scoringLoader,
           },
           {
             path: 'result',
@@ -97,10 +94,6 @@ const router = createBrowserRouter([
                 </Suspense>
               </ProtectedGameRoute>
             ),
-            /* loader: params =>
-              import('./pages/Results').then(module => ({
-                loader: module.loader(params),
-              })), */
           },
         ],
       },

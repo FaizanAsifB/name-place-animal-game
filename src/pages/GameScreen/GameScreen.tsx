@@ -16,10 +16,6 @@ import { useQuery } from '@tanstack/react-query'
 import AnswerCards from './components/AnswerCards'
 
 const GameScreen = () => {
-  // const { settings, roundsData } = useLoaderData() as {
-  //   settings: GameSettings
-  //   roundsData: GameScreenRoundsData
-  // }
   const { roomId } = useParams() as { roomId: string }
 
   const { data: roundsData } = useQuery({
@@ -89,8 +85,6 @@ export const loader: LoaderFunction = async ({ params }) => {
     queryFn: ({ queryKey }) =>
       fetchLobbyData<GameSettings>(queryKey[1], 'lobbies'),
   })
-  // const roundsData = await fetchLobbyData(params.roomId!, 'rounds')
-  // const settings = await fetchLobbyData<GameSettings>(params.roomId!, 'lobbies')
 
   return { roundsData, settings }
 }

@@ -7,7 +7,9 @@ import { Separator } from '@/components/ui/separator'
 import { AuthContext } from '@/context/AuthContext'
 import useNextPhase from '@/hooks/useNextPhase'
 import { RoundsData } from '@/lib/types'
+import { queryClient } from '@/utils/fetchData'
 import { getSum } from '@/utils/helpers'
+import { useMutation } from '@tanstack/react-query'
 import { SendHorizontal } from 'lucide-react'
 import { memo, useContext, useEffect, useMemo, useState } from 'react'
 import { updateGameState, updateScoresData } from '../../../utils/http'
@@ -22,47 +24,51 @@ type ScoringCardsProps = {
 const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
   const [scores, setScores] = useState<Record<string, number> | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+
   const currentUser = useContext(AuthContext)
 
-  const { data, params /* fireStoreError */ } = useNextPhase()
+  const { data: gameData, params /* fireStoreError */ } = useNextPhase()
+
+  const { mutate } = useMutation({
+    mutationFn: updateScoresData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['roundsData', params.roomId!],
+      })
+    },
+  })
+
+  const currentRoundName = useMemo(
+    () => `round${roundsData?.currentRound}`,
+    [roundsData?.currentRound]
+  )
 
   // Object that contains user to correct and other users
   const scoringData = useMemo(() => {
-    if (
-      roundsData?.answers[`round${roundsData.currentRound}`] &&
-      currentUser?.uid
-    )
-      return getScoringData(
-        roundsData.answers[`round${roundsData.currentRound}`],
-        currentUser?.uid
-      )
-  }, [currentUser, roundsData?.answers, roundsData?.currentRound])
+    if (!currentUser) return
+    return getScoringData(roundsData.answers[currentRoundName], currentUser.uid)
+  }, [currentUser, roundsData, currentRoundName])
 
   const isSubmitted = useMemo(() => {
-    if (
-      scoringData &&
-      data?.scoresSubmitted?.[`round${roundsData?.currentRound}`]
-    )
-      return data?.scoresSubmitted[`round${roundsData?.currentRound}`].includes(
+    if (scoringData && gameData?.scoresSubmitted?.[currentRoundName])
+      return gameData?.scoresSubmitted[currentRoundName].includes(
         scoringData?.userIdToCorrect
       )
-  }, [data?.scoresSubmitted, roundsData?.currentRound, scoringData])
+  }, [gameData, scoringData, currentRoundName])
 
   useEffect(() => {
-    if (!data?.scoresSubmitted?.[`round${roundsData?.currentRound}`]) return
-    if (
-      data.scoresSubmitted[`round${roundsData?.currentRound}`].length ===
-      data.totalPlayers
-    )
-      (async () => await updateGameState('RESULT', params.roomId))()
-  }, [
-    data?.scoresSubmitted,
-    data?.totalPlayers,
-    params.roomId,
-    roundsData?.currentRound,
-  ])
+    if (!gameData || !gameData?.scoresSubmitted?.[currentRoundName]) return
+    const goToResultsPage = async () =>
+      await updateGameState('RESULT', params.roomId)
 
-  async function handleScoring() {
+    if (
+      gameData.scoresSubmitted[currentRoundName].length ===
+      gameData.totalPlayers
+    )
+      goToResultsPage()
+  }, [params.roomId, gameData, currentRoundName])
+
+  function handleScoring() {
     const roundScore = getSum(Object.values(scores!))
     const scoreData = {
       scoresCategory: scores,
@@ -78,11 +84,11 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
       currentRound: roundsData!.currentRound,
     }
     setIsSubmitting(true)
-    await updateScoresData(
-      params.roomId!,
-      scoringData!.userIdToCorrect,
-      scoreData
-    )
+    mutate({
+      lobbyId: params.roomId!,
+      uid: scoringData!.userIdToCorrect,
+      data: scoreData,
+    })
     setIsSubmitting(false)
   }
 

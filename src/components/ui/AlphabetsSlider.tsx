@@ -138,4 +138,3 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
   )
 }
 export default AlphabetsSlider
-// pb - 8 - pt - 8

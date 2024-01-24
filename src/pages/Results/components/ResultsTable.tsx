@@ -51,12 +51,7 @@ const ResultsTable = ({
               )}
             </TableCell>
             {/* Current Round score */}
-            <TableCell>{item[1].scoreRounds[currentRound - 1] || 0}</TableCell>
-            {item[1].scoreRounds.map((score, i) => (
-              <TableCell className="hidden" key={score + i}>
-                {score}
-              </TableCell>
-            ))}
+            <TableCell>{item[1].scoreRounds[currentRound - 1]}</TableCell>
 
             <TableCell>{item[1].totalScore}</TableCell>
           </TableRow>

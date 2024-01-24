@@ -18,6 +18,7 @@ import {
   RoundsData,
 } from '../../../lib/types'
 import { submitAnswers, updateGameState } from '../../../utils/http'
+import { queryClient } from '@/utils/fetchData'
 
 type AnswerCardsProps = {
   gameData: GameState
@@ -29,11 +30,6 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
 
-  // const { roundsData, settings } = useLoaderData() as {
-  //   roundsData: CreateGameData
-  //   settings: GameSettings
-  // }
-  //TODO WHY is this type undefined?
   const activeCategories = useMemo(() => {
     return getCurrentRoundConfig(roundsData)?.activeCategories
   }, [roundsData])
@@ -70,6 +66,9 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
       roundsData.currentRound!
     )
     if (donePlayers === gameData?.totalPlayers) {
+      await queryClient.invalidateQueries({
+        queryKey: ['roundsData', params.roomId!],
+      })
       await updateGameState('SCORING', params.roomId!)
     }
   }
