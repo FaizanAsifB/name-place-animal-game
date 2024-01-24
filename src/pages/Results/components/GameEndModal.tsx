@@ -20,6 +20,14 @@ type GameEndModalProps = {
   gameState: GameState | undefined
 }
 
+const largeProps: ConfettiProps = {
+  force: 0.8,
+  duration: 3000,
+  particleCount: 300,
+  width: 1600,
+  zIndex: 100,
+}
+
 const GameEndModal = ({
   scoresData,
   isLastRound,
@@ -42,7 +50,6 @@ const GameEndModal = ({
     if (
       isCurrentUserWinner &&
       isLastRound &&
-      gameState &&
       gameState?.gameState !== 'GAME-COMPLETED'
     ) {
       setIsExploding(true)
@@ -50,16 +57,8 @@ const GameEndModal = ({
     }
   }, [isCurrentUserWinner, isLastRound, gameState, params?.roomId])
 
-  const largeProps: ConfettiProps = {
-    force: 0.8,
-    duration: 3000,
-    particleCount: 300,
-    width: 1600,
-    zIndex: 100,
-  }
-
   return (
-    <Dialog>
+    <Dialog defaultOpen={isLastRound}>
       {isExploding && (
         <ConfettiExplosion
           {...largeProps}

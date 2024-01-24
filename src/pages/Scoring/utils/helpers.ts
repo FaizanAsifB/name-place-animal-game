@@ -1,7 +1,6 @@
 import { UserAnswers } from '../../../lib/types'
 
 export const getScoringData = (answers: UserAnswers[], currentUser: string) => {
-  console.log({ answers })
   const currentUserIndex = answers.findIndex(
     item => Object.keys(item)[0] === currentUser
   )

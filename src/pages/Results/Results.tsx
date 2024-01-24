@@ -40,7 +40,7 @@ const Results = () => {
       {gameState?.gameState === 'INIT' && (
         <AlphabetsScroll gameState={gameState} />
       )}
-      {isLastRound && (
+      {isLastRound && scoresData && (
         <GameEndModal
           scoresData={scoresData}
           isLastRound={isLastRound}

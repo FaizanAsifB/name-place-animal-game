@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { queryClient } from '@/utils/fetchData'
 import { getCurrentRoundConfig } from '@/utils/helpers'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ListChecks } from 'lucide-react'
@@ -18,7 +19,6 @@ import {
   RoundsData,
 } from '../../../lib/types'
 import { submitAnswers, updateGameState } from '../../../utils/http'
-import { queryClient } from '@/utils/fetchData'
 
 type AnswerCardsProps = {
   gameData: GameState
@@ -50,6 +50,7 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
 
   //Submit Data
   const onSubmit = async (data: Answers) => {
+    debugger
     const answersObj = activeCategories.map(item => ({
       ...item,
       answers: data[item.title],
