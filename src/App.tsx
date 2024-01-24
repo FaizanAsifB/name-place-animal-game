@@ -5,21 +5,21 @@ import LoadingSpinner from './components/ui/LoadingSpinner.tsx'
 import { AuthContextProvider } from './context/AuthContext.tsx'
 import './index.css'
 import ErrorPage from './pages/ErrorPage.tsx'
-import { loader as gameLoader } from './pages/GameRoom/index.ts'
-import Home from './pages/Home/index.tsx'
+// import { loader as gameLoader } from './pages/GameScreen/index.ts'
+import Home from './pages/Home'
 import ProtectedGameRoute from './pages/ProtectedGameRoute.tsx'
 import ProtectedRoute from './pages/ProtectedRoute.tsx'
 import { loader as redirectLoader } from './pages/Redirect.tsx'
-import { loader as resultLoader } from './pages/Results/index.tsx'
+// import { loader as resultLoader } from './pages/Results/index.tsx'
 import RootLayout from './pages/RootLayout.tsx'
 import { queryClient } from './utils/fetchData.ts'
 
-const GameCreation = lazy(() => import('./pages/GameCreation/index.ts'))
+const GameCreation = lazy(() => import('./pages/GameCreation'))
 const GameRoom = lazy(() => import('./pages/GameRoom.tsx'))
-const Lobby = lazy(() => import('./pages/Lobby/index.tsx'))
-const Results = lazy(() => import('./pages/Results/index.tsx'))
-const Scoring = lazy(() => import('./pages/Scoring/index.tsx'))
-const GameScreen = lazy(() => import('./pages/GameRoom/index.ts'))
+const Lobby = lazy(() => import('./pages/Lobby'))
+const Results = lazy(() => import('./pages/Results'))
+const Scoring = lazy(() => import('./pages/Scoring'))
+const GameScreen = lazy(() => import('./pages/GameScreen))
 
 const router = createBrowserRouter([
   {
@@ -72,7 +72,10 @@ const router = createBrowserRouter([
                 </Suspense>
               </ProtectedGameRoute>
             ),
-            loader: gameLoader,
+            loader: () =>
+              import('./pages/GameScreen').then(module => ({
+                default: module.loader,
+              })),
           },
           {
             path: 'scoring',
@@ -94,7 +97,10 @@ const router = createBrowserRouter([
                 </Suspense>
               </ProtectedGameRoute>
             ),
-            loader: resultLoader,
+            loader: () =>
+              import('./pages/Results').then(module => ({
+                default: module.loader,
+              })),
           },
         ],
       },

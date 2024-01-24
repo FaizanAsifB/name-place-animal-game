@@ -8,17 +8,13 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel'
 import Autoplay from 'embla-carousel-autoplay'
-import Lottie from 'react-lottie-player/dist/LottiePlayerLight'
+// import Lottie from 'react-lottie-player/dist/LottiePlayerLight'
 import { Loader2 } from 'lucide-react'
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import guideData from '../../data/data.json'
 
-// const Player = lazy(() =>
-//   import('@lottiefiles/react-lottie-player').then(module => ({
-//     default: module.Player,
-//   }))
-// )
+const Lottie = lazy(() => import('react-lottie-player/dist/LottiePlayerLight'))
 
 const Guide = ({ className }: { className: string }) => {
   const [api, setApi] = useState<CarouselApi>()
