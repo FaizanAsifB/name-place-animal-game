@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom'
 import AlphabetsSlider from './AlphabetsSlider'
 
 type AlphabetsScrollProps = {
-  gameState: GameState | undefined
+  gameState: GameState
 }
 
 const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
@@ -23,7 +23,7 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
   const params = useParams()
 
   const { data: roundsData, isPending } = useQuery({
-    queryKey: ['roundsData', params.roomId],
+    queryKey: ['alphabetScroll', params.roomId!],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<CreateGameData>(queryKey[1], 'rounds'),
   })
@@ -33,7 +33,6 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
   ]?.includes(currentUser?.uid ?? '')
 
   useEffect(() => {
-    if (!gameState) return
     if (gameState.gameState === 'INIT' && !isSubmitted && !isPending)
       setOpen(true)
     if (

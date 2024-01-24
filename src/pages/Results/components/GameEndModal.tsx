@@ -59,7 +59,7 @@ const GameEndModal = ({
   }
 
   return (
-    <Dialog defaultOpen={isLastRound}>
+    <Dialog>
       {isExploding && (
         <ConfettiExplosion
           {...largeProps}

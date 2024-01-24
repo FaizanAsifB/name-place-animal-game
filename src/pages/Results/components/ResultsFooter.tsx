@@ -3,27 +3,22 @@ import { Button } from '@/components/ui/button'
 import { AuthContext } from '@/context/AuthContext'
 import { updateCurrentRound, updateGameState } from '@/utils/http'
 import { ArrowRightCircle, Home } from 'lucide-react'
-import { Dispatch, useContext } from 'react'
+import { useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 type ResultsFooterProps = {
   hostId: string
   isLastRound: boolean
-  setQueryEnabled: Dispatch<React.SetStateAction<boolean>>
 }
 
-const ResultsFooter = ({
-  hostId,
-  isLastRound,
-  setQueryEnabled,
-}: ResultsFooterProps) => {
+const ResultsFooter = ({ hostId, isLastRound }: ResultsFooterProps) => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
 
   const isHost = currentUser?.uid === hostId
 
   async function handleNextRound() {
-    setQueryEnabled(false)
+    // setQueryEnabled(false)
     await updateCurrentRound(params.roomId!)
     await updateGameState('INIT', params.roomId!)
   }
