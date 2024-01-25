@@ -72,11 +72,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
         user => !submittedRef.current.includes(user)
       )
       toast(<UserInfo userId={newSubmission}>Submitted</UserInfo>)
-      console.log(newSubmission)
-      console.log(
-        submittedRef.current.length,
-        gameData?.scoresSubmitted[currentRoundName].length
-      )
+      console.log(submittedRef.current)
     }
 
     if (
