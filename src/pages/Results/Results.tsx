@@ -16,7 +16,7 @@ const Results = () => {
   const { roomId } = useParams() as { roomId: string }
 
   const { data: roundsData } = useQuery({
-    queryKey: ['roundsData', roomId],
+    queryKey: ['roundsData', roomId, 'results'],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<RoundsData | GameScreenRoundsData>(queryKey[1], 'rounds'),
   })

@@ -33,7 +33,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
     mutationFn: updateScoresData,
     onSuccess: async () => {
       await queryClient.refetchQueries({
-        queryKey: ['roundsData', params.roomId],
+        queryKey: ['roundsData', params.roomId, 'results'],
         exact: true,
       })
     },
