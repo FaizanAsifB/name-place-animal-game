@@ -235,22 +235,25 @@ export const submitAnswers = async ({
 
 export const updateScoresData = async ({
   lobbyId,
-  uid,
+  idToCorrect,
+  currentUserId,
   data,
 }: {
   lobbyId: string
-  uid: string
+  idToCorrect: string
+  currentUserId: string
   data: UpdateScoreData
 }) => {
   try {
     await updateDoc(doc(db, 'rounds', lobbyId), {
-      [`scores.${uid}.scoresCategory`]: arrayUnion(data.scoresCategory),
-      [`scores.${uid}.scoreRounds`]: data.scoreRounds,
-      [`scores.${uid}.totalScore`]: increment(data.roundScore),
+      [`scores.${idToCorrect}.scoresCategory`]: arrayUnion(data.scoresCategory),
+      [`scores.${idToCorrect}.scoreRounds`]: data.scoreRounds,
+      [`scores.${idToCorrect}.totalScore`]: increment(data.roundScore),
     })
     try {
       await updateDoc(doc(db, 'gameRooms', lobbyId), {
-        [`scoresSubmitted.round${data.currentRound}`]: arrayUnion(uid),
+        [`scoresSubmitted.round${data.currentRound}`]:
+          arrayUnion(currentUserId),
       })
     } catch (error) {
       throw new Error('There was an error updating')

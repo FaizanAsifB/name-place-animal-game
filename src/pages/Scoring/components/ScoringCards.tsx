@@ -53,9 +53,9 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
   const isSubmitted = useMemo(() => {
     if (scoringData && gameData?.scoresSubmitted?.[currentRoundName])
       return gameData?.scoresSubmitted[currentRoundName].includes(
-        scoringData?.userIdToCorrect
+        currentUser!.uid
       )
-  }, [gameData, scoringData, currentRoundName])
+  }, [gameData, currentUser, scoringData, currentRoundName])
 
   useEffect(() => {
     if (!gameData || !gameData?.scoresSubmitted?.[currentRoundName]) return
@@ -87,7 +87,8 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
     setIsSubmitting(true)
     mutate({
       lobbyId: params.roomId!,
-      uid: scoringData!.userIdToCorrect,
+      currentUserId: currentUser!.uid,
+      idToCorrect: scoringData!.userIdToCorrect,
       data: scoreData,
     })
     setIsSubmitting(false)
