@@ -1,3 +1,4 @@
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
@@ -161,7 +162,15 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
             className="mx-auto "
           >
             <ListChecks />
-            submit
+            {form.formState.isSubmitting && (
+              <>
+                <LoadingSpinner /> "Submitting"
+              </>
+            )}
+            {form.formState.isSubmitted && ' Submitted'}
+            {!form.formState.isSubmitting &&
+              !form.formState.isSubmitted &&
+              'submit'}
           </Button>
         </div>
       </form>

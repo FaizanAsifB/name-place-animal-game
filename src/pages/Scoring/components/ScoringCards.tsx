@@ -11,7 +11,7 @@ import { queryClient } from '@/utils/fetchData'
 import { getSum } from '@/utils/helpers'
 import { useMutation } from '@tanstack/react-query'
 import { SendHorizontal } from 'lucide-react'
-import { memo, useContext, useEffect, useMemo, useState } from 'react'
+import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { updateGameState, updateScoresData } from '../../../utils/http'
 import AnswersList from './../components/AnswersList'
 import ScoresToggleGroup from './../components/CategoryScores'
@@ -57,10 +57,25 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
       )
   }, [gameData, currentUser, scoringData, currentRoundName])
 
+  const submittedRef = useRef<string[]>([])
   useEffect(() => {
     if (!gameData || !gameData?.scoresSubmitted?.[currentRoundName]) return
     const goToResultsPage = async () =>
       await updateGameState('RESULT', params.roomId)
+
+    if (
+      submittedRef.current.length !==
+      gameData?.scoresSubmitted[currentRoundName].length
+    ) {
+      const [newSubmission] = gameData.scoresSubmitted[currentRoundName].filter(
+        user => !submittedRef.current.includes(user)
+      )
+      console.log(newSubmission)
+      console.log(
+        submittedRef.current.length,
+        gameData?.scoresSubmitted[currentRoundName].length
+      )
+    }
 
     if (
       gameData.scoresSubmitted[currentRoundName].length ===
