@@ -282,3 +282,17 @@ export const updateActiveCategories = async (
     throw Error('Error updating')
   }
 }
+
+export const addBonusPoints = async (
+  roomId: string,
+  userId: string,
+  currentRound: number
+) => {
+  try {
+    await updateDoc(doc(db, 'rounds', roomId), {
+      [`bonusPoints.round${currentRound}`]: { userId },
+    })
+  } catch (error) {
+    throw Error('Error updating')
+  }
+}

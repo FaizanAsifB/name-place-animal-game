@@ -56,7 +56,7 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
   )
 
   const alphabetCountInStorage = getFromSessionStorage<number>(
-    'alphabet' + params.roomId + roundsData?.currentRound
+    `alphabet${params.roomId}${roundsData?.currentRound}`
   )
 
   function setSlide() {

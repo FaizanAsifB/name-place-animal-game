@@ -51,15 +51,17 @@ const GameScreen = () => {
 
   return (
     <section className="flex flex-col flex-1 my-6 ">
-      <GameHeader roundsData={roundsData}>
-        {gameData && settings && roundsData && (
-          <Clock
-            roundTime={settings?.settings.roundTime.value}
-            gameState={gameData?.gameState}
-            currentRound={roundsData?.currentRound}
-          />
-        )}
-      </GameHeader>
+      {
+        <GameHeader roundsData={roundsData}>
+          {gameData && settings && roundsData && (
+            <Clock
+              roundTime={settings?.settings.roundTime.value}
+              gameState={gameData?.gameState}
+              currentRound={roundsData?.currentRound}
+            />
+          )}
+        </GameHeader>
+      }
       <article className="px-4 basis-full bg-bg-primary">
         <div className="flex items-center justify-between pt-6 pb-8 md:pb-12 lg:pb-16 lg:pt-8">
           <H1>

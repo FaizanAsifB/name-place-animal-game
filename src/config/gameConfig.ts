@@ -18,3 +18,6 @@ export const MAX_SLIDES = (currentAlphabetIndex: number | null) => {
 }
 
 export const FASTEST_FINGER_TIME = 10
+
+export const TIME_STORAGE_KEY = (roomId: string, currentRound: number) =>
+  `time${roomId}${currentRound}`

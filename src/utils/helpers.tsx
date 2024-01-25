@@ -1,3 +1,4 @@
+import { TIME_STORAGE_KEY } from '@/config/gameConfig'
 import {
   CreateGameData,
   GameScreenRoundsData,
@@ -5,6 +6,7 @@ import {
   RoundsData,
   ScoresData,
 } from '../lib/types'
+import { getTimeInStorage } from '@/pages/GameScreen/components/util/utils'
 
 export const getSum = (values: number[]): number => {
   return values.reduce((acc, score) => {
@@ -28,4 +30,13 @@ export const getCurrentRoundConfig = (
   roundsData: RoundsData | GameScreenRoundsData | CreateGameData
 ) => {
   return roundsData?.roundsConfig[roundsData.currentRound - 1]
+}
+
+export const timeInSeconds = (time: number) => {
+  return (time - Date.now()) / 1000
+}
+
+export const getTimeRemaining = (roomId: string, currentRound: number) => {
+  const storageKey = TIME_STORAGE_KEY(roomId, currentRound)
+  return getTimeInStorage(storageKey)
 }

@@ -2,7 +2,9 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { getCurrentRoundConfig } from '@/utils/helpers'
+import { FASTEST_FINGER_TIME } from '@/config/gameConfig'
+import { queryClient } from '@/utils/fetchData'
+import { getCurrentRoundConfig, getTimeRemaining } from '@/utils/helpers'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { ListChecks } from 'lucide-react'
@@ -18,8 +20,11 @@ import {
   GameState,
   RoundsData,
 } from '../../../lib/types'
-import { submitAnswers, updateGameState } from '../../../utils/http'
-import { queryClient } from '@/utils/fetchData'
+import {
+  addBonusPoints,
+  submitAnswers,
+  updateGameState,
+} from '../../../utils/http'
 
 type AnswerCardsProps = {
   gameData: GameState
@@ -70,9 +75,20 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
 
     const answers = { [currentUser!.uid]: answersObj }
 
-    if (endMode === 'Fastest Finger' && gameData?.gameState !== 'END-TIMER')
-      await updateGameState('END-TIMER', params.roomId!)
+    if (endMode === 'Fastest Finger') {
+      const timeRemaining = getTimeRemaining(
+        params.roomId!,
+        roundsData.currentRound
+      )
 
+      if (timeRemaining && timeRemaining > FASTEST_FINGER_TIME)
+        await updateGameState('END-TIMER', params.roomId!)
+      await addBonusPoints(
+        params.roomId!,
+        currentUser!.uid,
+        roundsData.currentRound
+      )
+    }
     mutate({
       answers,
       roomId: params.roomId!,
@@ -81,8 +97,6 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
 
     return
   }
-
-  console.log(form.formState.defaultValues)
 
   //Submit Data for players that haven't submitted at round end
   if (

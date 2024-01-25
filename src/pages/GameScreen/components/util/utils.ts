@@ -16,3 +16,8 @@ export function getFromSessionStorage<T>(key: string): T | undefined {
     throw Error('Session Storage not available')
   }
 }
+
+export const getTimeInStorage = (storageKey: string) => {
+  const time = getFromSessionStorage<number>(storageKey)
+  if (time) return (time - Date.now()) / 1000
+}

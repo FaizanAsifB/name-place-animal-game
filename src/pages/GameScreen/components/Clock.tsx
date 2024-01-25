@@ -1,10 +1,10 @@
-import { FASTEST_FINGER_TIME } from '@/config/gameConfig'
+import { FASTEST_FINGER_TIME, TIME_STORAGE_KEY } from '@/config/gameConfig'
 import { useMemo } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { useParams } from 'react-router-dom'
 import { GameStates } from '../../../lib/types'
 import { updateGameState } from '../../../utils/http'
-import { getFromSessionStorage, saveToSessionStorage } from './util/utils'
+import { getTimeInStorage, saveToSessionStorage } from './util/utils'
 
 type ClockProps = {
   roundTime: number
@@ -15,33 +15,30 @@ type ClockProps = {
 const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {
   const params = useParams()
 
-  const duration = gameState === 'END-TIMER' ? FASTEST_FINGER_TIME : roundTime
+  const isEndTimer = gameState === 'END-TIMER'
+
+  const key = isEndTimer ? 'END-TIMER' : 'STARTED'
+
+  const duration = isEndTimer ? FASTEST_FINGER_TIME : roundTime
 
   const initialRemainingTime = useMemo(() => {
-    const storageKey = 'time' + params.roomId! + currentRound
-    const timerEndTime = Date.now() + roundTime * 1000
+    const storageKey = TIME_STORAGE_KEY(params.roomId!, currentRound)
+    const timeRemaining = getTimeInStorage(storageKey)
+    const timerEndTime = (time: number) => Date.now() + time * 1000
 
-    const timeInStorage = getFromSessionStorage<number>(storageKey)
-
-    if (!timeInStorage) {
-      saveToSessionStorage(storageKey, timerEndTime)
+    if (!timeRemaining) {
+      saveToSessionStorage(storageKey, timerEndTime(roundTime))
       return roundTime
     }
-    const timeInSeconds = (timeInStorage - Date.now()) / 1000
 
-    if (timeInSeconds > FASTEST_FINGER_TIME && gameState === 'END-TIMER') {
-      saveToSessionStorage(storageKey, FASTEST_FINGER_TIME)
+    if (isEndTimer && timeRemaining > FASTEST_FINGER_TIME) {
+      saveToSessionStorage(storageKey, timerEndTime(FASTEST_FINGER_TIME))
       return FASTEST_FINGER_TIME
     }
+    return timeRemaining
+  }, [roundTime, currentRound, params.roomId, isEndTimer])
 
-    return timeInSeconds
-  }, [currentRound, params.roomId, roundTime, gameState])
-
-  console.log(initialRemainingTime)
-
-  const isPlaying = initialRemainingTime > 0
-
-  const key = !gameState || gameState === 'STARTED' ? 'STARTED' : 'END-TIMER'
+  const isPlaying = gameState !== 'ROUND-ENDED' && gameState !== 'TIME-ENDED'
 
   async function setTimeEndedState() {
     try {
@@ -51,13 +48,16 @@ const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {
     }
   }
 
-  const renderTime = ({ remainingTime }: { remainingTime: number }) => {
+  const RenderTime = ({ remainingTime }: { remainingTime: number }) => {
     const minutes = remainingTime <= 0 ? 0 : Math.floor(remainingTime / 60)
     const seconds = remainingTime <= 0 ? 0 : remainingTime % 60
 
-    if (remainingTime <= 0 && gameState !== 'ROUND-ENDED') {
+    if (
+      remainingTime <= 0 &&
+      gameState !== 'TIME-ENDED' &&
+      gameState !== 'ROUND-ENDED'
+    )
       setTimeEndedState()
-    }
 
     return (
       <div role="timer" aria-live="assertive" aria-label="round timer">
@@ -81,7 +81,7 @@ const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {
         colorsTime={[60, 45, 30, 15]}
         onComplete={() => ({ shouldRepeat: false })}
       >
-        {renderTime}
+        {RenderTime}
       </CountdownCircleTimer>
     </div>
   )
