@@ -132,8 +132,8 @@ export const defaultCategoriesSchema = z.record(z.boolean())
 export type DefaultCategoriesList = z.infer<typeof defaultCategoriesSchema>
 
 const EndModeSchema = z.union([
-  z.literal('FASTEST_FINGER'),
-  z.literal('ROUND_TIMER'),
+  z.literal('Fastest Finger'),
+  z.literal('Round Timer'),
 ])
 
 export const settingsInputSchema = z

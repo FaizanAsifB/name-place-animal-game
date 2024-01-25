@@ -50,7 +50,7 @@ const SettingsForm = () => {
       roundTime: 60,
       rounds: 6,
       defaultCategories: [...DEFAULT_CATEGORIES.slice(0, 3)],
-      endMode: 'ROUND_TIMER',
+      endMode: 'Round Timer',
       customCategory1: '',
       customCategory2: '',
     },
@@ -211,14 +211,14 @@ const SettingsForm = () => {
                     >
                       <ToggleGroupItem
                         aria-label="Select Round Timer"
-                        value="ROUND_TIMER"
+                        value="Round Timer"
                         className="lg:text-lg"
                       >
                         Round Timer
                       </ToggleGroupItem>
                       <ToggleGroupItem
                         aria-label="Select fastest finger"
-                        value="FASTEST_FINGER"
+                        value="Fastest Finger"
                         className="lg:text-lg"
                       >
                         Fastest Finger

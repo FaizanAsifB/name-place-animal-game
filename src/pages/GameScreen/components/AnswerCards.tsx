@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { queryClient } from '@/utils/fetchData'
 import { getCurrentRoundConfig } from '@/utils/helpers'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
@@ -20,6 +19,7 @@ import {
   RoundsData,
 } from '../../../lib/types'
 import { submitAnswers, updateGameState } from '../../../utils/http'
+import { queryClient } from '@/utils/fetchData'
 
 type AnswerCardsProps = {
   gameData: GameState
@@ -34,6 +34,10 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
   const { mutate } = useMutation({
     mutationFn: submitAnswers,
     onSuccess: async data => {
+      await queryClient.refetchQueries({
+        queryKey: ['roundsData', params.roomId],
+        exact: true,
+      })
       if (data === gameData?.totalPlayers)
         await updateGameState('SCORING', params.roomId!)
     },
@@ -66,7 +70,7 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
 
     const answers = { [currentUser!.uid]: answersObj }
 
-    if (endMode === 'FASTEST_FINGER' && gameData?.gameState !== 'END-TIMER')
+    if (endMode === 'Fastest Finger' && gameData?.gameState !== 'END-TIMER')
       await updateGameState('END-TIMER', params.roomId!)
 
     mutate({
@@ -77,6 +81,8 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
 
     return
   }
+
+  console.log(form.formState.defaultValues)
 
   //Submit Data for players that haven't submitted at round end
   if (

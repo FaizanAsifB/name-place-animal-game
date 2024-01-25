@@ -33,6 +33,12 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
   ]?.includes(currentUser?.uid ?? '')
 
   useEffect(() => {
+    const refetchRoundsData = async () =>
+      await queryClient.refetchQueries({
+        queryKey: ['roundsData', params.roomId],
+        exact: true,
+      })
+
     if (gameState.gameState === 'INIT' && !isSubmitted && !isPending)
       setOpen(true)
     if (
@@ -40,11 +46,7 @@ const AlphabetsScroll = ({ gameState }: AlphabetsScrollProps) => {
         gameState.totalPlayers &&
       gameState.gameState !== 'STARTED'
     ) {
-      // eslint-disable-next-line no-extra-semi
-      // ;(async () =>
-      //   await queryClient.invalidateQueries({
-      //     queryKey: ['roundsData', params.roomId!],
-      //   }))()
+      refetchRoundsData()
       const unsub = setTimeout(async () => {
         updateGameState('STARTED', params.roomId)
       }, 2000)

@@ -1,1 +1,1 @@
-export { default, loader } from './GameScreen.tsx'
+export { default } from './GameScreen.tsx'
