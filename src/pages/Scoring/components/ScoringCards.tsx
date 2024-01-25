@@ -16,6 +16,7 @@ import { updateGameState, updateScoresData } from '../../../utils/http'
 import AnswersList from './../components/AnswersList'
 import ScoresToggleGroup from './../components/CategoryScores'
 import { getScoringData } from './../utils/helpers'
+import { toast } from 'sonner'
 
 type ScoringCardsProps = {
   roundsData: RoundsData
@@ -70,6 +71,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
       const [newSubmission] = gameData.scoresSubmitted[currentRoundName].filter(
         user => !submittedRef.current.includes(user)
       )
+      toast(<UserInfo userId={newSubmission}>Submitted</UserInfo>)
       console.log(newSubmission)
       console.log(
         submittedRef.current.length,
