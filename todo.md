@@ -1,9 +1,9 @@
 - [x] Add protected routes for !auth || gameState !== "LOBBY"
-- [ ] Add navigation to sign up from sign in and vice versa
+- [ ] Add navigation to sign up from sign in and vice versa?
 - [ ] Add forgotten password
 - [ ] Error handling of firebase errors
 - [ ] Optimize app
-- [ ] Add timer and slide to local storage / session storage
+- [x] Add timer and slide to local storage / session storage
 - [x] Disable slider interactions
 - [ ] Sync clock for all players
 - [x] Fix button click bug. Solved by adding pseudo
@@ -13,4 +13,4 @@
 - [x] Make avatars same size
 - [x] Add update function for avatars
 - [ ] Waiting for others submission
-- [ ] Score shouldn't update on scoring screen
+- [x] Score shouldn't update on scoring screen

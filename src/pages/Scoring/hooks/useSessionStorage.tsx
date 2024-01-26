@@ -20,7 +20,6 @@ const useSessionStorage = (
   }, [params.roomId])
 
   useEffect(() => {
-    // const submittedUsers = ['a', 'b', 'c', 'd', 'e', 'f']
     if (!currentRound || !totalPlayers) return
     const scoresStorageKey = SCORES_STORAGE_KEY(params.roomId!, currentRound)
     const submittedInStorage =

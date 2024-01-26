@@ -32,6 +32,7 @@ const Error = () => {
         <Button asChild>
           <Link to="/">Home</Link>
         </Button>
+        <Button onClick={() => window.location.reload()}>Retry</Button>
       </div>
     </main>
   )
