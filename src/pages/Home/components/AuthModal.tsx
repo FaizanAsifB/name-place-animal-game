@@ -1,58 +1,38 @@
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { BookText, Mail } from 'lucide-react'
 import { Suspense, lazy } from 'react'
 
-const SignInForm = lazy(() => import('./SignInForm'))
-const SignUpForm = lazy(() => import('./SignUpForm'))
+const SignInForm = lazy(() => import('./forms/SignInForm'))
+const SignUpForm = lazy(() => import('./forms/SignUpForm'))
 
 const AuthModal = () => {
   return (
     <div className="flex justify-center w-full gap-4 lg:gap-6">
+      {/* Sign up Form */}
       <Dialog>
         <DialogTrigger asChild>
           <Button name="register" variant={'secondary'} size={'md'}>
             <BookText /> Sign Up
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Register with Email and Password</DialogTitle>
-          </DialogHeader>
-          {/* Sign up Form */}
-          <Suspense fallback={<p>Loading....</p>}>
-            <SignUpForm />
-          </Suspense>
-          {/* <DialogFooter>
-                <Button type="submit">Save changes</Button>
-              </DialogFooter> */}
-        </DialogContent>
+
+        <Suspense fallback={<p>Loading....</p>}>
+          <SignUpForm />
+        </Suspense>
       </Dialog>
 
+      {/* Login form */}
       <Dialog>
         <DialogTrigger asChild>
           <Button name="login" variant={'secondary'} size={'md'}>
             <Mail /> Sign In
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle className="capitalize">
-              Enter your Email and Password
-            </DialogTitle>
-          </DialogHeader>
-          {/* Login form */}
-          <Suspense fallback={<p>Loading....</p>}>
-            <SignInForm />
-          </Suspense>
-        </DialogContent>
+
+        <Suspense fallback={<p>Loading....</p>}>
+          <SignInForm />
+        </Suspense>
       </Dialog>
     </div>
   )
