@@ -34,8 +34,7 @@ const useSessionStorage = (
         ...submittedInStorage,
         ...newSubmission,
       ])
-
-      toast(<UserInfo userId={newSubmission.at(-1)}>Submitted</UserInfo>)
+      toast(<UserInfo userId={newSubmission.at(-1)!}>Submitted</UserInfo>)
     }
     if (submittedUsers.length === totalPlayers) goToResultsPage()
   }, [
