@@ -11,8 +11,7 @@ import { queryClient } from '@/utils/fetchData'
 import { getSum } from '@/utils/helpers'
 import { useMutation } from '@tanstack/react-query'
 import { SendHorizontal } from 'lucide-react'
-import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { toast } from 'sonner'
+import { memo, useContext, useEffect, useMemo, useState } from 'react'
 import { updateGameState, updateScoresData } from '../../../utils/http'
 import AnswersList from './../components/AnswersList'
 import ScoresToggleGroup from './../components/CategoryScores'
@@ -51,26 +50,15 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
     return getScoringData(roundsData.answers[currentRoundName], currentUser.uid)
   }, [currentUser, roundsData, currentRoundName])
 
-  const submittedUsers = gameData?.scoresSubmitted[currentRoundName]
+  const submittedUsers = gameData?.scoresSubmitted?.[currentRoundName]
 
   const isCurrentUserSubmitted = useMemo(() => {
     if (scoringData && submittedUsers)
       return submittedUsers.includes(currentUser!.uid)
   }, [currentUser, scoringData, submittedUsers])
 
-  const submittedRef = useRef<string[]>([])
-
   useEffect(() => {
     if (!gameData || !submittedUsers) return
-    const goToResultsPage = async () =>
-      await updateGameState('RESULT', params.roomId)
-
-    if (submittedRef.current.length !== submittedUsers.length) {
-      const [newSubmission] = submittedUsers.filter(
-        user => !submittedRef.current.includes(user)
-      )
-      toast(<UserInfo userId={newSubmission}>Submitted</UserInfo>)
-    }
 
     if (submittedUsers.length === gameData.totalPlayers) goToResultsPage()
   }, [params.roomId, gameData, currentRoundName, submittedUsers])

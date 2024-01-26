@@ -3,11 +3,16 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { FASTEST_FINGER_TIME } from '@/config/gameConfig'
+import {
+  ANSWERS_STORAGE_KEY,
+  FASTEST_FINGER_TIME,
+  TIME_STORAGE_KEY,
+} from '@/config/gameConfig'
 import { queryClient } from '@/utils/fetchData'
 import {
   getCurrentRoundConfig,
-  getTimeRemaining,
+  getFromSessionStorage,
+  getTimeInStorage,
   saveToSessionStorage,
 } from '@/utils/helpers'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -41,6 +46,11 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
   const currentUser = useContext(AuthContext)
   const params = useParams()
 
+  const answerStorageKey = ANSWERS_STORAGE_KEY(
+    params.roomId!,
+    roundsData.currentRound
+  )
+
   const { mutate } = useMutation({
     mutationFn: submitAnswers,
     onSuccess: async data => {
@@ -49,10 +59,7 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
         exact: true,
       })
 
-      saveToSessionStorage(
-        `answerSubmittedRound${roundsData.currentRound}`,
-        true
-      )
+      saveToSessionStorage(answerStorageKey, true)
 
       if (data === gameData?.totalPlayers)
         await updateGameState('SCORING', params.roomId!)
@@ -86,9 +93,8 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
     const answers = { [currentUser!.uid]: answersObj }
 
     if (endMode === 'Fastest Finger') {
-      const timeRemaining = getTimeRemaining(
-        params.roomId!,
-        roundsData.currentRound
+      const timeRemaining = getTimeInStorage(
+        TIME_STORAGE_KEY(params.roomId!, roundsData.currentRound)
       )
 
       if (timeRemaining && timeRemaining > FASTEST_FINGER_TIME)
@@ -115,7 +121,7 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
   )
     form.handleSubmit(onSubmit)()
 
-  console.log(form.formState.submitCount)
+  console.log(getFromSessionStorage(answerStorageKey))
 
   return (
     <Form {...form}>
@@ -166,7 +172,11 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
         {/* //TODO should this be sticky on smaller screens? */}
         <div className="py-12 lg:pt-10 lg:pb-8">
           <Button
-            disabled={form.formState.isSubmitting || form.formState.isSubmitted}
+            disabled={
+              form.formState.isSubmitting ||
+              form.formState.isSubmitted ||
+              getFromSessionStorage(answerStorageKey)
+            }
             type="submit"
             className="mx-auto "
           >

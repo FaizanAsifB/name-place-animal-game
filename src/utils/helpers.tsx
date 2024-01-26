@@ -1,4 +1,3 @@
-import { TIME_STORAGE_KEY } from '@/config/gameConfig'
 import data from '../data/data.json'
 import {
   CreateGameData,
@@ -34,11 +33,6 @@ export const getCurrentRoundConfig = (
 
 export const timeInSeconds = (time: number) => {
   return (time - Date.now()) / 1000
-}
-
-export const getTimeRemaining = (roomId: string, currentRound: number) => {
-  const storageKey = TIME_STORAGE_KEY(roomId, currentRound)
-  return getTimeInStorage(storageKey)
 }
 
 export function getAvatarPath(avatarIndex: number) {
