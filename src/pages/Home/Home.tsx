@@ -3,7 +3,6 @@ import { toast } from '@/components/ui/use-toast.ts'
 import { auth } from '@/config/firebaseConfig.ts'
 import { AuthContext } from '@/context/AuthContext.tsx'
 import { avatarAtom, displayNameAtom } from '@/context/atoms.ts'
-import { getAvatarPath } from '@/lib/utils.ts'
 import { deleteGuestUser, updatePhotoUrl } from '@/utils/authentication.ts'
 import { signOut } from 'firebase/auth'
 import { useAtom, useAtomValue } from 'jotai'
@@ -15,6 +14,7 @@ import Auth from './Auth.tsx'
 import Guide from './Guide.tsx'
 import GuideModal from './components/GuideModal.tsx'
 import Logo from '@/components/ui/Logo.tsx'
+import { getAvatarPath } from '@/utils/helpers.tsx'
 
 // grid grid-cols-5
 

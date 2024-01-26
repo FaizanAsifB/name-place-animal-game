@@ -5,7 +5,11 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { FASTEST_FINGER_TIME } from '@/config/gameConfig'
 import { queryClient } from '@/utils/fetchData'
-import { getCurrentRoundConfig, getTimeRemaining } from '@/utils/helpers'
+import {
+  getCurrentRoundConfig,
+  getTimeRemaining,
+  saveToSessionStorage,
+} from '@/utils/helpers'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { ListChecks } from 'lucide-react'
@@ -44,6 +48,12 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
         queryKey: ['roundsData', params.roomId],
         exact: true,
       })
+
+      saveToSessionStorage(
+        `answerSubmittedRound${roundsData.currentRound}`,
+        true
+      )
+
       if (data === gameData?.totalPlayers)
         await updateGameState('SCORING', params.roomId!)
     },
@@ -67,7 +77,6 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
     resolver: zodResolver(AnswersSchema),
   })
 
-  //Submit Data
   const onSubmit = async (data: Answers) => {
     const answersObj = activeCategories.map(item => ({
       ...item,
@@ -95,8 +104,6 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
       roomId: params.roomId!,
       currentRound: roundsData.currentRound!,
     })
-
-    return
   }
 
   //Submit Data for players that haven't submitted at round end
@@ -107,6 +114,8 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
     !form.formState.isSubmitted
   )
     form.handleSubmit(onSubmit)()
+
+  console.log(form.formState.submitCount)
 
   return (
     <Form {...form}>

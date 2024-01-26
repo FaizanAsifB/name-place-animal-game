@@ -2,7 +2,7 @@ import { useAtom } from 'jotai'
 import { RefreshCw } from 'lucide-react'
 import { avatarAtom } from '../../../context/atoms'
 import data from '../../../data/data.json' /* assert { type: 'json' } */
-import { getAvatarPath } from '@/lib/utils'
+import { getAvatarPath } from '@/utils/helpers'
 
 const AvatarSelection = () => {
   const [avatarIndex, setAvatarIndex] = useAtom(avatarAtom)

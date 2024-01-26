@@ -1,5 +1,5 @@
 import { RegistrationInfoType, UserInfoUpdate } from '@/lib/types'
-import { deleteDataDb, getAvatarPath } from '@/lib/utils'
+import { getAvatarPath } from '@/utils/helpers'
 import {
   User,
   createUserWithEmailAndPassword,
@@ -9,6 +9,7 @@ import {
 } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../config/firebaseConfig'
+import { deleteDataDb } from '@/lib/utils'
 
 export const updateUserProfile = async (
   user: User,

@@ -1,4 +1,5 @@
 import { TIME_STORAGE_KEY } from '@/config/gameConfig'
+import data from '../data/data.json'
 import {
   CreateGameData,
   GameScreenRoundsData,
@@ -6,7 +7,6 @@ import {
   RoundsData,
   ScoresData,
 } from '../lib/types'
-import { getTimeInStorage } from '@/pages/GameScreen/components/util/utils'
 
 export const getSum = (values: number[]): number => {
   return values.reduce((acc, score) => {
@@ -39,4 +39,31 @@ export const timeInSeconds = (time: number) => {
 export const getTimeRemaining = (roomId: string, currentRound: number) => {
   const storageKey = TIME_STORAGE_KEY(roomId, currentRound)
   return getTimeInStorage(storageKey)
+}
+
+export function getAvatarPath(avatarIndex: number) {
+  return data.avatarImages[avatarIndex].path
+}
+
+export function saveToSessionStorage<T>(key: string, value: T) {
+  try {
+    window.sessionStorage.setItem(key, JSON.stringify(value))
+  } catch (err) {
+    throw Error('Session Storage not available')
+  }
+}
+
+export function getFromSessionStorage<T>(key: string): T | undefined {
+  try {
+    const storedData = window.sessionStorage.getItem(key)
+    if (!storedData) return
+    return JSON.parse(storedData)
+  } catch (err) {
+    throw Error('Session Storage not available')
+  }
+}
+
+export const getTimeInStorage = (storageKey: string) => {
+  const time = getFromSessionStorage<number>(storageKey)
+  if (time) return (time - Date.now()) / 1000
 }

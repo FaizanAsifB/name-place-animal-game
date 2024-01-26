@@ -4,7 +4,7 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { useParams } from 'react-router-dom'
 import { GameStates } from '../../../lib/types'
 import { updateGameState } from '../../../utils/http'
-import { getTimeInStorage, saveToSessionStorage } from './util/utils'
+import { getTimeInStorage, saveToSessionStorage } from '@/utils/helpers'
 
 type ClockProps = {
   roundTime: number

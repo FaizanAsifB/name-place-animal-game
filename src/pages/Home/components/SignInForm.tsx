@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input.tsx'
 import { avatarAtom } from '@/context/atoms'
-import { getAvatarPath } from '@/lib/utils'
+import { getAvatarPath } from '@/utils/helpers'
 import { updatePhotoUrl } from '@/utils/authentication'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signInWithEmailAndPassword } from 'firebase/auth'

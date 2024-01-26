@@ -12,11 +12,11 @@ import { getSum } from '@/utils/helpers'
 import { useMutation } from '@tanstack/react-query'
 import { SendHorizontal } from 'lucide-react'
 import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { toast } from 'sonner'
 import { updateGameState, updateScoresData } from '../../../utils/http'
 import AnswersList from './../components/AnswersList'
 import ScoresToggleGroup from './../components/CategoryScores'
 import { getScoringData } from './../utils/helpers'
-import { toast } from 'sonner'
 
 type ScoringCardsProps = {
   roundsData: RoundsData
@@ -51,39 +51,33 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
     return getScoringData(roundsData.answers[currentRoundName], currentUser.uid)
   }, [currentUser, roundsData, currentRoundName])
 
-  const isSubmitted = useMemo(() => {
-    if (scoringData && gameData?.scoresSubmitted?.[currentRoundName])
-      return gameData?.scoresSubmitted[currentRoundName].includes(
-        currentUser!.uid
-      )
-  }, [gameData, currentUser, scoringData, currentRoundName])
+  const submittedUsers = gameData?.scoresSubmitted[currentRoundName]
+
+  const isCurrentUserSubmitted = useMemo(() => {
+    if (scoringData && submittedUsers)
+      return submittedUsers.includes(currentUser!.uid)
+  }, [currentUser, scoringData, submittedUsers])
 
   const submittedRef = useRef<string[]>([])
+
   useEffect(() => {
-    if (!gameData || !gameData?.scoresSubmitted?.[currentRoundName]) return
+    if (!gameData || !submittedUsers) return
     const goToResultsPage = async () =>
       await updateGameState('RESULT', params.roomId)
 
-    if (
-      submittedRef.current.length !==
-      gameData?.scoresSubmitted[currentRoundName].length
-    ) {
-      const [newSubmission] = gameData.scoresSubmitted[currentRoundName].filter(
+    if (submittedRef.current.length !== submittedUsers.length) {
+      const [newSubmission] = submittedUsers.filter(
         user => !submittedRef.current.includes(user)
       )
       toast(<UserInfo userId={newSubmission}>Submitted</UserInfo>)
-      console.log(submittedRef.current)
     }
 
-    if (
-      gameData.scoresSubmitted[currentRoundName].length ===
-      gameData.totalPlayers
-    )
-      goToResultsPage()
-  }, [params.roomId, gameData, currentRoundName])
+    if (submittedUsers.length === gameData.totalPlayers) goToResultsPage()
+  }, [params.roomId, gameData, currentRoundName, submittedUsers])
 
   function handleScoring() {
-    const roundScore = getSum(Object.values(scores!))
+    if (!scores) return
+    const roundScore = getSum(Object.values(scores))
     const scoreData = {
       scoresCategory: scores,
       roundScore,
@@ -156,7 +150,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
           )
         })}
       <Button
-        disabled={isSubmitting || isSubmitted}
+        disabled={isSubmitting || isCurrentUserSubmitted}
         type="button"
         className="mx-auto my-4 col-span-full"
         onClick={handleScoring}
@@ -168,7 +162,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
         ) : (
           <>
             <SendHorizontal />{' '}
-            <span>{isSubmitted ? 'Submitted' : 'Submit'}</span>
+            <span>{isCurrentUserSubmitted ? 'Submitted' : 'Submit'}</span>
           </>
         )}
       </Button>
