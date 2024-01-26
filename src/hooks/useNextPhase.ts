@@ -31,10 +31,10 @@ const useNextPhase = (currentRound?: number) => {
         break
       case 'SCORING':
         // if (matchScoringPath) return
-        window.sessionStorage.clear()
         navigate('../scoring')
         break
       case 'RESULT':
+        window.sessionStorage.clear()
         // invalidateRoundsData()
         navigate('../result')
         break

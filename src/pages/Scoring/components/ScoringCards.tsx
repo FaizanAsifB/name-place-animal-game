@@ -11,8 +11,9 @@ import { queryClient } from '@/utils/fetchData'
 import { getSum } from '@/utils/helpers'
 import { useMutation } from '@tanstack/react-query'
 import { SendHorizontal } from 'lucide-react'
-import { memo, useContext, useEffect, useMemo, useState } from 'react'
-import { updateGameState, updateScoresData } from '../../../utils/http'
+import { memo, useContext, useMemo, useState } from 'react'
+import { updateScoresData } from '../../../utils/http'
+import useSessionStorage from '../hooks/useSessionStorage'
 import AnswersList from './../components/AnswersList'
 import ScoresToggleGroup from './../components/CategoryScores'
 import { getScoringData } from './../utils/helpers'
@@ -57,11 +58,11 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
       return submittedUsers.includes(currentUser!.uid)
   }, [currentUser, scoringData, submittedUsers])
 
-  useEffect(() => {
-    if (!gameData || !submittedUsers) return
-
-    if (submittedUsers.length === gameData.totalPlayers) goToResultsPage()
-  }, [params.roomId, gameData, currentRoundName, submittedUsers])
+  useSessionStorage(
+    submittedUsers,
+    roundsData.currentRound,
+    gameData?.totalPlayers
+  )
 
   function handleScoring() {
     if (!scores) return
