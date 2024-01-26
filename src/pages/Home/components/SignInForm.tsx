@@ -10,9 +10,10 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input.tsx'
 import { avatarAtom } from '@/context/atoms'
-import { getAvatarPath } from '@/utils/helpers'
 import { updatePhotoUrl } from '@/utils/authentication'
+import { getAvatarPath } from '@/utils/helpers'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { FirebaseError } from 'firebase/app'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useAtom } from 'jotai'
 import { Mail } from 'lucide-react'
@@ -41,15 +42,18 @@ const SignInForm = () => {
 
       // onClose()
     } catch (error) {
-      form.setError(
-        'password',
-        {
-          type: 'custom',
-          message: 'Invalid login credentials, please try again',
-        },
-        { shouldFocus: true }
+      if (
+        error instanceof FirebaseError &&
+        error.code === 'auth/invalid-login-credentials'
       )
-      // throw new Error('There was an error signing in')
+        form.setError(
+          'password',
+          {
+            type: 'custom',
+            message: 'Invalid login credentials, please try again',
+          },
+          { shouldFocus: true }
+        )
     }
   }
 
@@ -66,7 +70,6 @@ const SignInForm = () => {
                 <FormControl>
                   <Input placeholder="Enter your email" {...field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
@@ -90,21 +93,21 @@ const SignInForm = () => {
             )}
           />
 
-          <DialogFooter className="mt-8">
-            {/* <Button
+          <DialogFooter className="items-center pt-4">
+            <Button
               type="button"
               variant={'link'}
-              size={'md'}
+              size={'sm'}
               disabled={form.formState.isSubmitting}
             >
-              <ClipboardList /> Sign Up
-            </Button> */}
+              <span className="text-base ">Forgot Password?</span>
+            </Button>
             <Button
               type="submit"
               disabled={form.formState.isSubmitting}
               variant={'secondary'}
-              size={'md'}
-              className="mt-4 ml-auto"
+              size={'sm'}
+              className=""
             >
               <Mail /> Sign In
             </Button>

@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -51,9 +52,6 @@ const AuthModal = () => {
           <Suspense fallback={<p>Loading....</p>}>
             <SignInForm />
           </Suspense>
-          {/* <DialogFooter>
-                <Button type="submit">Save changes</Button>
-              </DialogFooter> */}
         </DialogContent>
       </Dialog>
     </div>
