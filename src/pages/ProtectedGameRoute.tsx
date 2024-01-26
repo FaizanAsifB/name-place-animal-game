@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { roomId } = useParams()
 
   const { data: lobbyPlayers, isPending } = useQuery({
-    queryKey: ['lobbyPlayers', roomId],
+    queryKey: ['lobbyPlayers', roomId!],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<LobbyPlayers>(queryKey[1], 'lobbyPlayers'),
   })
