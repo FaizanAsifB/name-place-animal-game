@@ -13,42 +13,41 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input.tsx'
-import { avatarAtom } from '@/context/atoms'
-import { updatePhotoUrl } from '@/utils/authentication'
-import { getAvatarPath } from '@/utils/helpers'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FirebaseError } from 'firebase/app'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { useAtom } from 'jotai'
+import { sendPasswordResetEmail } from 'firebase/auth'
 import { Mail } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 import { auth } from '../../../../config/firebaseConfig'
-import { LoginSchema, loginSchema } from '../../../../lib/types'
+import { loginSchema } from '../../../../lib/types'
 
-const SignInForm = () => {
-  const form = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
+const forgottenPasswordSchema = loginSchema.pick({ email: true })
+
+const ForgotPasswordForm = () => {
+  const form = useForm<z.infer<typeof forgottenPasswordSchema>>({
+    resolver: zodResolver(forgottenPasswordSchema),
     defaultValues: {
       email: '',
     },
   })
 
-  const onSubmit = async (loginDetails: LoginSchema) => {
-    const { email, password } = loginDetails
+  const onSubmit = async (
+    formData: z.infer<typeof forgottenPasswordSchema>
+  ) => {
+    const { email } = formData
 
     //TODO add to zod
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password)
+      const res = await sendPasswordResetEmail(auth, email)
+      console.log(res)
     } catch (error) {
-      if (
-        error instanceof FirebaseError &&
-        error.code === 'auth/invalid-login-credentials'
-      )
+      if (error instanceof FirebaseError)
         form.setError(
-          'password',
+          'email',
           {
             type: 'custom',
-            message: 'Invalid login credentials, please try again',
+            message: 'There was an error resetting your password',
           },
           { shouldFocus: true }
         )
@@ -58,9 +57,7 @@ const SignInForm = () => {
   return (
     <>
       <DialogHeader>
-        <DialogTitle className="capitalize">
-          Enter your Email and Password
-        </DialogTitle>
+        <DialogTitle className="capitalize">Enter your Email</DialogTitle>
       </DialogHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -78,35 +75,8 @@ const SignInForm = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Enter your password"
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <DialogFooter className="items-center pt-4">
-              <Button
-                type="button"
-                variant={'link'}
-                size={'sm'}
-                disabled={form.formState.isSubmitting}
-                onClick={() => {}}
-              >
-                <span className="text-base ">Forgot Password?</span>
-              </Button>
               <Button
                 type="submit"
                 disabled={form.formState.isSubmitting}
@@ -114,7 +84,7 @@ const SignInForm = () => {
                 size={'sm'}
                 className=""
               >
-                <Mail /> Sign In
+                <Mail /> Send
               </Button>
             </DialogFooter>
           </ul>
@@ -123,4 +93,4 @@ const SignInForm = () => {
     </>
   )
 }
-export default SignInForm
+export default ForgotPasswordForm

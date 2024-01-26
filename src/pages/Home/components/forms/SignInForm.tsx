@@ -24,9 +24,13 @@ import { Mail } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { auth } from '../../../../config/firebaseConfig'
 import { LoginSchema, loginSchema } from '../../../../lib/types'
+import { useSearchParams } from 'react-router-dom'
 
 const SignInForm = () => {
   const [avatarIndex] = useAtom(avatarAtom)
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  console.log(searchParams)
 
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
@@ -108,7 +112,9 @@ const SignInForm = () => {
                 variant={'link'}
                 size={'sm'}
                 disabled={form.formState.isSubmitting}
-                onClick={() => {}}
+                onClick={() => {
+                  setSearchParams('q')
+                }}
               >
                 <span className="text-base ">Forgot Password?</span>
               </Button>
