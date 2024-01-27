@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { GameState } from '../lib/types'
 import { useOnSnapShot } from './useOnSnapShot'
+import { toast } from 'sonner'
 
 const useNextPhase = (currentRound?: number) => {
   const navigate = useNavigate()
@@ -34,6 +35,7 @@ const useNextPhase = (currentRound?: number) => {
         navigate('../scoring')
         break
       case 'RESULT':
+        toast.dismiss()
         window.sessionStorage.clear()
         // invalidateRoundsData()
         navigate('../result')

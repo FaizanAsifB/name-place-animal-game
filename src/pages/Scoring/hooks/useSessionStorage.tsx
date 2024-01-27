@@ -38,12 +38,9 @@ const useSessionStorage = (
           <UserInfo userId={newSubmission.at(-1)!} />
           <span>Submitted</span>
         </div>
-      ),
-        {
-          className: 'bg-red-500',
-        }
+      )
     }
-    // if (submittedUsers.length === totalPlayers) goToResultsPage()
+    if (submittedUsers.length === totalPlayers) goToResultsPage()
   }, [
     currentUser,
     goToResultsPage,

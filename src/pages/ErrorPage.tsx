@@ -29,10 +29,12 @@ const Error = () => {
       <div className="p-8 space-y-12 text-center border-2 rounded-lg bg-bg-primary">
         <H1>{title}</H1>
         <P>{message}</P>
-        <Button asChild>
-          <Link to="/">Home</Link>
-        </Button>
-        <Button onClick={() => window.location.reload()}>Retry</Button>
+        <div className="flex justify-between">
+          <Button asChild>
+            <Link to="/">Home</Link>
+          </Button>
+          <Button onClick={() => window.location.reload()}>Retry</Button>
+        </div>
       </div>
     </main>
   )

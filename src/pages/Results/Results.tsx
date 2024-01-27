@@ -1,6 +1,6 @@
 import AlphabetsScroll from '@/components/ui/AlphabetsScroll'
 import useNextPhase from '@/hooks/useNextPhase'
-import { GameScreenRoundsData, GameSettings, RoundsData } from '@/lib/types'
+import { GameSettings, RoundsData } from '@/lib/types'
 import { sortScore } from '@/utils/helpers'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
@@ -18,7 +18,7 @@ const Results = () => {
   const { data: roundsData } = useQuery({
     queryKey: ['roundsData', roomId, 'results'],
     queryFn: ({ queryKey }) =>
-      fetchLobbyData<RoundsData | GameScreenRoundsData>(queryKey[1], 'rounds'),
+      fetchLobbyData<RoundsData>(queryKey[1], 'rounds'),
   })
 
   const { data: settings } = useQuery({
@@ -40,7 +40,7 @@ const Results = () => {
       {gameState?.gameState === 'INIT' && (
         <AlphabetsScroll gameState={gameState} />
       )}
-      {isLastRound && scoresData && (
+      {isLastRound && scoresData && settings && (
         <GameEndModal
           scoresData={scoresData}
           isLastRound={isLastRound}
@@ -50,9 +50,11 @@ const Results = () => {
       {roundsData && settings && (
         <>
           <ResultsTable
+            bonusPoints={roundsData.bonusPoints}
             scoresData={scoresData!}
             isLastRound={isLastRound}
             currentRound={roundsData.currentRound}
+            endMode={settings.settings.endMode.value}
           />
           <ResultsFooter hostId={settings?.hostId} isLastRound={isLastRound} />
         </>

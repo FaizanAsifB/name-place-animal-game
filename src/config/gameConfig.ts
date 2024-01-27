@@ -9,7 +9,13 @@ export const DEFAULT_CATEGORIES = [
   { id: 6, title: 'technology' },
 ]
 
-export const AUTOPLAY_SPEED = 1
+export const BONUS_POINTS = 10
+
+export const NO_DEFAULT_CATEGORIES = 4
+
+export const TIME_PER_NEW_CATEGORY = 10
+
+export const AUTOPLAY_SPEED = 50
 const MAX_LOOPS = 1
 
 export const MAX_SLIDES = (currentAlphabetIndex: number | null) => {

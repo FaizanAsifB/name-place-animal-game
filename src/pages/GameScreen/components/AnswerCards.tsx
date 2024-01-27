@@ -97,13 +97,18 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
         TIME_STORAGE_KEY(params.roomId!, roundsData.currentRound)
       )
 
-      if (timeRemaining && timeRemaining > FASTEST_FINGER_TIME)
+      if (
+        timeRemaining &&
+        timeRemaining > FASTEST_FINGER_TIME &&
+        gameData.gameState !== 'END-TIMER'
+      ) {
         await updateGameState('END-TIMER', params.roomId!)
-      await addBonusPoints(
-        params.roomId!,
-        currentUser!.uid,
-        roundsData.currentRound
-      )
+        await addBonusPoints(
+          params.roomId!,
+          currentUser!.uid,
+          roundsData.currentRound
+        )
+      }
     }
     mutate({
       answers,
@@ -120,8 +125,6 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
     !form.formState.isSubmitted
   )
     form.handleSubmit(onSubmit)()
-
-  console.log(getFromSessionStorage(answerStorageKey))
 
   return (
     <Form {...form}>

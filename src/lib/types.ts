@@ -331,6 +331,7 @@ export type Q = {
 export type RoundsData = {
   answers: AnswersData
   scores: ScoresData
+  bonusPoints: Record<string, Record<string, string>>
 } & CreateGameData
 
 export type GameScreenRoundsData = {

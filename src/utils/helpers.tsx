@@ -1,3 +1,4 @@
+import { BONUS_POINTS } from '@/config/gameConfig'
 import data from '../data/data.json'
 import {
   CreateGameData,
@@ -60,4 +61,16 @@ export function getFromSessionStorage<T>(key: string): T | undefined {
 export const getTimeInStorage = (storageKey: string) => {
   const time = getFromSessionStorage<number>(storageKey)
   if (time) return (time - Date.now()) / 1000
+}
+
+export const getBonusPoints = (
+  bonusPoints: Record<string, Record<string, string>>,
+  userId: string
+) => {
+  let count = 0
+  Object.values(bonusPoints).forEach(round => {
+    console.log(round)
+    if (round.userId === userId) count++
+  })
+  return count * BONUS_POINTS
 }
