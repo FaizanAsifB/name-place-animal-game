@@ -69,7 +69,6 @@ export const getBonusPoints = (
 ) => {
   let count = 0
   Object.values(bonusPoints).forEach(round => {
-    console.log(round)
     if (round.userId === userId) count++
   })
   return count * BONUS_POINTS
