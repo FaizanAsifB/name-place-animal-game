@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { BookText, Mail } from 'lucide-react'
 import { Suspense, lazy, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
 import ForgotPasswordForm from './forms/ForgotPasswordForm'
 
 const SignInForm = lazy(() => import('./forms/SignInForm'))
