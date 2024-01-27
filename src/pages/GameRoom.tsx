@@ -5,7 +5,7 @@ const GameRoom = () => {
   return (
     <>
       <Outlet />
-      <Toaster />
+      <Toaster expand closeButton />
     </>
   )
 }

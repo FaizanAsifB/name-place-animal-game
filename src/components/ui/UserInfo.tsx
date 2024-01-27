@@ -39,7 +39,7 @@ const UserInfo = ({
               <img src="/images/avatars/emptyAvatar.svg" alt="empty slot" />
             </AvatarFallback>
           </Avatar>
-          <div className="flex gap-1">
+          <div>
             <span>{displayName}</span>
             {children}
           </div>

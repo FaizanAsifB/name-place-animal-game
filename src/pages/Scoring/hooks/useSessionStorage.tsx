@@ -33,9 +33,17 @@ const useSessionStorage = (
         ...submittedInStorage,
         ...newSubmission,
       ])
-      toast(<UserInfo userId={newSubmission.at(-1)!}>Submitted</UserInfo>)
+      toast(
+        <div className="flex items-center gap-2 font-semibold uppercase">
+          <UserInfo userId={newSubmission.at(-1)!} />
+          <span>Submitted</span>
+        </div>
+      ),
+        {
+          className: 'bg-red-500',
+        }
     }
-    if (submittedUsers.length === totalPlayers) goToResultsPage()
+    // if (submittedUsers.length === totalPlayers) goToResultsPage()
   }, [
     currentUser,
     goToResultsPage,

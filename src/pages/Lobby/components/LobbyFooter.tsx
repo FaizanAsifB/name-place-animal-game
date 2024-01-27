@@ -49,7 +49,7 @@ const LobbyFooter = ({ lobbyPlayers, gameState, isHost }: LobbyFooterProps) => {
           <Button
             disabled={!allPlayersReady || !isHost}
             onClick={handlePlay}
-            variant={'secondary'}
+            // variant={'secondary'}
           >
             {allPlayersReady ? (
               <>

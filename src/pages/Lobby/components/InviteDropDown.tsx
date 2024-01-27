@@ -22,7 +22,9 @@ const InviteDropDown = ({ roomId }: InviteDropDownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant={'secondary'}>
+        <Button
+        //  variant={'secondary'}
+        >
           <Share2 />
           Invite
         </Button>

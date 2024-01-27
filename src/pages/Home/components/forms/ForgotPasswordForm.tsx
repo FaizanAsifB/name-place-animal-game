@@ -43,7 +43,6 @@ const ForgotPasswordForm = ({
   ) => {
     const { email } = formData
 
-    //TODO add to zod
     try {
       await sendPasswordResetEmail(auth, email)
     } catch (error) {
