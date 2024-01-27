@@ -21,16 +21,17 @@ import { FirebaseError } from 'firebase/app'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useAtom } from 'jotai'
 import { Mail } from 'lucide-react'
+import { Dispatch } from 'react'
 import { useForm } from 'react-hook-form'
 import { auth } from '../../../../config/firebaseConfig'
 import { LoginSchema, loginSchema } from '../../../../lib/types'
-import { useSearchParams } from 'react-router-dom'
 
-const SignInForm = () => {
+type SignInFromProps = {
+  setShowForgottenPassword: Dispatch<React.SetStateAction<boolean>>
+}
+
+const SignInForm = ({ setShowForgottenPassword }: SignInFromProps) => {
   const [avatarIndex] = useAtom(avatarAtom)
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  console.log(searchParams)
 
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
@@ -112,9 +113,7 @@ const SignInForm = () => {
                 variant={'link'}
                 size={'sm'}
                 disabled={form.formState.isSubmitting}
-                onClick={() => {
-                  setSearchParams('q')
-                }}
+                onClick={() => setShowForgottenPassword(true)}
               >
                 <span className="text-base ">Forgot Password?</span>
               </Button>

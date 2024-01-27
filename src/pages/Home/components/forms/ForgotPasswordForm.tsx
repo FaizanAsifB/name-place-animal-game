@@ -17,14 +17,20 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { FirebaseError } from 'firebase/app'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { Mail } from 'lucide-react'
+import { Dispatch } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { auth } from '../../../../config/firebaseConfig'
 import { loginSchema } from '../../../../lib/types'
 
 const forgottenPasswordSchema = loginSchema.pick({ email: true })
+type ForgotPasswordFormProps = {
+  setShowForgottenPassword: Dispatch<React.SetStateAction<boolean>>
+}
 
-const ForgotPasswordForm = () => {
+const ForgotPasswordForm = ({
+  setShowForgottenPassword,
+}: ForgotPasswordFormProps) => {
   const form = useForm<z.infer<typeof forgottenPasswordSchema>>({
     resolver: zodResolver(forgottenPasswordSchema),
     defaultValues: {
@@ -39,8 +45,7 @@ const ForgotPasswordForm = () => {
 
     //TODO add to zod
     try {
-      const res = await sendPasswordResetEmail(auth, email)
-      console.log(res)
+      await sendPasswordResetEmail(auth, email)
     } catch (error) {
       if (error instanceof FirebaseError)
         form.setError(
@@ -77,6 +82,15 @@ const ForgotPasswordForm = () => {
             />
 
             <DialogFooter className="items-center pt-4">
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                variant={'secondary'}
+                size={'sm'}
+                onClick={() => setShowForgottenPassword(false)}
+              >
+                <Mail /> Back
+              </Button>
               <Button
                 type="submit"
                 disabled={form.formState.isSubmitting}

@@ -1,16 +1,15 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { BookText, Mail } from 'lucide-react'
-import { Suspense, lazy } from 'react'
-import ForgotPasswordForm from './forms/ForgotPasswordForm'
+import { Suspense, lazy, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import ForgotPasswordForm from './forms/ForgotPasswordForm'
 
 const SignInForm = lazy(() => import('./forms/SignInForm'))
 const SignUpForm = lazy(() => import('./forms/SignUpForm'))
 
 const AuthModal = () => {
-  const [searchParams] = useSearchParams()
-  console.log(searchParams)
+  const [showForgottenPassword, setShowForgottenPassword] = useState(false)
 
   return (
     <div className="flex justify-center w-full gap-4 lg:gap-6">
@@ -36,8 +35,14 @@ const AuthModal = () => {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <Suspense fallback={<p>Loading....</p>}>
-            {/* {!forgotPassword && <SignInForm />}
-            {forgotPassword && <ForgotPasswordForm />} */}
+            {!showForgottenPassword && (
+              <SignInForm setShowForgottenPassword={setShowForgottenPassword} />
+            )}
+            {showForgottenPassword && (
+              <ForgotPasswordForm
+                setShowForgottenPassword={setShowForgottenPassword}
+              />
+            )}
           </Suspense>
         </DialogContent>
       </Dialog>
