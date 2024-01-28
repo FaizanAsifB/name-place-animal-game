@@ -23,7 +23,7 @@ const HomeButton = ({ isHost }: { isHost?: boolean | undefined }) => {
     //Delete lobby data
     updateGameState('CANCELLED', params.roomId)
     //Return to Home
-    navigate('/')
+    navigate('/', { replace: true })
   }
   return (
     <>

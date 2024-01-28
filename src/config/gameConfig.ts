@@ -15,7 +15,7 @@ export const NO_DEFAULT_CATEGORIES = 4
 
 export const TIME_PER_NEW_CATEGORY = 10
 
-export const AUTOPLAY_SPEED = 50
+export const AUTOPLAY_SPEED = 1
 const MAX_LOOPS = 1
 
 export const MAX_SLIDES = (currentAlphabetIndex: number | null) => {

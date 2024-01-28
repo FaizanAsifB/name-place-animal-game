@@ -5,7 +5,7 @@ import { AuthContext } from '../context/AuthContext'
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const currentUser = useContext(AuthContext)
 
-  if (!currentUser) return <Navigate to={'/'} />
+  if (!currentUser) return <Navigate to={'/'} replace />
 
   return children
 }

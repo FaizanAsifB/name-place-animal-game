@@ -14,34 +14,24 @@ const useNextPhase = (currentRound?: number) => {
     roomId: params.roomId,
   })
 
-  // const invalidateRoundsData = useCallback(async () => {
-  //   try {
-  //     await queryClient.invalidateQueries({
-  //       queryKey: ['roundsData', params.roomId!],
-  //     })
-  //   } catch (error) {
-  //     throw new Error('Something went wrong!')
-  //   }
-  // }, [params.roomId])
-
   useEffect(() => {
     if (!data?.gameState) return
     switch (data?.gameState) {
       case 'STARTED':
-        navigate(`../game`)
+        navigate(`../game`, { replace: true })
         break
       case 'SCORING':
         // if (matchScoringPath) return
-        navigate('../scoring')
+        navigate('../scoring', { replace: true })
         break
       case 'RESULT':
         toast.dismiss()
         window.sessionStorage.clear()
         // invalidateRoundsData()
-        navigate('../result')
+        navigate('../result', { replace: true })
         break
       case 'CANCELLED':
-        navigate('/')
+        navigate('/', { replace: true })
         break
     }
   }, [

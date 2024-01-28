@@ -26,9 +26,9 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     return children
 
   if (!isPending && pathname === `/game-room/${roomId}/lobby` && !currentUser)
-    return <Navigate to={`/?jc=${roomId}`} />
+    return <Navigate to={`/?jc=${roomId}`} replace />
 
   if (!isPending && pathname !== `/game-room/${roomId}/lobby` && !isInLobby)
-    return <Navigate to="/" />
+    return <Navigate to="/" replace />
 }
 export default ProtectedRoute
