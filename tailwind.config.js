@@ -15,6 +15,12 @@ module.exports = {
         'primary-gradient': 'linear-gradient(to right top, #fe8c00, #f59f00)',
         'main-bg': "url('/images/sun-tornado.svg')",
       },
+      boxShadow: {
+        main: 'inset 0px 2px 0px 0px rgba(255,255,255,.15), 0px 3px 0px 0px rgba(255,255,255,0.15)',
+      },
+      border: {
+        main: 'rgba(29,29,27,0.15)',
+      },
       fontFamily: {
         display: 'Galindo, sans-serif',
       },
@@ -40,6 +46,7 @@ module.exports = {
         'bg-primary': 'hsla(21, 90%, 48%, 0.5)',
         'primary-light': 'hsla(25, 95%, 53%, 0.7)',
         'primary-dark': 'hsla(21, 90%, 48%, 0.6)',
+        'main-border': 'rgba(29,29,27,0.15)',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -92,6 +99,23 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        flash: {
+          '0%': {
+            opacity: 1,
+          },
+          '50%': {
+            opacity: 1,
+          },
+          '100%': {
+            opacity: 1,
+          },
+          '25%': {
+            opacity: 0,
+          },
+          ' 75%': {
+            opacity: 0,
+          },
+        },
         dots: {
           '0%': {
             'background-position':
@@ -126,6 +150,7 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        flash: 'flash 2.5s infinite ease-in-out',
         dots: 'dots 1s infinite linear',
       },
     },

@@ -1,4 +1,4 @@
-import { LobbyPlayers } from '@/lib/types'
+import { GameState, LobbyPlayers } from '@/lib/types'
 import { fetchLobbyData } from '@/utils/fetchData'
 import { useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
@@ -14,21 +14,43 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     queryFn: ({ queryKey }) =>
       fetchLobbyData<LobbyPlayers>(queryKey[1], 'lobbyPlayers'),
   })
+  const { data: gameData, isPending: isPendingGameData } = useQuery({
+    queryKey: ['gameRooms', roomId!],
+    queryFn: ({ queryKey }) =>
+      fetchLobbyData<GameState>(queryKey[1], 'gameRooms'),
+  })
 
-  const pathname = location.pathname
+  // const pathname = location.pathname
   const isInLobby =
     lobbyPlayers &&
     lobbyPlayers?.slots.findIndex(slot => slot.uid === currentUser?.uid) >= 0
 
-  if (!isPending && isInLobby) return children
+  if (!isPendingGameData && gameData?.gameState === 'GAME-COMPLETED')
+    return <Navigate to="/" replace />
 
-  if (!isPending && pathname === `/game-room/${roomId}/lobby` && currentUser)
-    return children
-
-  if (!isPending && pathname === `/game-room/${roomId}/lobby` && !currentUser)
+  if (!isPendingGameData && gameData?.gameState === 'LOBBY' && !currentUser)
     return <Navigate to={`/?jc=${roomId}`} replace />
 
-  if (!isPending && pathname !== `/game-room/${roomId}/lobby` && !isInLobby)
+  if (!isPendingGameData && currentUser && gameData?.gameState === 'LOBBY')
+    return children
+
+  if (
+    !isPending &&
+    !isPendingGameData &&
+    gameData?.gameState !== 'LOBBY' &&
+    isInLobby
+  )
+    return children
+
+  if (
+    !isPending &&
+    !isPendingGameData &&
+    gameData?.gameState !== 'LOBBY' &&
+    !isInLobby
+  )
     return <Navigate to="/" replace />
+
+  // if (!isPendingGameData && gameData?.gameState !== 'LOBBY')
+  //   return <Navigate to="/" replace />
 }
 export default ProtectedRoute

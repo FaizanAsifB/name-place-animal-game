@@ -3,7 +3,7 @@ import { SCORES_STORAGE_KEY } from '@/config/gameConfig'
 import { AuthContext } from '@/context/AuthContext'
 import { getFromSessionStorage, saveToSessionStorage } from '@/utils/helpers'
 import { updateGameState } from '@/utils/http'
-import { useCallback, useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 
@@ -15,11 +15,10 @@ const useSessionStorage = (
   const params = useParams()
   const currentUser = useContext(AuthContext)
 
-  const goToResultsPage = useCallback(async () => {
-    await updateGameState('RESULT', params.roomId)
-  }, [params.roomId])
-
   useEffect(() => {
+    const goToResultsPage = async () =>
+      await updateGameState('RESULT', params.roomId)
+
     if (!currentRound || !totalPlayers) return
     const scoresStorageKey = SCORES_STORAGE_KEY(params.roomId!, currentRound)
     const submittedInStorage =
@@ -37,18 +36,14 @@ const useSessionStorage = (
         <div className="flex items-center gap-2 font-semibold uppercase">
           <UserInfo userId={newSubmission.at(-1)!} />
           <span>Submitted</span>
-        </div>
+        </div>,
+        {
+          position: 'top-right',
+        }
       )
     }
     if (submittedUsers.length === totalPlayers) goToResultsPage()
-  }, [
-    currentUser,
-    goToResultsPage,
-    totalPlayers,
-    currentRound,
-    submittedUsers,
-    params.roomId,
-  ])
+  }, [currentUser, totalPlayers, currentRound, submittedUsers, params.roomId])
 }
 
 export default useSessionStorage

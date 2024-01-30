@@ -21,7 +21,7 @@ const Scoring = () => {
   })
 
   return (
-    <section className="flex flex-col flex-1 my-8 ">
+    <section className="relative flex flex-col flex-1 my-8">
       <GameHeader roundsData={roundsData}>
         {roundsData && (
           <CurrentAlphabet

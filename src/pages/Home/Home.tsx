@@ -1,9 +1,11 @@
+import Logo from '@/components/ui/Logo.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { toast } from '@/components/ui/use-toast.ts'
 import { auth } from '@/config/firebaseConfig.ts'
 import { AuthContext } from '@/context/AuthContext.tsx'
 import { avatarAtom, displayNameAtom } from '@/context/atoms.ts'
 import { deleteGuestUser, updatePhotoUrl } from '@/utils/authentication.ts'
+import { getAvatarPath } from '@/utils/helpers.tsx'
 import { signOut } from 'firebase/auth'
 import { useAtom, useAtomValue } from 'jotai'
 import { Gamepad2 } from 'lucide-react'
@@ -13,8 +15,6 @@ import Footer from '../../layout/Footer.tsx'
 import Auth from './Auth.tsx'
 import Guide from './Guide.tsx'
 import GuideModal from './components/GuideModal.tsx'
-import Logo from '@/components/ui/Logo.tsx'
-import { getAvatarPath } from '@/utils/helpers.tsx'
 
 // grid grid-cols-5
 
@@ -63,7 +63,11 @@ const Home = () => {
         <GuideModal />
         <Logo />
         {displayName && (
-          <Button onClick={signOutUser} className="col-start-4 ml-auto w-fit">
+          <Button
+            onClick={signOutUser}
+            variant={'outline'}
+            className="col-start-4 ml-auto w-fit"
+          >
             Logout
           </Button>
         )}

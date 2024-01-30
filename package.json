@@ -38,6 +38,7 @@
     "lucide-react": "^0.303.0",
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
+    "react-audio-player": "^0.17.0",
     "react-confetti-explosion": "^2.1.2",
     "react-copy-to-clipboard": "^5.1.0",
     "react-countdown-circle-timer": "^3.2.1",
