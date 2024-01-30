@@ -1,4 +1,6 @@
 import { Toaster } from '@/components/ui/toaster'
+import { Toaster as Sonner } from '@/components/ui/sonner'
+
 import { Outlet } from 'react-router-dom'
 
 const RootLayout = () => {
@@ -10,6 +12,7 @@ const RootLayout = () => {
         </div>
       </main>
       <Toaster />
+      <Sonner expand closeButton richColors />
     </div>
   )
 }

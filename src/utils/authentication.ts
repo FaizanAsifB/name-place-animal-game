@@ -1,4 +1,5 @@
 import { RegistrationInfoType, UserInfoUpdate } from '@/lib/types'
+import { deleteDataDb } from '@/lib/utils'
 import { getAvatarPath } from '@/utils/helpers'
 import {
   User,
@@ -9,7 +10,6 @@ import {
 } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../config/firebaseConfig'
-import { deleteDataDb } from '@/lib/utils'
 
 export const updateUserProfile = async (
   user: User,
@@ -85,18 +85,16 @@ export const emailSignUp = async (
   { displayName, email, password }: RegistrationInfoType,
   avatarIndex: number
 ) => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password)
+  const res = await createUserWithEmailAndPassword(auth, email, password)
 
-    updateUserProfile(res.user, {
-      displayName,
-      email: res.user.email,
-      photoURL: getAvatarPath(avatarIndex),
-      isAnonymous: res.user.isAnonymous,
-    })
-  } catch (error) {
-    throw new Error('There was an error signing up')
-  }
+  updateUserProfile(res.user, {
+    displayName,
+    email: res.user.email,
+    photoURL: getAvatarPath(avatarIndex),
+    isAnonymous: res.user.isAnonymous,
+  })
+
+  return displayName
 }
 
 export const deleteGuestUser = async (currentUser: User) => {

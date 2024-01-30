@@ -8,12 +8,13 @@ const SignInForm = lazy(() => import('./forms/SignInForm'))
 const SignUpForm = lazy(() => import('./forms/SignUpForm'))
 
 const AuthModal = () => {
+  const [open, setOpen] = useState(false)
   const [showForgottenPassword, setShowForgottenPassword] = useState(false)
 
   return (
     <div className="flex justify-center w-full gap-4 lg:gap-6">
       {/* Sign up Form */}
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button name="register" variant={'secondary'} size={'md'}>
             <BookText /> Sign Up
@@ -21,7 +22,7 @@ const AuthModal = () => {
         </DialogTrigger>
 
         <Suspense fallback={<p>Loading....</p>}>
-          <SignUpForm />
+          <SignUpForm setOpen={setOpen} />
         </Suspense>
       </Dialog>
 
@@ -35,7 +36,10 @@ const AuthModal = () => {
         <DialogContent className="sm:max-w-[425px]">
           <Suspense fallback={<p>Loading....</p>}>
             {!showForgottenPassword && (
-              <SignInForm setShowForgottenPassword={setShowForgottenPassword} />
+              <SignInForm
+                setShowForgottenPassword={setShowForgottenPassword}
+                setOpen={setOpen}
+              />
             )}
             {showForgottenPassword && (
               <ForgotPasswordForm

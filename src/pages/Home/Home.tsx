@@ -28,6 +28,8 @@ const Home = () => {
 
   const joinCode = searchParams.get('jc')
 
+  console.log(displayName)
+
   useEffect(() => {
     if (joinCode && displayName) navigate(`/game-room/${joinCode}/lobby`)
   }, [displayName, joinCode, navigate])
@@ -74,7 +76,7 @@ const Home = () => {
       </header>
       <div className="grid flex-1 grid-cols-5 grid-rows-[auto,1fr,auto] gap-x-6">
         <Auth />
-        <Guide className="hidden col-start-4 row-span-2 p-4 pb-0 border-2 col-span-full lg:block" />
+        <Guide className="hidden col-start-4 row-span-2 p-4 pb-0 border-[3px] border-[rgba(0,0,0,.1)] col-span-full lg:block" />
         <div className="grid row-start-2 rounded-b-lg col-span-full lg:col-span-3 lg:bg-bg-primary place-items-center">
           <Button onClick={handleCreateGame}>
             <Gamepad2 /> <span>Start</span>

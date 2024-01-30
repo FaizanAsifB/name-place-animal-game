@@ -19,6 +19,7 @@ import { sendPasswordResetEmail } from 'firebase/auth'
 import { Mail } from 'lucide-react'
 import { Dispatch } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 import { auth } from '../../../../config/firebaseConfig'
 import { loginSchema } from '../../../../lib/types'
@@ -45,6 +46,8 @@ const ForgotPasswordForm = ({
 
     try {
       await sendPasswordResetEmail(auth, email)
+      setShowForgottenPassword(false)
+      toast.success('Password reset link was sent to your email')
     } catch (error) {
       if (error instanceof FirebaseError)
         form.setError(

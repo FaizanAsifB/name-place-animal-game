@@ -21,16 +21,17 @@ import { FirebaseError } from 'firebase/app'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useAtom } from 'jotai'
 import { Mail } from 'lucide-react'
-import { Dispatch } from 'react'
 import { useForm } from 'react-hook-form'
 import { auth } from '../../../../config/firebaseConfig'
 import { LoginSchema, loginSchema } from '../../../../lib/types'
+import { toast } from 'sonner'
 
 type SignInFromProps = {
-  setShowForgottenPassword: Dispatch<React.SetStateAction<boolean>>
+  setShowForgottenPassword: React.Dispatch<React.SetStateAction<boolean>>
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SignInForm = ({ setShowForgottenPassword }: SignInFromProps) => {
+const SignInForm = ({ setShowForgottenPassword, setOpen }: SignInFromProps) => {
   const [avatarIndex] = useAtom(avatarAtom)
 
   const form = useForm<LoginSchema>({
@@ -49,6 +50,9 @@ const SignInForm = ({ setShowForgottenPassword }: SignInFromProps) => {
       const res = await signInWithEmailAndPassword(auth, email, password)
 
       await updatePhotoUrl(res.user, { photoURL: getAvatarPath(avatarIndex) })
+      toast.success('Sign in successful')
+
+      setOpen(false)
     } catch (error) {
       if (
         error instanceof FirebaseError &&

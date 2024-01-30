@@ -18,13 +18,20 @@ import { Input } from '@/components/ui/input'
 import { SignUpType, signUpSchema } from '@/lib/types'
 import { emailSignUp } from '@/utils/authentication'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useAtom } from 'jotai'
+import { FirebaseError } from 'firebase/app'
+import { useAtom, useSetAtom } from 'jotai'
 import { BookText, XCircle } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { avatarAtom } from '../../../../context/atoms'
+import { toast } from 'sonner'
+import { avatarAtom, displayNameAtom } from '../../../../context/atoms'
 
-const SignUpForm = () => {
+type SignUpFromProps = {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const SignUpForm = ({ setOpen }: SignUpFromProps) => {
   const [avatarIndex] = useAtom(avatarAtom)
+  const userDisplayName = useSetAtom(displayNameAtom)
 
   const form = useForm<SignUpType>({
     resolver: zodResolver(signUpSchema),
@@ -37,7 +44,25 @@ const SignUpForm = () => {
   })
 
   const onSubmit = async (data: SignUpType) => {
-    await emailSignUp(data, avatarIndex)
+    try {
+      const displayName = await emailSignUp(data, avatarIndex)
+      toast.success('Sign up was successful')
+      userDisplayName(displayName)
+      setOpen(false)
+    } catch (error) {
+      if (
+        error instanceof FirebaseError &&
+        error.code === 'auth/email-already-in-use'
+      )
+        form.setError(
+          'email',
+          {
+            type: 'custom',
+            message: 'Email already in use',
+          },
+          { shouldFocus: true }
+        )
+    }
   }
 
   return (

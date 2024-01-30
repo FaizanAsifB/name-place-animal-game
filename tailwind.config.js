@@ -22,7 +22,16 @@ module.exports = {
         main: 'rgba(29,29,27,0.15)',
       },
       fontFamily: {
-        display: 'Galindo, sans-serif',
+        pressStart2P: [
+          'PressStart2P',
+          'ui-sans-serif',
+          'system-ui',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+          '"Noto Color Emoji"',
+        ],
       },
       gridTemplateColumns: {
         layout: 'minmax(1rem, 1fr) minmax(0,110rem) minmax(1rem, 1fr)',

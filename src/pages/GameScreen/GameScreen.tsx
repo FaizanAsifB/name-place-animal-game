@@ -6,7 +6,7 @@ import { H1 } from '@/components/typography/Headings'
 import GameHeader from '@/components/ui/GameHeader'
 import { currentAlphabetAtom } from '@/context/atoms'
 import useNextPhase from '@/hooks/useNextPhase'
-import { getCurrentRoundConfig } from '@/utils/helpers'
+import { calcRoundTime, getCurrentRoundConfig } from '@/utils/helpers'
 import { useAtom } from 'jotai'
 import { useContext, useEffect, useRef } from 'react'
 import Clock from './components/Clock'
@@ -43,7 +43,13 @@ const GameScreen = () => {
   })
 
   const audioRef = useRef<null | HTMLAudioElement>(null)
-  const bonusUser = useRef<null | string>(null)
+  const bonusUserRef = useRef<null | string>(null)
+  const activeCategories =
+    roundsData && getCurrentRoundConfig(roundsData).activeCategories.length
+  const roundTime = calcRoundTime(
+    activeCategories,
+    settings?.settings.roundTime.value
+  )
 
   const { data: gameData } = useNextPhase()
 
@@ -63,11 +69,11 @@ const GameScreen = () => {
       roundsData?.bonusPoints?.[`round${roundsData?.currentRound}`]
     ) {
       audioRef.current.volume = 0.1
-      bonusUser.current =
+      bonusUserRef.current =
         roundsData?.bonusPoints[`round${roundsData?.currentRound}`].userId
       toast(
         <>
-          <UserInfo userId={bonusUser.current} />
+          <UserInfo userId={bonusUserRef.current} />
           <span className="font-semibold uppercase">
             Has triggered fastest finger
           </span>
@@ -83,7 +89,7 @@ const GameScreen = () => {
         <GameHeader roundsData={roundsData}>
           {gameData && settings && roundsData && (
             <Clock
-              roundTime={settings?.settings.roundTime.value}
+              roundTime={roundTime!}
               gameState={gameData?.gameState}
               currentRound={roundsData?.currentRound}
             />
@@ -92,7 +98,7 @@ const GameScreen = () => {
       }
       <article className="relative px-4 basis-full bg-bg-primary">
         {gameData?.gameState === 'END-TIMER' &&
-          bonusUser.current !== currentUser?.uid && (
+          bonusUserRef.current !== currentUser?.uid && (
             <div className="absolute inset-0 z-20 pointer-events-none bg-red-500/30 animate-flash">
               <audio
                 src="/audio/siren.wav"

@@ -1,4 +1,9 @@
-import { BONUS_POINTS } from '@/config/gameConfig'
+import {
+  BONUS_POINTS,
+  CUSTOM_CATEGORY_FIRST_ROUND,
+  NO_DEFAULT_CATEGORIES,
+  TIME_PER_NEW_CATEGORY,
+} from '@/config/gameConfig'
 import data from '../data/data.json'
 import {
   CreateGameData,
@@ -73,4 +78,16 @@ export const getBonusPoints = (
     if (round.userId === userId) count++
   })
   return count * BONUS_POINTS
+}
+
+export const calcRoundTime = (
+  activeCategories: number | undefined,
+  initialRoundTime: number | undefined
+) => {
+  if (!activeCategories || !initialRoundTime) return
+  return (
+    initialRoundTime +
+    TIME_PER_NEW_CATEGORY *
+      (activeCategories - NO_DEFAULT_CATEGORIES - CUSTOM_CATEGORY_FIRST_ROUND)
+  )
 }

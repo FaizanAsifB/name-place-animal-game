@@ -161,12 +161,12 @@ const FormMessage = React.forwardRef<
       ref={ref}
       id={formMessageId}
       className={cn(
-        'text-sm font-medium text-warning-foreground top-full flex gap-1 items-center absolute pb-1',
+        'text-xs font-medium text-warning-foreground top-full flex gap-1 items-center absolute pt-1 !mt-0',
         className
       )}
       {...props}
     >
-      <AlertCircle size={'18'} />
+      <AlertCircle size={'12'} />
 
       {body}
     </p>

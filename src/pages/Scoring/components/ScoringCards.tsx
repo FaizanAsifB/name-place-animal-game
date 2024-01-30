@@ -91,7 +91,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
   }
 
   return (
-    <article className="grid flex-1 gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3 lg:px-6 lg:gap-6 xl:px-8 xl:gap-8">
+    <article className="grid flex-1 gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3 lg:px-6 lg:gap-6 xl:px-8 xl:gap-8 ">
       {scoringData &&
         scoringData?.answersToCorrect.map(category => {
           return (

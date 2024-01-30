@@ -12,6 +12,7 @@ export const DEFAULT_CATEGORIES = [
 export const BONUS_POINTS = 10
 
 export const NO_DEFAULT_CATEGORIES = 4
+export const CUSTOM_CATEGORY_FIRST_ROUND = 1
 
 export const TIME_PER_NEW_CATEGORY = 10
 
