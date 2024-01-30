@@ -1,4 +1,4 @@
-import { ReactElement, useContext } from 'react'
+import { ReactElement, Suspense, lazy, useContext } from 'react'
 
 import { AuthContext } from '../../../context/AuthContext'
 
@@ -6,10 +6,10 @@ import { H3 } from '@/components/typography/Headings'
 import { displayNameAtom } from '@/context/atoms'
 import { useAtomValue } from 'jotai'
 
-import AuthContent from './AuthContent'
-import AuthModal from './AuthModal'
 import AvatarSelection from './AvatarSelection'
 import GuestContent from './GuestContent'
+import AuthContent from './AuthContent'
+import AuthModal from './AuthModal'
 
 type TabPanelProps = {
   showGuest: boolean
@@ -35,6 +35,7 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
         <H3 className="uppercase w-[22ch] text-center">
           Choose a character and Sign in
         </H3>
+
         <AuthModal />
       </>
     )
