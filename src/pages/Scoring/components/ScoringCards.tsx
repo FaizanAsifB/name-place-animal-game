@@ -90,6 +90,8 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
     setIsSubmitting(false)
   }
 
+  console.log(scoringData)
+
   return (
     <article className="grid flex-1 gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3 lg:px-6 lg:gap-6 xl:px-8 xl:gap-8 ">
       {scoringData &&
@@ -108,19 +110,32 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
                     className="text-xs lg:text-sm"
                     avatarSize="self-start"
                   >
-                    <AnswersList answers={category.answers} />
+                    <AnswersList
+                      answers={category.answers}
+                      otherAnswers={scoringData?.otherAnswers[category.title]}
+                    />
                   </UserInfo>
                 </div>
                 <Separator className="col-span-2 row-start-2 my-2" />
                 <div className="col-span-2 row-start-3 text-sm font-semibold uppercase lg:text-base ">
                   <H6 className="text-center">Answers</H6>
                   <ul className="flex flex-wrap gap-2">
-                    {scoringData.otherAnswers?.[category.title] &&
-                      scoringData.otherAnswers[category.title].map(
-                        (answer, i) => {
-                          return <li key={answer + i}>{answer}</li>
-                        }
-                      )}
+                    {scoringData?.otherAnswers[category.title].map(
+                      (answer, i) => {
+                        return (
+                          <li
+                            key={answer + i}
+                            className={
+                              category.answers.includes(answer)
+                                ? 'bg-yellow-500'
+                                : ''
+                            }
+                          >
+                            {answer}
+                          </li>
+                        )
+                      }
+                    )}
                   </ul>
                 </div>
                 <div className="row-span-1">

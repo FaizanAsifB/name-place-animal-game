@@ -30,10 +30,12 @@ const Error = () => {
         <H1>{title}</H1>
         <P>{message}</P>
         <div className="flex justify-between">
-          <Button asChild>
+          <Button variant={'outline'} asChild>
             <Link to="/">Home</Link>
           </Button>
-          <Button onClick={() => window.location.reload()}>Retry</Button>
+          <Button variant={'outline'} onClick={() => window.location.reload()}>
+            Retry
+          </Button>
         </div>
       </div>
     </main>
