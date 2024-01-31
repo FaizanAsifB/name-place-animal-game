@@ -49,7 +49,7 @@ const GuestContent = () => {
               <FormItem>
                 <FormControl>
                   <div className="relative flex">
-                    <Input placeholder="RandomNick2002" {...field} />
+                    <Input placeholder="Your nickname here" {...field} />
                     <Button
                       type="submit"
                       size={'md'}

@@ -127,7 +127,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
                             key={answer + i}
                             className={
                               category.answers.includes(answer)
-                                ? 'bg-yellow-500'
+                                ? 'bg-yellow-600'
                                 : ''
                             }
                           >

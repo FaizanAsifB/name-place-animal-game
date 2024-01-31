@@ -10,7 +10,7 @@ const AnswersList = ({ answers, otherAnswers }: AnswersListProps) => {
         <li
           key={answer + i}
           className={`w-fit ${
-            otherAnswers.includes(answer) ? 'bg-yellow-500' : ''
+            otherAnswers.includes(answer) ? 'bg-yellow-600' : ''
           }`}
         >
           {answer}
