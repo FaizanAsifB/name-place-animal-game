@@ -53,7 +53,7 @@ const GuestContent = () => {
                     <Button
                       type="submit"
                       size={'md'}
-                      variant={'secondary'}
+                      variant={'icon'}
                       className="absolute top-0 right-0 rounded-l-none"
                       disabled={
                         form.formState.isSubmitting ||

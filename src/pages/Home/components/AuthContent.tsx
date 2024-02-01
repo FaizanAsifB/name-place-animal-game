@@ -52,7 +52,7 @@ const AuthContent = () => {
   return (
     <>
       <H2 className="text-center max-w-[16ch] capitalize">
-        Welcome back
+        Welcome back{' '}
         <span className="lg:inline-block lg:pt-1">
           {displayName!.toUpperCase()}
         </span>
@@ -69,7 +69,7 @@ const AuthContent = () => {
                   <div className="relative">
                     <Input placeholder="G2F3X" {...field} className="" />
                     <Button
-                      variant={'secondary'}
+                      variant={'icon'}
                       size={'md'}
                       className="absolute top-0 right-0 rounded-l-none"
                       type="submit"

@@ -10,23 +10,24 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-primary text-primary-foreground hover:bg-muted hover:text-secondary-foreground flex gap-4 shadow-[0_6px_0px_0px] shadow-secondary active:translate-y-1 active:shadow-[0_2px_0px_0px] active:shadow-secondary uppercase relative active:before:w-full active:before:h-1 active:before:absolute active:before:bottom-full font-pressStart2P',
+          'bg-primary text-foreground hover:bg-secondary hover:text-secondary-foreground flex gap-4 shadow-[0_6px_0px_0px] shadow-secondary active:translate-y-1 active:shadow-[0_2px_0px_0px] active:shadow-secondary uppercase relative active:before:w-full active:before:h-1 active:before:absolute active:before:bottom-full font-pressStart2P',
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline:
-          'border-2 border-input bg-primary text-primary-foreground  hover:text-accent-foreground flex gap-2 items-center  hover:bg-accent hover:outline-2 hover:outline-bg-accent hover:outline hover:outline-offset-[-4px]',
+          'border-2 border-primary bg-secondary text-secondary-foreground  hover:text-primary-foreground flex gap-2 items-center  hover:bg-primary hover:outline-2 hover:outline-bg-secondary hover:outline hover:outline-offset-[-4px]',
         secondary:
-          'bg-secondary text-secondary-foreground hover:bg-secondary/80 flex gap-2',
-        ghost: 'hover:bg-accent hover:text-accent-foreground flex gap-1',
+          'bg-accent text-accent-foreground hover:bg-accent/80 flex gap-2',
+        ghost: 'text-primary hover:text-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        icon: 'hover:bg-accent hover:text-accent-foreground rounded-full',
+        icon: 'bg-accent text-accent-foreground hover:bg-accent/80 active:scale-90',
+        // icon: 'hover:bg-accent hover:text-accent-foreground rounded-full',
       },
       size: {
         default: 'h-12 px-4 py-2',
         sm: 'h-9 rounded-md px-3',
         md: 'h-10 px-4 py-2 rounded-md',
         lg: 'h-11 rounded-md px-8',
-        icon: '',
+        none: 'w-fit h-fit',
       },
     },
     defaultVariants: {
