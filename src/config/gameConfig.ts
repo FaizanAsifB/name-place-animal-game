@@ -16,7 +16,7 @@ export const CUSTOM_CATEGORY_FIRST_ROUND = 1
 
 export const TIME_PER_NEW_CATEGORY = 10
 
-export const AUTOPLAY_SPEED = 1
+export const AUTOPLAY_SPEED = 50
 const MAX_LOOPS = 1
 
 export const MAX_SLIDES = (currentAlphabetIndex: number | null) => {

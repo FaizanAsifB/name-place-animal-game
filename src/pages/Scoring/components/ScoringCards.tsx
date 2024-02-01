@@ -4,6 +4,7 @@ import UserInfo from '@/components/ui/UserInfo'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { BTN_ICON_SIZE } from '@/config/gameConfig'
 import { AuthContext } from '@/context/AuthContext'
 import useNextPhase from '@/hooks/useNextPhase'
 import { RoundsData } from '@/lib/types'
@@ -90,8 +91,6 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
     setIsSubmitting(false)
   }
 
-  console.log(scoringData)
-
   return (
     <article className="grid flex-1 gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3 lg:px-6 lg:gap-6 xl:px-8 xl:gap-8 ">
       {scoringData &&
@@ -120,7 +119,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
                 <div className="col-span-2 row-start-3 text-sm font-semibold uppercase lg:text-base ">
                   <H6 className="text-center">Answers</H6>
                   <ul className="flex flex-wrap gap-2">
-                    {scoringData?.otherAnswers[category.title].map(
+                    {scoringData?.otherAnswers[category.title]?.map(
                       (answer, i) => {
                         return (
                           <li
@@ -163,7 +162,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
       >
         {isSubmitting ? (
           <>
-            <LoadingSpinner /> <span>Submitting</span>
+            <LoadingSpinner size={BTN_ICON_SIZE} /> <span>Submitting</span>
           </>
         ) : (
           <>

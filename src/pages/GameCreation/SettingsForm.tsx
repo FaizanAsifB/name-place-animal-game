@@ -14,7 +14,7 @@ import { MdAssignmentAdd, MdOutlineCategory } from 'react-icons/md'
 import LoadingSpinner from '@/components/ui/LoadingSpinner.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Input } from '@/components/ui/input.tsx'
-import { DEFAULT_CATEGORIES } from '@/config/gameConfig.ts'
+import { BTN_ICON_SIZE, DEFAULT_CATEGORIES } from '@/config/gameConfig.ts'
 import { AlarmClock, BellElectric, Gamepad2 } from 'lucide-react'
 import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -117,7 +117,7 @@ const SettingsForm = () => {
               render={({ field: { value, onChange } }) => (
                 <FormItem>
                   <div className="flex items-center gap-2">
-                    <FormLabel className="w-20 p-1 text-center border-b-2 border-primary text-primary-foreground">
+                    <FormLabel className="w-20 p-1 text-center text-primary-foreground">
                       {value} Sec
                     </FormLabel>
                     <FormControl>
@@ -150,7 +150,7 @@ const SettingsForm = () => {
               render={({ field: { value, onChange } }) => (
                 <FormItem>
                   <div className="flex items-center gap-2">
-                    <FormLabel className="w-24 p-1 text-center border-b-2 border-primary text-primary-foreground">
+                    <FormLabel className="w-24 p-1 text-center text-primary-foreground">
                       {value} Rounds
                     </FormLabel>
                     <FormControl>
@@ -280,7 +280,11 @@ const SettingsForm = () => {
           type="submit"
           disabled={form.formState.isSubmitting}
         >
-          {form.formState.isSubmitting ? <LoadingSpinner /> : <Gamepad2 />}
+          {form.formState.isSubmitting ? (
+            <LoadingSpinner size={BTN_ICON_SIZE} />
+          ) : (
+            <Gamepad2 size={BTN_ICON_SIZE} />
+          )}
           Create Game
         </Button>
       </form>

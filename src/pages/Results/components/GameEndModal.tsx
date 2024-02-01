@@ -10,7 +10,7 @@ import {
 import { AuthContext } from '@/context/AuthContext'
 import { GameState, ScoreData } from '@/lib/types'
 import { updateGameState } from '@/utils/http'
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion'
 import { Link, useParams } from 'react-router-dom'
 
@@ -38,6 +38,8 @@ const GameEndModal = ({
   const params = useParams()
   const currentUser = useContext(AuthContext)
 
+  const audioRef = useRef<null | HTMLAudioElement>(null)
+
   const winnerId = scoresData?.[0][0]
   const winnerScores = scoresData?.[0][1]
   const isCurrentUserWinner = winnerId === currentUser?.uid
@@ -60,10 +62,19 @@ const GameEndModal = ({
   return (
     <Dialog defaultOpen={isLastRound}>
       {isExploding && (
-        <ConfettiExplosion
-          {...largeProps}
-          className="absolute left-1/2 top-1/4"
-        />
+        <>
+          <ConfettiExplosion
+            {...largeProps}
+            className="absolute left-1/2 top-1/4"
+          />
+          <audio
+            src="/audio/balloon-pop.wav"
+            autoPlay
+            onPlay={() => (audioRef.current!.volume = 0.5)}
+            preload="metadata"
+            ref={audioRef}
+          />
+        </>
       )}
       <DialogContent className="sm:max-w-[425px]">
         {isCurrentUserWinner ? (

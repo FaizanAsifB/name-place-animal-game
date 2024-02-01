@@ -8,7 +8,7 @@ import { currentAlphabetAtom } from '@/context/atoms'
 import useNextPhase from '@/hooks/useNextPhase'
 import { calcRoundTime, getCurrentRoundConfig } from '@/utils/helpers'
 import { useAtom } from 'jotai'
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import Clock from './components/Clock'
 
 import CurrentAlphabet from '@/components/ui/CurrentAlphabet'
@@ -19,7 +19,11 @@ import { toast } from 'sonner'
 import AnswerCards from './components/AnswerCards'
 
 const GameScreen = () => {
+  const [isFlashing, setIsFlashing] = useState(false)
   const { roomId } = useParams() as { roomId: string }
+
+  const { data: gameData } = useNextPhase()
+  const currentUser = useContext(AuthContext)
 
   const {
     data: roundsData,
@@ -30,7 +34,6 @@ const GameScreen = () => {
     queryFn: ({ queryKey }) =>
       fetchLobbyData<RoundsData>(queryKey[1], 'rounds'),
   })
-  const currentUser = useContext(AuthContext)
 
   const {
     data: settings,
@@ -42,16 +45,16 @@ const GameScreen = () => {
       fetchLobbyData<GameSettings>(queryKey[1], 'lobbies'),
   })
 
+  const currentRound = `round${roundsData?.currentRound}`
+  const bonusUser = gameData?.bonusPoints?.[currentRound]?.userId
+
   const audioRef = useRef<null | HTMLAudioElement>(null)
-  const bonusUserRef = useRef<null | string>(null)
   const activeCategories =
     roundsData && getCurrentRoundConfig(roundsData).activeCategories.length
   const roundTime = calcRoundTime(
     activeCategories,
     settings?.settings.roundTime.value
   )
-
-  const { data: gameData } = useNextPhase()
 
   const [currentAlphabet, setCurrentAlphabet] = useAtom(currentAlphabetAtom)
 
@@ -65,23 +68,29 @@ const GameScreen = () => {
   useEffect(() => {
     if (
       gameData?.gameState === 'END-TIMER' &&
-      audioRef.current &&
-      roundsData?.bonusPoints?.[`round${roundsData?.currentRound}`]
-    ) {
-      audioRef.current.volume = 0.1
-      bonusUserRef.current =
-        roundsData?.bonusPoints[`round${roundsData?.currentRound}`].userId
+      bonusUser &&
+      bonusUser !== currentUser?.uid
+    )
+      setIsFlashing(true)
+
+    if (gameData?.gameState === 'END-TIMER' && bonusUser)
       toast(
         <>
-          <UserInfo userId={bonusUserRef.current} />
+          <UserInfo userId={bonusUser} />
           <span className="font-semibold uppercase">
             Has triggered fastest finger
           </span>
         </>,
         { position: 'top-center' }
       )
-    }
-  }, [gameData?.gameState, roundsData?.bonusPoints, roundsData?.currentRound])
+  }, [
+    gameData?.gameState,
+    gameData?.bonusPoints,
+    roundsData?.currentRound,
+    currentUser?.uid,
+    currentRound,
+    bonusUser,
+  ])
 
   return (
     <section className="flex flex-col flex-1 my-6 ">
@@ -97,18 +106,18 @@ const GameScreen = () => {
         </GameHeader>
       }
       <article className="relative px-4 basis-full bg-bg-primary">
-        {gameData?.gameState === 'END-TIMER' &&
-          bonusUserRef.current !== currentUser?.uid && (
-            <div className="absolute inset-0 z-20 pointer-events-none bg-red-500/30 animate-flash">
-              <audio
-                src="/audio/siren.wav"
-                autoPlay
-                loop
-                preload="metadata"
-                ref={audioRef}
-              />
-            </div>
-          )}
+        {isFlashing && (
+          <div className="absolute inset-0 z-20 pointer-events-none bg-red-500/30 animate-flash">
+            <audio
+              src="/audio/siren.wav"
+              autoPlay
+              onPlay={() => (audioRef.current!.volume = 0.1)}
+              loop
+              preload="metadata"
+              ref={audioRef}
+            />
+          </div>
+        )}
         <div className="flex items-center justify-between pt-6 pb-8 md:pb-12 lg:pb-16 lg:pt-8">
           <H1>
             Round {roundsData?.currentRound}/{roundsData?.roundsConfig.length}

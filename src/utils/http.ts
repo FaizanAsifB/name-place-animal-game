@@ -10,6 +10,7 @@ import {
   updateDoc,
 } from 'firebase/firestore'
 
+import { BONUS_POINTS } from '@/config/gameConfig'
 import { db } from '../config/firebaseConfig'
 import {
   Categories,
@@ -22,7 +23,6 @@ import {
   UserAnswers,
 } from '../lib/types'
 import { fetchLobbyData } from './fetchData'
-import { BONUS_POINTS } from '@/config/gameConfig'
 
 export const uploadCategories = async (
   categories: Categories,
@@ -294,9 +294,15 @@ export const addBonusPoints = async (
 ) => {
   try {
     await updateDoc(doc(db, 'rounds', roomId), {
-      [`bonusPoints.round${currentRound}`]: { userId },
       [`scores.${userId}.totalScore`]: increment(BONUS_POINTS),
     })
+    try {
+      await updateDoc(doc(db, 'gameRooms', roomId), {
+        [`bonusPoints.round${currentRound}`]: { userId },
+      })
+    } catch (error) {
+      throw Error('Error updating')
+    }
   } catch (error) {
     throw Error('Error updating')
   }

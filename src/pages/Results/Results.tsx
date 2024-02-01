@@ -47,10 +47,10 @@ const Results = () => {
           gameState={gameState}
         />
       )}
-      {roundsData && settings && (
+      {roundsData && settings && gameState && (
         <>
           <ResultsTable
-            bonusPoints={roundsData.bonusPoints}
+            bonusPoints={gameState?.bonusPoints}
             scoresData={scoresData!}
             isLastRound={isLastRound}
             currentRound={roundsData.currentRound}

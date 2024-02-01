@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'sonner'
 import { GameState } from '../lib/types'
 import { useOnSnapShot } from './useOnSnapShot'
-import { toast } from 'sonner'
 
 const useNextPhase = (currentRound?: number) => {
   const navigate = useNavigate()
@@ -22,6 +22,7 @@ const useNextPhase = (currentRound?: number) => {
         break
       case 'SCORING':
         // if (matchScoringPath) return
+        toast.dismiss()
         navigate('../scoring', { replace: true })
         break
       case 'RESULT':

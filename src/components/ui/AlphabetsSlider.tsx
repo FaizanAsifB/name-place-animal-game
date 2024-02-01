@@ -47,6 +47,7 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
 
   const currentUser = useContext(AuthContext)
 
+  const audioRef = useRef<null | HTMLAudioElement>(null)
   const sliderRef = useRef<Slider | null>(null)
   const alphabetCount = useRef(0)
   const currentAlphabetIndex = useRef<number | null>(null)
@@ -111,31 +112,40 @@ const AlphabetsSlider = ({ isSubmitted, roundsData }: AlphabetsSliderProps) => {
   }
 
   return (
-    <Slider
-      ref={sliderRef}
-      {...sliderSettings}
-      className=""
-      onInit={setSlide}
-      afterChange={() => {
-        alphabetCount.current++
-        saveToSessionStorage(
-          'alphabet' + params.roomId + roundsData?.currentRound,
-          alphabetCount.current
-        )
-        handlePlayEnd()
-      }}
-      beforeChange={() => {
-        setAutoPlaySpeed()
-      }}
-    >
-      {alphabets.map(alphabet => (
-        <div key={alphabet}>
-          <p className="text-[250px] lg:text-[500px] text-center leading-none -mt-8 pb-2 md:text-[500px] ">
-            {alphabet}
-          </p>
-        </div>
-      ))}
-    </Slider>
+    <>
+      <Slider
+        ref={sliderRef}
+        {...sliderSettings}
+        className=""
+        onInit={setSlide}
+        afterChange={() => {
+          alphabetCount.current++
+          saveToSessionStorage(
+            'alphabet' + params.roomId + roundsData?.currentRound,
+            alphabetCount.current
+          )
+          handlePlayEnd()
+        }}
+        beforeChange={() => {
+          setAutoPlaySpeed()
+          audioRef.current?.play()
+        }}
+      >
+        {alphabets.map(alphabet => (
+          <div key={alphabet}>
+            <p className="text-[250px] lg:text-[500px] text-center leading-none -mt-8 pb-2 md:text-[500px] ">
+              {alphabet}
+            </p>
+          </div>
+        ))}
+      </Slider>
+      <audio
+        src="/audio/flip.wav"
+        onPlay={() => (audioRef.current!.volume = 0.5)}
+        preload="metadata"
+        ref={audioRef}
+      />
+    </>
   )
 }
 export default AlphabetsSlider
