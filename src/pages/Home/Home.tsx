@@ -15,6 +15,7 @@ import Footer from '../../layout/Footer.tsx'
 import Auth from './Auth.tsx'
 import Guide from './Guide.tsx'
 import GuideModal from './components/GuideModal.tsx'
+import { BTN_ICON_SIZE } from '@/config/gameConfig.ts'
 
 // grid grid-cols-5
 
@@ -79,7 +80,7 @@ const Home = () => {
         <Guide className="hidden col-start-4 row-span-2 p-4 pb-0 border-[3px] border-[rgba(0,0,0,.1)] col-span-full lg:block" />
         <div className="grid row-start-2 rounded-b-lg col-span-full lg:col-span-3 lg:bg-bg-primary place-items-center">
           <Button onClick={handleCreateGame}>
-            <Gamepad2 size={36} /> <span>Start</span>
+            <Gamepad2 size={BTN_ICON_SIZE} /> Start
           </Button>
         </div>
         <Footer />
