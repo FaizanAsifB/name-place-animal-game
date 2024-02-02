@@ -10,13 +10,13 @@ type SettingProps = {
 
 const Setting = ({ children, icon, title, description }: SettingProps) => {
   return (
-    <li className="space-y-4 text-center lg:text-start lg:grid lg:grid-cols-2 lg:items-center">
-      <div>
+    <li className="space-y-6 text-center lg:text-start lg:grid lg:grid-cols-2 lg:items-center">
+      <div className="lg:grid lg:gap-2">
         <H3 className="flex items-center justify-center gap-1 lg:justify-start ">
           {icon}
           {title}
         </H3>
-        <P className="hidden lg:block">{description}</P>
+        <P className="hidden text-lg lg:block ">{description}</P>
       </div>
 
       {children}

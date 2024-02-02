@@ -105,7 +105,7 @@ const SettingsForm = () => {
   return (
     <Form {...form}>
       <form className="" onSubmit={form.handleSubmit(onSubmit)}>
-        <ul className="mt-8 space-y-8">
+        <ul className="mt-8 space-y-10">
           <Setting
             title={'Time'}
             description={'Maximum time available for each round'}
@@ -117,7 +117,7 @@ const SettingsForm = () => {
               render={({ field: { value, onChange } }) => (
                 <FormItem>
                   <div className="flex items-center gap-2">
-                    <FormLabel className="w-20 p-1 text-center text-primary-foreground">
+                    <FormLabel className="w-20 p-1 text-center text-primary-foreground lg:text-base">
                       {value} Sec
                     </FormLabel>
                     <FormControl>
@@ -150,7 +150,7 @@ const SettingsForm = () => {
               render={({ field: { value, onChange } }) => (
                 <FormItem>
                   <div className="flex items-center gap-2">
-                    <FormLabel className="w-24 p-1 text-center text-primary-foreground">
+                    <FormLabel className="w-24 p-1 text-center text-primary-foreground lg:text-base">
                       {value} Rounds
                     </FormLabel>
                     <FormControl>
@@ -276,7 +276,7 @@ const SettingsForm = () => {
           }
         </ul>
         <Button
-          className="mx-auto mt-14"
+          className="mx-auto mt-16 md:mt-20 lg:mt-24"
           type="submit"
           disabled={form.formState.isSubmitting}
         >
