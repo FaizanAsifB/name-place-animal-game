@@ -13,14 +13,14 @@ const AvatarSelection = () => {
   }
 
   return (
-    <div className="relative w-40 md:text-lg lg:text-xl md:w-60 lg:w-64 xl:w-72 aspect-square">
+    <div className="relative w-40 md:text-lg lg:text-xl md:w-60 xl:w-72 aspect-square">
       <img
         src={getAvatarPath(avatarIndex)}
         alt="character logo"
         className="w-full h-full"
       />
       <button
-        className="absolute bottom-0 right-0 p-1 border-4 rounded-full border-primary bg-primary hover:bg-accent hover:text-secondary-foreground active:scale-90"
+        className="absolute bottom-0 right-0 p-1 border-4 rounded-full text-accent border-primary bg-primary hover:bg-accent hover:text-accent-foreground/70 active:scale-90"
         onClick={handleDpChange}
       >
         <RefreshCw size={'1.5em'} strokeWidth={2.5} />

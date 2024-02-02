@@ -32,7 +32,7 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
   if (!displayName && !showGuest)
     content = (
       <>
-        <H3 className="uppercase w-[22ch] text-center">
+        <H3 className="uppercase max-w-[16ch] text-center">
           Choose a character and Sign in
         </H3>
 
@@ -42,14 +42,12 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
 
   return (
     <div
-      className="grid items-center justify-center gap-12 py-12 bg-bg-primary justify-items-center lg:py-20 xl:grid-cols-[auto,1fr] lg:gap-16 md:gap-14 xl:gap-2"
+      className="grid items-center justify-center gap-12 py-12 bg-bg-primary justify-items-center lg:pt-20 lg:pb-0 xl:grid-cols-[auto,1fr] lg:gap-16 md:gap-14 xl:gap-8 xl:px-6"
       role="tabpanel"
       aria-labelledby={showGuest ? 'guest-tab' : 'authentication-tab'}
     >
       <AvatarSelection />
-      <div className="space-y-8 md:space-y-10 lg:space-y-12 xl:space-y-16">
-        {content}
-      </div>
+      <div className="flex flex-col gap-8 md:gap-12 ">{content}</div>
     </div>
   )
 }

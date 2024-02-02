@@ -1,3 +1,5 @@
+import { twMerge } from 'tailwind-merge'
+
 type TabProps = {
   children: React.ReactNode
   isActive: boolean
@@ -7,15 +9,20 @@ type TabProps = {
 }
 
 const Tab = ({ isActive, onClick, label, currentUser }: TabProps) => {
-  let activeStyling =
-    'rounded-t-lg font-bold bg-bg-primary md:text-2xl lg:text-2xl text-lg'
-  isActive ? activeStyling : (activeStyling += 'mb-1 mx-1 hover:opacity-90')
-
   return (
-    <li role="presentation" className={activeStyling}>
+    <li
+      role="presentation"
+      className={twMerge(
+        'rounded-t-lg font-bold bg-bg-primary md:text-2xl lg:text-2xl text-lg ',
+        !isActive && 'mb-1 mx-1 '
+      )}
+    >
       <button
         type="button"
-        className={`w-full uppercase py-4 ${!isActive && 'text-primary/70'}`}
+        className={twMerge(
+          'w-full uppercase py-4 ',
+          !isActive && 'text-primary/70 enabled:hover:opacity-70 '
+        )}
         onClick={e => onClick(e)}
         role="tab"
         id={`${label}-tab`}

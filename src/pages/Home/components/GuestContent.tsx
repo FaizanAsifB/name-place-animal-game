@@ -37,7 +37,7 @@ const GuestContent = () => {
 
   return (
     <>
-      <H3 className="text-center uppercase max-w-[19ch] ">
+      <H3 className="text-center uppercase max-w-[16ch] ">
         Choose a character and nickname
       </H3>
       <Form {...form}>
@@ -49,12 +49,12 @@ const GuestContent = () => {
               <FormItem>
                 <FormControl>
                   <div className="relative flex">
-                    <Input placeholder="Your nickname here" {...field} />
+                    <Input placeholder="Your nickname" {...field} />
                     <Button
                       type="submit"
                       size={'md'}
                       variant={'icon'}
-                      className="absolute top-0 right-0 rounded-l-none"
+                      className="absolute top-0 right-0 rounded-l-none "
                       disabled={
                         form.formState.isSubmitting ||
                         form.formState.isSubmitSuccessful

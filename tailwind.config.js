@@ -46,13 +46,6 @@ module.exports = {
       },
       colors: {
         dots: 'var(--_g)',
-        // primary: 'hsl(15,86%,53%)',
-        // 'primary-light': 'hsl(38,86%,53%)',
-        //  secondary: 'hsl(162,86%,53%)',
-        // accent: 'hsl(162,75%,37%)',
-        // tertiary: 'hsl(38,75%,37%)',
-        // light: '#f5f5f4',
-        // dark: '#1c1917',
         'bg-primary': 'hsla(21, 90%, 48%, 0.5)',
         'primary-light': 'hsla(25, 95%, 53%, 0.7)',
         'primary-dark': 'hsla(21, 90%, 48%, 0.6)',
