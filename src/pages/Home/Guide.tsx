@@ -1,6 +1,5 @@
 import { H2, H3 } from '@/components/typography/Headings'
 import { P } from '@/components/typography/TextContent'
-import { Button } from '@/components/ui/button'
 import {
   Carousel,
   CarouselContent,
@@ -82,18 +81,18 @@ const Guide = ({ className }: { className: string }) => {
         </CarouselContent>
         <div className="flex justify-center pt-4">
           {Array.from(Array(count).keys()).map(i => (
-            <Button
-              variant={'icon'}
+            <button
               key={i}
-              className={`mx-1 h-4 aspect-square rounded-full p-0 mt-4 ${
+              className={twMerge(
+                'mx-1 h-4 aspect-square rounded-full p-0 mt-4 hover:bg-primary-light',
                 i === current - 1
-                  ? 'bg-primary hover:bg-primary/90'
+                  ? 'bg-primary hover:bg-primary'
                   : 'bg-secondary'
-              }`}
+              )}
               onClick={() => {
                 api?.scrollTo(i)
               }}
-            ></Button>
+            ></button>
           ))}
         </div>
       </Carousel>

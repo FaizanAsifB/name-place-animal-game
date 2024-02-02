@@ -11,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input.tsx'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Timestamp } from 'firebase/firestore'
-import { Gamepad, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { Dispatch, SetStateAction, useContext, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
@@ -123,7 +123,11 @@ const AddCategories = ({
               <FormLabel>Category 1</FormLabel>
               <div className="relative">
                 <FormControl>
-                  <Input placeholder="e.g. space" {...field} />
+                  <Input
+                    placeholder="e.g. space"
+                    {...field}
+                    className="bg-background/20"
+                  />
                 </FormControl>
                 <FormMessage className="right-0" />
               </div>
@@ -138,7 +142,11 @@ const AddCategories = ({
               <FormLabel>Category 2</FormLabel>
               <div className="relative">
                 <FormControl>
-                  <Input placeholder="e.g. video games" {...field} />
+                  <Input
+                    placeholder="e.g. video games"
+                    {...field}
+                    className="bg-background/20"
+                  />
                 </FormControl>
                 <FormMessage className="right-0" />
               </div>
@@ -146,19 +154,27 @@ const AddCategories = ({
           )}
         />
 
-        <DialogFooter>
-          <Button disabled={form.formState.isSubmitting} type="submit">
-            {form.formState.isSubmitting ? (
+        <DialogFooter className="pt-4">
+          <DialogClose asChild>
+            <Button
+              variant={'secondary'}
+              size={'md'}
+              disabled={form.formState.isSubmitting}
+            >
+              Cancel
+            </Button>
+          </DialogClose>
+          <Button
+            variant={'secondary'}
+            size={'md'}
+            disabled={form.formState.isSubmitting}
+            type="submit"
+          >
+            {form.formState.isSubmitting && (
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Gamepad />
             )}
             Add Categories
           </Button>
-
-          <DialogClose asChild>
-            <Button disabled={form.formState.isSubmitting}>Cancel</Button>
-          </DialogClose>
         </DialogFooter>
       </form>
     </Form>

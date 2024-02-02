@@ -47,7 +47,6 @@ module.exports = {
       colors: {
         dots: 'var(--_g)',
         'bg-primary': 'hsla(21, 90%, 48%, 0.5)',
-        'primary-light': 'hsla(25, 95%, 53%, 0.7)',
         'primary-dark': 'hsla(21, 90%, 48%, 0.6)',
         'main-border': 'rgba(29,29,27,0.15)',
         border: 'hsl(var(--border))',
@@ -55,8 +54,10 @@ module.exports = {
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        'foreground-light': 'hsl(var(--foreground-light))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
+          light: 'hsl(var(--light))',
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {

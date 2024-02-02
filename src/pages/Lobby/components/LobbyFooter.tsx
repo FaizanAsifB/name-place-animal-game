@@ -1,5 +1,6 @@
 import DotsLoader from '@/components/ui/DotsLoader'
 import { Button } from '@/components/ui/button'
+import { BTN_ICON_SIZE } from '@/config/gameConfig'
 import { GameState, PlayersData } from '@/lib/types'
 import { createRoundsData, updateGameState } from '@/utils/http'
 import { useMutation } from '@tanstack/react-query'
@@ -53,7 +54,7 @@ const LobbyFooter = ({ lobbyPlayers, gameState, isHost }: LobbyFooterProps) => {
           >
             {allPlayersReady ? (
               <>
-                <Gamepad2 />
+                <Gamepad2 size={BTN_ICON_SIZE} />
                 <span>Play</span>
               </>
             ) : (

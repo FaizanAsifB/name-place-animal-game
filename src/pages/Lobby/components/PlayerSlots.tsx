@@ -143,7 +143,7 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
                   defaultPressed={isReady}
                   onPressedChange={pressed => handleReady(pressed, slotNr)}
                   disabled={!isCurrentPlayer}
-                  className="pb-1"
+                  className={isReady ? 'pb-1' : 'pt-1'}
                 >
                   {isReady ? (
                     <ThumbsUp color="green" />

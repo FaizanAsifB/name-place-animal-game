@@ -14,12 +14,12 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { addedCategoriesAtom, categoriesAtom } from '@/context/atoms'
+import { User } from 'firebase/auth'
 import { useAtomValue } from 'jotai'
 import { Pencil, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { getCategoryCount } from '../utils/utils'
 import AddCategories from './AddCategories'
-import { User } from 'firebase/auth'
 
 type AddCategoriesButton = {
   currentUser: User | null
@@ -38,9 +38,9 @@ const AddCategoriesButton = ({ currentUser }: AddCategoriesButton) => {
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger asChild>
-            <DialogTrigger asChild>
-              <Button variant={'ghost'} size={'icon'} className="px-2">
+          <TooltipTrigger>
+            <DialogTrigger>
+              <Button variant={'icon'} size={'none'} className="px-2">
                 {categoryCount === 2 ? (
                   <Pencil height={16} width={16} />
                 ) : (

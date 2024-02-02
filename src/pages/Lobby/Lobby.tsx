@@ -45,7 +45,6 @@ const Lobby = () => {
     <>
       <header className="grid items-center grid-cols-4 py-8 ">
         <Logo />
-
         <HomeButton isHost={isHost} />
       </header>
       <div className="my-4 space-y-8 rounded-lg md:text-lg lg:text-xl">
