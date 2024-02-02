@@ -126,7 +126,7 @@ const AddCategories = ({
                   <Input
                     placeholder="e.g. space"
                     {...field}
-                    className="bg-background/20"
+                    className="bg-input-background/30"
                   />
                 </FormControl>
                 <FormMessage className="right-0" />
@@ -145,7 +145,7 @@ const AddCategories = ({
                   <Input
                     placeholder="e.g. video games"
                     {...field}
-                    className="bg-background/20"
+                    className="bg-input-background/30"
                   />
                 </FormControl>
                 <FormMessage className="right-0" />

@@ -5,7 +5,7 @@ type AnswersListProps = {
 
 const AnswersList = ({ answers, otherAnswers }: AnswersListProps) => {
   return (
-    <ul className="flex flex-col gap-1 text-sm lg:text-base min-h-[2.75rem]">
+    <ul className="flex flex-col gap-1 text-base lg:text-xl min-h-[2.75rem]">
       {answers.map((answer, i) => (
         <li
           key={answer + i}

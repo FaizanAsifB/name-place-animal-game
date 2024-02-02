@@ -47,11 +47,7 @@ const LobbyFooter = ({ lobbyPlayers, gameState, isHost }: LobbyFooterProps) => {
       {isHost && (
         <footer className="flex justify-around">
           <InviteDropDown roomId={params?.roomId} />
-          <Button
-            disabled={!allPlayersReady || !isHost}
-            onClick={handlePlay}
-            // variant={'secondary'}
-          >
+          <Button disabled={!allPlayersReady || !isHost} onClick={handlePlay}>
             {allPlayersReady ? (
               <>
                 <Gamepad2 size={BTN_ICON_SIZE} />

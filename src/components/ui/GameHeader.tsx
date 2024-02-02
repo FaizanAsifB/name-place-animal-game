@@ -15,7 +15,7 @@ const GameHeader = ({ children, roundsData }: GameHeaderProps) => {
   const scoresData = sortScore(roundsData?.scores)
 
   return (
-    <header className="sticky top-0 z-10 flex items-center gap-3 px-4 pt-6 pb-2 rounded-t-lg md:gap-6 lg:gap-8 bg-primary-dark">
+    <header className="sticky top-0 z-10 flex items-center justify-between gap-3 px-4 pt-6 pb-2 rounded-t-lg md:gap-6 lg:gap-8 bg-primary-dark">
       {currentUser && (
         <div className="flex flex-col items-center ">
           <UserInfo

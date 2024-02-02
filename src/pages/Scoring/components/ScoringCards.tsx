@@ -13,6 +13,7 @@ import { getSum } from '@/utils/helpers'
 import { useMutation } from '@tanstack/react-query'
 import { SendHorizontal } from 'lucide-react'
 import { memo, useContext, useMemo, useState } from 'react'
+import { twMerge } from 'tailwind-merge'
 import { updateScoresData } from '../../../utils/http'
 import useSessionStorage from '../hooks/useSessionStorage'
 import AnswersList from './../components/AnswersList'
@@ -106,7 +107,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
                 <div className="inline-flex flex-col">
                   <UserInfo
                     userId={scoringData.userIdToCorrect}
-                    className="text-xs lg:text-sm"
+                    className="text-sm lg:text-base text-accent"
                     avatarSize="self-start"
                   >
                     <AnswersList
@@ -124,13 +125,13 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
                         return (
                           <li
                             key={answer + i}
-                            className={
-                              category.answers.indexOf(answer) === 0
-                                ? 'bg-yellow-600'
-                                : category.answers.indexOf(answer) === 1
-                                ? 'bg-blue-400'
-                                : ''
-                            }
+                            className={twMerge(
+                              'text-base lg:text-xl',
+                              category.answers.indexOf(answer) === 0 &&
+                                'bg-yellow-600',
+                              category.answers.indexOf(answer) === 1 &&
+                                'bg-blue-400'
+                            )}
                           >
                             {answer}
                           </li>

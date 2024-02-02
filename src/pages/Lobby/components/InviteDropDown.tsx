@@ -9,7 +9,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useToast } from '@/components/ui/use-toast'
-import { BTN_ICON_SIZE } from '@/config/gameConfig'
 import { Hash, Link, Share2 } from 'lucide-react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
@@ -23,11 +22,9 @@ const InviteDropDown = ({ roomId }: InviteDropDownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-        //  variant={'secondary'}
-        >
-          <Share2 size={BTN_ICON_SIZE} />
-          Invite
+        <Button variant={'secondary'}>
+          <Share2 size={24} />
+          <span className="text-3xl">Invite</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
