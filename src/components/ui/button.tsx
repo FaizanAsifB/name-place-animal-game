@@ -18,7 +18,7 @@ const buttonVariants = cva(
         secondary:
           'bg-accent text-accent-foreground hover:bg-accent/80 flex gap-2',
         ghost: 'text-primary hover:text-foreground',
-        link: 'text-primary underline-offset-4 hover:underline',
+        link: 'text-primary underline-offset-4 hover:underline hover:bg-accent',
         icon: 'bg-accent text-accent-foreground hover:bg-accent/80 active:scale-90',
         // icon: 'hover:bg-accent hover:text-accent-foreground rounded-full',
       },

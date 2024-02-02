@@ -16,7 +16,7 @@ const AuthModal = () => {
       {/* Sign up Form */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button name="register" variant={'secondary'} size={'md'}>
+          <Button name="register" variant={'link'} size={'md'}>
             <BookText /> Sign Up
           </Button>
         </DialogTrigger>
