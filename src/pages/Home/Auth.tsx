@@ -19,8 +19,8 @@ const Auth = () => {
 
   return (
     <>
-      <div className="col-span-5 lg:col-span-3 lg:row-span-1">
-        <menu role="tablist" className="grid grid-cols-2">
+      <div className="col-span-5 lg:col-span-3 lg:row-span-1 ">
+        <menu role="tablist" className="grid grid-cols-2 ">
           <Tab
             isActive={showGuest}
             onClick={handleTabClick}

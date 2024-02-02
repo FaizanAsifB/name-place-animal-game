@@ -42,7 +42,7 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
 
   return (
     <div
-      className=" bg-bg-primary grid items-center justify-center justify-items-center gap-10 p-12 lg:p-20 xl:grid-cols-[2fr,3fr] lg:gap-16 md:gap-12 xl:px-8"
+      className="grid items-center justify-center gap-12 py-12 bg-bg-primary justify-items-center lg:py-20 xl:grid-cols-[auto,1fr] lg:gap-16 md:gap-14 xl:gap-2"
       role="tabpanel"
       aria-labelledby={showGuest ? 'guest-tab' : 'authentication-tab'}
     >

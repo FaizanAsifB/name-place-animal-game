@@ -10,15 +10,15 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-primary text-foreground hover:bg-secondary hover:text-secondary-foreground flex gap-4 shadow-[0_6px_0px_0px] shadow-secondary active:translate-y-1 active:shadow-[0_2px_0px_0px] active:shadow-secondary uppercase relative active:before:w-full active:before:h-1 active:before:absolute active:before:bottom-full font-pressStart2P',
+          'bg-primary text-foreground hover:bg-accent/90 hover:text-secondary-foreground flex gap-4 shadow-[0_6px_0px_0px] shadow-secondary active:translate-y-1 active:shadow-[0_2px_0px_0px] active:shadow-secondary uppercase relative active:before:w-full active:before:h-1 active:before:absolute active:before:bottom-full font-pressStart2P',
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline:
           'border-2 border-primary bg-secondary text-secondary-foreground  hover:text-primary-foreground flex gap-2 items-center  hover:bg-primary hover:outline-2 hover:outline-bg-secondary hover:outline hover:outline-offset-[-4px]',
         secondary:
-          'bg-accent text-accent-foreground hover:bg-accent/80 flex gap-2',
+          'bg-secondary text-secondary-foreground hover:bg-accent/80 hover:text-foreground flex gap-2',
         ghost: 'text-primary hover:text-foreground',
-        link: 'text-primary underline-offset-4 hover:underline hover:bg-accent',
+        link: 'text-foreground underline-offset-4 hover:underline hover:bg-accent/70',
         icon: 'bg-accent text-accent-foreground hover:bg-accent/80 active:scale-90',
         // icon: 'hover:bg-accent hover:text-accent-foreground rounded-full',
       },

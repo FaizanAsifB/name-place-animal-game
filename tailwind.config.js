@@ -22,6 +22,7 @@ module.exports = {
         main: 'rgba(29,29,27,0.15)',
       },
       fontFamily: {
+        test: ['Kanit'],
         pressStart2P: [
           'PressStart2P',
           'ui-sans-serif',

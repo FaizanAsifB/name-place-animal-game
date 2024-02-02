@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 
 const RootLayout = () => {
   return (
-    <main className="flex flex-col flex-1 xl:container lg:border-main-border lg:border-2 lg:shadow-main lg:rounded-lg">
+    <main className="flex flex-col flex-1 xl:container lg:border-main-border lg:border-2 lg:shadow-main lg:rounded-lg font-test">
       <Outlet />
       <Toaster />
       <Sonner expand closeButton richColors />

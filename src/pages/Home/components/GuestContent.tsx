@@ -37,7 +37,7 @@ const GuestContent = () => {
 
   return (
     <>
-      <H3 className="uppercase w-[22ch] text-center">
+      <H3 className="text-center uppercase max-w-[19ch] ">
         Choose a character and nickname
       </H3>
       <Form {...form}>

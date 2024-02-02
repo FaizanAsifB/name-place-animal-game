@@ -38,7 +38,7 @@ const Guide = ({ className }: { className: string }) => {
   }, [api])
 
   return (
-    <div className={twMerge('space-y-8 text-center', className)}>
+    <div className={twMerge('space-y-8 text-center lg:py-20', className)}>
       <H2 className="capitalize">How To Play</H2>
       <Carousel
         setApi={setApi}
@@ -59,8 +59,8 @@ const Guide = ({ className }: { className: string }) => {
                     loop
                     path={item.animationUrl}
                     style={{
-                      height: '200px',
-                      width: '200px',
+                      height: '250px',
+                      width: '250px',
                       marginInline: 'auto',
                     }}
                   ></Lottie>
@@ -71,13 +71,16 @@ const Guide = ({ className }: { className: string }) => {
                     <span className="mr-1">{i + 1}.</span>
                     {item.title}
                   </H3>
-                  <P className="px-1 text-center"> {item.description}</P>
+                  <P className="px-1 text-lg text-center lg:text-xl">
+                    {' '}
+                    {item.description}
+                  </P>
                 </div>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <div className="flex justify-center">
+        <div className="flex justify-center pt-4">
           {Array.from(Array(count).keys()).map(i => (
             <Button
               variant={'icon'}

@@ -48,7 +48,7 @@ export function H4({ children, className }: HeadingProps) {
   return (
     <h4
       className={twMerge(
-        'text-xl font-semibold tracking-tight scroll-m-20 md:text-2xl',
+        'text-xl font-bold tracking-tight scroll-m-20 md:text-2xl',
         className
       )}
     >
