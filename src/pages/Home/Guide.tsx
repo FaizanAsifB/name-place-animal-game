@@ -37,7 +37,7 @@ const Guide = ({ className }: { className: string }) => {
   }, [api])
 
   return (
-    <div className={twMerge('space-y-8 text-center lg:py-20', className)}>
+    <div className={twMerge('space-y-8 text-center lg:py-20 ', className)}>
       <H2 className="capitalize">How To Play</H2>
       <Carousel
         setApi={setApi}
@@ -84,7 +84,7 @@ const Guide = ({ className }: { className: string }) => {
             <button
               key={i}
               className={twMerge(
-                'mx-1 h-4 aspect-square rounded-full p-0 mt-4 hover:bg-primary-light',
+                'mx-1 h-4 aspect-square rounded-full p-0 mt-4 hover:bg-secondary/80',
                 i === current - 1
                   ? 'bg-primary hover:bg-primary'
                   : 'bg-secondary'

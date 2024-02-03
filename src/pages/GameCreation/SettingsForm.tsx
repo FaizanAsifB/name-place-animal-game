@@ -247,7 +247,7 @@ const SettingsForm = () => {
                         <Input
                           placeholder="Add custom category"
                           {...field}
-                          className="lg:text-lg"
+                          className="lg:text-lg bg-input-background"
                         />
                       </FormControl>
                       <FormMessage />
@@ -264,7 +264,7 @@ const SettingsForm = () => {
                         <Input
                           placeholder="Add custom category"
                           {...field}
-                          className="lg:text-lg"
+                          className="lg:text-lg bg-input-background"
                         />
                       </FormControl>
                       <FormMessage />
