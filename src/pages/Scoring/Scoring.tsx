@@ -8,9 +8,9 @@ import GameHeader from '@/components/ui/GameHeader'
 import { RoundsData } from '@/lib/types'
 import { getCurrentRoundConfig } from '@/utils/helpers'
 
+import { H1 } from '@/components/typography/Headings'
 import { useQuery } from '@tanstack/react-query'
 import ScoringCards from './components/ScoringCards'
-import { H1 } from '@/components/typography/Headings'
 
 const Scoring = () => {
   const params = useParams()
@@ -19,6 +19,7 @@ const Scoring = () => {
     queryKey: ['roundsData', params.roomId!],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<RoundsData>(queryKey[1], 'rounds'),
+    refetchOnWindowFocus: false,
   })
 
   return (
