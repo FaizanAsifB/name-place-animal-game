@@ -13,9 +13,9 @@ const AnswersList = ({ answers, otherAnswers }: AnswersListProps) => {
             key={answer + i}
             className={`w-fit ${
               otherAnswers && otherAnswers.includes(answer) && i === 0
-                ? 'bg-yellow-600'
+                ? 'bg-yellow-500'
                 : otherAnswers && otherAnswers.includes(answer) && i === 1
-                ? 'bg-blue-400'
+                ? 'bg-lime-500'
                 : ''
             }`}
           >

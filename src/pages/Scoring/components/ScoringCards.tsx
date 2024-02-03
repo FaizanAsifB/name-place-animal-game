@@ -53,6 +53,8 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
     return getScoringData(roundsData.answers[currentRoundName], currentUser.uid)
   }, [currentUser, roundsData, currentRoundName])
 
+  console.log(currentUser)
+
   const submittedUsers = gameData?.scoresSubmitted?.[currentRoundName]
 
   const isCurrentUserSubmitted = useMemo(() => {
@@ -132,9 +134,9 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
                             className={twMerge(
                               'text-base lg:text-xl',
                               category.answers.indexOf(answer) === 0 &&
-                                'bg-yellow-600',
+                                'bg-yellow-500',
                               category.answers.indexOf(answer) === 1 &&
-                                'bg-blue-400'
+                                'bg-lime-500'
                             )}
                           >
                             {answer}
