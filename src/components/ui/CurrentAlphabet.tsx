@@ -13,7 +13,7 @@ const CurrentAlphabet = ({
   return (
     <H2
       className={twMerge(
-        'grid w-12 h-12 border-4 rounded-full border-accent place-items-center',
+        'grid w-12 h-12 border-4 rounded-full border-secondary place-items-center',
         className
       )}
     >

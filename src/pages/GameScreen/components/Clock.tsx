@@ -68,7 +68,7 @@ const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {
   }
 
   return (
-    <div className="ml-auto ">
+    <div className="col-start-3 ml-auto">
       <CountdownCircleTimer
         key={key}
         strokeWidth={6}

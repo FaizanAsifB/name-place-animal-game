@@ -25,7 +25,7 @@ const Scoring = () => {
   return (
     <section className="relative flex flex-col flex-1 my-8">
       <GameHeader roundsData={roundsData}>
-        <H1 className="mx-auto">Scoring</H1>
+        <H1 className="mx-auto ">Scoring</H1>
         {roundsData && (
           <CurrentAlphabet
             className="ml-auto"

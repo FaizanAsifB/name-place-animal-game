@@ -44,7 +44,7 @@ const ResultsTable = ({
       <TableBody>
         {scoresData?.map((item, i) => (
           <TableRow key={item[0]}>
-            <TableCell>{i + 1}</TableCell>
+            <TableCell>{i + 1}.</TableCell>
             <TableCell className="flex gap-2">
               <UserInfo userId={item[0]} />
               {isLastRound && i === 0 && (

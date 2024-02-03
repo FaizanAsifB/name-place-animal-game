@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge'
+import { twJoin } from 'tailwind-merge'
 
 type TabProps = {
   children: React.ReactNode
@@ -12,14 +12,14 @@ const Tab = ({ isActive, onClick, label, currentUser }: TabProps) => {
   return (
     <li
       role="presentation"
-      className={twMerge(
+      className={twJoin(
         'rounded-t-lg font-bold bg-bg-primary md:text-2xl lg:text-2xl text-lg ',
         !isActive && 'mb-1 mx-1 '
       )}
     >
       <button
         type="button"
-        className={twMerge(
+        className={twJoin(
           'w-full uppercase py-4 ',
           !isActive && 'text-primary/70 enabled:hover:opacity-70 '
         )}

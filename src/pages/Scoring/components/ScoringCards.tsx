@@ -13,7 +13,7 @@ import { getSum } from '@/utils/helpers'
 import { useMutation } from '@tanstack/react-query'
 import { SendHorizontal } from 'lucide-react'
 import { memo, useContext, useMemo, useState } from 'react'
-import { twMerge } from 'tailwind-merge'
+import { twJoin } from 'tailwind-merge'
 import { updateScoresData } from '../../../utils/http'
 import useSessionStorage from '../hooks/useSessionStorage'
 import AnswersList from './../components/AnswersList'
@@ -52,8 +52,6 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
     if (!currentUser) return
     return getScoringData(roundsData.answers[currentRoundName], currentUser.uid)
   }, [currentUser, roundsData, currentRoundName])
-
-  console.log(currentUser)
 
   const submittedUsers = gameData?.scoresSubmitted?.[currentRoundName]
 
@@ -131,7 +129,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
                         return (
                           <li
                             key={answer + i}
-                            className={twMerge(
+                            className={twJoin(
                               'text-base lg:text-xl',
                               category.answers.indexOf(answer) === 0 &&
                                 'bg-yellow-500',
