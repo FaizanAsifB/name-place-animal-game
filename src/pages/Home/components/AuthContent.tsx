@@ -67,11 +67,15 @@ const AuthContent = () => {
                 <FormLabel className="text-lg"> Enter code to join</FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <Input placeholder="G2F3X" {...field} className="" />
+                    <Input
+                      placeholder="G2F3X"
+                      {...field}
+                      className="bg-input-background"
+                    />
                     <Button
                       variant={'icon'}
                       size={'md'}
-                      className="absolute top-0 right-0 rounded-l-none"
+                      className="absolute top-0 right-0 rounded-l-none "
                       type="submit"
                     >
                       <DoorOpen />

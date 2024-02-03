@@ -51,7 +51,6 @@ const Home = () => {
         variant: 'destructive',
         title: 'Authentication required!.',
         description: 'You must be logged in to create a new game.',
-        // action: <ToastAction altText="Try again">Try again</ToastAction>,
       })
     await updatePhotoUrl(currentUser, { photoURL: getAvatarPath(avatarIndex) })
 

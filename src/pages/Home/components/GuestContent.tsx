@@ -49,7 +49,11 @@ const GuestContent = () => {
               <FormItem>
                 <FormControl>
                   <div className="relative flex">
-                    <Input placeholder="Your nickname" {...field} />
+                    <Input
+                      placeholder="Your nickname"
+                      {...field}
+                      className="bg-input-background"
+                    />
                     <Button
                       type="submit"
                       size={'md'}
