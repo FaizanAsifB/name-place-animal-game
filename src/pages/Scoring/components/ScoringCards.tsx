@@ -96,6 +96,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
     <article className="grid flex-1 gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3 lg:px-6 lg:gap-6 xl:px-8 xl:gap-8 ">
       {scoringData &&
         scoringData?.answersToCorrect.map(category => {
+          const otherAnswers = scoringData?.otherAnswers[category.title]
           return (
             <Card className="mt-2 xl:mt-4" key={category.title}>
               <CardHeader>
@@ -112,7 +113,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
                   >
                     <AnswersList
                       answers={category.answers}
-                      otherAnswers={scoringData?.otherAnswers[category.title]}
+                      otherAnswers={otherAnswers}
                     />
                   </UserInfo>
                 </div>
@@ -120,8 +121,11 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
                 <div className="col-span-2 row-start-3 text-sm font-semibold uppercase lg:text-base ">
                   <H6 className="text-center">Answers</H6>
                   <ul className="flex flex-wrap gap-2">
-                    {scoringData?.otherAnswers[category.title]?.map(
-                      (answer, i) => {
+                    {otherAnswers
+                      ?.filter(
+                        (answer, i) => otherAnswers.indexOf(answer) === i
+                      )
+                      .map((answer, i) => {
                         return (
                           <li
                             key={answer + i}
@@ -136,8 +140,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
                             {answer}
                           </li>
                         )
-                      }
-                    )}
+                      })}
                   </ul>
                 </div>
                 <div className="row-span-1">
