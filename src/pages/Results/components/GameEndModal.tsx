@@ -97,9 +97,11 @@ const GameEndModal = ({
         </p>
         <DialogFooter className="pt-4">
           <DialogClose asChild>
-            <Button type="button">Close</Button>
+            <Button variant={'secondary'} size={'md'} type="button">
+              Close
+            </Button>
           </DialogClose>
-          <Button asChild>
+          <Button variant={'secondary'} size={'md'} asChild>
             <Link to="/">Exit Game</Link>
           </Button>
         </DialogFooter>
