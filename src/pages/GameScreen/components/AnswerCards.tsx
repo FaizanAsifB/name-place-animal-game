@@ -87,8 +87,10 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
   const onSubmit = async (data: Answers) => {
     const answersObj = activeCategories.map(item => ({
       ...item,
-      answers: data[item.title],
+      answers: data[item.title].map(answer => answer.toLowerCase()),
     }))
+
+    console.log(answersObj)
 
     const answers = { [currentUser!.uid]: answersObj }
 

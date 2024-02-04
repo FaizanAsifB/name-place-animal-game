@@ -38,8 +38,8 @@ const AddCategoriesButton = ({ currentUser }: AddCategoriesButton) => {
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger>
-            <DialogTrigger>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
               <Button variant={'icon'} size={'none'} className="px-2">
                 {categoryCount === 2 ? (
                   <Pencil height={16} width={16} />
