@@ -76,8 +76,6 @@ const AddCategories = ({
         type: 'manual',
         message: 'This category already exists',
       })
-
-    // return exists
   }
 
   const onSubmit: SubmitHandler<CustomCategoriesType> = async data => {

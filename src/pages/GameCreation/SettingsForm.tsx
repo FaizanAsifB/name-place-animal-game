@@ -35,11 +35,6 @@ import { serverTimestamp } from 'firebase/firestore'
 import { uploadCategories, uploadSettings } from '../../utils/http.ts'
 import { makePlayerSlots } from './utils/util.ts'
 
-// const serverTimestamp = () =>
-//   import('firebase/firestore').then(module => ({
-//     default: module.serverTimestamp,
-//   }))
-
 const SettingsForm = () => {
   const currentUser = useContext(AuthContext)
 
@@ -153,16 +148,13 @@ const SettingsForm = () => {
                     </FormLabel>
                     <FormControl>
                       <Slider
-                        // className="text-red-400"
                         aria-label="rounds"
                         defaultValue={[value]}
                         onValueChange={val => {
                           onChange(val[0])
                         }}
                         id="round-time"
-                        // ge
                         step={1}
-                        // marks
                         min={4}
                         max={10}
                       />

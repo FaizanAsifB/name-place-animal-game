@@ -87,7 +87,7 @@
 
     --radius: 0.5rem; */
   }
-  console.log('🚀 ~ 220, 8%, 92%:', 220, 8%, 92%) .dark {
+  .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 220, 8%, 92%;
 

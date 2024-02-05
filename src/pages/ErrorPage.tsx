@@ -9,11 +9,6 @@ const Error = () => {
   let title = 'An error occurred!'
   let message = 'Something went wrong!'
 
-  // if (error) {
-  //   title = error.statusText
-  //   message = error.error.message
-  // }
-
   if (error.status === 500) {
     message = error.data.message
   }

@@ -111,14 +111,6 @@ const RegistrationInfoSchema = loginSchema.merge(DisplayNameSchema)
 
 export type RegistrationInfoType = z.infer<typeof RegistrationInfoSchema>
 
-// export type UserInfo = {
-//   uid?: string
-//   displayName?: string
-//   photoURL: string | null
-//   isAnonymous?: boolean
-//   email?: string
-// }
-
 export type PlayerData = {
   isReady: boolean
   uid: string
@@ -184,7 +176,6 @@ export const customCategoriesSchema = z
     }
   )
 
-// export type CustomCategoriesType = z.infer<typeof customCategoriesSchema>
 export type CustomCategoriesType = Record<string, string>
 
 export type FireStoreError =
@@ -263,9 +254,6 @@ export type LobbyPlayers = {
 }
 
 export const AnswerSchema = z.string().array()
-// .refine(values => values[0].trim() || values[1].trim(), {
-//   path: ['root'],
-// })
 
 export const AnswersSchema = z.record(z.string(), AnswerSchema)
 

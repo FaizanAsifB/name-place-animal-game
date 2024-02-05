@@ -7,7 +7,6 @@ import { useOnSnapShot } from './useOnSnapShot'
 const useNextPhase = (currentRound?: number) => {
   const navigate = useNavigate()
   const params = useParams()
-  // const matchScoringPath = useMatch(`game/${params.roomId}/scoring`)
 
   const { data, error } = useOnSnapShot<GameState | undefined>({
     docRef: 'gameRooms',
@@ -21,14 +20,12 @@ const useNextPhase = (currentRound?: number) => {
         navigate(`../game`, { replace: true })
         break
       case 'SCORING':
-        // if (matchScoringPath) return
         toast.dismiss()
         navigate('../scoring', { replace: true })
         break
       case 'RESULT':
         toast.dismiss()
         window.sessionStorage.clear()
-        // invalidateRoundsData()
         navigate('../result', { replace: true })
         break
       case 'CANCELLED':

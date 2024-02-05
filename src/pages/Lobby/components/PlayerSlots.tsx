@@ -6,8 +6,6 @@ import { useCallback, useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { AuthContext } from '../../../context/AuthContext'
 
-import { PlayerData, PlayersData } from '../../../lib/types'
-// import { queryData } from '../../../utils/fetchData'
 import { H4, H6 } from '@/components/typography/Headings'
 import { Toggle } from '@/components/ui/toggle'
 import { categoriesAtom } from '@/context/atoms'
@@ -15,6 +13,7 @@ import { cn } from '@/lib/utils'
 import { queryClient } from '@/utils/fetchData'
 import { useAtomValue } from 'jotai'
 import { Crown, ThumbsDown, ThumbsUp } from 'lucide-react'
+import { PlayerData, PlayersData } from '../../../lib/types'
 import {
   addPlayerCount,
   createUserCategories,
@@ -33,17 +32,12 @@ type PlayerSlotsProps = {
     | undefined
 }
 
-const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
+const PlayerSlots = ({ data }: PlayerSlotsProps) => {
   const params = useParams()
   const currentUser = useContext(AuthContext)
   const categoriesData = useAtomValue(categoriesAtom)
 
-  const {
-    mutate,
-    /*  isPending,
-    isError, */
-    // error: updatingError,
-  } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: updatePlayers,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -126,17 +120,11 @@ const PlayerSlots = ({ data /* error */ }: PlayerSlotsProps) => {
                 <AddCategoriesButton currentUser={currentUser} />
               )}
               {!isCurrentPlayer && uid && (
-                <>
-                  {/* <span className="hidden lg:inline-block">
-                    Added Categories
-                  </span> */}
-                  <span className="px-2 md:text-lg lg:text-2xl">
-                    {categoryCount}/2
-                  </span>
-                </>
+                <span className="px-2 md:text-lg lg:text-2xl">
+                  {categoryCount}/2
+                </span>
               )}
               {uid && (
-                //added padding to center the icon
                 <Toggle
                   variant={'icon'}
                   size={'icon'}

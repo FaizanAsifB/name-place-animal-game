@@ -21,42 +21,22 @@ const FormInput = ({
   value,
 }: FormInputProps) => {
   return (
-    
-      <li className="flex flex-col gap-1">
-        <label htmlFor={name}>{label}</label>
-        <div className="relative">
-          <input
-            {...register}
-            type={type}
-            id={name}
-            name={name}
-            value={value}
-            placeholder={placeholder}
-            className="w-full"
-          />
-          <ErrorText>{error}</ErrorText>
-        </div>
-      </li>
-    
+    <li className="flex flex-col gap-1">
+      <label htmlFor={name}>{label}</label>
+      <div className="relative">
+        <input
+          {...register}
+          type={type}
+          id={name}
+          name={name}
+          value={value}
+          placeholder={placeholder}
+          className="w-full"
+        />
+        <ErrorText>{error}</ErrorText>
+      </div>
+    </li>
   )
 }
 
 export default FormInput
-
-// const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
-//   function FormInput({ label, id, type = 'text', placeholder }, ref) {
-//     return (
-//       <li className="flex flex-col gap-1">
-//         <label htmlFor={id}>{label}</label>
-//         <input
-//           ref={ref}
-//           type={type}
-//           id={id}
-//           name={id}
-//           placeholder={placeholder}
-//         />
-//         {/* <ErrorText>{error}</ErrorText> */}
-//       </li>
-//     )
-//   }
-// )

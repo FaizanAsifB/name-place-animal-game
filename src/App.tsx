@@ -70,10 +70,6 @@ const router = createBrowserRouter([
                 </Suspense>
               </ProtectedGameRoute>
             ),
-            // loader: params =>
-            //   import('./pages/GameScreen').then(module => ({
-            //     loader: module.loader(params),
-            //   })),
           },
           {
             path: 'scoring',

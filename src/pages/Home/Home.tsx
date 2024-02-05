@@ -17,8 +17,6 @@ import Auth from './Auth.tsx'
 import Guide from './Guide.tsx'
 import GuideModal from './components/GuideModal.tsx'
 
-// grid grid-cols-5
-
 const Home = () => {
   const currentUser = useContext(AuthContext)
   const navigate = useNavigate()
