@@ -11,9 +11,12 @@ import ProtectedRoute from './pages/ProtectedRoute.tsx'
 import { loader as redirectLoader } from './pages/Redirect.tsx'
 import RootLayout from './pages/RootLayout.tsx'
 import { queryClient } from './utils/fetchData.ts'
+import CreationSkeleton from './pages/GameCreation/components/CreationSkeleton.tsx'
+import LobbySkeleton from './pages/Lobby/components/LobbySkeleton.tsx'
+import GameSkeleton from './pages/GameScreen/components/GameSkeleton.tsx'
+import GameRoom from './pages/GameRoom.tsx'
 
 const GameCreation = lazy(() => import('./pages/GameCreation'))
-const GameRoom = lazy(() => import('./pages/GameRoom.tsx'))
 const Lobby = lazy(() => import('./pages/Lobby'))
 const Results = lazy(() => import('./pages/Results'))
 const Scoring = lazy(() => import('./pages/Scoring'))
@@ -34,7 +37,7 @@ const router = createBrowserRouter([
         path: 'game-creation',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<CreationSkeleton />}>
               <GameCreation />
             </Suspense>
           </ProtectedRoute>
@@ -45,9 +48,7 @@ const router = createBrowserRouter([
         path: 'game-room/:roomId',
         element: (
           <ProtectedGameRoute>
-            <Suspense fallback={<LoadingSpinner />}>
-              <GameRoom />
-            </Suspense>
+            <GameRoom />
           </ProtectedGameRoute>
         ),
         children: [
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
             path: 'lobby',
             element: (
               <ProtectedGameRoute>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense fallback={<LobbySkeleton />}>
                   <Lobby />
                 </Suspense>
               </ProtectedGameRoute>
@@ -65,7 +66,7 @@ const router = createBrowserRouter([
             path: 'game',
             element: (
               <ProtectedGameRoute>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense fallback={<GameSkeleton />}>
                   <GameScreen />
                 </Suspense>
               </ProtectedGameRoute>
@@ -75,7 +76,7 @@ const router = createBrowserRouter([
             path: 'scoring',
             element: (
               <ProtectedGameRoute>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense fallback={<GameSkeleton />}>
                   <Scoring />
                 </Suspense>
               </ProtectedGameRoute>

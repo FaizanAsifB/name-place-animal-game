@@ -8,10 +8,10 @@ import {
 } from '@/components/ui/carousel'
 import Autoplay from 'embla-carousel-autoplay'
 // import Lottie from 'react-lottie-player/dist/LottiePlayerLight'
-import { Loader2 } from 'lucide-react'
 import { Suspense, lazy, useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import guideData from '../../data/data.json'
+import GuideSkeleton from './components/GuideSkeleton'
 
 const Lottie = lazy(() => import('react-lottie-player/dist/LottiePlayerLight'))
 
@@ -52,7 +52,7 @@ const Guide = ({ className }: { className: string }) => {
           {guideData.guide.map((item, i) => (
             <CarouselItem key={item.id}>
               <div className="flex flex-col gap-8">
-                <Suspense fallback={<Loader2 />}>
+                <Suspense fallback={<GuideSkeleton />}>
                   <Lottie
                     play
                     loop

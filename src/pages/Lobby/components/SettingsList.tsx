@@ -2,17 +2,17 @@
 import { H3, H5 } from '@/components/typography/Headings'
 import React from 'react'
 import { useFetchSettings } from '../../../hooks/useFetchSettings'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const SettingsList = () => {
-  const { data, isPending, isError, error } = useFetchSettings()
+  const { data, isPending } = useFetchSettings()
 
   if (isPending) {
-    return <span>Loading...</span>
+    return (
+      <Skeleton className="rounded-lg col-span-full md:row-start-3 md:col-start-4" />
+    )
   }
 
-  if (isError) {
-    return <span>Error: {error.message}</span>
-  }
   return (
     <section className="p-2 rounded-lg col-span-full bg-primary-dark md:row-start-3 md:col-start-4">
       <H3 className="mb-2 text-center md:mb-4">Lobby Settings</H3>

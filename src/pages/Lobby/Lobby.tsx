@@ -11,6 +11,7 @@ import useNextPhase from '../../hooks/useNextPhase'
 import { Categories, PlayersData } from '../../lib/types'
 import CategoriesList from './components/CategoriesList'
 import LobbyFooter from './components/LobbyFooter.tsx'
+import LobbySkeleton from './components/LobbySkeleton.tsx'
 import PlayerSlots from './components/PlayerSlots'
 import SettingsList from './components/SettingsList'
 import { getAllCategories } from './utils/utils'
@@ -41,7 +42,9 @@ const Lobby = () => {
 
   const isHost = lobbyPlayers?.hostId === currentUser?.uid
 
-  return (
+  return !lobbyPlayers || !categories ? (
+    <LobbySkeleton />
+  ) : (
     <>
       <header className="grid items-center grid-cols-4 py-8 ">
         <Logo />
