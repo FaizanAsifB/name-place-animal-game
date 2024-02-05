@@ -9,7 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { updateGameState } from '@/utils/http'
+import { deleteLobby, updateGameState } from '@/utils/http'
 import { Home } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Button } from './button'
@@ -18,11 +18,9 @@ const HomeButton = ({ isHost }: { isHost?: boolean | undefined }) => {
   const navigate = useNavigate()
   const params = useParams()
 
-  function handleGoToHome() {
-    //TODO implement delete lobby logic
-    //Delete lobby data
+  async function handleGoToHome() {
     updateGameState('CANCELLED', params.roomId)
-    //Return to Home
+    await deleteLobby(params.roomId!)
     navigate('/', { replace: true })
   }
   return (

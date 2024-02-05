@@ -2,6 +2,7 @@ import firebase from 'firebase/compat/app'
 import {
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getCountFromServer,
   increment,
@@ -305,5 +306,16 @@ export const addBonusPoints = async (
     }
   } catch (error) {
     throw Error('Error updating')
+  }
+}
+
+export const deleteLobby = async (roomId: string) => {
+  try {
+    await deleteDoc(doc(db, 'categories', roomId))
+    await deleteDoc(doc(db, 'gameRooms', roomId))
+    await deleteDoc(doc(db, 'lobbies', roomId))
+    await deleteDoc(doc(db, 'lobbyPlayers', roomId))
+  } catch (error) {
+    throw Error('An error occurred')
   }
 }

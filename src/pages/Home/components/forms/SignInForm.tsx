@@ -22,9 +22,9 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useAtom } from 'jotai'
 import { Mail } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { auth } from '../../../../config/firebaseConfig'
 import { LoginSchema, loginSchema } from '../../../../lib/types'
-import { toast } from 'sonner'
 
 type SignInFromProps = {
   setShowForgottenPassword: React.Dispatch<React.SetStateAction<boolean>>
@@ -45,7 +45,6 @@ const SignInForm = ({ setShowForgottenPassword, setOpen }: SignInFromProps) => {
   const onSubmit = async (loginDetails: LoginSchema) => {
     const { email, password } = loginDetails
 
-    //TODO add to zod
     try {
       const res = await signInWithEmailAndPassword(auth, email, password)
 

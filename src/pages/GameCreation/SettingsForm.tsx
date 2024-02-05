@@ -35,8 +35,6 @@ import { serverTimestamp } from 'firebase/firestore'
 import { uploadCategories, uploadSettings } from '../../utils/http.ts'
 import { makePlayerSlots } from './utils/util.ts'
 
-//TODO add dynamic import for serverTimeStamp
-
 // const serverTimestamp = () =>
 //   import('firebase/firestore').then(module => ({
 //     default: module.serverTimestamp,

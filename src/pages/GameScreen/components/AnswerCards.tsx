@@ -208,7 +208,6 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
             </Card>
           ))}
         </div>
-        {/* //TODO should this be sticky on smaller screens? */}
         <div className="py-12 lg:pt-10 lg:pb-8">
           <Button
             disabled={
