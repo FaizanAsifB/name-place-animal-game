@@ -263,6 +263,9 @@ export type LobbyPlayers = {
 }
 
 export const AnswerSchema = z.string().array()
+// .refine(values => values[0].trim() || values[1].trim(), {
+//   path: ['root'],
+// })
 
 export const AnswersSchema = z.record(z.string(), AnswerSchema)
 

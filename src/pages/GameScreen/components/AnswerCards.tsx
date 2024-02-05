@@ -11,16 +11,16 @@ import {
 import { queryClient } from '@/utils/fetchData'
 import {
   getCurrentRoundConfig,
-  getFromSessionStorage,
   getTimeInStorage,
   saveToSessionStorage,
 } from '@/utils/helpers'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { ListChecks } from 'lucide-react'
-import { useContext, useMemo } from 'react'
+import { useCallback, useContext, useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
+import { toast } from 'sonner'
 import { AuthContext } from '../../../context/AuthContext'
 import {
   Answers,
@@ -84,49 +84,75 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
     resolver: zodResolver(AnswersSchema),
   })
 
-  const onSubmit = async (data: Answers) => {
-    const answersObj = activeCategories.map(item => ({
-      ...item,
-      answers: data[item.title].map(answer => answer.toLowerCase()),
-    }))
+  useEffect(() => {
+    if (
+      Object.keys(form.formState.errors).length > 0 &&
+      gameData.gameState !== 'TIME-ENDED'
+    )
+      toast.error('At least one answer per category is required', {
+        position: 'top-center',
+      })
+  }, [form.formState.errors, gameData.gameState])
 
-    console.log(answersObj)
+  const answeredAllCategories =
+    Object.keys(form.formState.dirtyFields).length === activeCategories.length
 
-    const answers = { [currentUser!.uid]: answersObj }
+  const onSubmit = useCallback(
+    async (data: Answers) => {
+      const answersObj = activeCategories.map(item => ({
+        ...item,
+        answers: data[item.title].map(answer => answer.trim().toLowerCase()),
+      }))
 
-    if (endMode === 'Fastest Finger') {
-      const timeRemaining = getTimeInStorage(
-        TIME_STORAGE_KEY(params.roomId!, roundsData.currentRound)
-      )
+      const answers = { [currentUser!.uid]: answersObj }
 
-      if (
-        timeRemaining &&
-        timeRemaining > FASTEST_FINGER_TIME &&
-        gameData.gameState !== 'END-TIMER'
-      ) {
-        await updateGameState('END-TIMER', params.roomId!)
-        await addBonusPoints(
-          params.roomId!,
-          currentUser!.uid,
-          roundsData.currentRound
+      if (endMode === 'Fastest Finger') {
+        const timeRemaining = getTimeInStorage(
+          TIME_STORAGE_KEY(params.roomId!, roundsData.currentRound)
         )
+
+        if (
+          timeRemaining &&
+          timeRemaining > FASTEST_FINGER_TIME &&
+          gameData.gameState !== 'END-TIMER'
+        ) {
+          await updateGameState('END-TIMER', params.roomId!)
+          await addBonusPoints(
+            params.roomId!,
+            currentUser!.uid,
+            roundsData.currentRound
+          )
+        }
       }
-    }
-    mutate({
-      answers,
-      roomId: params.roomId!,
-      currentRound: roundsData.currentRound!,
-    })
-  }
+      mutate({
+        answers,
+        roomId: params.roomId!,
+        currentRound: roundsData.currentRound!,
+      })
+    },
+    [
+      activeCategories,
+      currentUser,
+      endMode,
+      gameData.gameState,
+      mutate,
+      params.roomId,
+      roundsData.currentRound,
+    ]
+  )
 
   //Submit Data for players that haven't submitted at round end
-  if (
-    gameData &&
-    gameData.gameState === 'TIME-ENDED' &&
-    !form.formState.isSubmitting &&
-    !form.formState.isSubmitted
-  )
-    form.handleSubmit(onSubmit)()
+
+  useEffect(() => {
+    if (
+      gameData &&
+      gameData.gameState === 'TIME-ENDED' &&
+      !form.formState.isSubmitting &&
+      !form.formState.isSubmitSuccessful
+    ) {
+      form.handleSubmit(onSubmit)()
+    }
+  }, [form, gameData, onSubmit])
 
   return (
     <Form {...form}>
@@ -148,6 +174,10 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
                     <FormItem className="flex-1 basis-full">
                       <FormControl>
                         <Input
+                          readOnly={
+                            form.formState.isSubmitSuccessful ||
+                            form.formState.isSubmitting
+                          }
                           {...field}
                           className="text-lg text-center md:text-xl lg:text-2xl"
                         />
@@ -163,6 +193,10 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
                     <FormItem className="flex-1 basis-full">
                       <FormControl>
                         <Input
+                          readOnly={
+                            form.formState.isSubmitSuccessful ||
+                            form.formState.isSubmitting
+                          }
                           {...field}
                           className="text-lg text-center md:text-xl lg:text-2xl"
                         />
@@ -179,22 +213,28 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
           <Button
             disabled={
               form.formState.isSubmitting ||
-              form.formState.isSubmitted ||
-              getFromSessionStorage(answerStorageKey)
+              !answeredAllCategories ||
+              form.formState.isSubmitSuccessful
             }
             type="submit"
             className="mx-auto "
           >
-            <ListChecks />
             {form.formState.isSubmitting && (
               <>
                 <LoadingSpinner /> "Submitting"
               </>
             )}
-            {form.formState.isSubmitted && ' Submitted'}
+            {form.formState.isSubmitSuccessful && (
+              <>
+                <ListChecks /> Submitted
+              </>
+            )}
             {!form.formState.isSubmitting &&
-              !form.formState.isSubmitted &&
-              'submit'}
+              !form.formState.isSubmitSuccessful && (
+                <>
+                  <ListChecks /> Submit
+                </>
+              )}
           </Button>
         </div>
       </form>
