@@ -23,6 +23,15 @@ import { getScoringData } from './../utils/helpers'
 type ScoringCardsProps = {
   roundsData: RoundsData
 }
+export type ScoringData = {
+  userIdToCorrect: string
+  answersToCorrect: {
+    id: number
+    title: string
+    answers: string[]
+  }[]
+  otherAnswers: Record<string, string[]>
+}
 
 const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
   const [scores, setScores] = useState<Record<string, number> | null>(null)
@@ -92,11 +101,6 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
     setIsSubmitting(false)
   }
 
-  const five = () =>
-    scoringData?.answersToCorrect.map(categoryObj => categoryObj)
-
-  console.log(five())
-
   return (
     <article className="grid flex-1 gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3 lg:px-6 lg:gap-6 xl:px-8 xl:gap-8 ">
       {scoringData &&
@@ -151,6 +155,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
                 <div className="row-span-1">
                   <ScoresToggleGroup
                     category={category.title}
+                    scoringData={scoringData}
                     scores={scores}
                     setScores={setScores}
                     activeCategories={

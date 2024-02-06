@@ -1,12 +1,13 @@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import React from 'react'
-import { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
+import { ScoringData } from './ScoringCards'
 
 type ScoresToggleGroupProps = {
   category: string
   scores: Record<string, number> | null
   setScores: React.Dispatch<React.SetStateAction<Record<string, number> | null>>
   activeCategories: { id: number; title: string }[] | undefined
+  scoringData: ScoringData
 }
 
 const ScoresToggleGroup = ({
@@ -14,16 +15,35 @@ const ScoresToggleGroup = ({
   activeCategories,
   scores,
   setScores,
+  scoringData,
 }: ScoresToggleGroupProps) => {
   // Make initial scores object
+
+  const isDuplicate = useCallback(() => {
+    const categoriesWithDuplicates: string[] = []
+
+    scoringData?.answersToCorrect.forEach(({ title, answers }) => {
+      if (
+        (answers[0] && scoringData.otherAnswers[title].includes(answers[0])) ||
+        (answers[1] && scoringData.otherAnswers[title].includes(answers[1]))
+      )
+        categoriesWithDuplicates.push(title)
+    })
+
+    return categoriesWithDuplicates
+  }, [scoringData?.answersToCorrect, scoringData.otherAnswers])
+
   useEffect(() => {
     if (activeCategories && scores === null) {
       const initialScores = Object.fromEntries(
-        activeCategories.map(item => [item.title, 0])
+        activeCategories.map(item => {
+          if (isDuplicate().includes(item.title)) return [item.title, 5]
+          return [item.title, 0]
+        })
       )
       setScores(initialScores)
     }
-  }, [activeCategories, scores, setScores])
+  }, [activeCategories, scores, setScores, scoringData, isDuplicate])
 
   //state for radio buttons
   function handleScores(category: string, newScore: string | null) {
