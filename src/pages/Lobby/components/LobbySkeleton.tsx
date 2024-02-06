@@ -8,7 +8,7 @@ const LobbySkeleton = () => {
       </div>
       <div className="my-4 space-y-8 ">
         <div className="grid gap-y-4 md:gap-x-4 md:grid-cols-5 md:grid-rows-3 xl:grid-cols-6">
-          <Skeleton className="px-4 py-6 space-y-6 md:col-span-3 md:row-span-full bg-muted/90">
+          <Skeleton className="px-4 py-6 space-y-6 md:col-span-3 md:row-span-full bg-skeleton/90">
             <Skeleton className="h-10 " />
             <Skeleton className="h-10" />
             <Skeleton className="h-10" />

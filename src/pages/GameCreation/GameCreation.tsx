@@ -2,13 +2,25 @@ import { H1 } from '@/components/typography/Headings'
 import Logo from '@/components/ui/Logo.tsx'
 import SettingsForm from './SettingsForm.tsx'
 
-import HomeButton from '@/components/ui/HomeButton.tsx'
+import { Button } from '@/components/ui/button.tsx'
+import { Home } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const GameCreation = () => {
   return (
     <>
       <header className="grid items-center grid-cols-4 py-8 ">
-        <HomeButton />
+        <Button
+          className="col-start-1 row-start-1 w-fit"
+          variant={'outline'}
+          size={'md'}
+          asChild
+        >
+          <Link to="/" replace>
+            <Home />
+            Home
+          </Link>
+        </Button>
         <Logo />
       </header>
       <div className="p-8 rounded-lg bg-bg-primary">

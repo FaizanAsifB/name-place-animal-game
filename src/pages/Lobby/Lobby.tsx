@@ -2,10 +2,9 @@ import { useOnSnapShot } from '@/hooks/useOnSnapShot.ts'
 
 import HomeButton from '@/components/ui/HomeButton.tsx'
 import Logo from '@/components/ui/Logo.tsx'
-import { AuthContext } from '@/context/AuthContext.tsx'
 import { addedCategoriesAtom, categoriesAtom } from '@/context/atoms.ts'
 import { useSetAtom } from 'jotai'
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import AlphabetsScroll from '../../components/ui/AlphabetsScroll.tsx'
 import useNextPhase from '../../hooks/useNextPhase'
 import { Categories, PlayersData } from '../../lib/types'
@@ -29,8 +28,6 @@ const Lobby = () => {
     roomId: params.roomId!,
   })
 
-  const currentUser = useContext(AuthContext)
-
   const categoriesData = useSetAtom(categoriesAtom)
   const addedCategories = useSetAtom(addedCategoriesAtom)
 
@@ -40,15 +37,13 @@ const Lobby = () => {
     addedCategories(getAllCategories(categories))
   }, [addedCategories, categoriesData, categories])
 
-  const isHost = lobbyPlayers?.hostId === currentUser?.uid
-
-  return !lobbyPlayers || !categories ? (
+  return !lobbyPlayers || !categories || !gameState ? (
     <LobbySkeleton />
   ) : (
     <>
       <header className="grid items-center grid-cols-4 py-8 ">
         <Logo />
-        <HomeButton isHost={isHost} />
+        <HomeButton lobbyPlayers={lobbyPlayers} />
       </header>
       <div className="my-4 space-y-8 rounded-lg md:text-lg lg:text-xl">
         {gameState?.gameState === 'INIT' && (
@@ -60,11 +55,7 @@ const Lobby = () => {
           <CategoriesList />
           <SettingsList />
         </section>
-        <LobbyFooter
-          lobbyPlayers={lobbyPlayers}
-          gameState={gameState}
-          isHost={isHost}
-        />
+        <LobbyFooter lobbyPlayers={lobbyPlayers} gameState={gameState} />
       </div>
     </>
   )

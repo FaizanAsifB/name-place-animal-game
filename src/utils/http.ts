@@ -3,6 +3,7 @@ import {
   arrayUnion,
   collection,
   deleteDoc,
+  deleteField,
   doc,
   getCountFromServer,
   increment,
@@ -79,15 +80,15 @@ export const uploadSettings = async (
 
 export const updatePlayers = async ({
   roomId,
-  updatedData,
+  updatedSlots,
 }: {
   roomId: string
-  updatedData: PlayerData[] | undefined
+  updatedSlots: PlayerData[] | undefined
 }) => {
-  if (!updatedData) return
+  if (!updatedSlots) return
   try {
     await updateDoc(doc(db, 'lobbyPlayers', roomId), {
-      slots: updatedData,
+      slots: updatedSlots,
     })
   } catch (error) {
     throw Error('Error adding player to lobby')
@@ -295,6 +296,16 @@ export const deleteLobby = async (roomId: string) => {
     await deleteDoc(doc(db, 'gameRooms', roomId))
     await deleteDoc(doc(db, 'lobbies', roomId))
     await deleteDoc(doc(db, 'lobbyPlayers', roomId))
+  } catch (error) {
+    throw Error('An error occurred')
+  }
+}
+
+export const removePlayerCategories = async (roomId: string, uid: string) => {
+  try {
+    await updateDoc(doc(db, 'categories', roomId), {
+      [`custom.${uid}`]: deleteField(),
+    })
   } catch (error) {
     throw Error('An error occurred')
   }

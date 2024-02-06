@@ -43,11 +43,11 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
   })
 
   function handleReady(pressed: boolean, i: number) {
-    const updatedData = data?.slots.with(i, {
+    const updatedSlots = data?.slots.with(i, {
       ...data.slots[i],
       isReady: pressed,
     })
-    mutate({ roomId: params.roomId!, updatedData })
+    mutate({ roomId: params.roomId!, updatedSlots })
   }
 
   const addToLobby = useCallback(async () => {
@@ -60,16 +60,14 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
     if (currIndex >= 0) return
 
     if (currIndex === -1) {
-      const i: number = data.slots.findIndex(
-        (slot: PlayerData) => slot.uid === ''
-      )
-      const updatedData: PlayerData[] = data.slots.with(i, {
+      const i: number = data.slots.findIndex(slot => slot.uid === '')
+      const updatedSlots: PlayerData[] = data.slots.with(i, {
         ...data.slots[i],
         displayName: currentUser.displayName,
         uid: currentUser.uid,
         photoUrl: currentUser.photoURL!,
       })
-      mutate({ roomId: params.roomId, updatedData })
+      mutate({ roomId: params.roomId, updatedSlots })
       await createUserCategories(params.roomId!, currentUser!.uid)
     }
   }, [currentUser, data, mutate, params.roomId])

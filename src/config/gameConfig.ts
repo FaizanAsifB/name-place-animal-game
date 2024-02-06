@@ -37,3 +37,12 @@ export const SCORES_STORAGE_KEY = (roomId: string, currentRound: number) => {
 }
 
 export const BTN_ICON_SIZE = 36
+
+export const DEFAULT_SLOT = {
+  slotNr: 1,
+  displayName: '',
+  uid: '',
+  isReady: false,
+  isHost: false,
+  photoUrl: '',
+}

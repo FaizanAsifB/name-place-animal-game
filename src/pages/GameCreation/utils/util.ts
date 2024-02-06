@@ -1,11 +1,12 @@
 import firebase from 'firebase/compat/app'
 import { PlayerData } from '../../../lib/types'
+import { DEFAULT_SLOT } from '@/config/gameConfig'
 
 export const makePlayerSlots = (
   currentUser: firebase.UserInfo | null,
   length: number
 ): PlayerData[] => {
-  const slots = Array(length)
+  const slots = new Array(length)
 
   slots[0] = {
     slotNr: 0,
@@ -16,19 +17,7 @@ export const makePlayerSlots = (
     photoUrl: currentUser?.photoURL,
   }
 
-  return slots
-    .fill(
-      {
-        slotNr: 1,
-        displayName: '',
-        uid: '',
-        isReady: false,
-        isHost: false,
-        photoUrl: '',
-      },
-      1
-    )
-    .map((item, i) => {
-      return { ...item, slotNr: i }
-    })
+  return slots.fill(DEFAULT_SLOT, 1).map((item, i) => {
+    return { ...item, slotNr: i }
+  })
 }

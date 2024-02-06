@@ -56,6 +56,7 @@ module.exports = {
         foreground: 'hsl(var(--foreground))',
         'input-background': 'hsl(var(--input-background))',
         'foreground-light': 'hsl(var(--foreground-light))',
+        skeleton: 'hsl(var(--skeleton))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           light: 'hsl(var(--light))',

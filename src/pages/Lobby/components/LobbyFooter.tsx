@@ -8,14 +8,15 @@ import { Gamepad2 } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 import { calcReadyPlayers, roundsDataForPlay } from '../utils/utils'
 import InviteDropDown from './InviteDropDown'
+import { useContext } from 'react'
+import { AuthContext } from '@/context/AuthContext'
 
 type LobbyFooterProps = {
-  lobbyPlayers: PlayersData | undefined
-  gameState: GameState | undefined
-  isHost: boolean
+  lobbyPlayers: PlayersData
+  gameState: GameState
 }
 
-const LobbyFooter = ({ lobbyPlayers, gameState, isHost }: LobbyFooterProps) => {
+const LobbyFooter = ({ lobbyPlayers, gameState }: LobbyFooterProps) => {
   const params = useParams()
 
   const { mutate } = useMutation({
@@ -25,6 +26,10 @@ const LobbyFooter = ({ lobbyPlayers, gameState, isHost }: LobbyFooterProps) => {
       await updateGameState('INIT', params.roomId!)
     },
   })
+
+  const currentUser = useContext(AuthContext)
+
+  const isHost = lobbyPlayers?.hostId === currentUser?.uid
 
   const readyPlayers = calcReadyPlayers(lobbyPlayers)
   const totalPlayers = lobbyPlayers?.slots.filter(p => p.uid).length || 1
