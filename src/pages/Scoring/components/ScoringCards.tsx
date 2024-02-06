@@ -1,6 +1,16 @@
 import { H6 } from '@/components/typography/Headings'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import UserInfo from '@/components/ui/UserInfo'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
@@ -12,7 +22,7 @@ import { queryClient } from '@/utils/fetchData'
 import { getSum } from '@/utils/helpers'
 import { useMutation } from '@tanstack/react-query'
 import { SendHorizontal } from 'lucide-react'
-import { memo, useContext, useMemo, useState } from 'react'
+import { memo, useContext, useMemo, useRef, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 import { updateScoresData } from '../../../utils/http'
 import useSessionStorage from '../hooks/useSessionStorage'
@@ -36,8 +46,10 @@ export type ScoringData = {
 const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
   const [scores, setScores] = useState<Record<string, number> | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   const currentUser = useContext(AuthContext)
+  const isValid = useRef(true)
 
   const { data: gameData, params /* fireStoreError */ } = useNextPhase()
 
@@ -75,8 +87,23 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
     gameData?.totalPlayers
   )
 
+  function hasAnswerNoScore() {
+    const noScore: string[] = []
+
+    scoringData?.answersToCorrect.forEach(({ title, answers }) => {
+      if (scores?.[title] === 0 && (answers[0] || answers[1]))
+        noScore.push(title.toUpperCase())
+    })
+    return noScore
+  }
   function handleScoring() {
     if (!scores) return
+    if (hasAnswerNoScore().length > 0) {
+      isValid.current = false
+      setIsOpen(true)
+    }
+
+    if (!isValid.current) return
     const roundScore = getSum(Object.values(scores))
     const scoreData = {
       scoresCategory: scores,
@@ -103,6 +130,24 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
 
   return (
     <article className="grid flex-1 gap-4 px-4 md:grid-cols-2 bg-bg-primary xl:grid-cols-3 lg:px-6 lg:gap-6 xl:px-8 xl:gap-8 ">
+      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Is the score correct?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {`The following categorie${
+                hasAnswerNoScore().length > 0 ? 's' : ''
+              } have been answered but received zero points: ${hasAnswerNoScore().join(
+                ', '
+              )}`}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={() => {}}>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       {scoringData &&
         scoringData?.answersToCorrect.map(category => {
           const otherAnswers = scoringData?.otherAnswers[category.title]
