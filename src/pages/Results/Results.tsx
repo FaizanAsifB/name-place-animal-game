@@ -9,19 +9,20 @@ import { fetchLobbyData } from '../../utils/fetchData'
 import GameEndModal from './components/GameEndModal'
 import ResultsFooter from './components/ResultsFooter'
 import ResultsTable from './components/ResultsTable'
+import ResultSkeleton from './components/ResultSkeleton'
 
 const Results = () => {
   const { data: gameState } = useNextPhase()
 
   const { roomId } = useParams() as { roomId: string }
 
-  const { data: roundsData } = useQuery({
+  const { data: roundsData, isFetching } = useQuery({
     queryKey: ['roundsData', roomId, 'results'],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<RoundsData>(queryKey[1], 'rounds'),
   })
 
-  const { data: settings } = useQuery({
+  const { data: settings, isFetching: isFetchingLobbies } = useQuery({
     queryKey: ['lobbies', roomId],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<GameSettings>(queryKey[1], 'lobbies'),
@@ -37,26 +38,34 @@ const Results = () => {
 
   return (
     <section className="flex flex-col justify-between flex-1 my-6 bg-bg-primary">
-      {gameState?.gameState === 'INIT' && (
-        <AlphabetsScroll gameState={gameState} />
-      )}
-      {isLastRound && scoresData && settings && (
-        <GameEndModal
-          scoresData={scoresData}
-          isLastRound={isLastRound}
-          gameState={gameState}
-        />
-      )}
-      {roundsData && settings && gameState && (
+      {isFetching || isFetchingLobbies || !gameState ? (
+        <ResultSkeleton />
+      ) : (
         <>
-          <ResultsTable
-            bonusPoints={gameState?.bonusPoints}
-            scoresData={scoresData!}
-            isLastRound={isLastRound}
-            currentRound={roundsData.currentRound}
-            endMode={settings.settings.endMode.value}
-          />
-          <ResultsFooter hostId={settings?.hostId} isLastRound={isLastRound} />
+          {gameState?.gameState === 'INIT' && (
+            <AlphabetsScroll gameState={gameState} />
+          )}
+          {isLastRound && (
+            <GameEndModal
+              scoresData={scoresData}
+              isLastRound={isLastRound}
+              gameState={gameState}
+            />
+          )}
+
+          <>
+            <ResultsTable
+              bonusPoints={gameState?.bonusPoints}
+              scoresData={scoresData!}
+              isLastRound={isLastRound}
+              currentRound={roundsData!.currentRound}
+              endMode={settings!.settings.endMode.value}
+            />
+            <ResultsFooter
+              hostId={settings!.hostId}
+              isLastRound={isLastRound}
+            />
+          </>
         </>
       )}
     </section>
