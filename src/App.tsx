@@ -1,20 +1,20 @@
 import { QueryClientProvider } from '@tanstack/react-query'
 import { Suspense, lazy } from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import LoadingSpinner from './components/ui/LoadingSpinner.tsx'
 import { AuthContextProvider } from './context/AuthContext.tsx'
 import './index.css'
 import ErrorPage from './pages/ErrorPage.tsx'
+import CreationSkeleton from './pages/GameCreation/components/CreationSkeleton.tsx'
+import GameRoom from './pages/GameRoom.tsx'
+import GameSkeleton from './pages/GameScreen/components/GameSkeleton.tsx'
 import Home from './pages/Home'
+import LobbySkeleton from './pages/Lobby/components/LobbySkeleton.tsx'
 import ProtectedGameRoute from './pages/ProtectedGameRoute.tsx'
 import ProtectedRoute from './pages/ProtectedRoute.tsx'
 import { loader as redirectLoader } from './pages/Redirect.tsx'
+import ResultSkeleton from './pages/Results/components/ResultSkeleton.tsx'
 import RootLayout from './pages/RootLayout.tsx'
 import { queryClient } from './utils/fetchData.ts'
-import CreationSkeleton from './pages/GameCreation/components/CreationSkeleton.tsx'
-import LobbySkeleton from './pages/Lobby/components/LobbySkeleton.tsx'
-import GameSkeleton from './pages/GameScreen/components/GameSkeleton.tsx'
-import GameRoom from './pages/GameRoom.tsx'
 
 const GameCreation = lazy(() => import('./pages/GameCreation'))
 const Lobby = lazy(() => import('./pages/Lobby'))
@@ -86,7 +86,7 @@ const router = createBrowserRouter([
             path: 'result',
             element: (
               <ProtectedGameRoute>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense fallback={<ResultSkeleton />}>
                   <Results />
                 </Suspense>
               </ProtectedGameRoute>
