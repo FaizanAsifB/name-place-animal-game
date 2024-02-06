@@ -2,7 +2,7 @@ import DotsLoader from '@/components/ui/DotsLoader'
 import { Button } from '@/components/ui/button'
 import { BTN_ICON_SIZE } from '@/config/gameConfig'
 import { GameState, PlayersData } from '@/lib/types'
-import { createRoundsData, updateGameState } from '@/utils/http'
+import { addPlayerCount, createRoundsData, updateGameState } from '@/utils/http'
 import { useMutation } from '@tanstack/react-query'
 import { Gamepad2 } from 'lucide-react'
 import { useParams } from 'react-router-dom'
@@ -21,12 +21,13 @@ const LobbyFooter = ({ lobbyPlayers, gameState, isHost }: LobbyFooterProps) => {
   const { mutate } = useMutation({
     mutationFn: createRoundsData,
     onSuccess: async () => {
+      await addPlayerCount(params.roomId!, totalPlayers)
       await updateGameState('INIT', params.roomId!)
     },
   })
 
   const readyPlayers = calcReadyPlayers(lobbyPlayers)
-  const totalPlayers = gameState?.totalPlayers
+  const totalPlayers = lobbyPlayers?.slots.filter(p => p.uid).length || 1
   const allPlayersReady = readyPlayers === totalPlayers
 
   async function handlePlay() {

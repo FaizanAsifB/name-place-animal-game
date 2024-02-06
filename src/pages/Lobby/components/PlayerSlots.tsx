@@ -14,11 +14,7 @@ import { queryClient } from '@/utils/fetchData'
 import { useAtomValue } from 'jotai'
 import { Crown, ThumbsDown, ThumbsUp } from 'lucide-react'
 import { PlayerData, PlayersData } from '../../../lib/types'
-import {
-  addPlayerCount,
-  createUserCategories,
-  updatePlayers,
-} from '../../../utils/http'
+import { createUserCategories, updatePlayers } from '../../../utils/http'
 import { getCategoryCount, inLobby } from '../utils/utils'
 import AddCategoriesButton from './AddCategoriesButton'
 
@@ -39,12 +35,15 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
 
   const { mutate } = useMutation({
     mutationFn: updatePlayers,
-    onSuccess: () => {
+    onSuccess: async () => {
+      await createUserCategories(params.roomId!, currentUser!.uid)
       queryClient.invalidateQueries({
         queryKey: ['lobbyPlayers', params.roomId],
       })
     },
   })
+
+  console.log(data)
 
   function handleReady(pressed: boolean, i: number) {
     const updatedData = data?.slots.with(i, {
@@ -60,10 +59,13 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
     const currIndex = data?.slots.findIndex(
       (slot: PlayerData) => slot.uid === currentUser?.uid
     )
+    console.log(currIndex)
 
     if (currIndex >= 0) return
 
     if (currIndex === -1) {
+      console.log(currIndex)
+
       const i: number = data.slots.findIndex(
         (slot: PlayerData) => slot.uid === ''
       )
@@ -74,8 +76,6 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
         photoUrl: currentUser.photoURL!,
       })
       mutate({ roomId: params.roomId, updatedData })
-      addPlayerCount(params.roomId)
-      createUserCategories(params.roomId, currentUser.uid)
     }
   }, [currentUser, data, mutate, params.roomId])
 

@@ -29,7 +29,7 @@
     {
       "id": 1,
       "title": "add categories",
-      "description": "Each player adds two unique categories. A new category is added in each odd round",
+      "description": "Each player adds two unique categories. A new category is added in each odd round ➕",
       "animationUrl": "animations/puzzle.json"
     },
     {
@@ -47,7 +47,7 @@
     {
       "id": 4,
       "title": "Score your \"friends\"",
-      "description": "10 points for an unique answer, 5 for duplicates and 🥚 for no answer",
+      "description": "10 points for a unique answer, 5 for duplicates and 0 for no answer 💯",
       "animationUrl": "animations/writing.json"
     },
     {

@@ -58,7 +58,6 @@ export const uploadSettings = async (
     try {
       await setDoc(doc(db, 'gameRooms', lobbyRef.id), {
         gameState: 'LOBBY',
-        totalPlayers: 1,
       })
     } catch (error) {
       throw new Error('There was an error creating game')
@@ -95,17 +94,17 @@ export const updatePlayers = async ({
   }
 }
 
-export const addPlayerCount = async (roomId: string) => {
+export const addPlayerCount = async (roomId: string, totalPlayers: number) => {
   try {
     await updateDoc(doc(db, 'gameRooms', roomId), {
-      totalPlayers: increment(1),
+      totalPlayers: totalPlayers,
     })
   } catch (error) {
     throw Error('Error updating')
   }
   try {
     await updateDoc(doc(db, 'lobbyPlayers', roomId), {
-      totalPlayers: increment(1),
+      totalPlayers: totalPlayers,
     })
   } catch (error) {
     throw Error('Error updating')
@@ -183,7 +182,7 @@ export const createRoundsData = async ({
   data: CreateGameData
 }) => {
   try {
-    return await setDoc(doc(db, 'rounds', lobbyId), data)
+    await setDoc(doc(db, 'rounds', lobbyId), data)
   } catch (error) {
     throw new Error('There was an error creating game')
   }
