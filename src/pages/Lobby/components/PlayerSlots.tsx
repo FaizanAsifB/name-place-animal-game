@@ -43,8 +43,6 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
     },
   })
 
-  console.log(data)
-
   function handleReady(pressed: boolean, i: number) {
     const updatedData = data?.slots.with(i, {
       ...data.slots[i],
@@ -59,13 +57,10 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
     const currIndex = data?.slots.findIndex(
       (slot: PlayerData) => slot.uid === currentUser?.uid
     )
-    console.log(currIndex)
 
     if (currIndex >= 0) return
 
     if (currIndex === -1) {
-      console.log(currIndex)
-
       const i: number = data.slots.findIndex(
         (slot: PlayerData) => slot.uid === ''
       )

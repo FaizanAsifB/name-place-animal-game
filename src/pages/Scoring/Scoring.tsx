@@ -17,7 +17,7 @@ const Scoring = () => {
   const params = useParams()
 
   const { data: roundsData, isFetching } = useQuery({
-    queryKey: ['roundsData', params.roomId!],
+    queryKey: ['roundsData', params.roomId!, 'scoring'],
     queryFn: ({ queryKey }) =>
       fetchLobbyData<RoundsData>(queryKey[1], 'rounds'),
     refetchOnWindowFocus: false,

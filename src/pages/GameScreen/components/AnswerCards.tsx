@@ -20,7 +20,6 @@ import { ListChecks } from 'lucide-react'
 import { useCallback, useContext, useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
-import { toast } from 'sonner'
 import { AuthContext } from '../../../context/AuthContext'
 import {
   Answers,
@@ -55,7 +54,7 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
     mutationFn: submitAnswers,
     onSuccess: async data => {
       await queryClient.refetchQueries({
-        queryKey: ['roundsData', params.roomId],
+        queryKey: ['roundsData', params.roomId, 'scoring'],
         exact: true,
       })
 
@@ -83,16 +82,6 @@ const AnswerCards = ({ gameData, roundsData, endMode }: AnswerCardsProps) => {
     defaultValues,
     resolver: zodResolver(AnswersSchema),
   })
-
-  useEffect(() => {
-    if (
-      Object.keys(form.formState.errors).length > 0 &&
-      gameData.gameState !== 'TIME-ENDED'
-    )
-      toast.error('At least one answer per category is required', {
-        position: 'top-center',
-      })
-  }, [form.formState.errors, gameData.gameState])
 
   const answeredAllCategories =
     Object.keys(form.formState.dirtyFields).length === activeCategories.length
