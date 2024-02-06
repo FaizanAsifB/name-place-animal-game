@@ -36,7 +36,6 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
   const { mutate } = useMutation({
     mutationFn: updatePlayers,
     onSuccess: async () => {
-      await createUserCategories(params.roomId!, currentUser!.uid)
       queryClient.invalidateQueries({
         queryKey: ['lobbyPlayers', params.roomId],
       })
@@ -51,7 +50,7 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
     mutate({ roomId: params.roomId!, updatedData })
   }
 
-  const addToLobby = useCallback(() => {
+  const addToLobby = useCallback(async () => {
     if (!params.roomId || !currentUser || !data) return
 
     const currIndex = data?.slots.findIndex(
@@ -71,6 +70,7 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
         photoUrl: currentUser.photoURL!,
       })
       mutate({ roomId: params.roomId, updatedData })
+      await createUserCategories(params.roomId!, currentUser!.uid)
     }
   }, [currentUser, data, mutate, params.roomId])
 
