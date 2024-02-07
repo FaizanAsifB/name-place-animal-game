@@ -12,6 +12,7 @@ import { useAtom, useAtomValue } from 'jotai'
 import { Gamepad2 } from 'lucide-react'
 import { useContext, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import data from '../../data/data.json'
 import Footer from '../../layout/Footer.tsx'
 import Auth from './Auth.tsx'
 import Guide from './Guide.tsx'
@@ -23,9 +24,18 @@ const Home = () => {
   const [searchParams] = useSearchParams()
 
   const displayName = useAtomValue(displayNameAtom)
-  const [avatarIndex] = useAtom(avatarAtom)
+  const [avatarIndex, setAvatarIndex] = useAtom(avatarAtom)
 
   const joinCode = searchParams.get('jc')
+
+  useEffect(() => {
+    if (currentUser?.photoURL)
+      setAvatarIndex(
+        data.avatarImages.findIndex(
+          avatar => avatar.path === currentUser.photoURL
+        )
+      )
+  }, [currentUser?.photoURL, setAvatarIndex])
 
   useEffect(() => {
     if (joinCode && displayName) navigate(`/game-room/${joinCode}/lobby`)

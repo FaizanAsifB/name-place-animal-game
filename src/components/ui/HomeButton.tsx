@@ -66,6 +66,7 @@ const HomeButton = ({ lobbyPlayers }: { lobbyPlayers: PlayersData }) => {
     if (!isHost) {
       await removePlayerCategories(params.roomId!, currentUser?.uid)
       removePlayerFromLobby()
+      navigate('/', { replace: true })
     }
   }
 
