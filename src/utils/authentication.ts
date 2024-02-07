@@ -99,8 +99,8 @@ export const emailSignUp = async (
 
 export const deleteGuestUser = async (currentUser: User) => {
   try {
-    await deleteUser(currentUser)
     await deleteDataDb('users', currentUser.uid)
+    await deleteUser(currentUser)
   } catch (error) {
     throw new Error('Error signing out')
   }

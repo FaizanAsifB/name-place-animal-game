@@ -29,6 +29,7 @@ const useNextPhase = (currentRound?: number) => {
         navigate('../result', { replace: true })
         break
       case 'CANCELLED':
+        toast.error('Game cancelled by host')
         navigate('/', { replace: true })
         break
     }

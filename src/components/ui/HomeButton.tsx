@@ -59,6 +59,7 @@ const HomeButton = ({ lobbyPlayers }: { lobbyPlayers: PlayersData }) => {
   async function handleGoToHome() {
     if (!currentUser) return
     if (isHost) {
+      navigate('/', { replace: true })
       await updateGameState('CANCELLED', params.roomId)
       await deleteLobby(params.roomId!)
     }
@@ -66,7 +67,6 @@ const HomeButton = ({ lobbyPlayers }: { lobbyPlayers: PlayersData }) => {
       await removePlayerCategories(params.roomId!, currentUser?.uid)
       removePlayerFromLobby()
     }
-    navigate('/', { replace: true })
   }
 
   return (

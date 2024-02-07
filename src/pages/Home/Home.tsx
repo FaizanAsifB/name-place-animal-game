@@ -59,6 +59,7 @@ const Home = () => {
     <>
       <header className="grid items-center grid-cols-4 py-8 ">
         <GuideModal />
+
         <Logo />
         {displayName && (
           <Button

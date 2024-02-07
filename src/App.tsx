@@ -15,6 +15,7 @@ import { loader as redirectLoader } from './pages/Redirect.tsx'
 import ResultSkeleton from './pages/Results/components/ResultSkeleton.tsx'
 import RootLayout from './pages/RootLayout.tsx'
 import { queryClient } from './utils/fetchData.ts'
+import Credits from './components/Credits.tsx'
 
 const GameCreation = lazy(() => import('./pages/GameCreation'))
 const Lobby = lazy(() => import('./pages/Lobby'))
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: 'credits',
+        element: <Credits />,
       },
 
       {
