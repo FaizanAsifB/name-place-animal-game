@@ -24,8 +24,9 @@ const ScoresToggleGroup = ({
 
     scoringData?.answersToCorrect.forEach(({ title, answers }) => {
       if (
-        (answers[0] && scoringData.otherAnswers[title].includes(answers[0])) ||
-        (answers[1] && scoringData.otherAnswers[title].includes(answers[1]))
+        (answers[0] &&
+          scoringData?.otherAnswers[title]?.includes(answers[0])) ||
+        (answers[1] && scoringData?.otherAnswers[title]?.includes(answers[1]))
       )
         categoriesWithDuplicates.push(title)
     })

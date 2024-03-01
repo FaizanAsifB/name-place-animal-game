@@ -49,7 +49,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const currentUser = useContext(AuthContext)
-  const isValid = useRef(true)
+  const isValid = useRef<null | boolean>(null)
 
   const { data: gameData, params /* fireStoreError */ } = useNextPhase()
 
@@ -96,14 +96,18 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
     })
     return noScore
   }
+
+  function handleIsScoreValid() {
+    if (hasAnswerNoScore().length > 0 && !isValid.current) {
+      isValid.current = false
+      return setIsOpen(true)
+    }
+    handleScoring()
+  }
+
   function handleScoring() {
     if (!scores) return
-    if (hasAnswerNoScore().length > 0) {
-      isValid.current = false
-      setIsOpen(true)
-    }
 
-    if (!isValid.current) return
     const roundScore = getSum(Object.values(scores))
     const scoreData = {
       scoresCategory: scores,
@@ -144,7 +148,14 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => {}}>Continue</AlertDialogAction>
+            <AlertDialogAction
+              onClick={() => {
+                isValid.current = true
+                handleScoring()
+              }}
+            >
+              Continue
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -217,7 +228,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
         disabled={isSubmitting || isCurrentUserSubmitted}
         type="button"
         className="mx-auto my-4 col-span-full"
-        onClick={handleScoring}
+        onClick={handleIsScoreValid}
       >
         {isSubmitting ? (
           <>
