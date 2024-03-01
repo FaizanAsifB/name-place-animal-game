@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom'
+import { LoaderFunction, useParams } from 'react-router-dom'
 
-import { fetchLobbyData } from '../../utils/fetchData'
+import { fetchLobbyData, queryClient } from '../../utils/fetchData'
 
 import CurrentAlphabet from '@/components/ui/CurrentAlphabet'
 import GameHeader from '@/components/ui/GameHeader'
@@ -45,3 +45,14 @@ const Scoring = () => {
   )
 }
 export default Scoring
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const loader: LoaderFunction = async ({ params }) => {
+  const roundsData = queryClient.fetchQuery({
+    queryKey: ['roundsData', params.roomId!, 'scoring'],
+    queryFn: ({ queryKey }) =>
+      fetchLobbyData<RoundsData>(queryKey[1], 'rounds'),
+  })
+
+  return { roundsData }
+}

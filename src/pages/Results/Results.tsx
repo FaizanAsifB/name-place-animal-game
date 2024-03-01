@@ -4,12 +4,12 @@ import { GameSettings, RoundsData } from '@/lib/types'
 import { sortScore } from '@/utils/helpers'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { useParams } from 'react-router-dom'
-import { fetchLobbyData } from '../../utils/fetchData'
+import { LoaderFunction, useParams } from 'react-router-dom'
+import { fetchLobbyData, queryClient } from '../../utils/fetchData'
 import GameEndModal from './components/GameEndModal'
+import ResultSkeleton from './components/ResultSkeleton'
 import ResultsFooter from './components/ResultsFooter'
 import ResultsTable from './components/ResultsTable'
-import ResultSkeleton from './components/ResultSkeleton'
 
 const Results = () => {
   const { data: gameState } = useNextPhase()
@@ -72,3 +72,20 @@ const Results = () => {
   )
 }
 export default Results
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const loader: LoaderFunction = async ({ params }) => {
+  const roundsData = queryClient.fetchQuery({
+    queryKey: ['roundsData', params.roomId!, 'results'],
+    queryFn: ({ queryKey }) =>
+      fetchLobbyData<RoundsData>(queryKey[1], 'rounds'),
+  })
+
+  const settings = queryClient.fetchQuery({
+    queryKey: ['lobbies', params.roomId!],
+    queryFn: ({ queryKey }) =>
+      fetchLobbyData<GameSettings>(queryKey[1], 'lobbies'),
+  })
+
+  return { roundsData, settings }
+}

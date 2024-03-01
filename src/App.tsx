@@ -1,6 +1,7 @@
 import { QueryClientProvider } from '@tanstack/react-query'
 import { Suspense, lazy } from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import Credits from './components/Credits.tsx'
 import { AuthContextProvider } from './context/AuthContext.tsx'
 import './index.css'
 import ErrorPage from './pages/ErrorPage.tsx'
@@ -15,7 +16,6 @@ import { loader as redirectLoader } from './pages/Redirect.tsx'
 import ResultSkeleton from './pages/Results/components/ResultSkeleton.tsx'
 import RootLayout from './pages/RootLayout.tsx'
 import { queryClient } from './utils/fetchData.ts'
-import Credits from './components/Credits.tsx'
 
 const GameCreation = lazy(() => import('./pages/GameCreation'))
 const Lobby = lazy(() => import('./pages/Lobby'))
@@ -76,6 +76,10 @@ const router = createBrowserRouter([
                 </Suspense>
               </ProtectedGameRoute>
             ),
+            loader: () =>
+              import('./pages/GameScreen').then(module => ({
+                default: module.loader,
+              })),
           },
           {
             path: 'scoring',
@@ -86,6 +90,10 @@ const router = createBrowserRouter([
                 </Suspense>
               </ProtectedGameRoute>
             ),
+            loader: () =>
+              import('./pages/Scoring').then(module => ({
+                default: module.loader,
+              })),
           },
           {
             path: 'result',
@@ -96,6 +104,10 @@ const router = createBrowserRouter([
                 </Suspense>
               </ProtectedGameRoute>
             ),
+            loader: () =>
+              import('./pages/Results').then(module => ({
+                default: module.loader,
+              })),
           },
         ],
       },

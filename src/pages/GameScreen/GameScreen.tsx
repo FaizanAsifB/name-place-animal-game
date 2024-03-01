@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom'
-import { GameSettings, RoundsData } from '../../lib/types'
-import { fetchLobbyData } from '../../utils/fetchData'
+import { LoaderFunction, useParams } from 'react-router-dom'
+import { GameScreenRoundsData, GameSettings, RoundsData } from '../../lib/types'
+import { fetchLobbyData, queryClient } from '../../utils/fetchData'
 
 import { H1 } from '@/components/typography/Headings'
 import GameHeader from '@/components/ui/GameHeader'
@@ -135,3 +135,20 @@ const GameScreen = () => {
   )
 }
 export default GameScreen
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const loader: LoaderFunction = async ({ params }) => {
+  const roundsData = await queryClient.fetchQuery({
+    queryKey: ['roundsData', params.roomId!],
+    queryFn: ({ queryKey }) =>
+      fetchLobbyData<RoundsData | GameScreenRoundsData>(queryKey[1], 'rounds'),
+  })
+
+  const settings = await queryClient.fetchQuery({
+    queryKey: ['lobbies', params.roomId!],
+    queryFn: ({ queryKey }) =>
+      fetchLobbyData<GameSettings>(queryKey[1], 'lobbies'),
+  })
+
+  return { roundsData, settings }
+}
