@@ -12,11 +12,11 @@ const AuthModal = () => {
   const [showForgottenPassword, setShowForgottenPassword] = useState(false)
 
   return (
-    <div className="flex justify-center w-full gap-4 lg:gap-6">
+    <div className="flex items-center justify-center w-full gap-4 lg:gap-6">
       {/* Sign up Form */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button name="register" variant={'link'} size={'md'}>
+          <Button name="register" variant={'link'} size={'none'}>
             <BookText /> Sign Up
           </Button>
         </DialogTrigger>

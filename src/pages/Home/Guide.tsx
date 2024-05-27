@@ -66,7 +66,7 @@ const Guide = ({ className }: { className: string }) => {
                 </Suspense>
 
                 <div>
-                  <H3 className="mb-2 font-bold uppercase">
+                  <H3 className="mb-2 font-bold uppercase text-foreground">
                     <span className="mr-1">{i + 1}.</span>
                     {item.title}
                   </H3>
@@ -84,10 +84,8 @@ const Guide = ({ className }: { className: string }) => {
             <button
               key={i}
               className={twMerge(
-                'mx-1 h-4 aspect-square rounded-full p-0 mt-4 hover:bg-secondary/80',
-                i === current - 1
-                  ? 'bg-primary hover:bg-primary'
-                  : 'bg-secondary'
+                'mx-1 h-4 aspect-square rounded-full p-0 mt-4 hover:bg-muted/80',
+                i === current - 1 ? 'bg-primary hover:bg-primary' : 'bg-muted'
               )}
               onClick={() => {
                 api?.scrollTo(i)

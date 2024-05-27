@@ -48,11 +48,11 @@ const GuestContent = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="relative flex">
+                  <div className="relative flex text-foreground">
                     <Input
                       placeholder="Your nickname"
                       {...field}
-                      className="bg-input-background"
+                      className="bg-input-background text-input-foreground"
                     />
                     <Button
                       type="submit"

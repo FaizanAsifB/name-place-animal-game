@@ -81,9 +81,9 @@ const Home = () => {
           </Button>
         )}
       </header>
-      <section className="grid flex-1 grid-cols-5 grid-rows-[auto,1fr,auto] gap-x-6">
+      <section className="grid flex-1 grid-cols-5 grid-rows-[auto,1fr,auto] gap-x-6 ">
         <Auth />
-        <Guide className="hidden col-start-4 row-span-2 p-4 pb-0 border-[3px] border-[rgba(0,0,0,.1)] col-span-full lg:block lg:rounded-lg lg:bg-bg-primary" />
+        <Guide className="hidden col-start-4 row-span-2 p-4 pb-0 border-[3px] border-[rgba(0,0,0,.1)] col-span-full lg:block lg:rounded-lg lg:bg-bg-primary lg:pb-4" />
         <div className="grid row-start-2 rounded-b-lg col-span-full lg:col-span-3 lg:bg-bg-primary place-items-center ">
           {displayName && (
             <Button onClick={handleCreateGame}>

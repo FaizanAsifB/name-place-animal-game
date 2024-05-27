@@ -51,9 +51,9 @@ const AuthContent = () => {
 
   return (
     <>
-      <H2 className="text-center max-w-[16ch] capitalize">
+      <H2 className="text-center max-w-[16ch] capitalize ">
         Welcome back{' '}
-        <span className="lg:inline-block lg:pt-1">
+        <span className="lg:inline-block lg:pt-1 ">
           {displayName!.toUpperCase()}
         </span>
       </H2>
@@ -70,7 +70,7 @@ const AuthContent = () => {
                     <Input
                       placeholder="G2F3X"
                       {...field}
-                      className="bg-input-background"
+                      className="bg-input-background text-input-foreground"
                     />
                     <Button
                       variant={'icon'}
