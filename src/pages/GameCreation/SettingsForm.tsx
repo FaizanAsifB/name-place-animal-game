@@ -110,7 +110,7 @@ const SettingsForm = () => {
               render={({ field: { value, onChange } }) => (
                 <FormItem>
                   <div className="flex items-center gap-2">
-                    <FormLabel className="w-20 p-1 text-center text-primary-foreground lg:text-base">
+                    <FormLabel className="w-20 p-1 text-center lg:text-base">
                       {value} Sec
                     </FormLabel>
                     <FormControl>
@@ -143,7 +143,7 @@ const SettingsForm = () => {
               render={({ field: { value, onChange } }) => (
                 <FormItem>
                   <div className="flex items-center gap-2">
-                    <FormLabel className="w-24 p-1 text-center text-primary-foreground lg:text-base">
+                    <FormLabel className="w-24 p-1 text-center lg:text-base">
                       {value} Rounds
                     </FormLabel>
                     <FormControl>
@@ -237,7 +237,7 @@ const SettingsForm = () => {
                         <Input
                           placeholder="Add custom category"
                           {...field}
-                          className="lg:text-lg bg-input-background"
+                          className="lg:text-lg bg-input-background text-input-foreground"
                         />
                       </FormControl>
                       <FormMessage />
@@ -254,7 +254,7 @@ const SettingsForm = () => {
                         <Input
                           placeholder="Add custom category"
                           {...field}
-                          className="lg:text-lg bg-input-background"
+                          className="lg:text-lg bg-input-background text-input-foreground"
                         />
                       </FormControl>
                       <FormMessage />

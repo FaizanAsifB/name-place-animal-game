@@ -75,7 +75,7 @@ const Home = () => {
           <Button
             onClick={signOutUser}
             variant={'outline'}
-            className="col-start-4 ml-auto w-fit"
+            className="col-start-4 ml-auto w-fit "
           >
             Logout
           </Button>

@@ -11,7 +11,7 @@ const GameCreation = () => {
     <>
       <header className="grid items-center grid-cols-4 py-8 ">
         <Button
-          className="col-start-1 row-start-1 w-fit"
+          className="col-start-1 row-start-1 w-fit hover:bg-orange-700/40"
           variant={'outline'}
           size={'md'}
           asChild

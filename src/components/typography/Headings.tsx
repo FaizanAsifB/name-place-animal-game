@@ -10,7 +10,7 @@ export function H1({ children, className = '' }: HeadingProps) {
   return (
     <h1
       className={twMerge(
-        'text-4xl font-extrabold tracking-tight scroll-m-20 md:text-5xl text-secondary',
+        'text-4xl font-extrabold tracking-tight scroll-m-20 md:text-5xl text-foreground',
         className
       )}
     >
@@ -35,7 +35,7 @@ export function H3({ children, className }: HeadingProps) {
   return (
     <h3
       className={twMerge(
-        'text-2xl font-bold tracking-tight scroll-m-20 md:text-3xl text-secondary',
+        'text-2xl font-bold tracking-tight scroll-m-20 md:text-3xl text-foreground',
         className
       )}
     >
