@@ -121,11 +121,7 @@ const AddCategories = ({
               <FormLabel>Category 1</FormLabel>
               <div className="relative">
                 <FormControl>
-                  <Input
-                    placeholder="e.g. space"
-                    {...field}
-                    className="bg-input-background/30"
-                  />
+                  <Input placeholder="e.g. space" {...field} />
                 </FormControl>
                 <FormMessage className="right-0" />
               </div>
@@ -140,11 +136,7 @@ const AddCategories = ({
               <FormLabel>Category 2</FormLabel>
               <div className="relative">
                 <FormControl>
-                  <Input
-                    placeholder="e.g. video games"
-                    {...field}
-                    className="bg-input-background/30"
-                  />
+                  <Input placeholder="e.g. video games" {...field} />
                 </FormControl>
                 <FormMessage className="right-0" />
               </div>

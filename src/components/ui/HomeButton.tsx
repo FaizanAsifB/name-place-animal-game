@@ -9,21 +9,21 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import { DEFAULT_SLOT } from '@/config/gameConfig'
 import { AuthContext } from '@/context/AuthContext'
 import { PlayerData, PlayersData } from '@/lib/types'
+import { queryClient } from '@/utils/fetchData'
 import {
   deleteLobby,
   removePlayerCategories,
   updateGameState,
   updatePlayers,
 } from '@/utils/http'
+import { useMutation } from '@tanstack/react-query'
 import { Home } from 'lucide-react'
 import { useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from './button'
-import { DEFAULT_SLOT } from '@/config/gameConfig'
-import { useMutation } from '@tanstack/react-query'
-import { queryClient } from '@/utils/fetchData'
 
 const HomeButton = ({ lobbyPlayers }: { lobbyPlayers: PlayersData }) => {
   const navigate = useNavigate()
@@ -76,7 +76,7 @@ const HomeButton = ({ lobbyPlayers }: { lobbyPlayers: PlayersData }) => {
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button
-              className="col-start-1 row-start-1 w-fit"
+              className="col-start-1 row-start-1 w-fit hover:bg-orange-700/40"
               variant={'outline'}
               size={'md'}
             >

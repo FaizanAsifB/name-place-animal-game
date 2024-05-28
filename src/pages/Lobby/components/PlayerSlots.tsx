@@ -93,7 +93,7 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
               className={cn(
                 'grid grid-cols-[auto,1fr,auto,auto] items-center justify-start gap-2 px-4 py-1 rounded-3xl md:gap-3',
                 uid
-                  ? 'bg-neutral-100/80'
+                  ? 'bg-sky-400/70'
                   : 'bg-orange-600 outline outline-2 outline-orange-500'
               )}
             >
@@ -102,12 +102,17 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
                   src={uid ? photoUrl : '/images/avatars/emptyAvatar.svg'}
                 />
                 <AvatarFallback>
-                  <img src="/images/avatars/emptyAvatar.svg" alt="empty slot" />
+                  <img
+                    className="text-"
+                    src="/images/avatars/emptyAvatar.svg"
+                    alt="empty slot"
+                  />
                 </AvatarFallback>
               </Avatar>
 
               <H6 className="flex gap-2 uppercase">
-                {uid ? displayName : 'Empty Slot'} {isHost && <Crown />}
+                {uid ? displayName : 'Empty Slot'}{' '}
+                {isHost && <Crown className="text-yellow-500" />}
               </H6>
               {isCurrentPlayer && (
                 <AddCategoriesButton currentUser={currentUser} />
@@ -127,9 +132,9 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
                   className={isReady ? 'pb-1' : 'pt-1'}
                 >
                   {isReady ? (
-                    <ThumbsUp color="green" />
+                    <ThumbsUp className="text-green-600" />
                   ) : (
-                    <ThumbsDown color="red" />
+                    <ThumbsDown className="text-red-600" />
                   )}
                 </Toggle>
               )}
