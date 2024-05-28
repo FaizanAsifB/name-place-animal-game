@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/carousel'
 import Autoplay from 'embla-carousel-autoplay'
 // import Lottie from 'react-lottie-player/dist/LottiePlayerLight'
-import { cn } from '@/lib/utils'
+import clsx from 'clsx'
 import { Suspense, lazy, useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import guideData from '../../data/data.json'
@@ -21,7 +21,7 @@ const Guide = ({
   isModal = false,
 }: {
   className: string
-  isModal: boolean
+  isModal?: boolean
 }) => {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
@@ -44,7 +44,7 @@ const Guide = ({
   }, [api])
 
   return (
-    <div className={twMerge('space-y-8 text-center ', className)}>
+    <div className={twMerge('space-y-6 text-center ', className)}>
       <H3
         className={twMerge(
           'capitalize',
@@ -65,15 +65,15 @@ const Guide = ({
         <CarouselContent>
           {guideData.guide.map((item, i) => (
             <CarouselItem key={item.id}>
-              <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-2">
                 <Suspense fallback={<GuideSkeleton />}>
                   <Lottie
                     play
                     loop
                     path={item.animationUrl}
                     style={{
-                      height: '100px',
-                      width: '100px',
+                      height: '125px',
+                      width: '125px',
                       marginInline: 'auto',
                     }}
                   ></Lottie>
@@ -96,10 +96,10 @@ const Guide = ({
           {Array.from(Array(count).keys()).map(i => (
             <button
               key={i}
-              className={twMerge(
+              className={clsx(
                 'mx-1 h-4 aspect-square rounded-full p-0 mt-4 hover:bg-muted/80',
                 i === current - 1 && !isModal
-                  ? 'bg-primary hover:bg-primary'
+                  ? 'bg-white hover:bg-primary'
                   : 'bg-muted',
                 i === current - 1 && isModal
                   ? 'bg-secondary hover:bg-secondary'

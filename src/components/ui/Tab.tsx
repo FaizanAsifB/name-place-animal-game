@@ -13,14 +13,14 @@ const Tab = ({ isActive, onClick, label, currentUser }: TabProps) => {
     <li
       role="presentation"
       className={twJoin(
-        'rounded-t-lg font-bold bg-bg-primary md:text-xl lg:text-2xl text-lg ',
+        'rounded-t-lg font-bold bg-bg-primary lg:text-lg text-base ',
         !isActive && 'mb-1 mx-1 '
       )}
     >
       <button
         type="button"
         className={twJoin(
-          'w-full uppercase py-2 lg:py-4 ',
+          'w-full uppercase py-2 ',
           !isActive && 'text-primary/70 enabled:hover:opacity-70 '
         )}
         onClick={e => onClick(e)}
