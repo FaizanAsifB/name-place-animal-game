@@ -1,5 +1,4 @@
 import { twMerge } from 'tailwind-merge'
-import { H2 } from '../typography/Headings'
 
 type CurrentAlphabetProps = {
   currentAlphabet: string
@@ -11,14 +10,14 @@ const CurrentAlphabet = ({
   className = '',
 }: CurrentAlphabetProps) => {
   return (
-    <H2
+    <p
       className={twMerge(
-        'grid w-12 h-12 border-4 rounded-full border-secondary place-items-center',
+        'border-4 rounded-full border-accent p-1 text-4xl w-14 text-center aspect-square',
         className
       )}
     >
       {currentAlphabet}
-    </H2>
+    </p>
   )
 }
 export default CurrentAlphabet
