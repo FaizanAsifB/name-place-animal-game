@@ -2,7 +2,7 @@ import { ReactElement, useContext } from 'react'
 
 import { AuthContext } from '../../../context/AuthContext'
 
-import { H3 } from '@/components/typography/Headings'
+import { H4 } from '@/components/typography/Headings'
 import { displayNameAtom } from '@/context/atoms'
 import { useAtomValue } from 'jotai'
 
@@ -32,9 +32,9 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
   if (!displayName && !showGuest)
     content = (
       <>
-        <H3 className="uppercase max-w-[16ch] text-center ">
+        <H4 className="uppercase max-w-[16ch] text-center ">
           Choose a character and Sign in
-        </H3>
+        </H4>
 
         <AuthModal />
       </>
@@ -42,7 +42,7 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
 
   return (
     <div
-      className="grid items-center justify-center gap-2 py-8 lg:py-12 bg-bg-primary justify-items-center lg:pt-20 lg:pb-0 md:grid-cols-[auto,1fr] lg:gap-16 md:gap-14 xl:gap-8 xl:px-6 "
+      className="grid items-center justify-center gap-2 py-8 bg-bg-primary justify-items-center lg:py-12 lg:pb-0 md:grid-cols-[auto,1fr] lg:gap-12 lg:px-6 md:px-24 md:gap-14 xl:gap-8 xl:px-24 "
       role="tabpanel"
       aria-labelledby={showGuest ? 'guest-tab' : 'authentication-tab'}
     >

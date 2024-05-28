@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-import { H3 } from '@/components/typography/Headings'
+import { H4 } from '@/components/typography/Headings'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import {
   Form,
@@ -37,9 +37,9 @@ const GuestContent = () => {
 
   return (
     <>
-      <H3 className="text-center uppercase max-w-[16ch] ">
+      <H4 className="text-center uppercase max-w-[16ch] ">
         Choose a character and nickname
-      </H3>
+      </H4>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField

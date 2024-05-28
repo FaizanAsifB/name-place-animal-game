@@ -51,7 +51,7 @@ const AuthContent = () => {
 
   return (
     <>
-      <H2 className="text-center uppercase lg:pt-1">
+      <H2 className="text-center uppercase md:text-left lg:pt-1">
         {displayName!.toUpperCase()}
       </H2>
       <Form {...form}>
@@ -65,7 +65,8 @@ const AuthContent = () => {
                 <FormControl>
                   <div className="relative">
                     <Input
-                      placeholder="G2F3X"
+                      placeholder="G2F3XA"
+                      maxLength={6}
                       {...field}
                       className="bg-input-background text-input-foreground"
                     />

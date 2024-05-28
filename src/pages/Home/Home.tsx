@@ -84,7 +84,7 @@ const Home = () => {
       <section className="grid flex-1 grid-cols-5 grid-rows-[auto,1fr,auto] gap-x-6 ">
         <Auth />
         <Guide className="hidden col-start-4 row-span-2 p-4 pb-0 border-[3px] border-[rgba(0,0,0,.1)] col-span-full lg:block lg:rounded-lg lg:bg-bg-primary lg:pb-4" />
-        <div className="grid row-start-2 pt-4 pb-10 rounded-b-lg md:p-0 col-span-full lg:col-span-3 bg-bg-primary place-items-center">
+        <div className="grid row-start-2 pt-4 pb-10 rounded-b-lg md:py-8 col-span-full lg:col-span-3 bg-bg-primary place-items-center">
           {displayName && (
             <Button onClick={handleCreateGame}>
               <Gamepad2 size={BTN_ICON_SIZE} /> Start

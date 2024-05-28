@@ -1,4 +1,4 @@
-import { H2, H3 } from '@/components/typography/Headings'
+import { H3, H4 } from '@/components/typography/Headings'
 import { P } from '@/components/typography/TextContent'
 import {
   Carousel,
@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/carousel'
 import Autoplay from 'embla-carousel-autoplay'
 // import Lottie from 'react-lottie-player/dist/LottiePlayerLight'
+import { cn } from '@/lib/utils'
 import { Suspense, lazy, useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import guideData from '../../data/data.json'
@@ -15,7 +16,13 @@ import GuideSkeleton from './components/GuideSkeleton'
 
 const Lottie = lazy(() => import('react-lottie-player/dist/LottiePlayerLight'))
 
-const Guide = ({ className }: { className: string }) => {
+const Guide = ({
+  className,
+  isModal = false,
+}: {
+  className: string
+  isModal: boolean
+}) => {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const [count, setCount] = useState(0)
@@ -37,8 +44,15 @@ const Guide = ({ className }: { className: string }) => {
   }, [api])
 
   return (
-    <div className={twMerge('space-y-8 text-center  ', className)}>
-      <H2 className="capitalize">How To Play</H2>
+    <div className={twMerge('space-y-8 text-center ', className)}>
+      <H3
+        className={twMerge(
+          'capitalize',
+          isModal ? 'text-primary-foreground' : ''
+        )}
+      >
+        How To Play
+      </H3>
       <Carousel
         setApi={setApi}
         opts={{ loop: true }}
@@ -58,20 +72,19 @@ const Guide = ({ className }: { className: string }) => {
                     loop
                     path={item.animationUrl}
                     style={{
-                      height: '250px',
-                      width: '250px',
+                      height: '100px',
+                      width: '100px',
                       marginInline: 'auto',
                     }}
                   ></Lottie>
                 </Suspense>
 
                 <div>
-                  <H3 className="mb-2 font-bold uppercase text-foreground">
+                  <H4 className="mb-2 font-bold uppercase">
                     <span className="mr-1">{i + 1}.</span>
                     {item.title}
-                  </H3>
-                  <P className="px-1 text-lg text-center lg:text-xl">
-                    {' '}
+                  </H4>
+                  <P className="px-1 text-base text-center lg:text-lg">
                     {item.description}
                   </P>
                 </div>
@@ -85,7 +98,12 @@ const Guide = ({ className }: { className: string }) => {
               key={i}
               className={twMerge(
                 'mx-1 h-4 aspect-square rounded-full p-0 mt-4 hover:bg-muted/80',
-                i === current - 1 ? 'bg-primary hover:bg-primary' : 'bg-muted'
+                i === current - 1 && !isModal
+                  ? 'bg-primary hover:bg-primary'
+                  : 'bg-muted',
+                i === current - 1 && isModal
+                  ? 'bg-secondary hover:bg-secondary'
+                  : 'bg-muted'
               )}
               onClick={() => {
                 api?.scrollTo(i)

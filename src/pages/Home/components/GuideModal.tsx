@@ -13,7 +13,10 @@ const GuideModal = () => {
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <Guide className="max-w-[22rem] my-6 mx-auto" />
+        <Guide
+          className="max-w-[22rem] my-6 mx-auto text-black"
+          isModal={true}
+        />
       </DialogContent>
     </Dialog>
   )
