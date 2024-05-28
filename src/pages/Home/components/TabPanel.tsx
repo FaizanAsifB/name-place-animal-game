@@ -42,12 +42,12 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
 
   return (
     <div
-      className="grid items-center justify-center gap-12 py-12 bg-bg-primary justify-items-center lg:pt-20 lg:pb-0 xl:grid-cols-[auto,1fr] lg:gap-16 md:gap-14 xl:gap-8 xl:px-6 "
+      className="grid items-center justify-center gap-2 py-8 lg:py-12 bg-bg-primary justify-items-center lg:pt-20 lg:pb-0 md:grid-cols-[auto,1fr] lg:gap-16 md:gap-14 xl:gap-8 xl:px-6 "
       role="tabpanel"
       aria-labelledby={showGuest ? 'guest-tab' : 'authentication-tab'}
     >
       <AvatarSelection />
-      <div className="flex flex-col gap-8 md:gap-12 ">{content}</div>
+      <div className="flex flex-col gap-2 md:gap-12 ">{content}</div>
     </div>
   )
 }

@@ -51,14 +51,11 @@ const AuthContent = () => {
 
   return (
     <>
-      <H2 className="text-center max-w-[16ch] capitalize ">
-        Welcome back{' '}
-        <span className="lg:inline-block lg:pt-1 ">
-          {displayName!.toUpperCase()}
-        </span>
+      <H2 className="text-center uppercase lg:pt-1">
+        {displayName!.toUpperCase()}
       </H2>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="">
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="joinCode"

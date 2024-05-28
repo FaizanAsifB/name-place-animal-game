@@ -18,35 +18,33 @@ const Auth = () => {
   }
 
   return (
-    <>
-      <div className="col-span-5 lg:col-span-3 lg:row-span-1 ">
-        <menu role="tablist" className="grid grid-cols-2 ">
-          <Tab
-            isActive={showGuest}
-            onClick={handleTabClick}
-            label="guest"
-            aria-labelledby="guest-tab"
-            currentUser={!!currentUser}
-          >
-            Guest
-          </Tab>
-          <Tab
-            isActive={!showGuest}
-            onClick={handleTabClick}
-            label="authentication"
-            aria-labelledby="authentication-tab"
-            currentUser={!!currentUser}
-          >
-            Authenticate
-          </Tab>
-        </menu>
-        <TabPanel
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-          showGuest={showGuest}
-        />
-      </div>
-    </>
+    <div className="col-span-5 lg:col-span-3 lg:row-span-1 ">
+      <menu role="tablist" className="grid grid-cols-2 ">
+        <Tab
+          isActive={showGuest}
+          onClick={handleTabClick}
+          label="guest"
+          aria-labelledby="guest-tab"
+          currentUser={!!currentUser}
+        >
+          Guest
+        </Tab>
+        <Tab
+          isActive={!showGuest}
+          onClick={handleTabClick}
+          label="authentication"
+          aria-labelledby="authentication-tab"
+          currentUser={!!currentUser}
+        >
+          Authenticate
+        </Tab>
+      </menu>
+      <TabPanel
+        errorMessage={errorMessage}
+        setErrorMessage={setErrorMessage}
+        showGuest={showGuest}
+      />
+    </div>
   )
 }
 export default Auth
