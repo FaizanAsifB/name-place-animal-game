@@ -59,7 +59,7 @@ const Home = () => {
           <Button
             onClick={signOutUser}
             variant={'outline'}
-            size={'sm'}
+            size={'smd'}
             className="col-start-4 ml-auto w-fit"
           >
             Logout
