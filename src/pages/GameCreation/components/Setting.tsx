@@ -16,7 +16,7 @@ const Setting = ({ children, icon, title, description }: SettingProps) => {
           {icon}
           {title}
         </H3>
-        <P className="hidden text-lg lg:block ">{description}</P>
+        <P className="hidden text-base lg:block">{description}</P>
       </div>
 
       {children}

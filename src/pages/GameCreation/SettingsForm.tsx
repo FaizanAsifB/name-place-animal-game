@@ -182,7 +182,7 @@ const SettingsForm = () => {
             icon={<FaFlagCheckered size={24} />}
             title={'Round End Mode'}
             description={
-              'Fastest finger option triggers a 10 seconds countdown timer when the first player submits'
+              'A 10 seconds countdown is initiated 2qwhen the first player submits'
             }
           >
             <FormField
