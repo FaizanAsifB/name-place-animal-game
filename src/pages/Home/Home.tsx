@@ -6,7 +6,6 @@ import { avatarAtom, displayNameAtom } from '@/context/atoms.ts'
 import { deleteGuestUser } from '@/utils/authentication.ts'
 import { signOut } from 'firebase/auth'
 import { useAtom, useAtomValue } from 'jotai'
-import { Gamepad2 } from 'lucide-react'
 import { useContext, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import data from '../../data/data.json'
@@ -21,7 +20,7 @@ const Home = () => {
   const [searchParams] = useSearchParams()
 
   const displayName = useAtomValue(displayNameAtom)
-  const [_, setAvatarIndex] = useAtom(avatarAtom)
+  const [, setAvatarIndex] = useAtom(avatarAtom)
 
   const joinCode = searchParams.get('jc')
 
@@ -51,8 +50,8 @@ const Home = () => {
   }
 
   return (
-    <>
-      <header className="grid items-center grid-cols-4 py-8 ">
+    <div className="max-w-[600px] lg:max-w-full mx-auto flex flex-col flex-1 w-full px-8">
+      <header className="grid items-center grid-cols-4 pt-4 pb-6">
         <GuideModal />
 
         <Logo />
@@ -60,19 +59,20 @@ const Home = () => {
           <Button
             onClick={signOutUser}
             variant={'outline'}
-            className="col-start-4 ml-auto w-fit "
+            size={'sm'}
+            className="col-start-4 ml-auto w-fit"
           >
             Logout
           </Button>
         )}
       </header>
-      <section className="grid flex-1 grid-cols-5 grid-rows-[auto,1fr,auto] gap-x-6 ">
+      <section className="grid flex-1 grid-cols-5 gap-x-6 ">
         <Auth />
-        <Guide className="hidden col-start-4 row-span-2 p-4 pb-0 border-[3px] border-[rgba(0,0,0,.1)] col-span-full lg:block lg:rounded-lg lg:bg-bg-primary lg:pb-4" />
+        <Guide className="hidden col-start-4 p-4 pb-0 border-[3px] border-[rgba(0,0,0,.1)] col-span-full lg:block lg:rounded-lg lg:bg-bg-primary lg:pb-4" />
 
         <Footer />
       </section>
-    </>
+    </div>
   )
 }
 export default Home

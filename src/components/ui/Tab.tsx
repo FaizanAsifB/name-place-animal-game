@@ -13,7 +13,7 @@ const Tab = ({ isActive, onClick, label, currentUser }: TabProps) => {
     <li
       role="presentation"
       className={twJoin(
-        'rounded-t-lg font-bold bg-bg-primary lg:text-lg text-base ',
+        'rounded-t-lg font-bold bg-bg-primary lg:text-lg text-base px-1',
         !isActive && 'mb-1 mx-1 '
       )}
     >

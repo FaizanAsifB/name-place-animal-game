@@ -65,13 +65,13 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
 
   return (
     <div
-      className="grid items-center justify-center gap-2 py-8 bg-bg-primary justify-items-center lg:py-12 lg:pb-0 md:grid-cols-[auto,1fr] lg:gap-12 lg:px-6 md:px-24 md:gap-14 xl:gap-8 xl:px-24 "
+      className="grid items-center justify-center justify-items-center md:justify-items-start gap-2 py-8 bg-bg-primary  lg:py-12 md:grid-cols-[auto,1fr] lg:gap-12 lg:px-6 md:px-12 md:gap-x-16 xl:gap-x-24 xl:gap-y-0 xl:px-24 rounded-b-lg flex-1"
       role="tabpanel"
       aria-labelledby={showGuest ? 'guest-tab' : 'authentication-tab'}
     >
       <AvatarSelection />
       <div className="flex flex-col gap-2 md:gap-12 ">{content}</div>
-      <div className="grid w-full row-start-2 pt-4 pb-10 mx-auto rounded-b-lg md:py-8 col-span-full lg:col-span-3 place-items-center">
+      <div className="grid w-full pt-12 mx-auto rounded-b-lg md:pt-16 col-span-full place-items-center">
         {displayName && (
           <Button onClick={handleCreateGame} className="text-base lg:text-lg">
             <Gamepad2 className="w-8 h-8 lg:h-10 lg:w-10" /> Start

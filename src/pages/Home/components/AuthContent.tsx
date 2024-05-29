@@ -60,8 +60,8 @@ const AuthContent = () => {
             control={form.control}
             name="joinCode"
             render={({ field }) => (
-              <FormItem className="relative">
-                <FormLabel className="text-lg"> Enter code to join</FormLabel>
+              <FormItem className="relative text-center md:text-left">
+                <FormLabel className="text-lg">Enter code to join</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
