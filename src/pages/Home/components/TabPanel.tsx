@@ -73,8 +73,8 @@ const TabPanel = ({ showGuest }: TabPanelProps) => {
       <div className="flex flex-col gap-2 md:gap-12 ">{content}</div>
       <div className="grid w-full pt-12 mx-auto rounded-b-lg md:pt-16 col-span-full place-items-center">
         {displayName && (
-          <Button onClick={handleCreateGame} className="text-base lg:text-lg">
-            <Gamepad2 className="w-8 h-8 lg:h-10 lg:w-10" /> Start
+          <Button onClick={handleCreateGame}>
+            <Gamepad2 className="size-8 lg:size-10" /> Start
           </Button>
         )}
       </div>

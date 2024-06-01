@@ -134,7 +134,7 @@ const SettingsForm = () => {
           </Setting>
           <Setting
             title={'Total Rounds'}
-            description={'Choose number of rounds to play'}
+            description={'Total number of rounds to play'}
             icon={<BellElectric />}
           >
             <FormField
@@ -182,7 +182,7 @@ const SettingsForm = () => {
             icon={<FaFlagCheckered size={24} />}
             title={'Round End Mode'}
             description={
-              'A 10 seconds countdown is initiated 2qwhen the first player submits'
+              'A 10 seconds countdown is initiated when the first player submits'
             }
           >
             <FormField
@@ -273,7 +273,7 @@ const SettingsForm = () => {
           {form.formState.isSubmitting ? (
             <LoadingSpinner size={BTN_ICON_SIZE} />
           ) : (
-            <Gamepad2 size={BTN_ICON_SIZE} />
+            <Gamepad2 className="size-8 lg:size-10" />
           )}
           Create Game
         </Button>
