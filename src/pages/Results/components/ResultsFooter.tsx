@@ -26,14 +26,20 @@ const ResultsFooter = ({ hostId, isLastRound }: ResultsFooterProps) => {
     return (
       <div className="flex items-center gap-2 mx-auto mb-4">
         <DotsLoader />
-        <span className="text-lg uppercase">Waiting for host to continue</span>
+        <span className="text-base uppercase lg:text-lg">
+          Waiting for host to continue
+        </span>
       </div>
     )
 
   if (!isLastRound && isHost)
     return (
-      <Button type="button" className="mx-auto my-6" onClick={handleNextRound}>
-        <ArrowRightCircle /> Next Round
+      <Button
+        type="button"
+        className="mx-auto my-6 text-sm lg:text-base"
+        onClick={handleNextRound}
+      >
+        <ArrowRightCircle className="size-7 lg:size-8" /> Next Round
       </Button>
     )
 
@@ -41,8 +47,8 @@ const ResultsFooter = ({ hostId, isLastRound }: ResultsFooterProps) => {
     return (
       <Button asChild className="mx-auto my-6 ">
         <Link to={'/'}>
-          <Home />
-          Exit Game
+          <Home className="size-7 lg:size-8" />
+          <span className="text-sm lg:text-base">Exit Game</span>
         </Link>
       </Button>
     )
