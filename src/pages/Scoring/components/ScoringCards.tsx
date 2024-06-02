@@ -14,7 +14,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { BTN_ICON_SIZE } from '@/config/gameConfig'
 import { AuthContext } from '@/context/AuthContext'
 import useNextPhase from '@/hooks/useNextPhase'
 import { RoundsData } from '@/lib/types'
@@ -232,7 +231,7 @@ const ScoringCards = memo(({ roundsData }: ScoringCardsProps) => {
       >
         {isSubmitting ? (
           <>
-            <LoadingSpinner size={BTN_ICON_SIZE} /> <span>Submitting</span>
+            <LoadingSpinner /> <span>Submitting</span>
           </>
         ) : (
           <>

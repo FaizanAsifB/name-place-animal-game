@@ -14,7 +14,7 @@ import { MdAssignmentAdd, MdOutlineCategory } from 'react-icons/md'
 import LoadingSpinner from '@/components/ui/LoadingSpinner.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Input } from '@/components/ui/input.tsx'
-import { BTN_ICON_SIZE, DEFAULT_CATEGORIES } from '@/config/gameConfig.ts'
+import { DEFAULT_CATEGORIES } from '@/config/gameConfig.ts'
 import { AlarmClock, BellElectric, Gamepad2 } from 'lucide-react'
 import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -271,7 +271,7 @@ const SettingsForm = () => {
           disabled={form.formState.isSubmitting}
         >
           {form.formState.isSubmitting ? (
-            <LoadingSpinner size={BTN_ICON_SIZE} />
+            <LoadingSpinner />
           ) : (
             <Gamepad2 className="size-8 lg:size-10" />
           )}

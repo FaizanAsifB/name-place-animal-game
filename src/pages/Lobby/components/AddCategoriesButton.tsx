@@ -46,7 +46,7 @@ const AddCategoriesButton = ({ currentUser }: AddCategoriesButton) => {
                 ) : (
                   <Plus height={16} width={16} />
                 )}
-                {categoryCount}/2
+                <span className="text-base lg:text-lg">{categoryCount}/2</span>
               </Button>
             </DialogTrigger>
           </TooltipTrigger>

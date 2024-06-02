@@ -50,7 +50,7 @@ const Home = () => {
   }
 
   return (
-    <div className="max-w-[600px] lg:max-w-full mx-auto flex flex-col flex-1 w-full px-8">
+    <div className="max-w-[600px] lg:max-w-full mx-auto flex flex-col flex-1 w-full">
       <header className="grid items-center grid-cols-4 pt-4 pb-6">
         <GuideModal />
 

@@ -41,7 +41,7 @@ const Lobby = () => {
     <LobbySkeleton />
   ) : (
     <>
-      <header className="grid items-center grid-cols-4 py-8 ">
+      <header className="grid items-center grid-cols-4 py-4 ">
         <Logo />
         <HomeButton lobbyPlayers={lobbyPlayers} />
       </header>

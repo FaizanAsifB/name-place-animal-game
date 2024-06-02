@@ -1,15 +1,14 @@
 import DotsLoader from '@/components/ui/DotsLoader'
 import { Button } from '@/components/ui/button'
-import { BTN_ICON_SIZE } from '@/config/gameConfig'
+import { AuthContext } from '@/context/AuthContext'
 import { GameState, PlayersData } from '@/lib/types'
 import { addPlayerCount, createRoundsData, updateGameState } from '@/utils/http'
 import { useMutation } from '@tanstack/react-query'
 import { Gamepad2 } from 'lucide-react'
+import { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { calcReadyPlayers, roundsDataForPlay } from '../utils/utils'
 import InviteDropDown from './InviteDropDown'
-import { useContext } from 'react'
-import { AuthContext } from '@/context/AuthContext'
 
 type LobbyFooterProps = {
   lobbyPlayers: PlayersData
@@ -56,7 +55,7 @@ const LobbyFooter = ({ lobbyPlayers, gameState }: LobbyFooterProps) => {
           <Button disabled={!allPlayersReady || !isHost} onClick={handlePlay}>
             {allPlayersReady ? (
               <>
-                <Gamepad2 size={BTN_ICON_SIZE} />
+                <Gamepad2 className="size-8 lg:size-10" />
                 <span>Play</span>
               </>
             ) : (

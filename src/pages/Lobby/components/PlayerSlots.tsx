@@ -6,7 +6,7 @@ import { useCallback, useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { AuthContext } from '../../../context/AuthContext'
 
-import { H4, H6 } from '@/components/typography/Headings'
+import { H5, H6 } from '@/components/typography/Headings'
 import { Toggle } from '@/components/ui/toggle'
 import { categoriesAtom } from '@/context/atoms'
 import { cn } from '@/lib/utils'
@@ -78,9 +78,9 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
 
   return (
     <section className="p-4 rounded-lg md:col-span-3 bg-primary-dark md:row-span-full ">
-      <H4 className="mb-4 text-center">
+      <H5 className="mb-4 text-center">
         PLAYERS {inLobby(data)}/{data?.slots.length}
-      </H4>
+      </H5>
       <ul className="space-y-4">
         {data?.slots.map((slot: PlayerData) => {
           const { uid, displayName, isReady, isHost, slotNr, photoUrl } = slot
@@ -98,15 +98,9 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
               )}
             >
               <Avatar className="md:w-14 md:h-14">
-                <AvatarImage
-                  src={uid ? photoUrl : '/images/avatars/emptyAvatar.svg'}
-                />
-                <AvatarFallback>
-                  <img
-                    className="text-"
-                    src="/images/avatars/emptyAvatar.svg"
-                    alt="empty slot"
-                  />
+                <AvatarImage src={photoUrl} />
+                <AvatarFallback className="w-8 mx-auto bg-transparent md:w-10">
+                  <img src="/images/avatars/emptyAvatar.svg" alt="empty slot" />
                 </AvatarFallback>
               </Avatar>
 
@@ -118,7 +112,7 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
                 <AddCategoriesButton currentUser={currentUser} />
               )}
               {!isCurrentPlayer && uid && (
-                <span className="px-2 md:text-lg lg:text-2xl">
+                <span className="px-2 text-base lg:text-xs">
                   {categoryCount}/2
                 </span>
               )}
@@ -132,7 +126,7 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
                   className={isReady ? 'pb-1' : 'pt-1'}
                 >
                   {isReady ? (
-                    <ThumbsUp className="text-green-600" />
+                    <ThumbsUp className="text-green-700" />
                   ) : (
                     <ThumbsDown className="text-red-600" />
                   )}

@@ -78,10 +78,12 @@ const HomeButton = ({ lobbyPlayers }: { lobbyPlayers: PlayersData }) => {
             <Button
               className="col-start-1 row-start-1 w-fit hover:bg-orange-700/40"
               variant={'outline'}
-              size={'md'}
             >
-              <Home />
-              Home
+              <Home className="size-6 md:size-5 lg:size-6" />
+              <span className="hidden text-lg lg:text-xl md:inline-block">
+                {' '}
+                Home
+              </span>
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>

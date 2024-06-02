@@ -36,8 +36,6 @@ export const SCORES_STORAGE_KEY = (roomId: string, currentRound: number) => {
   return `scored${roomId}${currentRound}`
 }
 
-export const BTN_ICON_SIZE = 36
-
 export const DEFAULT_SLOT = {
   slotNr: 1,
   displayName: '',

@@ -1,7 +1,9 @@
-import { BTN_ICON_SIZE } from '@/config/gameConfig'
 import { Loader2 } from 'lucide-react'
+import { twMerge } from 'tailwind-merge'
 
-const LoadingSpinner = ({ size = BTN_ICON_SIZE }: { size?: number }) => {
-  return <Loader2 size={size} className="animate-spin" />
+const LoadingSpinner = ({ className = '' }: { className?: string }) => {
+  return (
+    <Loader2 className={twMerge('animate-spin size-8 lg:size-10', className)} />
+  )
 }
 export default LoadingSpinner
