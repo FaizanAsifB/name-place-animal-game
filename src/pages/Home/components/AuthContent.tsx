@@ -51,7 +51,9 @@ const AuthContent = () => {
 
   return (
     <>
-      <H2 className="text-center uppercase md:text-left lg:pt-1">
+      <H2 className="tracking-wide text-center uppercase md:text-left lg:pt-1">
+        Welcome!
+        <br></br>
         {displayName!.toUpperCase()}
       </H2>
       <Form {...form}>

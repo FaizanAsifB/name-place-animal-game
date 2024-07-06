@@ -26,8 +26,36 @@ const Guide = ({
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const [count, setCount] = useState(0)
+  const [animationStyles, setAnimationStyles] = useState({
+    height: '125px',
+    width: '125px',
+    marginInline: 'auto',
+  })
 
+  function handleAnimationStyles() {
+    if (window.innerWidth >= 1024 && window.innerWidth < 1280) {
+      setAnimationStyles(prev => {
+        return {
+          ...prev,
+          height: '200px',
+          width: '200px',
+        }
+      })
+    }
+    if (window.innerWidth >= 1280) {
+      setAnimationStyles(prev => {
+        return {
+          ...prev,
+          height: '300px',
+          width: '300px',
+        }
+      })
+    }
+  }
   useEffect(() => {
+    handleAnimationStyles()
+    window.addEventListener('resize', () => handleAnimationStyles())
+
     if (!api) {
       return
     }
@@ -41,6 +69,8 @@ const Guide = ({
     api.on('select', () => {
       setCurrent(api.selectedScrollSnap() + 1)
     })
+
+    return window.removeEventListener('resize', () => handleAnimationStyles())
   }, [api])
 
   return (
@@ -71,11 +101,7 @@ const Guide = ({
                     play
                     loop
                     path={item.animationUrl}
-                    style={{
-                      height: '125px',
-                      width: '125px',
-                      marginInline: 'auto',
-                    }}
+                    style={animationStyles}
                   ></Lottie>
                 </Suspense>
 
