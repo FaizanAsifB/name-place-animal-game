@@ -10,10 +10,8 @@
 
 @layer base {
   :root {
-    /* CUSTOM */
     --background: 0 0% 100%;
     --foreground: 220, 8%, 92%;
-    /* --foreground: 240 9% 13%; */
 
     --light: 210 2% 83%;
 
