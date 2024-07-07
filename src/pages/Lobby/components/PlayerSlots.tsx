@@ -112,9 +112,7 @@ const PlayerSlots = ({ data }: PlayerSlotsProps) => {
                 <AddCategoriesButton currentUser={currentUser} />
               )}
               {!isCurrentPlayer && uid && (
-                <span className="px-2 text-base lg:text-xs">
-                  {categoryCount}/2
-                </span>
+                <span className="px-2 text-base">{categoryCount}/2</span>
               )}
               {uid && (
                 <Toggle
