@@ -17,7 +17,7 @@ A digitally adapted multiplayer game inspired by the classic game, developed usi
 
 ![Game Preview](https://github.com/FaizanAsifB/Portfolio/blob/main/src/content/projects/project-images/name-place-wide.jpg?raw=true)
 
-Welcome to Name Place Animal Thing, a digitally adapted multiplayer game inspired by the classical game of the same name. The game is designed to engage users in a fun and competitive gaming experience. Players participate in rounds where a random alphabet is chosen, and they must provide answers for various categories starting with that letter.
+Name Place Animal Thing is a digitally adapted multiplayer game inspired by the classical game of the same name. The game is designed to engage users in a fun and competitive gaming experience. Players participate in rounds where a random alphabet is chosen, and they must provide answers for various categories starting with that letter.
 
 The development of this project marked my first solo venture into web development. I navigated all aspects from conceptualization to implementation, overcoming challenges and innovating within the realm of web development.
 
@@ -46,14 +46,14 @@ To install and run this project locally, follow these steps:
 
 1. Clone the repository:
 
-   ```sh
+   ```bash
    git clone https://github.com/FaizanAsifB/name-place-animal-game.git
    cd name-place-animal-game
    ```
 
 2. Install dependencies:
 
-   ```sh
+   ```bash
    npm install
    ```
 
@@ -64,7 +64,7 @@ To install and run this project locally, follow these steps:
 
 4. Run the development server:
 
-   ```sh
+   ```bash
    npm run dev
    ```
 
