@@ -24,7 +24,7 @@ const InviteDropDown = ({ roomId }: InviteDropDownProps) => {
       <DropdownMenuTrigger asChild>
         <Button variant={'secondary'}>
           <Share2 size={24} />
-          <span className="text-3xl">Invite</span>
+          <span className="text-2xl">Invite</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

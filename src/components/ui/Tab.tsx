@@ -13,8 +13,8 @@ const Tab = ({ isActive, onClick, label, currentUser }: TabProps) => {
     <li
       role="presentation"
       className={twJoin(
-        'rounded-t-lg font-bold bg-bg-primary lg:text-lg text-base px-1',
-        !isActive && 'mb-1 mx-1 '
+        'rounded-t-lg font-bold bg-bg-primary lg:text-lg text-base px-1 xl:text-2xl py-1 xl:py-2',
+        !isActive && 'mb-1 mx-1 xl:mb-2 xl:mx-2'
       )}
     >
       <button

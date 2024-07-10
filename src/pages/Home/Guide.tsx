@@ -1,4 +1,4 @@
-import { H3, H4 } from '@/components/typography/Headings'
+import { H2, H4 } from '@/components/typography/Headings'
 import { P } from '@/components/typography/TextContent'
 import {
   Carousel,
@@ -6,9 +6,8 @@ import {
   CarouselItem,
   type CarouselApi,
 } from '@/components/ui/carousel'
-import Autoplay from 'embla-carousel-autoplay'
-// import Lottie from 'react-lottie-player/dist/LottiePlayerLight'
 import clsx from 'clsx'
+import Autoplay from 'embla-carousel-autoplay'
 import { Suspense, lazy, useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import guideData from '../../data/data.json'
@@ -42,6 +41,7 @@ const Guide = ({
         }
       })
     }
+
     if (window.innerWidth >= 1280) {
       setAnimationStyles(prev => {
         return {
@@ -75,14 +75,14 @@ const Guide = ({
 
   return (
     <div className={twMerge('space-y-6 text-center ', className)}>
-      <H3
+      <H2
         className={twMerge(
           'capitalize',
           isModal ? 'text-primary-foreground' : ''
         )}
       >
         How To Play
-      </H3>
+      </H2>
       <Carousel
         setApi={setApi}
         opts={{ loop: true }}

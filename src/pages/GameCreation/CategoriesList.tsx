@@ -55,7 +55,7 @@ const CategoriesList = ({ control }: CategoriesListProps) => {
                         }}
                       />
                     </FormControl>
-                    <FormLabel className="font-normal capitalize lg:text-lg">
+                    <FormLabel className="font-normal capitalize lg:text-lg xl:text-xl">
                       {category.title}
                     </FormLabel>
                   </FormItem>

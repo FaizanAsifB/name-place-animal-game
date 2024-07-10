@@ -110,7 +110,7 @@ const SettingsForm = () => {
               render={({ field: { value, onChange } }) => (
                 <FormItem>
                   <div className="flex items-center gap-2">
-                    <FormLabel className="w-20 p-1 text-center lg:text-base">
+                    <FormLabel className="w-20 p-1 text-center lg:text-base xl:text-lg">
                       {value} Sec
                     </FormLabel>
                     <FormControl>
@@ -143,7 +143,7 @@ const SettingsForm = () => {
               render={({ field: { value, onChange } }) => (
                 <FormItem>
                   <div className="flex items-center gap-2">
-                    <FormLabel className="w-24 p-1 text-center lg:text-base">
+                    <FormLabel className="w-24 p-1 text-center lg:text-base xl:text-lg">
                       {value} Rounds
                     </FormLabel>
                     <FormControl>
@@ -202,14 +202,14 @@ const SettingsForm = () => {
                       <ToggleGroupItem
                         aria-label="Select Round Timer"
                         value="Round Timer"
-                        className="lg:text-lg"
+                        className="lg:text-lg xl:text-xl"
                       >
                         Round Timer
                       </ToggleGroupItem>
                       <ToggleGroupItem
                         aria-label="Select fastest finger"
                         value="Fastest Finger"
-                        className="lg:text-lg"
+                        className="lg:text-lg xl:text-xl"
                       >
                         Fastest Finger
                       </ToggleGroupItem>

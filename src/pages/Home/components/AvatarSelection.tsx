@@ -14,7 +14,7 @@ const AvatarSelection = () => {
 
   return (
     <div>
-      <div className="relative w-40 lg:w-48 aspect-square">
+      <div className="relative w-40 lg:w-48 xl:w-56 aspect-square">
         <img
           src={getAvatarPath(avatarIndex)}
           alt="character logo"

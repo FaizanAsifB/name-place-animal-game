@@ -38,7 +38,7 @@ const GuestContent = () => {
   return (
     <>
       <H4 className="text-center uppercase max-w-[16ch] ">
-        Choose a character and nickname
+        Choose a character and a nickname
       </H4>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
