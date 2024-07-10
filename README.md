@@ -60,7 +60,7 @@ To install and run this project locally, follow these steps:
 
 3. Set up environment variables:
 
-   - Copy the `.env-example` file and rename it to `.env`.
+   - Copy the `.env.example` file and rename it to `.env`.
    - Define the required environment variables in the `.env` file.
 
 4. Run the development server:
