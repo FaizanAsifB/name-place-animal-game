@@ -1,30 +1,91 @@
-# React + TypeScript + Vite
+# Name Place Animal Thing Game <!-- omit in toc -->
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A digitally adapted multiplayer game inspired by the classic game, developed using React, TypeScript, Vite, and Firebase. This project is a comprehensive solo web development venture featuring real-time functionality and a user-friendly interface.
 
-Currently, two official plugins are available:
+## Table of Contents <!-- omit in toc -->
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [About the project](#about-the-project)
+  - [Built With](#built-with)
+- [Gameplay Video](#gameplay-video)
+- [Installation](#installation)
+- [Future Enhancements](#future-enhancements)
+- [Live Site](#live-site)
+- [License](#license)
+- [Contact](#contact)
 
-## Expanding the ESLint configuration
+## About the project
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+![Game Preview](https://github.com/FaizanAsifB/Portfolio/blob/main/src/content/projects/project-images/name-place-wide.jpg?raw=true)
 
-- Configure the top-level `parserOptions` property like this:
+Welcome to Name Place Animal Thing, a digitally adapted multiplayer game inspired by the classical game of the same name. The game is designed to engage users in a fun and competitive gaming experience. Players participate in rounds where a random alphabet is chosen, and they must provide answers for various categories starting with that letter.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+The development of this project marked my first solo venture into web development. I navigated all aspects from conceptualization to implementation, overcoming challenges and innovating within the realm of web development.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+One of the primary goals was to implement real-time multiplayer functionality, allowing players to compete dynamically irrespective of their geographical locations. The game offers two gameplay modes to cater to different preferences: in Mode 1, rounds conclude when the timer reaches zero, while in Mode 2, the timer resets to 10 seconds upon the first player’s submission of answers, ensuring fast-paced gameplay. Points are awarded based on answer uniqueness, encouraging creativity and strategic thinking among players. Multiple rounds ensure continuous gameplay and opportunities for players to improve their scores.
+
+Implementing real-time functionality posed significant challenges, requiring the integration of Firebase Realtime Database and Firestore to ensure seamless gameplay synchronization across devices. Fine-tuning game mechanics and scoring systems was essential for maintaining a fair and enjoyable experience while promoting engagement and competitiveness. Cross-platform compatibility was ensured through responsive design principles, adapting the game for optimal performance on desktops, smartphones, and tablets. The user experience was a key focus, achieved through iterative prototyping and usability testing to refine navigation and enhance player interaction.
+
+### Built With
+
+This project was built with the following technologies:
+
+- HTML
+- CSS
+- TypeScript
+- React
+- Firebase
+- Tailwind
+
+## Gameplay Video
+
+[![Watch the video](https://img.youtube.com/vi/YOUR_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=placeholder)
+
+## Installation
+
+To install and run this project locally, follow these steps:
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/FaizanAsifB/name-place-animal-game.git
+   cd name-place-animal-game
+   ```
+
+2. Install dependencies:
+
+   ```sh
+   npm install
+   ```
+
+3. Set up environment variables:
+
+   - Copy the `.env-example` file and rename it to `.env`.
+   - Define the required environment variables in the `.env` file.
+
+4. Run the development server:
+
+   ```sh
+   npm run dev
+   ```
+
+   - The development server runs on port 5137.
+
+   - Open [http://localhost:5137](http://localhost:5137) in your browser to play the game.
+
+## Future Enhancements
+
+Moving forward, future enhancements will introduce new features, gameplay modes, and customization options.
+
+Optimization efforts will prioritize performance enhancements based on player feedback, ensuring an immersive and enjoyable gaming experience for all users.
+
+## Live Site
+
+Check out the live site [here](https://geega-game.netlify.app/).
+
+## License
+
+This project is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+Feel free to connect with me on [LinkedIn](https://linkedin.com/in/faizan-asif-butt) for further discussions and collaborations.
