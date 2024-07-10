@@ -2,6 +2,8 @@
 
 A digitally adapted multiplayer game inspired by the classic game, developed using React, TypeScript, Vite, and Firebase. This project is a comprehensive solo web development venture featuring real-time functionality and a user-friendly interface.
 
+Watch the live site [here](https://geega-game.netlify.app/). Check it out to see the app in action!
+
 ## Table of Contents <!-- omit in toc -->
 
 - [About the project](#about-the-project)
@@ -9,7 +11,6 @@ A digitally adapted multiplayer game inspired by the classic game, developed usi
 - [Gameplay Video](#gameplay-video)
 - [Installation](#installation)
 - [Future Enhancements](#future-enhancements)
-- [Live Site](#live-site)
 - [License](#license)
 - [Contact](#contact)
 
@@ -74,13 +75,7 @@ To install and run this project locally, follow these steps:
 
 ## Future Enhancements
 
-Moving forward, future enhancements will introduce new features, gameplay modes, and customization options.
-
-Optimization efforts will prioritize performance enhancements based on player feedback, ensuring an immersive and enjoyable gaming experience for all users.
-
-## Live Site
-
-Check out the live site [here](https://geega-game.netlify.app/).
+Moving forward, future enhancements will introduce new features, gameplay modes, and customization options. Optimization efforts will prioritize performance enhancements based on player feedback, ensuring an immersive and enjoyable gaming experience for all users.
 
 ## License
 
