@@ -35,7 +35,7 @@ This project was built with the following technologies:
 - TypeScript
 - React
 - Firebase
-- Tailwind
+- Tailwind CSS
 
 ## Gameplay Video
 
