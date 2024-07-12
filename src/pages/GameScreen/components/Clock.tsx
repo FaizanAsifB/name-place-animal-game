@@ -1,10 +1,10 @@
 import { FASTEST_FINGER_TIME, TIME_STORAGE_KEY } from '@/config/gameConfig'
+import { getTimeInStorage, saveToSessionStorage } from '@/utils/helpers'
 import { useMemo } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { useParams } from 'react-router-dom'
 import { GameStates } from '../../../lib/types'
 import { updateGameState } from '../../../utils/http'
-import { getTimeInStorage, saveToSessionStorage } from '@/utils/helpers'
 
 type ClockProps = {
   roundTime: number
@@ -24,7 +24,7 @@ const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {
   const initialRemainingTime = useMemo(() => {
     const storageKey = TIME_STORAGE_KEY(params.roomId!, currentRound)
     const timeRemaining = getTimeInStorage(storageKey)
-    const timerEndTime = (time: number) => Date.now() + time * 1000
+    const timerEndTime = (time: number) => Date.now() + time * 1000 * 9999
 
     if (!timeRemaining) {
       saveToSessionStorage(storageKey, timerEndTime(roundTime))
@@ -35,7 +35,7 @@ const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {
       saveToSessionStorage(storageKey, timerEndTime(FASTEST_FINGER_TIME))
       return FASTEST_FINGER_TIME
     }
-    return timeRemaining
+    return timeRemaining * 9999
   }, [roundTime, currentRound, params.roomId, isEndTimer])
 
   const isPlaying = gameState !== 'ROUND-ENDED' && gameState !== 'TIME-ENDED'

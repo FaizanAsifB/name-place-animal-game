@@ -28,12 +28,14 @@ const GameScreen = () => {
 
   const { data: roundsData, isFetching } = useQuery({
     queryKey: ['roundsData', roomId],
+    refetchOnWindowFocus: false,
     queryFn: ({ queryKey }) =>
       fetchLobbyData<RoundsData>(queryKey[1], 'rounds'),
   })
 
   const { data: settings, isFetching: isFetchingSettings } = useQuery({
     queryKey: ['lobbies', roomId],
+    refetchOnWindowFocus: false,
     queryFn: ({ queryKey }) =>
       fetchLobbyData<GameSettings>(queryKey[1], 'lobbies'),
   })
