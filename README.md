@@ -39,7 +39,7 @@ This project was built with the following technologies:
 
 ## Gameplay Video
 
-[![Gameplay video](https://img.youtube.com/vi/wouT7cCO4CE/0.jpg)](https://www.youtube.com/watch?v=wouT7cCO4CE)
+[![Gameplay video](https://img.youtube.com/vi/wouT7cCO4CE/hqdefault.jpg)](https://www.youtube.com/watch?v=wouT7cCO4CE)
 
 ## Installation
 
