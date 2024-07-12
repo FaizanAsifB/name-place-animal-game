@@ -24,7 +24,7 @@ const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {
   const initialRemainingTime = useMemo(() => {
     const storageKey = TIME_STORAGE_KEY(params.roomId!, currentRound)
     const timeRemaining = getTimeInStorage(storageKey)
-    const timerEndTime = (time: number) => Date.now() + time * 1000 * 9999
+    const timerEndTime = (time: number) => Date.now() + time * 1000
 
     if (!timeRemaining) {
       saveToSessionStorage(storageKey, timerEndTime(roundTime))
@@ -35,7 +35,7 @@ const Clock = ({ roundTime, gameState, currentRound }: ClockProps) => {
       saveToSessionStorage(storageKey, timerEndTime(FASTEST_FINGER_TIME))
       return FASTEST_FINGER_TIME
     }
-    return timeRemaining * 9999
+    return timeRemaining
   }, [roundTime, currentRound, params.roomId, isEndTimer])
 
   const isPlaying = gameState !== 'ROUND-ENDED' && gameState !== 'TIME-ENDED'
